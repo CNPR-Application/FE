@@ -1,0 +1,368 @@
+<div class="class-management">
+  <div class="first-line">
+    <div class="div-title">
+      <p class="title">Đơn tư vấn mới</p>
+      <p class="line-title">
+        <a
+          class="back-title"
+          routerLink="/manager-dashboard"
+          title="Quay về trang chủ"
+          >Trang chủ</a
+        ><span class="else-title">/</span
+        ><span class="else-title">Thống kê lớp sắp khai giảng</span>
+      </p>
+    </div>
+
+    <div class="div-today" style="width: 13%">
+      <p class="today">{{ today | date: "dd/MM/yyyy" }}</p>
+      <mat-icon class="icon-today">date_range</mat-icon>
+    </div>
+  </div>
+  <div class="flex">
+    <div class="right-table">
+      <table class="table">
+        <tr
+          class="header"
+          style="font-size: 13px; color: rgba(24, 42, 136, 0.95)"
+        >
+          <th class="th1">Lớp học</th>
+          <th class="th2">Môn học</th>
+          <th class="th3">Ca học</th>
+          <th class="th4">Ngày khai giảng</th>
+          <th class="th5">Đã đăng ký</th>
+        </tr>
+        <tr class="data" *ngFor="let class of classArray">
+          <td class="color-blue">{{ class.className }}</td>
+          <td class="color-grey">{{ class.subjectName }}</td>
+          <td class="color-grey">{{ class.shiftDescription }}</td>
+          <td class="color-grey">
+            {{ class.openingDate | date: "dd-MM-yyyy" }}
+          </td>
+          <td>{{ class.numberOfStudent }} học viên</td>
+        </tr>
+      </table>
+      <div class="paging" *ngIf="totalPage">
+        <div class="item" *ngFor="let i of pageArray" (click)="changePage(i)">
+          <a>{{ i }}</a>
+        </div>
+      </div>
+    </div>
+    <div style="width: 30%">
+      <div class="flex" style="justify-content: flex-end; padding-left: 3%">
+        <select
+          id="subjectId"
+          name="subjectId"
+          class="suggest-btn"
+          style="
+            margin-right: 0.5em;
+            border-color: rgba(24, 42, 136, 0.1);
+            width: 60%;
+          "
+          #subjectDropdown
+          (change)="onChangeSubject(subjectDropdown.value)"
+        >
+          <option value="0">Tất cả môn học</option>
+          <option
+            *ngFor="let subject of subjectList"
+            [value]="subject.subjectId"
+          >
+            {{ subject.subjectCode }} - {{ subject.subjectName }}
+          </option>
+        </select>
+        <select
+          id="shiftId"
+          name="shiftId"
+          #shiftDropdown
+          style="
+            border-color: rgba(24, 42, 136, 0.1);
+            width: 40%;
+            margin-top: 0;
+          "
+          (change)="onChangeShift(shiftDropdown.value)"
+          class="suggest-btn top-margin"
+        >
+          <option value="0">Tất cả ca học</option>
+          <option *ngFor="let shift of shiftList" [value]="shift.shiftId">
+            {{ shift.dayOfWeek }} ({{ shift.timeStart }} - {{ shift.timeEnd }})
+          </option>
+        </select>
+      </div>
+      <div style="margin-top: 1em">
+        <div>
+          <ngx-charts-bar-vertical
+            [view]="[320, 250]"
+            [results]="chartArray"
+            [scheme]="colorScheme"
+            [showXAxisLabel]="false"
+            [showYAxisLabel]="false"
+            [xAxis]="false"
+            [yAxis]="true"
+            [animations]="true"
+            [showDataLabel]="true"
+          >
+          </ngx-charts-bar-vertical>
+        </div>
+        <p class="chart-title">Sơ đồ học sinh đăng ký của các lớp đang mở</p>
+      </div>
+    </div>
+  </div>
+  <div
+    class="flex"
+    style="align-items: baseline; margin-top: 0.5em; margin-bottom: 1em"
+  >
+    <p class="title-small" style="margin-top: 0">Danh sách đơn tư vấn</p>
+  </div>
+  <div class="flex">
+    <div class="left">
+      <div class="head-list">
+        <div class="div-today" style="border: none; margin-right: 1em">
+          <p class="today">{{ titleGuest }}</p>
+          <mat-icon class="icon-today" [matMenuTriggerFor]="guestStatusMenu"
+            >swap_vert</mat-icon
+          >
+          <mat-menu #guestStatusMenu="matMenu">
+            <button
+              mat-menu-item
+              (click)="getGuestByStatus(1, 'pending', 'Đơn tư vấn mới')"
+            >
+              Đơn tư vấn mới
+            </button>
+            <button
+              mat-menu-item
+              (click)="getGuestByStatus(1, 'contacted', 'Đơn tư vấn đã xử lý')"
+            >
+              Đơn tư vấn đã xử lý
+            </button>
+            <button
+              mat-menu-item
+              (click)="
+                getGuestByStatus(
+                  1,
+                  'canceled',
+                  'Khách hàng không liên lạc được'
+                )
+              "
+            >
+              Khách hàng không liên lạc được
+            </button>
+          </mat-menu>
+        </div>
+        <select
+          id="curriculumName"
+          name="curriculumName"
+          class="suggest-btn"
+          #curriculumDropdown
+          (change)="onChangeCurriculum(curriculumDropdown.value)"
+        >
+          <option value="">Tất cả chương trình</option>
+          <option
+            *ngFor="let curriculum of curriculumList"
+            [value]="curriculum.curriculumName"
+          >
+            {{ curriculum.curriculumName }}
+          </option>
+        </select>
+      </div>
+      <div
+        class="head-body"
+        *ngFor="let guest of guestArray"
+        [ngStyle]="{
+          'background-color':
+            guest.id === clickedIdGuest ? 'rgba(236, 237, 241, 0.5)' : 'white'
+        }"
+        (click)="setForm(guest)"
+      >
+        <div class="num">
+          <mat-icon class="star">perm_phone_msg</mat-icon>
+          <button class="suggest-btn" (click)="openStatusDialog(guest)">
+            Đổi trạng thái
+          </button>
+          <!-- <mat-menu #changeStatusMenu="matMenu">
+            <button
+              *ngIf="titleGuest != 'Đơn tư vấn mới'"
+              mat-menu-item
+              (click)="changeStatusGuest(guest.id, 'pending')"
+            >
+              Đơn tư vấn mới
+            </button>
+            <button
+              *ngIf="titleGuest != 'Đơn tư vấn đã xử lý'"
+              mat-menu-item
+              (click)="changeStatusGuest(guest.id, 'contacted')"
+            >
+              Đơn tư vấn đã xử lý
+            </button>
+            <button
+              mat-menu-item
+              *ngIf="titleGuest != 'Khách hàng không liên lạc được'"
+              (click)="changeStatusGuest(guest.id, 'canceled')"
+            >
+              Khách hàng không liên lạc được
+            </button>
+          </mat-menu> -->
+        </div>
+        <div class="card">
+          <div class="flex">
+            <mat-icon class="icon">perm_identity</mat-icon>
+            <p class="name">{{ guest.customerName }}</p>
+            <div class="flex" style="width: 30%; justify-content: flex-end">
+              <mat-icon class="icon">access_time</mat-icon>
+              <p>{{ guest.bookingDate | date: "dd-MM-yyyy" }}</p>
+            </div>
+          </div>
+          <div class="flex" style="margin-top: 1.25em">
+            <p style="width: 45%">Chương trình: {{ guest.curriculumName }}</p>
+            <p style="width: 30%">Số điện thoại: {{ guest.phone }}</p>
+            <p style="width: 25%; float: right; text-align: end">
+              Nơi ở: {{ guest.city }}
+            </p>
+          </div>
+          <div class="flex" style="margin-top: 0.7em; margin-bottom: 0.25em">
+            <p>Ghi chú: {{ guest.description }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="paging" *ngIf="totalPageGuest">
+        <div
+          class="item"
+          *ngFor="let i of pageArrayGuest"
+          (click)="changePageGuest(i)"
+        >
+          <a>{{ i }}</a>
+        </div>
+      </div>
+    </div>
+    <div class="form" [formGroup]="form">
+      <div class="flex-center">
+        <mat-icon class="icon" style="color: rgb(0, 0, 0, 0.3)"
+          >supervised_user_circle</mat-icon
+        >
+        <form class="search" #heroForm="ngForm" style="margin-top: 0">
+          <input
+            class="form-control"
+            style="width: 100%"
+            name="keyNameGuest"
+            [(ngModel)]="keyNameGuest"
+            (change)="searchGuest()"
+            type="text"
+            placeholder="Tìm tên khách hàng"
+          />
+        </form>
+      </div>
+      <div class="flex-center" style="margin-top: 1em">
+        <mat-icon class="icon" style="color: rgb(0, 0, 0, 0.3)"
+          >settings_phone</mat-icon
+        >
+        <form class="search" #heroForm="ngForm" style="margin-top: 0">
+          <input
+            class="form-control"
+            style="width: 100%"
+            name="keyPhoneGuest"
+            [(ngModel)]="keyPhoneGuest"
+            (change)="searchGuest()"
+            type="text"
+            placeholder="Tìm theo điện thoại"
+          />
+        </form>
+      </div>
+      <div
+        class="form-detail"
+        [formGroup]="form"
+        *ngIf="titleGuest === 'Đơn tư vấn mới'"
+      >
+        <div class="flex" style="margin-top: 1.5em; margin-bottom: 1em">
+          <p
+            class="label"
+            style="font-size: 11px; width: 71%; text-align: left"
+          >
+            ID: {{ clickedIdGuest }}
+          </p>
+          <button
+            class="suggest-btn"
+            *ngIf="!isDoneAccount"
+            (click)="
+              callAlert(
+                'YN',
+                'Bạn đã kiểm tra thông tin khách hàng kĩ rồi chứ ?'
+              )
+            "
+          >
+            Tạo tài khoản
+          </button>
+          <button
+            class="suggest-btn"
+            *ngIf="isDoneAccount"
+            (click)="openBookingDialog()"
+          >
+            Đăng ký lớp
+          </button>
+        </div>
+        <div class="input-div" *ngIf="isDoneAccount">
+          <p class="label">Tên Đăng Nhập</p>
+          <input class="input" type="text" formControlName="username" />
+          <p class="invalid">Vui lòng điền tên lớp</p>
+        </div>
+        <div class="input-div">
+          <p class="label">Họ và tên</p>
+          <input class="input" type="text" formControlName="name" />
+          <p class="invalid">Vui lòng điền tên lớp</p>
+        </div>
+        <div class="input-div">
+          <p class="label">Số điện thoại</p>
+          <input class="input" type="text" formControlName="phone" />
+          <p class="invalid">Vui lòng điền số điện thoại</p>
+        </div>
+        <div class="input-div">
+          <p class="label">Email</p>
+          <input class="input" type="email" formControlName="email" />
+          <p class="invalid">Vui lòng điền số điện thoại</p>
+        </div>
+        <div class="input-div">
+          <p class="label">Ngày sinh</p>
+          <input class="input" type="date" formControlName="birthday" />
+          <p class="invalid">Vui lòng điền ngày sinh</p>
+        </div>
+        <div class="input-div">
+          <p class="label">Địa chỉ</p>
+          <textarea
+            class="input"
+            style="height: 5em"
+            type="text"
+            formControlName="address"
+          ></textarea>
+          <p class="invalid">Vui lòng điền ngày sinh</p>
+        </div>
+        <div class="input-div">
+          <p class="label">Tên phụ huynh</p>
+          <input class="input" type="text" formControlName="parentName" />
+          <p class="invalid">Vui lòng điền ngày sinh</p>
+        </div>
+        <div class="input-div">
+          <p class="label">Số điện thoại phụ huynh</p>
+          <input class="input" type="text" formControlName="parentPhone" />
+          <p class="invalid">Vui lòng điền ngày sinh</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isLoading" class="loading-page" style="padding-left: 39.5%">
+  <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+</div>
+<div *ngIf="isLoadingStart" class="loading-page" style="padding-left: 39.5%">
+  <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+</div>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="haveAlertOk = !haveAlertOk">OK</button>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertYN">
+  <div class="alert" *ngIf="haveAlertYN">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doYes()">Yes</button>
+    <button (click)="doNo()">No</button>
+  </div>
+</div>

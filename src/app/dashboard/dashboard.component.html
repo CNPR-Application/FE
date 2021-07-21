@@ -1,0 +1,21 @@
+<div class="full">
+  <div class="left">
+    <app-menu></app-menu>
+  </div>
+  <div class="right">
+    <div class="header">
+      <div class="right-header">
+        <mat-icon class="bell">notifications_none</mat-icon>
+        <p class="name">{{ name }}</p>
+        <img [src]="url" alt="avatar" class="image" />
+      </div>
+    </div>
+    <div class="body">
+      <router-outlet></router-outlet>
+    </div>
+    <!-- <div class="footer">
+      <img class="img-footer" src="../../assets/image/logo.png"/>
+      <p>(c) LCSS 2021 copy right</p>
+    </div> -->
+  </div>
+</div>

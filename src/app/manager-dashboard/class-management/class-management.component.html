@@ -1,0 +1,249 @@
+<div class="class-management">
+  <div class="first-line">
+    <div class="div-title">
+      <p class="title">Quản lý lớp học</p>
+      <p class="line-title">
+        <a
+          class="back-title"
+          routerLink="/manager-dashboard"
+          title="Quay về trang chủ"
+          >Trang chủ</a
+        ><span class="else-title">/</span
+        ><span class="else-title">Quản lý lớp học</span>
+      </p>
+    </div>
+    <div class="div-today" style="width: 13%">
+      <p class="today">{{ today | date: "dd/MM/yyyy" }}</p>
+      <mat-icon class="icon-today">date_range</mat-icon>
+    </div>
+  </div>
+  <div class="menu" *ngIf="dataStatistic">
+    <div class="div-menu" title="Xem lớp chờ đăng ký">
+      <a class="flex" (click)="changeTitle('Danh sách lớp chờ đăng ký')">
+        <img class="img" src="../../../assets/image/class1.gif" />
+        <div class="right">
+          <p class="blue-line">Lớp chờ đăng ký</p>
+          <div class="circle">+{{ dataStatistic.waitingClass }}</div>
+        </div>
+      </a>
+    </div>
+    <div class="div-menu" title="Xem lớp đang học">
+      <a class="flex" (click)="changeTitle('Danh sách lớp đang học')">
+        <img class="img" src="../../../assets/image/class2.gif" />
+        <div class="right">
+          <p class="blue-line">Lớp đang học</p>
+          <div class="circle">+{{ dataStatistic.studyingClass }}</div>
+        </div>
+      </a>
+    </div>
+    <div class="div-menu" style="margin-right: 0" title="Xem lớp đã kết thúc">
+      <a class="flex" (click)="changeTitle('Danh sách lớp đã kết thúc')">
+        <img class="img" src="../../../assets/image/class3.gif" />
+        <div class="right">
+          <p class="blue-line">Lớp đã kết thúc</p>
+          <div class="circle">+{{ dataStatistic.finishedClass }}</div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="flex" style="align-items: baseline; margin-top: 1em">
+    <p class="title-small" style="width: 20%">
+      {{ listTitle }}
+      <span
+        ><mat-icon
+          class="icon-add"
+          title="Tạo lớp mới"
+          *ngIf="listTitle == 'Danh sách lớp chờ đăng ký'"
+          (click)="openCreateDialog()"
+          >add_circle</mat-icon
+        ></span
+      >
+    </p>
+    <div
+      style="
+        width: 45%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: baseline;
+      "
+    >
+      <select
+        id="subjectId"
+        name="subjectId"
+        class="suggest-btn"
+        style="margin-right: 0.5em; border-color: rgba(24, 42, 136, 0.1)"
+        #subjectDropdown
+        (change)="onChangeSubject(subjectDropdown.value)"
+      >
+        <option value="0">Tất cả môn học</option>
+        <option *ngFor="let subject of subjectList" [value]="subject.subjectId">
+          {{ subject.subjectCode }} - {{ subject.subjectName }}
+        </option>
+      </select>
+      <select
+        id="shiftId"
+        name="shiftId"
+        #shiftDropdown
+        style="border-color: rgba(24, 42, 136, 0.1)"
+        (change)="onChangeShift(shiftDropdown.value)"
+        class="suggest-btn top-margin"
+      >
+        <option value="0">Tất cả ca học</option>
+        <option *ngFor="let shift of shiftList" [value]="shift.shiftId">
+          {{ shift.dayOfWeek }} ({{ shift.timeStart }} - {{ shift.timeEnd }})
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="flex">
+    <div class="right-table">
+      <table class="table">
+        <tr class="header">
+          <th class="th1">Lớp học</th>
+          <th class="th2">Môn học</th>
+          <th class="th3">Ca học</th>
+          <th class="th4">Ngày khai giảng</th>
+          <th class="th5">Đã đăng ký</th>
+          <th class="th6"></th>
+        </tr>
+        <tr
+          class="data"
+          *ngFor="let class of classArray"
+          [ngStyle]="{
+            'background-color':
+              class.classId === clickedId ? 'rgba(236, 237, 241, 0.2)' : 'white'
+          }"
+        >
+          <td class="color-blue" (click)="setFormDetail(class)">
+            {{ class.className }}
+          </td>
+          <td class="color-grey" (click)="setFormDetail(class)">
+            {{ class.subjectName }}
+          </td>
+          <td class="color-grey" (click)="setFormDetail(class)">
+            {{ class.shiftDescription }}
+          </td>
+          <td class="color-grey" (click)="setFormDetail(class)">
+            {{ class.openingDate | date: "dd-MM-yyyy" }}
+          </td>
+          <td (click)="setFormDetail(class)">
+            {{ class.numberOfStudent }} học viên
+          </td>
+          <td>
+            <button class="suggest-btn" (click)="goToClassSuggest(class)">
+              Gợi ý mở lớp
+            </button>
+          </td>
+        </tr>
+      </table>
+      <div class="paging" *ngIf="totalPage">
+        <div class="item" *ngFor="let i of pageArray" (click)="changePage(i)">
+          <a>{{ i }}</a>
+        </div>
+      </div>
+    </div>
+    <div class="form-detail" [formGroup]="form">
+      <div class="flex" style="margin-top: 1.5em; margin-bottom: 1em">
+        <p class="label" style="font-size: 11px; width: 77%; text-align: left">
+          ID: {{ clickedId }}
+        </p>
+        <button class="suggest-btn" *ngIf="status == 'waiting'">
+          Chỉnh sửa
+        </button>
+        <button class="suggest-btn" *ngIf="status != 'waiting'">
+          Xem thêm
+        </button>
+      </div>
+      <div class="input-div">
+        <p class="label">Tên lớp học</p>
+        <input class="input" type="text" formControlName="name" />
+        <p class="invalid">Vui lòng điền tên lớp</p>
+      </div>
+      <div class="input-div" *ngIf="status != 'waiting'">
+        <p class="label">Giáo viên</p>
+        <input class="input" type="text" formControlName="teacherName" />
+        <p class="invalid">Vui lòng điền tên lớp</p>
+      </div>
+      <div class="flex" *ngIf="status != 'waiting'">
+        <div class="input-div" style="padding-right: 5%">
+          <p class="label">Tổng buổi học</p>
+          <input class="input" type="text" formControlName="slot" />
+          <p class="invalid">Vui lòng điền ca học</p>
+        </div>
+        <div class="input-div">
+          <p class="label">Phòng</p>
+          <input class="input" type="text" formControlName="roomNo" />
+          <p class="invalid">Vui lòng điền</p>
+        </div>
+      </div>
+      <div class="input-div">
+        <p class="label">Môn học</p>
+        <select
+          id="subjectId"
+          name="subjectId"
+          class="input"
+          formControlName="subjectId"
+        >
+          <option
+            *ngFor="let subject of subjectList"
+            [value]="subject.subjectId"
+          >
+            {{ subject.subjectCode }} - {{ subject.subjectName }}
+          </option>
+        </select>
+        <p class="invalid">Vui lòng điền tên môn học</p>
+      </div>
+      <div class="flex">
+        <div class="input-div" style="padding-right: 5%">
+          <p class="label">Ca học</p>
+          <select
+            id="shiftId"
+            name="shiftId"
+            class="input"
+            formControlName="shiftId"
+          >
+            <option *ngFor="let shift of shiftList" [value]="shift.shiftId">
+              {{ shift.dayOfWeek }} ({{ shift.timeStart }} -
+              {{ shift.timeEnd }})
+            </option>
+          </select>
+          <p class="invalid">Vui lòng điền ca học</p>
+        </div>
+        <div class="input-div">
+          <p class="label">Tình trạng</p>
+          <input class="input" type="text" formControlName="status" readonly />
+          <p class="invalid">Vui lòng điền</p>
+        </div>
+      </div>
+      <div class="input-div">
+        <p class="label">Ngày khai giảng</p>
+        <input
+          class="input"
+          type="date"
+          formControlName="openingDate"
+          [ngModel]="openingDate | date: 'yyyy-MM-dd'"
+        />
+        <p class="invalid">Vui lòng điền ngày khai giảng</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="isLoading" class="loading-page" style="padding-left: 39.5%">
+  <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+</div>
+<div *ngIf="isLoadingStatus" class="loading-page" style="padding-left: 39.5%">
+  <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+</div>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="haveAlertOk = !haveAlertOk">OK</button>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertYN">
+  <div class="alert" *ngIf="haveAlertYN">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doYes()">Yes</button>
+    <button (click)="doNo()">No</button>
+  </div>
+</div>

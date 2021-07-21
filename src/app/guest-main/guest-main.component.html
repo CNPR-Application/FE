@@ -1,0 +1,147 @@
+<div *ngIf="isLoading" class="loading-page" style="padding-left: 50%">
+  <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+</div>
+<div class="line-head">
+  <div class="left">
+    <img src="../../assets/image/Logo_big.png" class="img-logo" />
+    <div class="detail">
+      <mat-icon class="icon-head"> add_location</mat-icon>
+      <p>Trung tâm gần nhất</p>
+    </div>
+    <div class="detail">
+      <mat-icon class="icon-head"> local_phone</mat-icon>
+      <p>Hotline: 0987888777</p>
+    </div>
+  </div>
+  <div class="right">
+    <mat-icon
+      class="icon-head"
+      style="font-size: 25px; cursor: pointer"
+      [matMenuTriggerFor]="appMenu"
+      >reorder</mat-icon
+    >
+    <mat-menu #appMenu="matMenu">
+      <button mat-menu-item (click)="login()">Đăng nhập</button>
+    </mat-menu>
+  </div>
+</div>
+<div class="menu">
+  <a>VỀ CNPR</a>
+  <a>CÁC KHÓA HỌC</a>
+  <a>TRUNG TÂM ĐÀO TẠO</a>
+  <a>LỊCH KHAI GIẢNG</a>
+  <a>TIN TỨC</a>
+  <a>LIÊN HỆ</a>
+</div>
+<div class="ani-img">
+  <img
+    style="width: 40%; padding-bottom: 7em"
+    src="../../assets/image/main2.PNG"
+  />
+  <img style="width: 60%" src="../../assets/image/class2.gif" />
+</div>
+<div style="display: block; text-align: center">
+  <img style="width: 30%" src="../../assets/image/foreign_teacher1.jpg" />
+  <img style="width: 30%" src="../../assets/image/foreign_teacher2.jpg" />
+  <img style="width: 30%" src="../../assets/image/foreign_teacher3.jpg" />
+</div>
+<div style="display: block; text-align: center">
+  <img style="width: 100%" src="../../assets/image/chart2.jpg" />
+</div>
+<div class="reading">
+  <img style="width: 45%; padding: 3em" src="../../assets/image/main1.gif" />
+  <div class="text">
+    <p class="header">TIẾNG ANH CHUẨN QUỐC TẾ</p>
+    <p class="header">CHO THẾ HỆ TRẺ VỮNG VÀNG HÀNH TRANG</p>
+    <p class="header">TỰ TIN BỨT PHÁ, KIẾN TẠO TƯƠNG LAI</p>
+    <p style="margin-top: 2em">
+      Hơn 20 năm kinh nghiệm đào tạo với hơn 43 trung tâm Anh ngữ khắp cả nước
+      và đội ngũ 100% giáo viên bản ngữ, cùng mạng lưới đối tác danh tiếng toàn
+      cầu, CNPR là tổ chức hàng đầu tại Việt Nam áp dụng phương pháp giáo dục
+      hiện đại, đón đầu thời đại.
+    </p>
+    <p>
+      CNPR không ngừng sáng tạo, cập nhật và phát triển những cách thức giảng
+      dạy tiên tiến nhằm mang lại trải nghiệm học tập vượt trội. Thông qua
+      chương trình học đa dạng được thiết kế chuyên biệt cho từng độ tuổi, giáo
+      trình tích hợp công nghệ tối tân và phong phú hoạt động thực tế, học viên
+      sẽ hoàn thiện khả năng Anh ngữ cùng 6 kỹ năng vàng Thế kỷ 21.
+    </p>
+    <p>
+      ĐĂNG KÝ NGAY để nhận tư vấn về học phí, lộ trình học và các chương trình
+      ưu đãi trong tháng:
+    </p>
+    <form [formGroup]="form">
+      <div class="flex" style="margin-top: 4em">
+        <input
+          placeholder="Tên (*)"
+          class="input"
+          type="text"
+          formControlName="name"
+        />
+        <input
+          placeholder="Số điện thoại (*)"
+          class="input"
+          type="tel"
+          formControlName="phone"
+        />
+        <select id="city" name="city" class="input" formControlName="city">
+          <option value="" disabled selected>Tỉnh thành bạn sống (*)</option>
+          <option *ngFor="let city of cityList" [value]="city">
+            {{ city }}
+          </option>
+        </select>
+      </div>
+      <div class="flex" style="margin-top: 1em">
+        <div style="width: 32%; margin-right: 0.5em">
+          <select
+            id="curriculumId"
+            name="curriculumId"
+            class="input"
+            formControlName="curriculumId"
+          >
+            <option value="" disabled selected>Chương trình quan tâm</option>
+            <option
+              *ngFor="let cur of curriculumList"
+              [value]="cur.curriculumId"
+            >
+              {{ cur.curriculumName }}
+            </option>
+          </select>
+          <select
+            id="branchId"
+            name="branchId"
+            class="input"
+            formControlName="branchId"
+            style="margin-top: 1em"
+          >
+            <option value="" disabled selected>Chi nhánh gần bạn</option>
+            <option *ngFor="let branch of branchList" [value]="branch.branchId">
+              {{ branch.branchName }}
+            </option>
+          </select>
+        </div>
+        <div style="width: 66%">
+          <textarea
+            placeholder="Ghi chú"
+            class="input"
+            type="text"
+            style="height: 7em"
+            formControlName="description"
+          ></textarea>
+        </div>
+      </div>
+      <div class="button-div">
+        <button (click)="createGuest()" class="btn-return">
+          Đăng Ký Tư Vấn
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert" style="left: calc(50% - 14.5%)">
+    <p>{{ alertMessage }}</p>
+    <button (click)="haveAlertOk = !haveAlertOk">OK</button>
+  </div>
+</div>

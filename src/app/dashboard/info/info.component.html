@@ -1,0 +1,133 @@
+<div *ngIf="isLoading" class="loading-page" style="padding-left: 39.5%">
+  <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+</div>
+<div class="body-info">
+  <div class="line-menu">
+    |<a
+      class="left-line"
+      style="cursor: pointer"
+      title="Quay về trang chủ"
+      routerLink="/dashboard"
+      >Trang chủ</a
+    ><span class="left-line">|</span
+    ><span class="left-line">Thông tin cá nhân</span>
+  </div>
+  <div class="left" *ngIf="!isLoading">
+    <form class="form" [formGroup]="form">
+      <div class="logo-div">
+        <img class="img" src="{{url}}" alt="avatar image" (click)="openAvatarDialog()"/>
+      </div>
+      <div class="flex">
+        <div class="input-div" style="padding-right: 10%">
+          <p class="label">Tên đăng nhập</p>
+          <input
+            class="input"
+            type="text"
+            formControlName="username"
+            readonly
+          />
+          <p class="invalid">Vui lòng điền tên đăng nhập</p>
+        </div>
+        <div class="input-div">
+          <p class="label">Họ và tên</p>
+          <input class="input" type="text" formControlName="name" />
+          <p class="invalid">Vui lòng điền họ và tên</p>
+        </div>
+      </div>
+      <div class="flex">
+        <div class="input-div" style="padding-right: 10%">
+          <p class="label">Email</p>
+          <input class="input" type="email" formControlName="email" />
+          <p class="invalid">Vui lòng điền email</p>
+        </div>
+        <div class="input-div">
+          <p class="label">Số điện thoại</p>
+          <input class="input" type="text" formControlName="phone" />
+          <p class="invalid">Vui lòng điền số điện thoại</p>
+        </div>
+      </div>
+      <div class="input-div" style="padding-right: 10%">
+        <p class="label">Địa chỉ</p>
+        <textarea
+          class="input textarea-deco"
+          type="text"
+          formControlName="address"
+        ></textarea>
+        <p class="invalid">Vui lòng điền địa chỉ</p>
+      </div>
+      <div class="flex">
+        <div class="input-div" style="padding-right: 10%">
+          <p class="label">Ngày sinh</p>
+          <input
+            class="input"
+            type="date"
+            formControlName="birthday"
+            [ngModel]="birthday | date: 'yyyy-MM-dd'"
+          />
+          <p class="invalid">Vui lòng điền ngày sinh</p>
+        </div>
+        <div class="input-div">
+          <p class="label">Chức vụ</p>
+          <input class="input" type="text" formControlName="role" readonly/>
+          <p class="invalid">Vui lòng điền chức vụ</p>
+        </div>
+      </div>
+      <div class="flex">
+        <div class="input-div" style="padding-right: 10%">
+          <p class="label">Ngày tạo tài khoản</p>
+          <input
+            class="input"
+            readonly
+            type="date"
+            formControlName="creatingDate"
+            [ngModel]="creatingDate | date: 'yyyy-MM-dd'"
+          />
+          <p class="invalid"></p>
+        </div>
+        <div class="input-div">
+          <p class="label">Tên chi nhánh</p>
+          <input
+            class="input"
+            type="text"
+            formControlName="branchName"
+            readonly
+          />
+          <p class="invalid">Vui lòng điền tên chi nhánh</p>
+        </div>
+      </div>
+      <div class="flex" *ngIf="isHavingParent">
+        <div class="input-div" style="padding-right: 10%">
+          <p class="label">Tên phụ huynh</p>
+          <input class="input" type="text" formControlName="parentName" />
+          <p class="invalid">aaa</p>
+        </div>
+        <div class="input-div">
+          <p class="label">Số điện thoại phụ huynh</p>
+          <input class="input" type="text" formControlName="parentPhone" />
+          <p class="invalid">aaa</p>
+        </div>
+      </div>
+      <div class="flex" *ngIf="role === 'teacher'">
+        <div class="input-div" style="padding-right: 10%">
+          <p class="label">Kinh nghiệm giảng dạy</p>
+          <input class="input" type="text" formControlName="experience" />
+          <p class="invalid">aaa</p>
+        </div>
+        <div class="input-div">
+          <p class="label">Điểm đánh giá</p>
+          <input class="input" type="text" formControlName="rating" readonly />
+          <p class="invalid">aaa</p>
+        </div>
+      </div>
+      <div class="button-div">
+        <button class="btn-edit" (click)="editInfo()">Chỉnh sửa</button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="haveAlertOk = !haveAlertOk">OK</button>
+  </div>
+</div>

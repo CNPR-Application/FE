@@ -1,0 +1,106 @@
+.form {
+  margin: auto;
+  padding: 1em;
+  background: white;
+  .input-div {
+    width: 100%;
+  }
+  .label {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    letter-spacing: 0.005em;
+    color: #000000;
+    opacity: 0.8;
+    margin: 0;
+    margin-bottom: 0.5em;
+  }
+  .invalid {
+    font-size: 14px;
+    letter-spacing: 0.005em;
+    color: rgba(200, 29, 39, 0.85);
+    padding-left: 20px;
+    margin: 0;
+    margin-top: 0.5em;
+    visibility: hidden;
+  }
+  .input {
+    background: rgba(236, 237, 241, 0.2);
+    border: 1px solid rgba(29, 57, 200, 0.1);
+    box-sizing: border-box;
+    width: 100%;
+    height: 3em;
+    border-radius: 10px;
+    padding-left: 1em;
+    color: rgba(0, 0, 0, 0.6);
+    padding-right: 2em;
+    font-family: Inter;
+    font-size: 14px;
+  }
+  .item {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    width: 2.2em;
+    text-align: center;
+    height: 2.5em;
+    margin: auto;
+    float: right;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.8);
+    padding-top: 8px;
+  }
+  .item:hover {
+    outline: none;
+    border: 1px solid rgba(0, 133, 247, 0.4);
+  }
+  .number-input {
+    width: 100%;
+  }
+  .input:focus {
+    border-radius: 10px;
+    outline: none;
+    border: 1px solid rgba(0, 133, 247, 0.7);
+    background-color: rgba(236, 237, 241, 0.2);
+  }
+  .input:invalid {
+    border: 1px solid rgba(200, 29, 39, 0.72);
+  }
+  .suggest-btn {
+    background: rgba(255, 255, 255, 0.19);
+    border: 1px solid #00bcf7;
+    box-sizing: border-box;
+    font-size: 11px;
+    height: 20px;
+    color: #182a88;
+  }
+  .suggest-btn:hover {
+    border: 1px solid #303e67;
+  }
+  .button-div {
+    text-align: center;
+    .btn-edit {
+      border: 1px solid #e5e5e5;
+      box-sizing: border-box;
+      border-radius: 30px;
+      width: 11em;
+      height: 2.6em;
+      color: white;
+      background: linear-gradient(
+        180deg,
+        rgba(24, 42, 136, 0.752) 0%,
+        rgba(44, 120, 208, 0.68) 100%,
+        rgba(205, 44, 208, 0.232) 100%
+      );
+      filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    }
+    .btn-edit:hover {
+      background: linear-gradient(
+        180deg,
+        rgba(24, 42, 136, 0.94) 0%,
+        rgba(44, 120, 208, 0.85) 100%,
+        rgba(205, 44, 208, 0.29) 100%
+      );
+    }
+  }
+}

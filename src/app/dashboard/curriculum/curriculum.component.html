@@ -1,0 +1,242 @@
+<div *ngIf="isLoading" class="loading-page" style="padding-left: 39.5%">
+  <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+</div>
+<div class="body-curriculum">
+  <div class="line-menu">
+    |<a
+      class="left-line"
+      style="cursor: pointer"
+      title="Quay về trang chủ"
+      routerLink="/dashboard"
+      >Trang chủ</a
+    ><span class="left-line">|</span><span class="left-line">Nội dung học</span>
+  </div>
+  <div class="curriculum">
+    <form class="search" #heroForm="ngForm">
+      <img
+        class="img-pheu"
+        src="../../../assets/icon/pheu loc.png"
+        [matMenuTriggerFor]="appMenu"
+      />
+      <input
+        mdbInput
+        class="form-control"
+        name="keyCurriculum"
+        [(ngModel)]="keyCurriculum"
+        (change)="searchCurriculum()"
+        type="text"
+        placeholder="Tìm tên chương trình"
+      />
+      <img
+        title="Tìm kiếm"
+        class="img-kinh"
+        src="../../../assets/icon/search.png"
+        (click)="searchCurriculum()"
+        alt="search button"
+      />
+    </form>
+    <div class="title">
+      <p *ngIf="isAvailable">Khung chương trình hiện có</p>
+      <p *ngIf="!isAvailable">Khung chương trình đã xóa</p>
+      <img
+        class="plus"
+        title="Tạo chương trình mới"
+        src="../../../assets/icon/plus.png"
+        (click)="createCurriculum()"
+        alt="plus button"
+      />
+    </div>
+    <div class="list-curriculum">
+      <div class="item" *ngFor="let item of curriculumArray">
+        <p class="p-title" *ngIf="item.isAvailable">
+          {{ item.curriculumName }}
+        </p>
+        <p class="p-title color-red" *ngIf="!item.isAvailable">
+          {{ item.curriculumName }}
+        </p>
+        <p class="p-description">{{ item.description }}</p>
+        <div class="icon-button">
+          <img
+            *ngIf="isAvailable"
+            class="delete"
+            title="Xóa chương trình"
+            src="../../../assets/icon/delete_icon.png"
+            (click)="
+              callAlert(
+                'YN',
+                'Bạn có muốn xóa chương trình này không ?',
+                item.curriculumId
+              )
+            "
+            alt="delete button"
+          />
+          <img
+            class="edit"
+            (click)="goToDetail(item.curriculumId)"
+            title="Chỉnh sửa chương trình"
+            src="../../../assets/icon/edit_icon.png"
+            alt="edit button"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="paging" *ngIf="totalPage">
+      <div class="item" *ngFor="let i of pageArray" (click)="changePage(i)">
+        <a>{{ i }}</a>
+      </div>
+    </div>
+  </div>
+  <mat-menu #appMenu="matMenu">
+    <button mat-menu-item (click)="viewCurrentCurriculum()">Hiện có</button>
+    <button mat-menu-item (click)="viewDeletedCurriculum()">Đã xóa</button>
+  </mat-menu>
+</div>
+<div class="body-curriculum" style="margin-top: 6em">
+  <div class="curriculum">
+    <form class="search" #heroForm="ngForm">
+      <img
+        class="img-pheu"
+        src="../../../assets/icon/pheu loc.png"
+        [matMenuTriggerFor]="subMenu"
+      />
+      <input
+        mdbInput
+        class="form-control"
+        name="keySubject"
+        [(ngModel)]="keySubject"
+        (change)="searchSubject()"
+        type="text"
+        placeholder="Tìm tên môn học"
+      />
+      <img
+        title="Tìm kiếm"
+        class="img-kinh"
+        src="../../../assets/icon/search.png"
+        (click)="searchSubject()"
+        alt="search button"
+      />
+    </form>
+    <div class="title">
+      <p *ngIf="isAvailableSubject">Môn học hiện có</p>
+      <p *ngIf="!isAvailableSubject">Môn học đã xóa</p>
+      <img
+        class="plus"
+        title="Tạo chương trình mới"
+        src="../../../assets/icon/plus.png"
+        (click)="createSubject()"
+        alt="plus button"
+      />
+    </div>
+    <div class="div-curriculum" style="margin-right: 3.7%">
+      <table class="table" style="margin-top: 1.7%">
+        <tr class="header">
+          <th class="th-1">Mã môn</th>
+          <th class="th-2">Tên môn học</th>
+          <th class="th-3">Học phí</th>
+          <th class="th-4">Miêu tả</th>
+          <th class="th-5">Chương trình</th>
+          <th class="th-6">Slot</th>
+          <th class="th-7">Điểm đánh giá</th>
+          <th class="th-8">Ngày tạo</th>
+          <th class="th-9"></th>
+        </tr>
+        <tr class="data color-grey poppins" *ngFor="let sub of subjectArray">
+          <td (click)="goToDetailSubject(sub.subjectId)" class="td-1">
+            {{ sub.subjectCode }}
+          </td>
+          <td
+            (click)="goToDetailSubject(sub.subjectId)"
+            class="td-2 color-blue wrap-text"
+            *ngIf="sub.isAvailable"
+            title="{{ sub.subjectName }}"
+          >
+            {{ sub.subjectName }}
+          </td>
+          <td
+            (click)="goToDetailSubject(sub.subjectId)"
+            class="td-2 color-red wrap-text"
+            *ngIf="!sub.isAvailable"
+            title="{{ sub.subjectName }}"
+          >
+            {{ sub.subjectName }}
+          </td>
+          <td (click)="goToDetailSubject(sub.subjectId)" class="td-3">
+            {{ sub.price }}
+          </td>
+          <td
+            (click)="goToDetailSubject(sub.subjectId)"
+            class="td-4 wrap-text"
+            title="{{ sub.description }}"
+          >
+            {{ sub.description }}
+          </td>
+          <td
+            (click)="goToDetailSubject(sub.subjectId)"
+            class="td-5"
+            *ngIf="sub.curriculum"
+          >
+            {{ sub.curriculum.curriculumName }}
+          </td>
+          <td (click)="goToDetailSubject(sub.subjectId)" class="td-6">
+            {{ sub.slot }}
+          </td>
+          <td (click)="goToDetailSubject(sub.subjectId)" class="td-7">
+            {{ sub.rating }}
+          </td>
+          <td (click)="goToDetailSubject(sub.subjectId)" class="td-8">
+            {{ sub.creatingDate | date: "dd-MM-yyyy" }}
+          </td>
+          <td class="td-9">
+            <img
+              *ngIf="isAvailableSubject"
+              class="btn-icon"
+              title="Xóa môn học"
+              src="../../../assets/icon/delete_icon.png"
+              (click)="
+                callAlert(
+                  'YN',
+                  'Bạn có muốn xóa môn học này không ?',
+                  sub.subjectId
+                )
+              "
+              alt="delete button"
+            />
+            <img
+              (click)="goToDetailSubject(sub.subjectId)"
+              style="cursor: pointer"
+              title="Chỉnh sửa môn học"
+              src="../../../assets/icon/edit_icon.png"
+              alt="edit button"
+            />
+          </td>
+        </tr>
+      </table>
+      <div class="paging" *ngIf="totalSubPage" style="padding-right: 0px">
+        <div
+          class="item"
+          *ngFor="let i of pageSubArray"
+          (click)="changePageSub(i)"
+        >
+          <a>{{ i }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <mat-menu #subMenu="matMenu">
+    <button mat-menu-item (click)="viewCurrentSubject()">Hiện có</button>
+    <button mat-menu-item (click)="viewDeletedSubject()">Đã xóa</button>
+  </mat-menu>
+</div>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="haveAlertOk = !haveAlertOk">OK</button>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertYN">
+  <div class="alert" *ngIf="haveAlertYN">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doYes()">Yes</button>
+    <button (click)="doNo()">No</button>
+  </div>
+</div>

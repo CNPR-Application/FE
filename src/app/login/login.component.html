@@ -1,0 +1,43 @@
+<div class="nav-wrapper">
+  
+  <div class="left">
+    <img class="image" src="/assets/image/login_kid.png" alt="Login image" />
+  </div>
+  <div class="right">
+    <div *ngIf="isLoading" class="loading-page" style="padding-left: 20%;">
+      <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+    </div>
+    <img class="logo" src="/assets/image/logo.png" alt="Logo image" /><br />
+    <h2 class="slogan">Brighten your future</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <input
+        class="input"
+        id="username"
+        placeholder="Tên Đăng Nhập"
+        formControlName="username"
+      /><br />
+      <input
+        class="input"
+        id="password"
+        type="password"
+        placeholder="Mật Khẩu"
+        formControlName="password"
+      /><br />
+      <button type="submit" class="button">Đăng Nhập</button><br />
+    </form>
+    <a class="link" href="">Quên Mật Khẩu</a><br />
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="haveAlertOk = !haveAlertOk">OK</button>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertYN">
+  <div class="alert" *ngIf="haveAlertYN">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doYes()">Yes</button>
+    <button (click)="doNo()">No</button>
+  </div>
+</div>

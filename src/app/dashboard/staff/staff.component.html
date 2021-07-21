@@ -1,0 +1,304 @@
+<div *ngIf="isLoading" class="loading-page" style="padding-left: 39.5%">
+  <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+</div>
+<mat-menu #cutMenu="matMenu">
+  <button mat-menu-item (click)="viewManager()">Danh Sách Quản lý</button>
+  <button mat-menu-item (click)="viewStaff()">Danh Sách Nhân viên</button>
+</mat-menu>
+<div class="body-staff">
+  <div class="line-menu">
+    |<a
+      class="left-line"
+      style="cursor: pointer"
+      title="Quay về trang chủ"
+      routerLink="/dashboard"
+      >Trang chủ</a
+    ><span class="left-line">|</span><span class="left-line">Nhân sự</span>
+    <span class="left-line">|</span
+    ><span class="left-line" *ngIf="isManager">Quản lý</span>
+    <span class="left-line" *ngIf="!isManager">Nhân viên</span>
+    <mat-icon
+      class="img-switch"
+      style="margin-left: 5px;"
+      [matMenuTriggerFor]="cutMenu"
+      title="Chọn danh sách"
+      >swap_vert</mat-icon
+    >
+  </div>
+  <div class="staff" *ngIf="isManager">
+    <form class="search" #heroForm="ngForm">
+      <img
+        class="img-pheu"
+        src="../../../assets/icon/pheu loc.png"
+        [matMenuTriggerFor]="managerMenu"
+      />
+      <input
+        mdbInput
+        class="form-control"
+        name="keyManager"
+        [(ngModel)]="keyManager"
+        (change)="searchManager()"
+        type="text"
+        placeholder="Tìm tên quản lý"
+      />
+      <img
+        title="Tìm kiếm"
+        class="img-kinh"
+        src="../../../assets/icon/search.png"
+        (click)="searchManager()"
+        alt="search button"
+      />
+    </form>
+    <div class="title">
+      <p *ngIf="isAvailableManager">Danh sách quản lý hiện có</p>
+      <p *ngIf="!isAvailableManager">Danh sách quản lý đã xóa</p>
+      <img
+        class="plus"
+        title="Tạo quản lý mới"
+        src="../../../assets/icon/plus.png"
+        (click)="createManager()"
+        alt="plus button"
+      />
+    </div>
+    <div class="div-curriculum" style="margin-right: 3.7%">
+      <table class="table" style="margin-top: 1.7%">
+        <tr class="header">
+          <th class="th-1"></th>
+          <th class="th-2 text-left td-2">Tên</th>
+          <th class="th-3">Tài khoản</th>
+          <th class="th-5">Tên chi nhánh</th>
+          <th class="th-6">Email</th>
+          <th class="th-7">Số điện thoại</th>
+          <th class="th-8">Ngày tạo</th>
+          <th class="th-9"></th>
+        </tr>
+        <tr
+          class="data color-grey poppins"
+          *ngFor="let manager of managerArray"
+        >
+          <td
+            (click)="goToDetail('edit', 'manager', manager)"
+            style="padding-left: 1em"
+          >
+            <img [src]="manager.image" class="image" />
+          </td>
+          <td
+            (click)="goToDetail('edit', 'manager', manager)"
+            class="color-blue text-left td-2"
+            *ngIf="manager.isAvailable"
+          >
+            {{ manager.name }}
+          </td>
+          <td
+            (click)="goToDetail('edit', 'manager', manager)"
+            class="color-red text-left td-2"
+            *ngIf="!manager.isAvailable"
+          >
+            {{ manager.name }}
+          </td>
+          <td
+            (click)="goToDetail('edit', 'manager', manager)"
+            class="color-grey"
+          >
+            {{ manager.username }}
+          </td>
+          <td
+            (click)="goToDetail('edit', 'manager', manager)"
+            class="color-grey"
+            *ngIf="manager.branchResponseDtoList"
+          >
+            {{ manager.branchResponseDtoList[0].branchName }}
+          </td>
+          <td
+            (click)="goToDetail('edit', 'manager', manager)"
+            class="color-grey"
+          >
+            {{ manager.email }}
+          </td>
+          <td
+            (click)="goToDetail('edit', 'manager', manager)"
+            class="color-grey"
+          >
+            {{ manager.phone }}
+          </td>
+          <td
+            (click)="goToDetail('edit', 'manager', manager)"
+            class="color-grey"
+          >
+            {{ manager.creatingDate | date: "dd-MM-yyyy" }}
+          </td>
+          <td class="td-9">
+            <img
+              *ngIf="isAvailableManager"
+              class="btn-icon"
+              title="Xóa quản lý"
+              src="../../../assets/icon/delete_icon.png"
+              (click)="
+                callAlert('YN', 'Bạn có muốn xóa quản lý này không ?', manager)
+              "
+              alt="delete button"
+            />
+            <img
+              (click)="goToDetail('edit', 'manager', manager)"
+              style="cursor: pointer"
+              title="Chỉnh sửa thông tin"
+              src="../../../assets/icon/edit_icon.png"
+              alt="edit button"
+            />
+          </td>
+        </tr>
+      </table>
+      <div class="paging" *ngIf="totalManagerPage" style="padding-right: 0px">
+        <div
+          class="item"
+          *ngFor="let i of pageManagerArray"
+          (click)="changePageManager(i)"
+        >
+          <a>{{ i }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <mat-menu #managerMenu="matMenu">
+    <button mat-menu-item (click)="viewCurrentManager()">Hiện có</button>
+    <button mat-menu-item (click)="viewDeletedManager()">Đã xóa</button>
+  </mat-menu>
+</div>
+<div class="body-staff" *ngIf="!isManager">
+  <div class="staff">
+    <form class="search" #heroForm="ngForm">
+      <img
+        class="img-pheu"
+        src="../../../assets/icon/pheu loc.png"
+        [matMenuTriggerFor]="staffMenu"
+      />
+      <input
+        mdbInput
+        class="form-control"
+        name="keyStaff"
+        [(ngModel)]="keyStaff"
+        (change)="searchStaff()"
+        type="text"
+        placeholder="Tìm tên nhân viên"
+      />
+      <img
+        title="Tìm kiếm"
+        class="img-kinh"
+        src="../../../assets/icon/search.png"
+        (click)="searchStaff()"
+        alt="search button"
+      />
+    </form>
+    <div class="title">
+      <p *ngIf="isAvailableStaff">Danh sách nhân viên hiện có</p>
+      <p *ngIf="!isAvailableStaff">Danh sách nhân viên đã xóa</p>
+      <img
+        class="plus"
+        title="Tạo nhân viên mới"
+        src="../../../assets/icon/plus.png"
+        (click)="createStaff()"
+        alt="plus button"
+      />
+    </div>
+    <div class="div-curriculum" style="margin-right: 3.7%">
+      <table class="table" style="margin-top: 1.7%">
+        <tr class="header">
+          <th class="th-1"></th>
+          <th class="th-2 text-left td-2">Tên</th>
+          <th class="th-3">Tài khoản</th>
+          <th class="th-5">Tên chi nhánh</th>
+          <th class="th-6">Email</th>
+          <th class="th-7">Số điện thoại</th>
+          <th class="th-8">Ngày tạo</th>
+          <th class="th-9"></th>
+        </tr>
+        <tr class="data color-grey poppins" *ngFor="let staff of staffArray">
+          <td
+            (click)="goToDetail('edit', 'staff', staff)"
+            style="padding-left: 1em"
+          >
+            <img [src]="staff.image" class="image" />
+          </td>
+          <td
+            (click)="goToDetail('edit', 'staff', staff)"
+            class="color-blue text-left td-2"
+            *ngIf="staff.isAvailable"
+          >
+            {{ staff.name }}
+          </td>
+          <td
+            (click)="goToDetail('edit', 'staff', staff)"
+            class="color-red text-left td-2"
+            *ngIf="!staff.isAvailable"
+          >
+            {{ staff.name }}
+          </td>
+          <td (click)="goToDetail('edit', 'staff', staff)" class="color-grey">
+            {{ staff.username }}
+          </td>
+          <td
+            (click)="goToDetail('edit', 'staff', staff)"
+            *ngIf="staff.branchResponseDtoList"
+            class="color-grey"
+          >
+            {{ staff.branchResponseDtoList[0].branchName }}
+          </td>
+          <td (click)="goToDetail('edit', 'staff', staff)" class="color-grey">
+            {{ staff.email }}
+          </td>
+          <td (click)="goToDetail('edit', 'staff', staff)" class="color-grey">
+            {{ staff.phone }}
+          </td>
+          <td (click)="goToDetail('edit', 'staff', staff)" class="color-grey">
+            {{ staff.creatingDate | date: "dd-MM-yyyy" }}
+          </td>
+          <td class="td-9">
+            <img
+              *ngIf="isAvailableStaff"
+              class="btn-icon"
+              title="Xóa nhân viên"
+              src="../../../assets/icon/delete_icon.png"
+              (click)="
+                callAlert('YN', 'Bạn có muốn xóa nhân viên này không ?', staff)
+              "
+              alt="delete button"
+            />
+            <img
+              (click)="goToDetail('edit', 'staff', staff)"
+              style="cursor: pointer"
+              title="Chỉnh sửa thông tin"
+              src="../../../assets/icon/edit_icon.png"
+              alt="edit button"
+            />
+          </td>
+        </tr>
+      </table>
+      <div class="paging" *ngIf="totalStaffPage" style="padding-right: 0px">
+        <div
+          class="item"
+          *ngFor="let i of pageStaffArray"
+          (click)="changePageStaff(i)"
+        >
+          <a>{{ i }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <mat-menu #staffMenu="matMenu">
+    <button mat-menu-item (click)="viewCurrentStaff()">Hiện có</button>
+    <button mat-menu-item (click)="viewDeletedStaff()">Đã xóa</button>
+  </mat-menu>
+</div>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="haveAlertOk = !haveAlertOk">OK</button>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertYN">
+  <div class="alert" *ngIf="haveAlertYN">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doYes()">Yes</button>
+    <button (click)="doNo()">No</button>
+  </div>
+</div>

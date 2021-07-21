@@ -1,0 +1,52 @@
+<div *ngIf="isLoading" class="loading-page">
+  <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+</div>
+<form class="form" [formGroup]="form">
+  <div class="flex">
+    <div class="input-div" style="padding-right: 10%">
+      <p class="label">Tuần số</p>
+      <input class="input" type="number" formControlName="weekNum" min="1"/>
+      <p class="invalid">Vui lòng điền tuần</p>
+    </div>
+    <div class="input-div">
+      <p class="label">Tên môn học</p>
+      <input class="input" type="text" formControlName="subjectId" readonly/>
+      <p class="invalid">Vui lòng điền tên môn học</p>
+    </div>
+  </div>
+  <div class="flex">
+    <div class="input-div" style="padding-right: 10%">
+      <p class="label">Nội dung học</p>
+      <textarea
+        class="input textarea-deco"
+        type="text"
+        formControlName="description"
+      ></textarea>
+      <p class="invalid">Vui lòng điền nội dung học</p>
+    </div>
+    <div class="input-div">
+      <p class="label">Kết quả đạt được</p>
+      <textarea
+        class="input textarea-deco"
+        type="text"
+        formControlName="learningOutcome"
+      ></textarea>
+      <p class="invalid">Vui lòng điền kết quả đầu ra</p>
+    </div>
+  </div>
+    <div mat-dialog-actions class="button-div">
+      <button class="btn-edit" (click)="editSubjectDetail()" *ngIf="isEdit">
+        Chỉnh sửa
+      </button>
+      <button class="btn-edit" (click)="createSubjectDetail()" *ngIf="!isEdit">
+        Tạo mới
+      </button>
+    </div>
+  </form>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="close()">OK</button>
+  </div>
+</div>
+

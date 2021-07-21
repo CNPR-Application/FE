@@ -1,0 +1,22 @@
+<form class="form" [formGroup]="form" *ngIf="guest">
+  <div class="flex">
+    <p class="label" style="width: 68%">{{ guest.customerName }}</p>
+    <button class="suggest-btn" (click)="close()">Đổi trạng thái</button>
+  </div>
+  <div class="input-div">
+    <p class="label">Trạng thái</p>
+    <select class="input" formControlName="status">
+      <option value="pending">Đơn tư vấn mới</option>
+      <option value="contacted">Đơn đã xử lý</option>
+      <option value="canceled">Khách hàng không liên lạc được</option>
+    </select>
+  </div>
+  <div class="input-div">
+    <p class="label">Ghi chú</p>
+    <textarea
+      class="input"
+      style="height: 7em; padding-top: 1em"
+      formControlName="description"
+    ></textarea>
+  </div>
+</form>

@@ -1,0 +1,134 @@
+<div *ngIf="isLoading" class="loading-page">
+  <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+</div>
+<form class="form" [formGroup]="form" *ngIf="!isLoading">
+  <div class="flex" *ngIf="type != 'create'">
+    <div class="input-div" style="padding-right: 10%">
+      <p class="label">Tên đăng nhập</p>
+      <input class="input" type="text" formControlName="username" readonly />
+      <p class="invalid">Vui lòng điền tên đăng nhập</p>
+    </div>
+    <div class="input-div">
+      <p class="label">Ngày tạo tài khoản</p>
+      <input
+        class="input"
+        readonly
+        type="date"
+        formControlName="creatingDate"
+        [ngModel]="creatingDate | date: 'yyyy-MM-dd'"
+      />
+      <p class="invalid"></p>
+    </div>
+  </div>
+  <div class="flex">
+    <div class="input-div" style="padding-right: 10%">
+      <p class="label">Họ và tên</p>
+      <input class="input" type="text" formControlName="name" />
+      <p class="invalid">Vui lòng điền họ và tên</p>
+    </div>
+    <div class="input-div">
+      <p class="label">Ngày sinh</p>
+      <input
+        class="input"
+        type="date"
+        formControlName="birthday"
+        [ngModel]="birthday | date: 'yyyy-MM-dd'"
+      />
+      <p class="invalid">Vui lòng điền ngày sinh</p>
+    </div>
+  </div>
+  <div class="input-div" style="padding-right: 10%">
+    <p class="label">Địa chỉ</p>
+    <textarea
+      class="input textarea-deco"
+      type="text"
+      formControlName="address"
+    ></textarea>
+    <p class="invalid">Vui lòng điền địa chỉ</p>
+  </div>
+  <div class="flex">
+    <div class="input-div" style="padding-right: 10%">
+      <p class="label">Số điện thoại</p>
+      <input class="input" type="text" formControlName="phone" />
+      <p class="invalid">Vui lòng điền số điện thoại</p>
+    </div>
+    <div class="input-div">
+      <p class="label">Email</p>
+      <input class="input" type="email" formControlName="email" />
+      <p class="invalid">Vui lòng điền email</p>
+    </div>
+  </div>
+  <div class="flex">
+    <div class="input-div" style="padding-right: 10%">
+      <p class="label">Tên chi nhánh</p>
+      <select
+        id="branchId"
+        name="branchId"
+        class="input"
+        formControlName="branchId"
+      >
+        <option *ngFor="let item of branchList" [value]="item.branchId">
+          {{ item.branchName }}
+        </option>
+      </select>
+      <p class="invalid">Vui lòng điền tên chi nhánh</p>
+    </div>
+    <div class="input-div">
+      <p class="label">Chức vụ</p>
+      <select id="role" name="role" class="input" formControlName="role">
+        <option *ngFor="let item of roleList" [value]="item.value">
+          {{ item.trans }}
+        </option>
+      </select>
+      <p class="invalid">Vui lòng điền chức vụ</p>
+    </div>
+  </div>
+  <div class="flex" *ngIf="isHavingParent">
+    <div class="input-div" style="padding-right: 10%">
+      <p class="label">Tên phụ huynh</p>
+      <input class="input" type="text" formControlName="parentName" />
+      <p class="invalid">aaa</p>
+    </div>
+    <div class="input-div">
+      <p class="label">Số điện thoại phụ huynh</p>
+      <input class="input" type="text" formControlName="parentPhone" />
+      <p class="invalid">aaa</p>
+    </div>
+  </div>
+  <div class="flex" *ngIf="role === 'teacher'">
+    <div class="input-div" style="padding-right: 10%">
+      <p class="label">Kinh nghiệm giảng dạy</p>
+      <input class="input" type="text" formControlName="experience" />
+      <p class="invalid">aaa</p>
+    </div>
+    <div class="input-div">
+      <p class="label">Điểm đánh giá</p>
+      <input class="input" type="text" formControlName="rating" readonly />
+      <p class="invalid">aaa</p>
+    </div>
+  </div>
+  <div mat-dialog-actions class="button-div">
+    <button class="btn-edit" (click)="editInfo()" *ngIf="type == 'edit'">
+      Chỉnh sửa
+    </button>
+    <button class="btn-edit" (click)="createInfo()" *ngIf="type == 'create'">
+      Tạo mới
+    </button>
+    <button class="btn-edit" (click)="undoInfo()" *ngIf="type == 'undo'">
+      Khôi phục
+    </button>
+  </div>
+</form>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="close()">OK</button>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertYN">
+  <div class="alert" *ngIf="haveAlertYN">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doYes()">Yes</button>
+    <button (click)="doNo()">No</button>
+  </div>
+</div>

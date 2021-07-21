@@ -1,0 +1,109 @@
+<div *ngIf="isLoading" class="loading-page" style="padding-left: 39.5%">
+  <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+</div>
+<div class="body-shift">
+  <div class="line-menu">
+    |<a
+      class="left-line"
+      style="cursor: pointer"
+      title="Quay về trang chủ"
+      routerLink="/dashboard"
+      >Trang chủ</a
+    ><span class="left-line">|</span><span class="left-line">Ca học</span>
+  </div>
+  <mat-menu #appMenu="matMenu">
+    <button mat-menu-item (click)="viewCurrentShift()">Hiện có</button>
+    <button mat-menu-item (click)="viewDeletedShift()">Đã xóa</button>
+  </mat-menu>
+  <div class="shift">
+    <form class="search">
+      <img
+        class="img-pheu"
+        src="../../../assets/icon/pheu loc.png"
+        [matMenuTriggerFor]="appMenu"
+      />
+    </form>
+    <div class="title">
+      <p *ngIf="isAvailable">Danh sách các ca học hiện có</p>
+      <p *ngIf="!isAvailable">Danh sách các ca học đã xóa</p>
+      <img
+        class="plus"
+        title="Tạo ca học mới"
+        src="../../../assets/icon/plus.png"
+        (click)="createShift()"
+        alt="plus button"
+      />
+    </div>
+    <table class="table" *ngIf="shiftArray">
+      <tr class="header">
+        <th class="th-1">ID</th>
+        <th class="th-2">Ngày học</th>
+        <th class="th-3">Giờ bắt đầu</th>
+        <th class="th-4">Giờ kết thúc</th>
+        <th class="th-4">Thời gian học</th>
+        <th class="th-5"></th>
+      </tr>
+      <tr class="data" *ngFor="let item of shiftArray">
+        <td class="td-1 color-grey">{{ item.shiftId }}</td>
+        <td class="td-2 color-blue" *ngIf="item.available">
+          {{ item.dayOfWeek }}
+        </td>
+        <td class="td-2 color-red" *ngIf="!item.available">
+          {{ item.dayOfWeek }}
+        </td>
+        <td class="td-3 color-grey">{{ item.timeStart }}</td>
+        <td class="td-4 color-grey">{{ item.timeEnd }}</td>
+        <td class="td-4 color-grey">{{ item.duration }} phút</td>
+        <td>
+          <img
+            *ngIf="isAvailable"
+            class="btn-icon"
+            style="padding-right: 1.5em"
+            title="Xóa ca học"
+            src="../../../assets/icon/delete_icon.png"
+            alt="delete button"
+            (click)="
+              callAlert(
+                'YN',
+                'Bạn có muốn xóa ca học này hay không?',
+                item.shiftId
+              )
+            "
+          />
+          <img
+            *ngIf="!isAvailable"
+            style="cursor: pointer"
+            title="Khôi phục ca học"
+            src="../../../assets/icon/edit_icon.png"
+            alt="edit button"
+            (click)="
+              callAlert(
+                'YN',
+                'Bạn có muốn khôi phục ca học này hay không?',
+                item.shiftId
+              )
+            "
+          />
+        </td>
+      </tr>
+    </table>
+    <div class="paging" *ngIf="totalPage">
+      <div class="item" *ngFor="let i of pageArray" (click)="changePage(i)">
+        <a>{{ i }}</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="haveAlertOk = !haveAlertOk">OK</button>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertYN">
+  <div class="alert" *ngIf="haveAlertYN">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doYes()">Yes</button>
+    <button (click)="doNo()">No</button>
+  </div>
+</div>

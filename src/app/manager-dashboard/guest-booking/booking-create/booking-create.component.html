@@ -1,0 +1,82 @@
+<div
+  *ngIf="isLoading"
+  class="loading-page loading-page-popup"
+  style="padding-left: 11.5em"
+>
+  <img class="loading-popup" src="/assets/image/loading.gif" alt="Logo image" />
+</div>
+<div
+  *ngIf="isLoadingSubject"
+  class="loading-page loading-page-popup"
+  style="padding-left: 0"
+>
+  <img
+    class="loading-popup"
+    style="top: 47%; margin-left: -1.5em"
+    src="/assets/image/loading.gif"
+    alt="Logo image"
+  />
+</div>
+<div class="body-info" *ngIf="!isLoadingSubject">
+  <form class="form" [formGroup]="form">
+    <div class="flex">
+      <p class="label" style="width: 83%">Khách hàng: {{ name }}</p>
+      <button class="suggest-btn" *ngIf="classList" (click)="bookClass()">
+        Đăng ký
+      </button>
+    </div>
+    <p class="label">Tài khoản: {{ username }}</p>
+    <p class="label" *ngIf="price">Học phí: {{ price | currency: "VND" }}</p>
+    <div class="input-div" style="margin-top: 0.5em">
+      <p class="label">Môn học</p>
+      <select
+        id="subjectId"
+        name="subjectId"
+        class="input"
+        #subjectDropdown
+        (change)="onChangeSubject(subjectDropdown.value)"
+        formControlName="subjectId"
+      >
+        <option *ngFor="let subject of subjectList" [value]="subject.subjectId">
+          {{ subject.subjectCode }} - {{ subject.subjectName }}
+        </option>
+      </select>
+      <p class="invalid">Vui lòng điền tên môn học</p>
+    </div>
+    <div class="input-div" *ngIf="classList">
+      <p class="label">Lớp</p>
+      <select
+        id="classId"
+        name="classId"
+        class="input"
+        #classDropdown
+        (change)="changeClass(classDropdown.value)"
+        formControlName="classId"
+      >
+        <option *ngFor="let class of classList" [value]="class.classId">
+          {{ class.className }} : {{ class.shiftDescription }}
+        </option>
+      </select>
+      <p class="invalid">Vui lòng điền lớp</p>
+    </div>
+    <div class="input-div" *ngIf="classList">
+      <p class="label">Ghi chú</p>
+      <textarea class="input" formControlName="description" style="height: 5em">
+      </textarea>
+      <p class="invalid">Vui lòng điền</p>
+    </div>
+  </form>
+</div>
+<div class="alert-div alert-div-popup" *ngIf="haveAlertOk">
+  <div class="alert alert-popup">
+    <p>{{ alertMessage }}</p>
+    <button (click)="close()">OK</button>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertYN">
+  <div class="alert" *ngIf="haveAlertYN">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doYes()">Yes</button>
+    <button (click)="doNo()">No</button>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+.menu {
+  height: fit-content;
+  min-height: 300vh;
+  padding-bottom: 20%;
+  background: linear-gradient(
+    179.98deg,
+    #0c213a 1.24%,
+    rgba(44, 120, 208, 0.75) 98.66%
+  );
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+  .logo {
+    width: 25%;
+    height: 23%;
+    display: block;
+    margin: auto;
+    padding-top: 25%;
+  }
+  .list {
+    padding-top: 44px;
+    padding-bottom: 15px;
+    font-family: Inter;
+    font-style: normal;
+    letter-spacing: 0.01em;
+    color: rgba(255, 255, 255, 0.85);
+    .list-item {
+      padding-left: 1.5vw;
+      display: flex;
+      height: 35px;
+    }
+    .icon {
+      padding-right: 15px;
+      width: 15px;
+      height: 16px;
+    }
+    a {
+      margin: 0;
+      text-decoration: auto;
+      color: rgba(255, 255, 255, 0.85);
+    }
+    a:hover {
+      color: white !important;
+    }
+    .vector {
+      width: 7px;
+      height: 11px;
+      padding-left: 21%;
+      padding-top: 5px;
+    }
+    .small-dot {
+      width: 7px;
+      height: 7px;
+      padding-right: 10px;
+      padding-top: 7px;
+    }
+    .inner-item {
+      padding-left: 1.5vw;
+      padding-left: 40px;
+      display: flex;
+      height: 35px;
+    }
+  }
+}

@@ -1,0 +1,134 @@
+@import "/src/styles.scss";
+
+.nav-wrapper {
+  display: flex;
+}
+.left {
+  width: 55%;
+  float: left;
+  height: inherit;
+  .image {
+    width: 100%;
+    border: 1px solid rgba(24, 42, 136, 0.14);
+    box-sizing: border-box;
+    filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25));
+  }
+}
+
+.right {
+  width: 45%;
+  float: right;
+  background-color: #fafafa;
+  height: inherit;
+}
+
+.logo {
+  width: 19%;
+  height: 17%;
+  display: block;
+  margin: auto;
+  padding-top: 15%;
+}
+
+.slogan {
+  color: #182a88;
+  opacity: 60%;
+  color: #182a88;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-align: center;
+  margin-top: 0;
+  font-family: poppins;
+  margin-bottom: 1.5em;
+}
+
+.input {
+  position: relative;
+  width: 65%;
+  height: 4em;
+  background: #ffffff;
+  border: 1px solid rgba(29, 57, 200, 0.15);
+  box-sizing: border-box;
+  border-radius: 29px;
+  text-align: center;
+  display: block;
+  margin: auto;
+  ::placeholder {
+    letter-spacing: 0.5px;
+    color: #000000;
+    opacity: 0.4;
+    font-family: poppins;
+  }
+}
+
+.input:focus {
+  outline: none;
+  border: 1px solid rgba(0, 133, 247, 0.9);
+  box-sizing: border-box;
+  border-radius: 29px;
+}
+
+.input-invalid {
+  position: relative;
+  width: 65%;
+  height: 4em;
+  text-align: center;
+  display: block;
+  margin: auto;
+  ::placeholder {
+    letter-spacing: 0.5px;
+    color: #000000;
+    opacity: 0.4;
+    font-family: poppins;
+  }
+  background: #ffffff;
+  border: 1px solid rgba(200, 29, 39, 0.72);
+  box-sizing: border-box;
+  border-radius: 29px;
+}
+
+.button {
+  position: relative;
+  width: 40%;
+  height: 3.6em;
+  background: linear-gradient(
+    180deg,
+    rgba(25, 9, 31, 0.608) 0%,
+    rgba(44, 120, 208, 0.68) 100%,
+    rgba(234, 18, 238, 0.232) 100%
+  );
+  border-radius: 30px;
+  box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+  border: none;
+  display: block;
+  align-items: center;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 1.4em;
+  color: #ffffff;
+  text-align: center;
+  justify-content: center;
+}
+
+.button:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(2, 1, 2, 0.608) 0%,
+    rgba(44, 120, 208, 0.68) 100%,
+    rgba(144, 21, 147, 0.64) 100%
+  );
+  border: 1px solid #00bcf7;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 30px;
+}
+
+.link {
+  text-align: center;
+  justify-items: center;
+  justify-content: center;
+  display: block;
+  font-size: 12px;
+  font-family: poppins;
+  color: rgba(0, 133, 247, 0.9);
+}

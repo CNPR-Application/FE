@@ -1,0 +1,6 @@
+{
+    "/api/*": {
+        "target": "https://lcss.herokuapp.com/",
+        "secure": false
+    }
+}

@@ -1,0 +1,208 @@
+<div *ngIf="isLoading" class="loading-page" style="padding-left: 39.5%">
+  <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+</div>
+<div class="body-subject-detail">
+  <div class="line-menu">
+    |<a
+      class="left-line"
+      style="cursor: pointer"
+      title="Quay về trang chủ"
+      routerLink="/dashboard"
+      >Trang chủ</a
+    ><span class="left-line">|</span>
+    <a
+      class="left-line"
+      style="cursor: pointer"
+      title="Quay về trang nội dung học"
+      routerLink="/dashboard/curriculum"
+      >Nội dung học</a
+    ><span class="left-line">|</span>
+    <span class="left-line">Chi tiết môn học</span>
+  </div>
+  <div class="left" *ngIf="!isLoading">
+    <form class="form" [formGroup]="form">
+      <div class="logo-div">
+        <img class="img" src="/assets/image/Logo_big.png" alt="Logo image" />
+      </div>
+      <div class="flex">
+        <div class="input-div" style="padding-right: 10%">
+          <p class="label">Mã môn học</p>
+          <input class="input" type="text" formControlName="code" />
+          <p class="invalid">Vui lòng điền mã môn học</p>
+        </div>
+        <div class="input-div">
+          <p class="label">Tên môn học</p>
+          <input class="input" type="text" formControlName="name" />
+          <p class="invalid">Vui lòng điền tên môn học</p>
+        </div>
+      </div>
+      <div class="flex">
+        <div class="input-div" style="padding-right: 10%; margin: 0">
+          <p class="label">Học phí</p>
+          <input class="input" type="number" formControlName="price" min="0"/>
+          <p class="invalid">Vui lòng điền học phí</p>
+        </div>
+        <div class="input-div flex">
+          <div class="number-div" style="padding-right: 3%">
+            <p class="label">Tổng buổi học</p>
+            <input
+              class="input number-input"
+              type="number"
+              formControlName="slot"
+              min="1"
+            />
+            <p class="invalid">Vui lòng điền tổng buổi học</p>
+          </div>
+          <div class="number-div">
+            <p class="label">Số buổi/ tuần</p>
+            <input
+              class="input number-input"
+              type="number"
+              formControlName="slotPerWeek"
+              min="1"
+            />
+            <p class="invalid">Vui lòng điền tổng buổi học</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex">
+        <div class="input-div" style="padding-right: 10%">
+          <p class="label">Chương trình</p>
+          <select
+            id="curriculumId"
+            name="curriculumId"
+            class="input"
+            formControlName="curriculumId"
+          >
+            <option
+              *ngFor="let item of curriculumList"
+              [value]="item.curriculumId"
+            >
+              {{ item.curriculumName }}
+            </option>
+          </select>
+          <p class="invalid">Vui lòng điền mã chương trình</p>
+        </div>
+        <div class="input-div">
+          <p class="label">Đánh giá</p>
+          <input class="input" type="text" formControlName="rating" readonly />
+          <p class="invalid">Vui lòng điền tên môn học</p>
+        </div>
+      </div>
+
+      <div class="flex">
+        <div class="input-div" style="padding-right: 10%">
+          <p class="label">Miêu tả môn học</p>
+          <textarea
+            class="input textarea-deco"
+            type="text"
+            formControlName="description"
+          ></textarea>
+          <p class="invalid">Vui lòng điền miêu tả môn học</p>
+        </div>
+        <div class="input-div">
+          <p class="label">Hình ảnh</p>
+          <img
+            class="img-insert"
+            src="/assets/image/image-insert.png"
+            alt="Logo image"
+          />
+          <p class="invalid">Vui lòng thêm hình ảnh</p>
+        </div>
+      </div>
+      <div class="input-div" *ngIf="isEdit || isUndo">
+        <div class="title">
+          <p class="label">Nội dung học theo tuần</p>
+          <img
+            class="plus"
+            title="Tạo mới"
+            src="../../../assets/icon/plus.png"
+            (click)="openDialog()"
+            alt="plus button"
+          />
+        </div>
+        <table class="table">
+          <tr class="header">
+            <th class="th-2">Tuần số</th>
+            <th class="th-3">Nội dung học</th>
+            <th class="th-4">Kết quả đạt được</th>
+            <th class="th-5"></th>
+          </tr>
+          <tr class="data" *ngFor="let item of subjectDetailArray">
+            <td class="td-2 color-grey" (click)="openDialog(item)">
+              {{ item.weekNum }}
+            </td>
+            <td class="td-3 color-blue" (click)="openDialog(item)">
+              {{ item.weekDescription }}
+            </td>
+            <td class="td-4 color-grey" (click)="openDialog(item)">
+              {{ item.learningOutcome }}
+            </td>
+            <td class="td-5">
+              <img
+                class="btn-icon"
+                title="Xóa nội dung này"
+                src="../../../assets/icon/delete_icon.png"
+                alt="delete button"
+                (click)="
+                  callAlert(
+                    'YN',
+                    'Bạn có muốn xóa nội dung học tuần này không ?',
+                    item.subjectDetailId
+                  )
+                "
+              />
+              <img
+                style="cursor: pointer"
+                title="Chỉnh sửa nội dung này"
+                src="../../../assets/icon/edit_icon.png"
+                alt="edit button"
+                (click)="openDialog(item)"
+              />
+            </td>
+          </tr>
+        </table>
+        <div class="paging" *ngIf="totalPage">
+          <div class="item" *ngFor="let i of pageArray" (click)="changePage(i)">
+            <a>{{ i }}</a>
+          </div>
+        </div>
+      </div>
+      <div class="button-div">
+        <button class="btn-return" (click)="goBack()">Quay lại</button>
+        <button class="btn-edit" (click)="editSubject()" *ngIf="isEdit">
+          Chỉnh sửa
+        </button>
+        <button
+          class="btn-edit"
+          (click)="createSubject()"
+          *ngIf="!isEdit && !isUndo"
+        >
+          Tạo mới
+        </button>
+        <button
+          class="btn-edit"
+          (click)="
+            callAlert('YN', 'Bạn có muốn khôi phục chương trình này không ?')
+          "
+          *ngIf="isUndo"
+        >
+          Khôi phục
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="haveAlertOk = !haveAlertOk">OK</button>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertYN">
+  <div class="alert" *ngIf="haveAlertYN">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doYes()">Yes</button>
+    <button (click)="doNo()">No</button>
+  </div>
+</div>

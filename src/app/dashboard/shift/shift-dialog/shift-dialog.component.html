@@ -1,0 +1,73 @@
+<div *ngIf="isLoading" class="loading-page loading-page-popup" style="padding-left: 8.5em">
+  <img class="loading-popup" src="/assets/image/loading.gif" alt="Logo image" />
+</div>
+<form class="form" [formGroup]="form">
+  <div class="input-div">
+    <p class="label">Ngày học trong tuần</p>
+    <div class="flex">
+      <div
+        class="item"
+        *ngFor="let i of dayOfWeekArray"
+        [ngStyle]="{ 'background-color': i.trans === 'in' ? 'rgba(24, 42, 136, 0.2)' : 'white' }"
+        (click)="addDay(i)"
+      >
+        <a>{{ i.value }}</a>
+      </div>
+    </div>
+    <p class="invalid">Vui lòng chọn ít nhất hai ngày học</p>
+  </div>
+  <div class="input-div">
+    <p class="label">Thời gian bắt đầu</p>
+    <select
+      id="timeStart"
+      name="timeStart"
+      class="input"
+      formControlName="timeStart"
+    >
+      <option *ngFor="let item of timeStartArray" [value]="item.value">
+        {{ item.value }}
+      </option>
+    </select>
+    <p class="invalid">Vui lòng điền thời gian bắt đầu</p>
+  </div>
+  <div class="input-div">
+    <p class="label">Thời gian học (phút)</p>
+    <input
+      class="input"
+      type="number"
+      formControlName="duration"
+      min="90"
+      max="180"
+      step="90"
+      onKeyDown="return false"
+    />
+    <p class="invalid">Vui lòng điền thời gian kết thúc</p>
+  </div>
+  <div mat-dialog-actions class="button-div">
+    <button
+      class="btn-edit"
+      (click)="
+        callAlert(
+          'YN',
+          'Sau khi tạo mới, bạn không thể thay đổi thông tin ca học.Bạn đã kiểm tra kĩ rồi chứ ?'
+        )
+      "
+    >
+      Tạo mới
+    </button>
+  </div>
+</form>
+
+<div class="alert-div alert-div-popup" *ngIf="haveAlertOk">
+  <div class="alert alert-popup">
+    <p>{{ alertMessage }}</p>
+    <button (click)="close()">OK</button>
+  </div>
+</div>
+<div class="alert-div alert-div-popup" *ngIf="haveAlertYN">
+  <div class="alert alert-popup" *ngIf="haveAlertYN">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doYes()">Yes</button>
+    <button (click)="doNo()">No</button>
+  </div>
+</div>

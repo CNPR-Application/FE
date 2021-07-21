@@ -1,0 +1,133 @@
+<div *ngIf="isLoading" class="loading-page" style="padding-left: 39.5%">
+  <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+</div>
+<div class="body-branch">
+  <div class="line-menu">
+    |<a
+      class="left-line"
+      style="cursor: pointer"
+      title="Quay về trang chủ"
+      routerLink="/dashboard"
+      >Trang chủ</a
+    ><span class="left-line">|</span><span class="left-line">Chi nhánh</span>
+  </div>
+  <mat-menu #appMenu="matMenu">
+    <button mat-menu-item (click)="viewCurrentBranch()">Hiện có</button>
+    <button mat-menu-item (click)="viewDeletedBranch()">Đã xóa</button>
+  </mat-menu>
+  <div class="branch">
+    <form class="search" #heroForm="ngForm">
+      <img
+        class="img-pheu"
+        src="../../../assets/icon/pheu loc.png"
+        [matMenuTriggerFor]="appMenu"
+      />
+      <input
+        class="form-control"
+        name="keyBranch"
+        [(ngModel)]="keyBranch"
+        (change)="searchBranch()"
+        type="text"
+        placeholder="Tìm tên chi nhánh"
+      />
+      <img
+        title="Tìm kiếm"
+        style="cursor: pointer"
+        src="../../../assets/icon/search.png"
+        (click)="searchBranch()"
+        alt="search button"
+      />
+    </form>
+    <div class="title">
+      <p *ngIf="isAvailable">Danh sách chi nhánh hiện có</p>
+      <p *ngIf="!isAvailable">Danh sách chi nhánh đã xóa</p>
+      <img
+        class="plus"
+        title="Tạo chi nhánh mới"
+        src="../../../assets/icon/plus.png"
+        (click)="goToDetail()"
+        alt="plus button"
+      />
+    </div>
+    <table class="table" *ngIf="branchArray">
+      <tr class="header">
+        <th class="th-1">ID</th>
+        <th class="th-2">Tên chi nhánh</th>
+        <th class="th-3">Địa chỉ</th>
+        <th class="th-4">Số điện thoại</th>
+        <th class="th-5">Ngày khai trương</th>
+        <th class="th-6"></th>
+      </tr>
+      <tr class="data" *ngFor="let item of branchArray">
+        <td class="td-1 color-grey" (click)="goToDetail(item)">
+          {{ item.branchId }}
+        </td>
+        <td
+          class="td-2 color-red"
+          (click)="goToDetail(item)"
+          *ngIf="!item.isAvailable"
+        >
+          {{ item.branchName }}
+        </td>
+        <td
+          class="td-2 color-blue"
+          (click)="goToDetail(item)"
+          *ngIf="item.isAvailable"
+        >
+          {{ item.branchName }}
+        </td>
+        <td class="td-3 color-grey" (click)="goToDetail(item)">
+          {{ item.address }}
+        </td>
+        <td class="td-4 color-grey" (click)="goToDetail(item)">
+          {{ item.phone }}
+        </td>
+        <td class="td-5 color-grey" (click)="goToDetail(item)">
+          {{ item.openingDate | date: "dd-MM-yyyy" }}
+        </td>
+        <td>
+          <img
+            *ngIf="isAvailable"
+            class="btn-icon"
+            style="padding-right: 1.5em"
+            title="Xóa chi nhánh"
+            src="../../../assets/icon/delete_icon.png"
+            alt="delete button"
+            (click)="
+              callAlert(
+                'YN',
+                'Bạn có muốn xóa chi nhánh này hay không?',
+                item.branchId
+              )
+            "
+          />
+          <img
+            style="cursor: pointer"
+            title="Chỉnh sửa chi nhánh"
+            src="../../../assets/icon/edit_icon.png"
+            alt="edit button"
+            (click)="goToDetail(item)"
+          />
+        </td>
+      </tr>
+    </table>
+    <div class="paging" *ngIf="totalPage">
+      <div class="item" *ngFor="let i of pageArray" (click)="changePage(i)">
+        <a>{{ i }}</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="haveAlertOk = !haveAlertOk">OK</button>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertYN">
+  <div class="alert" *ngIf="haveAlertYN">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doYes()">Yes</button>
+    <button (click)="doNo()">No</button>
+  </div>
+</div>
