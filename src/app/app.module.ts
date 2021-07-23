@@ -12,7 +12,6 @@ import { StaffComponent } from './dashboard/staff/staff.component';
 import { BranchComponent } from './dashboard/branch/branch.component';
 import { InfoComponent } from './dashboard/info/info.component';
 import { ShiftComponent } from './dashboard/shift/shift.component';
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { DetailCurriculumComponent } from './dashboard/detail-curriculum/detail-curriculum.component';
 import { DatePipe } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -82,7 +81,6 @@ import { ClassSuggestionComponent } from './manager-dashboard/class-suggestion/c
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    MDBBootstrapModule.forRoot(),
     BrowserAnimationsModule,
     MaterialModule,
     AngularFireStorageModule,
