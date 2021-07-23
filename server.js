@@ -6,7 +6,7 @@ const app = express();
 // Serve only the static files form the dist directory
 app.use(express.static("./dist/lcss"));
 
-app.get("/*", (req, res) => res.sendFile("app.component.html", { root: "src/app/" }));
+app.get("/*", (req, res) => res.sendFile("index.html", { root: "src/" }));
 
 // Start the app by listening on the default Heroku port
 app.listen(process.env.PORT || 8080);
