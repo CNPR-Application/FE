@@ -29,7 +29,7 @@
           <th class="th2">Môn học</th>
           <th class="th3">Ca học</th>
           <th class="th4">Ngày khai giảng</th>
-          <th class="th5">Đã đăng ký</th>
+          <th class="th5">Học phí</th>
         </tr>
         <tr class="data" *ngFor="let class of classArray">
           <td class="color-blue">{{ class.className }}</td>
@@ -38,7 +38,7 @@
           <td class="color-grey">
             {{ class.openingDate | date: "dd-MM-yyyy" }}
           </td>
-          <td>{{ class.numberOfStudent }} học viên</td>
+          <td>{{ class.subjectPrice | currency: "VND"}}</td>
         </tr>
       </table>
       <div class="paging" *ngIf="totalPage">

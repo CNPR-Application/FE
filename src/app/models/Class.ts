@@ -13,6 +13,7 @@ export interface ClassResponse {
   status?: string;
   subjectId?: number;
   subjectName?: string;
+  subjectPrice?: number;
   branchId?: number;
   branchName?: string;
   shiftId?: number;

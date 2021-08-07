@@ -29,6 +29,9 @@ export class ClassCreateComponent implements OnInit {
   haveAlertYN: boolean = false;
   alertMessage: string = '';
 
+  //price
+  price?: number;
+
   //form
   form: FormGroup = this.formBuilder.group({
     name: ['', Validators.required],
@@ -65,6 +68,12 @@ export class ClassCreateComponent implements OnInit {
         this.callAlert('Ok', 'Có lỗi xảy ra, vui lòng thử lại', 'close');
       }
     );
+  }
+
+  onChangeSubject(subjectId: string) {
+    let id: number = +subjectId;
+    let subject = this.subjectList?.find((x) => x.subjectId === id);
+    this.price = subject?.price;
   }
 
   create(): void {

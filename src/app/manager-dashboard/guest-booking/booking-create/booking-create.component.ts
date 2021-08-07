@@ -50,7 +50,7 @@ export class BookingCreateComponent implements OnInit {
     this.username = this.data.username;
     this.branchId = this.data.branchId;
     this.isLoadingSubject = true;
-    this.getListSubject();
+    this.getListClass();
   }
 
   getListSubject(): void {
@@ -66,10 +66,25 @@ export class BookingCreateComponent implements OnInit {
     );
   }
 
+  getListClass():void{
+    if(this.branchId)
+    this.api.getClassByBranch(this.branchId, 0, 0, 'waiting', 1, 1000).subscribe(
+      (response: ClassArray) => {
+        this.classList = response.classList;
+        this.isLoadingSubject = false;
+      },
+      (error) => {
+        this.isLoadingSubject = false;
+        this.callAlert('Ok', 'Có lỗi xảy ra khi tải lớp, vui lòng thử lại');
+      }
+    );
+  }
+
   changeClass(classId: string): void {
     this.classId = +classId;
     let classA = this.classList?.find((x) => x.classId === this.classId);
     this.shiftId = classA?.shiftId;
+    this.price = classA?.subjectPrice;
   }
 
   bookClass(): void {
@@ -79,8 +94,6 @@ export class BookingCreateComponent implements OnInit {
       status: 'paid',
       studentUsername: this.username,
       branchId: this.branchId,
-      subjectId: this.subjectId,
-      shiftId: this.shiftId,
       classId: this.classId,
     };
     this.isLoading = true;

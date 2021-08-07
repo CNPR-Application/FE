@@ -27,23 +27,7 @@
     </div>
     <p class="label">Tài khoản: {{ username }}</p>
     <p class="label" *ngIf="price">Học phí: {{ price | currency: "VND" }}</p>
-    <div class="input-div" style="margin-top: 0.5em">
-      <p class="label">Môn học</p>
-      <select
-        id="subjectId"
-        name="subjectId"
-        class="input"
-        #subjectDropdown
-        (change)="onChangeSubject(subjectDropdown.value)"
-        formControlName="subjectId"
-      >
-        <option *ngFor="let subject of subjectList" [value]="subject.subjectId">
-          {{ subject.subjectCode }} - {{ subject.subjectName }}
-        </option>
-      </select>
-      <p class="invalid">Vui lòng điền tên môn học</p>
-    </div>
-    <div class="input-div" *ngIf="classList">
+    <div class="input-div" *ngIf="classList" style="margin-top: 0.5em">
       <p class="label">Lớp</p>
       <select
         id="classId"

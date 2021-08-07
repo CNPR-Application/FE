@@ -39,6 +39,8 @@
       name="subjectId"
       class="input"
       formControlName="subjectId"
+      #subjectDropdown
+      (change)="onChangeSubject(subjectDropdown.value)"
     >
       <option *ngFor="let subject of subjectList" [value]="subject.subjectId">
         {{ subject.subjectCode }} - {{ subject.subjectName }}
@@ -46,7 +48,11 @@
     </select>
     <p class="invalid">Vui lòng điền tên môn học</p>
   </div>
-
+  <div class="input-div" *ngIf="price">
+    <p class="label">Học phí</p>
+    <input class="input" type="text" value="{{ price | currency: 'VND' }}" disabled/>
+    <p class="invalid">Vui lòng điền tên lớp</p>
+  </div>
   <div class="input-div">
     <p class="label">Ngày khai giảng</p>
     <input
