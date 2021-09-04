@@ -20,8 +20,11 @@ export interface ClassResponse {
   shiftDescription?: string;
   teacherId?: string;
   teacherName?: string;
+  roomId?: number;
   roomNo?: number;
   numberOfStudent?: number;
+  managerId?: number;
+  managerUsername?: string;
 }
 
 export interface ClassRequest {
@@ -30,6 +33,9 @@ export interface ClassRequest {
   subjectId?: number;
   branchId?: number;
   shiftId?: number;
+  creator?: string;
+  roomId?: number;
+  roomNo?: number;
 }
 
 export interface ClassStatus {
@@ -40,9 +46,11 @@ export interface ClassStatus {
 }
 
 export interface ClassActivationRequest {
-  roomId?: number;
+  roomNo?: number;
   teacherId?: number;
   classId?: number;
+  creator?: string;
+  bookingIdList?: number[];
 }
 
 export interface StudentInClassArray {

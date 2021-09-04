@@ -61,7 +61,7 @@
     </p>
     <div
       style="
-        width: 45%;
+        width: 48%;
         display: flex;
         justify-content: flex-end;
         align-items: baseline;
@@ -102,7 +102,7 @@
           <th class="th1">Lớp học</th>
           <th class="th2">Môn học</th>
           <th class="th3">Ca học</th>
-          <th class="th4">Ngày khai giảng</th>
+          <th class="th4">Khai giảng</th>
           <th class="th5">Đã đăng ký</th>
           <th class="th6"></th>
         </tr>
@@ -131,7 +131,7 @@
           </td>
           <td>
             <button class="suggest-btn" (click)="goToClassSuggest(class)">
-              Gợi ý mở lớp
+              Gợi ý
             </button>
           </td>
         </tr>
@@ -164,7 +164,7 @@
         <input class="input" type="text" formControlName="teacherName" />
         <p class="invalid">Vui lòng điền tên lớp</p>
       </div>
-      <div class="flex" *ngIf="status != 'waiting'">
+      <div class="flex">
         <div class="input-div" style="padding-right: 5%">
           <p class="label">Tổng buổi học</p>
           <input class="input" type="text" formControlName="slot" />
@@ -192,6 +192,16 @@
           </option>
         </select>
         <p class="invalid">Vui lòng điền tên môn học</p>
+      </div>
+      <div class="input-div">
+        <p class="label">Quản lý tạo lớp</p>
+        <input
+          class="input"
+          type="text"
+          formControlName="managerUsername"
+          readonly
+        />
+        <p></p>
       </div>
       <div class="flex">
         <div class="input-div" style="padding-right: 5%">

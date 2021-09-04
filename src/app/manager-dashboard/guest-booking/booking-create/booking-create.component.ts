@@ -66,18 +66,18 @@ export class BookingCreateComponent implements OnInit {
     );
   }
 
-  getListClass():void{
-    if(this.branchId)
-    this.api.getClassByBranch(this.branchId, 0, 0, 'waiting', 1, 1000).subscribe(
-      (response: ClassArray) => {
-        this.classList = response.classList;
-        this.isLoadingSubject = false;
-      },
-      (error) => {
-        this.isLoadingSubject = false;
-        this.callAlert('Ok', 'Có lỗi xảy ra khi tải lớp, vui lòng thử lại');
-      }
-    );
+  getListClass(): void {
+    if (this.branchId)
+      this.api.getClassByBranch(this.branchId, 'waiting', 1, 1000).subscribe(
+        (response: ClassArray) => {
+          this.classList = response.classList;
+          this.isLoadingSubject = false;
+        },
+        (error) => {
+          this.isLoadingSubject = false;
+          this.callAlert('Ok', 'Có lỗi xảy ra khi tải lớp, vui lòng thử lại');
+        }
+      );
   }
 
   changeClass(classId: string): void {
@@ -125,7 +125,14 @@ export class BookingCreateComponent implements OnInit {
     this.isLoading = true;
     if (this.branchId && subjectId) {
       this.api
-        .getClassByBranch(this.branchId, this.subjectId, 0, 'waiting', 1, 1000)
+        .searchClassBySubjectAndShift(
+          this.branchId,
+          this.subjectId,
+          0,
+          'waiting',
+          1,
+          1000
+        )
         .subscribe(
           (response: ClassArray) => {
             if (response.classList && response.classList.length > 0) {

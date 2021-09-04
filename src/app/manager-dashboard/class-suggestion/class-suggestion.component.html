@@ -36,20 +36,19 @@
         [legendTitle]="'Danh Sách Lớp'"
         [results]="chartArray"
         (select)="onSelect($event)"
-        (activate)="onActivate($event)"
-        (deactivate)="onDeactivate($event)"
       >
       </ngx-charts-bar-horizontal>
     </div>
-    <div style="width: 50%; text-align: center">
+    <div
+      style="width: 50%; text-align: center"
+      *ngIf="activateClassArray.length == 0"
+    >
       <ngx-charts-pie-grid
         [view]="[500, 300]"
         [scheme]="colorScheme"
         [results]="chartArray"
         [animations]="true"
         (select)="onSelect($event)"
-        (activate)="onActivate($event)"
-        (deactivate)="onDeactivate($event)"
       >
       </ngx-charts-pie-grid>
       <button
@@ -71,29 +70,353 @@
         <div class="icon-div" title="Hoàn tất">
           <mat-icon style="height: auto; font-size: 21px">touch_app</mat-icon>
         </div>
+        <mat-icon
+          class="icon-change-student"
+          title="Quay lại trước khi tối ưu"
+          (click)="undoOptimize()"
+          style="font-size: 24px; color: #1761fd; padding-left: 1em"
+          >autorenew</mat-icon
+        >
+      </div>
+    </div>
+    <div class="result-div" *ngIf="activateClassArray.length != 0">
+      <div
+        class="menu-div"
+        style="margin-right: 0"
+        *ngFor="let class of activateClassArray"
+      >
+        <p class="class-name">{{ class.label }}</p>
+        <div
+          class="icon-div"
+          style="width: 40px; height: 40px"
+          title="Điền thông tin lớp"
+          *ngIf="!class.isCreateClass"
+        >
+          <mat-icon style="height: auto; font-size: 21px">vpn_key</mat-icon>
+        </div>
+        <div
+          class="icon-div"
+          style="
+            width: 40px;
+            height: 40px;
+            background-color: #1761fd;
+            color: white;
+            opacity: 0.8;
+          "
+          title="Điền thông tin lớp"
+          *ngIf="class.isCreateClass"
+        >
+          <mat-icon style="height: auto; font-size: 21px"
+            >check_circle</mat-icon
+          >
+        </div>
+
+        <p>------------</p>
+        <div
+          class="icon-div"
+          style="width: 40px; height: 40px"
+          title="Thêm học sinh"
+          *ngIf="!class.isMovedStudent"
+        >
+          <mat-icon style="height: auto; font-size: 21px">how_to_reg</mat-icon>
+        </div>
+        <div
+          class="icon-div"
+          style="
+            width: 40px;
+            height: 40px;
+            background-color: #1761fd;
+            color: white;
+            opacity: 0.8;
+          "
+          title="Thêm học sinh"
+          *ngIf="class.isMovedStudent"
+        >
+          <mat-icon style="height: auto; font-size: 21px"
+            >check_circle</mat-icon
+          >
+        </div>
+        <p>------------</p>
+        <div
+          class="icon-div"
+          style="width: 40px; height: 40px"
+          title="Hoàn tất"
+          *ngIf="!class.isMovedStudent"
+        >
+          <mat-icon style="height: auto; font-size: 21px">touch_app</mat-icon>
+        </div>
+        <div
+          class="icon-div"
+          style="
+            width: 40px;
+            height: 40px;
+            background-color: #1761fd;
+            color: white;
+            opacity: 0.8;
+          "
+          title="Hoàn tất"
+          *ngIf="class.isMovedStudent"
+        >
+          <mat-icon style="height: auto; font-size: 21px"
+            >check_circle</mat-icon
+          >
+        </div>
+        <div style="padding-left: 2em">
+          <img
+            style="width: 25px; height: 25px; margin: auto"
+            src="/assets/image/loading.gif"
+            alt="Logo image"
+            *ngIf="class.isActivated == 0"
+          />
+          <mat-icon
+            style="height: auto; font-size: 21px"
+            *ngIf="class.isActivated == 1"
+            >check_circle</mat-icon
+          >
+          <mat-icon
+            style="height: auto; font-size: 21px"
+            *ngIf="class.isActivated == 2"
+            >mood_bad</mat-icon
+          >
+        </div>
       </div>
     </div>
   </div>
-  <p class="title-small" style="margin-top: 1em; margin-bottom: 1em">
-    Danh sách đăng ký
-  </p>
-  <div>
-    <div>
-      <div class="flex booking-div" *ngFor="let student of studentArray">
-        <div style="width: 20%; margin-right: 5%">
-          <img src="../../../assets/image/class2.gif" class="ava-img" />
+  <div
+    style="width: 100%; display: flex; margin-top: 2em"
+    *ngIf="isDisplayStudent"
+  >
+    <div class="form-detail" [formGroup]="form">
+      <div class="flex" style="margin-top: 1.5em; margin-bottom: 1em">
+        <p class="label" style="font-size: 13px; width: 68%; text-align: left">
+          {{ clickedId }}
+        </p>
+        <button
+          class="suggest-btn"
+          *ngIf="isDisplayActivateButton && !isOpeningChangeStudentFrame"
+          (click)="activateClass()"
+        >
+          Khai giảng
+        </button>
+      </div>
+      <div class="input-div">
+        <p class="label">Tên lớp học</p>
+        <input class="input" type="text" formControlName="name" />
+        <p class="invalid">Vui lòng điền tên lớp</p>
+      </div>
+      <div class="input-div">
+        <p class="label">Giáo viên</p>
+        <select
+          id="teacherName"
+          name="teacherName"
+          class="input"
+          formControlName="teacherName"
+        >
+          <option
+            *ngFor="let teacher of teacherArray"
+            [value]="teacher.teacherId"
+          >
+            {{ teacher.name }} - {{ teacher.username }}
+          </option>
+        </select>
+        <p class="invalid">Vui lòng điền tên giáo viên</p>
+      </div>
+
+      <div class="input-div">
+        <p class="label">Phòng</p>
+        <input class="input" type="text" formControlName="roomNo" />
+        <p class="invalid">Vui lòng điền phòng</p>
+      </div>
+      <div class="input-div">
+        <p class="label">Ngày khai giảng</p>
+        <input
+          class="input"
+          type="date"
+          formControlName="openingDate"
+          [min]="today"
+          [ngModel]="openingDate | date: 'yyyy-MM-dd'"
+        />
+        <p class="invalid">Vui lòng điền ngày khai giảng</p>
+      </div>
+      <div class="input-div">
+        <p class="label">Môn học</p>
+        <input class="input" type="text" formControlName="subjectId" readonly />
+        <p class="invalid">Vui lòng điền tên môn học</p>
+      </div>
+      <div class="input-div" style="padding-right: 5%">
+        <p class="label">Ca học</p>
+        <input class="input" type="text" formControlName="shiftId" readonly />
+        <p class="invalid">Vui lòng điền ca học</p>
+      </div>
+      <div class="flex">
+        <div class="input-div" style="padding-right: 5%">
+          <p class="label">Quản lý tạo lớp</p>
+          <input
+            class="input"
+            type="text"
+            formControlName="managerUsername"
+            readonly
+          />
+          <p></p>
         </div>
-        <div style="width: 72%">
-          <h5>{{ student.studentName }}</h5>
-          <p>Tài khoản: {{ student.studentUserName }}</p>
-          <p>Ngày đăng ký: {{ student.payingDate | date: "dd-MM-yyyy" }}</p>
+        <div class="input-div">
+          <p class="label">Tổng buổi học</p>
+          <input class="input" type="text" formControlName="slot" readonly />
+          <p class="invalid">Vui lòng điền ca học</p>
         </div>
       </div>
     </div>
+    <div style="width: 75%" *ngIf="!isOpeningChangeStudentFrame">
+      <div class="booking-list-header" *ngIf="numberOfStudentPerClass >= 3">
+        <p class="title-small" style="width: 99%; font-size: 12px">
+          Danh sách {{ numberOfStudentPerClass }} học sinh của lớp
+        </p>
+        <mat-icon
+          class="icon-change-student"
+          title="Chỉnh sửa danh sách học sinh"
+          (click)="openChangeStudentFrame()"
+          >view_list</mat-icon
+        >
+      </div>
+      <div class="booking-grid" *ngIf="!isLoadingInner">
+        <div
+          class="flex booking-div"
+          *ngFor="let student of studentPerClassArray"
+        >
+          <div style="width: 20%; margin-right: 5%">
+            <img [src]="student.image" class="ava-img" />
+          </div>
+          <div style="width: 72%">
+            <h5>{{ student.studentName }}</h5>
+            <p>Tài khoản: {{ student.studentUserName }}</p>
+            <p>
+              Ngày đăng ký: {{ student.payingDate | date: "HH:mm dd-MM-yyyy" }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="loading-inner-page" *ngIf="isLoadingInner">
+        <img
+          style="width: 45px; margin: auto"
+          src="/assets/image/loading.gif"
+          alt="Logo image"
+        />
+      </div>
+    </div>
+    <div style="width: 75%" *ngIf="isOpeningChangeStudentFrame">
+      <div
+        class="booking-list-header"
+        style="padding: 15px; padding-right: 25px; justify-content: flex-end"
+      >
+        <mat-icon
+          class="icon-change-student"
+          title="Khôi phục danh sách cũ"
+          style="margin-right: 1em"
+          (click)="openChangeStudentFrame()"
+          >autorenew</mat-icon
+        >
+        <button
+          class="suggest-btn"
+          style="margin-right: 1.5em"
+          (click)="closeChangeStudentFrame()"
+        >
+          Quay lại
+        </button>
+        <button class="suggest-btn">Chỉnh sửa</button>
+      </div>
+      <div
+        style="border: 1px solid #1d39c81a; border-top: none; display: flex"
+        *ngIf="changeClickedArray"
+      >
+        <div style="width: 14%; text-align: center; padding-top: 4.4em">
+          <div
+            class="menu-class"
+            *ngFor="let classObject of allChangeObjectArray"
+            [style.background-color]="classObject.color"
+          >
+            {{ classObject.label }}
+          </div>
+        </div>
+        <div
+          style="width: 32%; height: 42.5em; overflow-y: auto"
+          cdkDropList
+          [cdkDropListData]="changeClickedArray"
+          (cdkDropListDropped)="drop($event)"
+        >
+          <div class="title-change-student-div">
+            <div class="title-class" *ngIf="changeClickedObject">
+              {{ changeClickedObject.label }} :
+              {{ changeClickedObject.numberOfStudent }}
+              học viên
+            </div>
+            <div class="num-div">+1</div>
+          </div>
+          <div
+            cdkDrag
+            class="student-div"
+            *ngFor="let student of changeClickedArray"
+          >
+            <div
+              class="color-div"
+              [style.background-color]="getBackgroundColor()"
+            ></div>
+            <div style="width: 17%; margin-right: 1%">
+              <img [src]="student.image" class="ava-img-student" />
+            </div>
+            <div style="width: 74%">
+              <h5>{{ student.studentName }}</h5>
+              <p>Tài khoản: {{ student.studentUserName }}</p>
+              <p>Lúc {{ student.payingDate | date: "HH:mm dd-MM-yyyy" }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="all-student-grid">
+          <div *ngFor="let classObject of isChosenObjectArray">
+            <div class="title-change-student-div" style="width: 30em">
+              <div class="title-class" *ngIf="classObject" style="width: 93%">
+                {{ classObject.label }} : {{ classObject.numberOfStudent }}
+                học viên
+              </div>
+              <div class="num-div" style="width: 7%">+1</div>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 15em 15em;
+                grid-row-gap: 17px;
+              "
+              [style.grid-template-rows]="classObject.gridRow"
+              cdkDropList
+              [cdkDropListData]="classObject.studentPerClassArray"
+              (cdkDropListDropped)="drop($event)"
+            >
+              <div
+                class="student-div"
+                cdkDrag
+                *ngFor="let student of classObject.studentPerClassArray"
+              >
+                <div
+                  class="color-div"
+                  [style.background-color]="classObject.color"
+                ></div>
+                <div style="width: 17%; margin-right: 1%">
+                  <img [src]="student.image" class="ava-img-student" />
+                </div>
+                <div style="width: 74%">
+                  <h5>{{ student.studentName }}</h5>
+                  <p>Tài khoản: {{ student.studentUserName }}</p>
+                  <p>Lúc {{ student.payingDate | date: "HH:mm dd-MM-yyyy" }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isLoading" class="loading-page" style="padding-left: 39.5%">
+      <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+    </div>
   </div>
-</div>
-<div *ngIf="isLoading" class="loading-page" style="padding-left: 39.5%">
-  <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
 </div>
 <div class="alert-div" *ngIf="haveAlertOk">
   <div class="alert">

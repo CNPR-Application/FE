@@ -117,7 +117,6 @@ export class StaffComponent implements OnInit {
   }
 
   deleteAccount(): void {
-    console.log(this.clickId);
     if (this.clickId?.username !== undefined) {
       this.isLoading = true;
       this.api.deleteAccount(this.clickId.username).subscribe(

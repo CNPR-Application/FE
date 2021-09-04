@@ -11,6 +11,11 @@
     <input class="input" type="text" formControlName="name" />
     <p class="invalid">Vui lòng điền tên lớp</p>
   </div>
+  <div class="input-div">
+    <p class="label">Phòng học</p>
+    <input class="input" type="text" formControlName="roomNo" />
+    <p class="invalid">Vui lòng điền phòng học</p>
+  </div>
   <div class="flex">
     <div class="input-div" style="padding-right: 5%">
       <p class="label">Ca học</p>
@@ -50,7 +55,12 @@
   </div>
   <div class="input-div" *ngIf="price">
     <p class="label">Học phí</p>
-    <input class="input" type="text" value="{{ price | currency: 'VND' }}" disabled/>
+    <input
+      class="input"
+      type="text"
+      value="{{ price | currency: 'VND' }}"
+      disabled
+    />
     <p class="invalid">Vui lòng điền tên lớp</p>
   </div>
   <div class="input-div">

@@ -18,6 +18,7 @@ import {
   ClassActivationRequest,
   ClassArray,
   ClassRequest,
+  ClassResponse,
   ClassStatus,
   StudentInClassArray,
 } from '../models/Class';
@@ -32,18 +33,20 @@ import {
   SubjectDetail,
   SubjectDetailArray,
 } from '../models/Subject';
+import { TeacherArray } from '../models/Teacher';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
   constructor(private http: HttpClient) {}
-  rootUrl: string = 'https://lcssapp.herokuapp.com/';
+  rootUrl: string = 'https://lcss-324917.as.r.appspot.com/';
   headers = new HttpHeaders()
     .set('content-type', 'application/json')
     .set('Access-Control-Allow-Origin', '*')
     .set('Content-Type', 'application/json; charset=utf-8')
     .set('Access-Control-Allow-Methods', 'GET,POST,PATCH,DELETE,PUT,OPTIONS')
+    .set('Access-Control-Allow-Credentials', 'true')
     .set(
       'Access-Control-Allow-Headers',
       'Origin, Content-Type, X-Auth-Token, content-type'
@@ -331,14 +334,26 @@ export class ApiService {
   }
 
   //class
-  createClass(request: ClassRequest): Observable<boolean> {
+  createClass(request: ClassRequest): Observable<ClassResponse> {
     const url = `${this.rootUrl}classes`;
     return this.http
-      .post<boolean>(url, request, { headers: this.headers })
+      .post<ClassResponse>(url, request, { headers: this.headers })
       .pipe(retry(1));
   }
 
   getClassByBranch(
+    branchId: number,
+    status: string,
+    pageNo: number,
+    pageSize: number
+  ): Observable<ClassArray> {
+    const url = `${this.rootUrl}classes?branchId=${branchId}&status=${status}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    return this.http
+      .get<ClassArray>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  searchClassBySubjectAndShift(
     branchId: number,
     subjectId: number,
     shiftId: number,
@@ -354,9 +369,7 @@ export class ApiService {
 
   activateClass(request: ClassActivationRequest): Observable<boolean> {
     const url = `${this.rootUrl}activate-class`;
-    return this.http
-      .post<boolean>(url, request, { headers: this.headers })
-      .pipe(retry(1));
+    return this.http.post<boolean>(url, request, { headers: this.headers });
   }
 
   getClassStatistic(branchId: number): Observable<ClassStatus> {
@@ -375,6 +388,16 @@ export class ApiService {
     const url = `${this.rootUrl}student-in-class?classId=${classId}&pageNo=${pageNo}&pageSize=${pageSize}`;
     return this.http
       .get<StudentInClassArray>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  moveStudentInClass(
+    classId: number,
+    bookingIdArray: Array<number>
+  ): Observable<boolean> {
+    const url = `${this.rootUrl}move-student-in-class?classId=${classId}`;
+    return this.http
+      .put<boolean>(url, bookingIdArray, { headers: this.headers })
       .pipe(retry(1));
   }
 
@@ -435,6 +458,20 @@ export class ApiService {
     const url = `${this.rootUrl}bookings?studentId=${studentId}&pageNo=${pageNo}&pageSize=${pageSize}`;
     return this.http
       .get<BookingArray>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  //teacher
+
+  searchTeacher(
+    branchId: number,
+    subjectId: number,
+    pageNo: number,
+    pageSize: number
+  ): Observable<TeacherArray> {
+    const url = `${this.rootUrl}teachers?branchId=${branchId}&subjectId=${subjectId}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    return this.http
+      .get<TeacherArray>(url, { headers: this.headers })
       .pipe(retry(1));
   }
 }

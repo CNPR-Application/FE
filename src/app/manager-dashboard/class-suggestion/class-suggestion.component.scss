@@ -1,5 +1,6 @@
 .class-suggestion {
   padding: 6vh;
+  padding-bottom: 0;
   .first-line {
     width: 100%;
     display: flex;
@@ -61,7 +62,7 @@
     justify-content: center;
     align-items: baseline;
     color: rgba(42, 118, 244, 0.3);
-    margin-right: 2em;
+    margin-right: 1em;
     .icon-div {
       width: 55px;
       height: 55px;
@@ -85,15 +86,35 @@
     }
   }
 
+  .result-div {
+    width: 50%;
+    text-align: center;
+    margin-top: 2em;
+    height: 18em;
+    overflow-y: auto;
+    overflow-x: hidden;
+    .class-name {
+      color: #7081b9;
+      margin-right: 2em;
+    }
+  }
+
+  .booking-grid {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 8em 8em 8em 8em 8em;
+    grid-column-gap: 9.5px;
+    margin: auto;
+  }
   .booking-div {
-    width: 23%;
-    margin-right: 2%;
-    border: 1px solid rgba(29, 57, 200, 0.3);
-    margin-bottom: 16px;
+    width: 18em;
+    border: 1px solid #1d39c81a;
     justify-content: center;
     align-items: center;
     height: 8em;
-    padding-left: 1%;
+    padding-left: 3%;
+    display: flex;
     .ava-img {
       height: 55px;
       width: 55px;
@@ -101,8 +122,10 @@
     }
     h5 {
       color: #303e67;
-      font-size: 12px;
+      font-size: 13px;
       margin: 0;
+      font-family: "Roboto";
+      font-weight: 500;
     }
     p {
       color: #303e67;
@@ -110,9 +133,9 @@
       margin: 0;
     }
   }
-
   .booking-div:hover {
-    border: 1px solid rgba(29, 57, 200, 0.5);
+    border: 1px solid rgba(29, 57, 200, 0.2);
+    background-color: #ecedf133;
   }
 
   .title-small {
@@ -122,5 +145,281 @@
     font-weight: 500;
     line-height: 18px;
     margin: 0;
+  }
+
+  .form-detail {
+    width: 25%;
+    background: #fff;
+    padding-left: 3vh;
+    padding-right: 3vh;
+    padding-bottom: 3vh;
+    border: 1px solid #1d39c81a;
+    box-sizing: border-box;
+    margin-left: 0;
+    margin-right: 2%;
+    .input-div {
+      width: 100%;
+    }
+    .label {
+      font-family: Inter;
+      font-style: normal;
+      font-weight: normal;
+      letter-spacing: 0.005em;
+      color: #000000;
+      opacity: 0.8;
+      margin: 0;
+      margin-bottom: 0.5em;
+      text-align: center;
+    }
+    .invalid {
+      font-size: 11px;
+      color: rgba(200, 29, 39, 0.85);
+      margin: 0;
+      visibility: hidden;
+    }
+    .title {
+      display: block;
+      width: 50%;
+      p {
+        float: left;
+        margin: 0;
+        letter-spacing: 0.005em;
+        color: rgba(0, 0, 0, 0.8);
+        opacity: 0.9;
+        font-family: Inter;
+        font-style: normal;
+        font-weight: normal;
+      }
+      .plus {
+        margin-left: 13px;
+        width: 20px;
+        height: 18px;
+        cursor: pointer;
+      }
+    }
+
+    .input {
+      background: rgba(236, 237, 241, 0.2);
+      border: 1px solid rgba(29, 57, 200, 0.1);
+      box-sizing: border-box;
+      width: 100%;
+      height: 2.5em;
+      border-radius: 10px;
+      padding-left: 1em;
+      color: rgba(0, 0, 0, 0.6);
+      padding-right: 2em;
+      font-family: Inter;
+      font-size: 13px;
+      background: #ffffff;
+      border: 1px solid rgba(29, 57, 200, 0.25);
+      text-align: center;
+    }
+    .number-input {
+      width: 100%;
+    }
+    .input:focus {
+      border-radius: 10px;
+      outline: none;
+      border: 1px solid rgba(0, 133, 247, 0.7);
+      background-color: rgba(236, 237, 241, 0.2);
+    }
+    .input:invalid {
+      border: 1px solid rgba(200, 29, 39, 0.72);
+    }
+    .textarea-deco {
+      width: 100%;
+      margin: auto;
+      height: 8em;
+      scroll-behavior: auto;
+      padding-top: 1em;
+      padding-bottom: 1em;
+      border-radius: 10px;
+      color: rgba(0, 0, 0, 0.7);
+      padding-right: 2em;
+      font-family: "roboto";
+      font-size: 14px;
+    }
+    .button-div {
+      text-align: center;
+      .btn-edit {
+        margin-top: 0.5em;
+        border: 1px solid #e5e5e5;
+        box-sizing: border-box;
+        border-radius: 30px;
+        width: 11em;
+        height: 2.6em;
+        color: white;
+        background: linear-gradient(
+          180deg,
+          rgba(24, 42, 136, 0.752) 0%,
+          rgba(44, 120, 208, 0.68) 100%,
+          rgba(205, 44, 208, 0.232) 100%
+        );
+        filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+      }
+      .btn-edit:hover {
+        background: linear-gradient(
+          180deg,
+          rgba(24, 42, 136, 0.94) 0%,
+          rgba(44, 120, 208, 0.85) 100%,
+          rgba(205, 44, 208, 0.29) 100%
+        );
+      }
+    }
+  }
+
+  .suggest-btn {
+    background: rgba(255, 255, 255, 0.19);
+    border: 1px solid #00bcf7;
+    box-sizing: border-box;
+    font-size: 11px;
+    height: 20px;
+    color: #182a88;
+  }
+  .suggest-btn:hover {
+    color: #fff;
+    background-color: #00bcf7;
+    border-color: #00bcf7;
+  }
+
+  .loading-inner-page {
+    text-align: center;
+    padding-top: 30%;
+  }
+
+  .booking-list-header {
+    width: -webkit-fill-available;
+    border: 1px solid rgba(29, 57, 200, 0.1);
+    padding: 20px;
+    margin: auto;
+    margin-bottom: 1px;
+    display: inline-flex;
+  }
+
+  .icon-change-student {
+    height: 15px;
+    width: 15px;
+    display: flex;
+    font-size: 20px;
+    color: #2c3652;
+  }
+
+  .icon-change-student:hover {
+    color: #00bcf7;
+    cursor: pointer;
+  }
+
+  // change student list
+  .menu-class {
+    width: 50px;
+    background: rgba(183, 215, 239, 0.1);
+    margin: auto;
+    height: 35px;
+    line-height: 35px;
+    margin-bottom: 1em;
+    color: black;
+    font-size: 12px;
+    font-family: "Roboto";
+    cursor: pointer;
+  }
+
+  .student-div {
+    width: 15em;
+    border: 1px solid #1d39c81a;
+    justify-content: center;
+    align-items: center;
+    height: 7em;
+    display: flex;
+    margin-bottom: 1em;
+    cursor: grab;
+    .color-div {
+      width: 5%;
+      background: #f1d4f14a;
+      height: inherit;
+      margin-right: 3%;
+    }
+    .ava-img-student {
+      height: 30px;
+      width: 30px;
+      border-radius: 50%;
+    }
+    h5 {
+      color: #303e67;
+      font-size: 13px;
+      margin: 0;
+      font-family: "Roboto";
+      font-weight: 500;
+    }
+    p {
+      color: #303e67;
+      font-size: 11px;
+      margin: 0;
+    }
+    .mat-alarm {
+      height: 12px;
+      width: 12px;
+      font-size: 15px;
+      padding-top: 1px;
+      margin-right: 7px;
+      opacity: 0.5;
+    }
+  }
+
+  .all-student-grid {
+    width: 60%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    justify-content: flex-end;
+    height: 42.5em;
+    ::-webkit-scrollbar {
+      width: 5px;
+      border-radius: 20%;
+      background-color: white;
+    }
+  }
+
+  .title-change-student-div {
+    display: flex;
+    margin-top: 2em;
+    margin-bottom: 1em;
+    width: 15em;
+    .title-class {
+      float: left;
+      color: rgba(24, 42, 136);
+      font-size: 12px;
+      width: 87%;
+    }
+    .num-div {
+      text-align: center;
+      background: rgba(200, 29, 39, 0.22);
+      border-radius: 10px;
+      width: 13%;
+      font-size: 10px;
+    }
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    border-radius: 20%;
+  }
+
+  //drag and drop
+  .cdk-drag-preview {
+  }
+
+  .cdk-drag-placeholder {
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  .cdk-drag {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  }
+
+  .cdk-drag-animating {
+    transition: transform 300ms cubic-bezier(0, 0, 0.2, 1);
+  }
+
+  .cdk-drop-list-dragging .student-div:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
   }
 }

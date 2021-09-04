@@ -32,8 +32,9 @@ import { GuestMainComponent } from './guest-main/guest-main.component';
 import { GuestBookingComponent } from './manager-dashboard/guest-booking/guest-booking.component';
 import { BookingCreateComponent } from './manager-dashboard/guest-booking/booking-create/booking-create.component';
 import { StatusDialogComponent } from './manager-dashboard/guest-booking/status-dialog/status-dialog.component';
-import { NgxChartsModule }from '@swimlane/ngx-charts';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ClassSuggestionComponent } from './manager-dashboard/class-suggestion/class-suggestion.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -93,6 +94,7 @@ import { ClassSuggestionComponent } from './manager-dashboard/class-suggestion/c
       appId: '1:525406720486:web:22964928381817a89b0627',
       measurementId: 'G-CVF3V0SBWN',
     }),
+    DragDropModule,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],

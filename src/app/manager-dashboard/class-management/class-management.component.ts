@@ -55,6 +55,7 @@ export class ClassManagementComponent implements OnInit {
     teacherName: [''],
     roomNo: [''],
     slot: [''],
+    managerUsername: [''],
   });
   openingDate?: string;
   //for status
@@ -69,17 +70,10 @@ export class ClassManagementComponent implements OnInit {
       this.branchId = user.branchId;
     }
     this.isLoading = true;
-    this.searchClass(
-      this.subjectId,
-      this.branchId,
-      this.shiftId,
-      this.status,
-      1
-    );
+    this.getClassAll(this.branchId, this.status, 1);
     this.api.getSubjectByName('', true, 1, 1000).subscribe(
       (response: SubjectArray) => {
         this.subjectList = response.subjectsResponseDtos;
-        console.log(this.subjectList);
         this.api.getAllShift(1, 100, true).subscribe(
           (response: ShiftArray) => {
             this.shiftList = response.shiftDtos;
@@ -135,13 +129,7 @@ export class ClassManagementComponent implements OnInit {
       this.form.disable();
     }
     this.form.reset();
-    this.searchClass(
-      this.subjectId,
-      this.branchId,
-      this.shiftId,
-      this.status,
-      1
-    );
+    this.getClassAll(this.branchId, this.status, 1);
   }
 
   onChangeSubject(subjectId: string) {
@@ -173,13 +161,7 @@ export class ClassManagementComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
-        this.searchClass(
-          this.subjectId,
-          this.branchId,
-          this.shiftId,
-          this.status,
-          1
-        );
+        this.getClassAll(this.branchId, this.status, 1);
       }
     });
   }
@@ -193,7 +175,14 @@ export class ClassManagementComponent implements OnInit {
   ): void {
     this.isLoading = true;
     this.api
-      .getClassByBranch(branchId, subjectId, shiftId, status, pageNo, 10)
+      .searchClassBySubjectAndShift(
+        branchId,
+        subjectId,
+        shiftId,
+        status,
+        pageNo,
+        10
+      )
       .subscribe(
         (response: ClassArray) => {
           this.classArray = response.classList;
@@ -211,6 +200,27 @@ export class ClassManagementComponent implements OnInit {
           this.callAlert('Ok', 'Có lỗi xảy ra khi tải, vui lòng thử lại');
         }
       );
+  }
+
+  getClassAll(branchId: number, status: string, pageNo: number): void {
+    this.isLoading = true;
+    this.api.getClassByBranch(branchId, status, pageNo, 10).subscribe(
+      (response: ClassArray) => {
+        this.classArray = response.classList;
+        this.totalPage = response.pageTotal;
+        this.pageArray = Array(this.totalPage)
+          .fill(1)
+          .map((x, i) => i + 1)
+          .reverse();
+        this.currentPage = response.pageNo;
+        this.isLoading = false;
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+        this.isLoading = false;
+        this.callAlert('Ok', 'Có lỗi xảy ra khi tải, vui lòng thử lại');
+      }
+    );
   }
 
   changePage(pageNo: number) {
@@ -235,6 +245,7 @@ export class ClassManagementComponent implements OnInit {
     this.form.controls.teacherName.setValue(c.teacherName);
     this.form.controls.roomNo.setValue(c.roomNo);
     this.form.controls.slot.setValue(c.slot);
+    this.form.controls.managerUsername.setValue(c.managerUsername);
   }
 
   haveAlertOk: boolean = false;

@@ -70,9 +70,7 @@ export class GuestBookingComponent implements OnInit {
     creatingDate: [],
     parentPhone: [],
     parentName: [],
-    image: [
-      'https://firebasestorage.googleapis.com/v0/b/app-test-c1bfb.appspot.com/o/ea35e7fa-19ab-4ea0-9890-5a310173d4a6.jpg?alt=media',
-    ],
+    image: [''],
   });
 
   ngOnInit(): void {
@@ -251,7 +249,8 @@ export class GuestBookingComponent implements OnInit {
       phone: this.form.controls.phone.value,
       address: this.form.controls.address.value,
       birthday: this.form.controls.birthday.value,
-      image: this.form.controls.image.value,
+      image:
+        'https://firebasestorage.googleapis.com/v0/b/app-test-c1bfb.appspot.com/o/ea35e7fa-19ab-4ea0-9890-5a310173d4a6.jpg?alt=media',
       branchId: this.branchId,
       parentPhone: this.form.controls.parentPhone.value,
       parentName: this.form.controls.parentName.value,
@@ -308,7 +307,6 @@ export class GuestBookingComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((data) => {
       let guestChanged: Guest = data;
-      console.log(guestChanged);
       if (guestChanged.id && guestChanged.status) {
         this.changeStatusGuest(
           guestChanged.id,
@@ -413,7 +411,14 @@ export class GuestBookingComponent implements OnInit {
   ): void {
     this.isLoadingStart = true;
     this.api
-      .getClassByBranch(branchId, subjectId, shiftId, status, pageNo, 5)
+      .searchClassBySubjectAndShift(
+        branchId,
+        subjectId,
+        shiftId,
+        status,
+        pageNo,
+        5
+      )
       .subscribe(
         (response: ClassArray) => {
           this.classArray = response.classList;
