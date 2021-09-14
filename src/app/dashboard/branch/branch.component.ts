@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Branch, BranchArray } from 'src/app/models/Branch';
+import { Branch, BranchArray } from 'src/app/interfaces/Branch';
 import { ApiService } from 'src/app/services/api.service';
 import { MatDialog } from '@angular/material/dialog';
 import { BranchDialogComponent } from './branch-dialog/branch-dialog.component';

@@ -8,15 +8,15 @@ import {
   Guest,
   GuestArray,
   LoginResponse,
-} from 'src/app/models/Account';
-import { ClassResponse, ClassArray } from 'src/app/models/Class';
+} from 'src/app/interfaces/Account';
+import { ClassResponse, ClassArray } from 'src/app/interfaces/Class';
 import {
   CurriculumResponse,
   CurriculumResponseArray,
-} from 'src/app/models/Curriculum';
-import { ShiftArray, Shift } from 'src/app/models/Shift';
-import { SubjectArray, Subject } from 'src/app/models/Subject';
-import { Single_Chart } from 'src/app/models/Utils';
+} from 'src/app/interfaces/Curriculum';
+import { ShiftArray, Shift } from 'src/app/interfaces/Shift';
+import { SubjectArray, Subject } from 'src/app/interfaces/Subject';
+import { Single_Chart } from 'src/app/interfaces/Utils';
 import { ApiService } from 'src/app/services/api.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { BookingCreateComponent } from './booking-create/booking-create.component';

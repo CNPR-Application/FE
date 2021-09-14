@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Shift, ShiftArray } from 'src/app/models/Shift';
+import { Shift, ShiftArray } from 'src/app/interfaces/Shift';
 import { ApiService } from 'src/app/services/api.service';
 import { ShiftDialogComponent } from './shift-dialog/shift-dialog.component';
-import { DAY_OF_WEEKS } from 'src/app/models/Shift';
+import { DAY_OF_WEEKS } from 'src/app/interfaces/Shift';
 
 @Component({
   selector: 'app-shift',

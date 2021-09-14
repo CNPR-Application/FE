@@ -2,9 +2,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Booking } from 'src/app/models/Booking';
-import { ClassArray, ClassResponse } from 'src/app/models/Class';
-import { Subject, SubjectArray } from 'src/app/models/Subject';
+import { Booking } from 'src/app/interfaces/Booking';
+import { ClassArray, ClassResponse } from 'src/app/interfaces/Class';
+import { Subject, SubjectArray } from 'src/app/interfaces/Subject';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({

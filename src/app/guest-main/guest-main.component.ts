@@ -2,13 +2,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Guest } from '../models/Account';
-import { Branch, BranchArray } from '../models/Branch';
+import { Guest } from '../interfaces/Account';
+import { Branch, BranchArray } from '../interfaces/Branch';
 import {
   CurriculumResponse,
   CurriculumResponseArray,
-} from '../models/Curriculum';
-import { CITY } from '../models/Shift';
+} from '../interfaces/Curriculum';
+import { CITY } from '../interfaces/Shift';
 import { ApiService } from '../services/api.service';
 
 @Component({

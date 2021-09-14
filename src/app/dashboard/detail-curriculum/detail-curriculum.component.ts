@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CurriculumResponseArray } from 'src/app/models/Curriculum';
-import { Sharing } from 'src/app/models/Sharing';
-import { Subject, SubjectArray } from 'src/app/models/Subject';
+import { CurriculumResponseArray } from 'src/app/interfaces/Curriculum';
+import { Sharing } from 'src/app/interfaces/Sharing';
+import { Subject, SubjectArray } from 'src/app/interfaces/Subject';
 import { ApiService } from 'src/app/services/api.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 

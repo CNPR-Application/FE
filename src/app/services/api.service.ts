@@ -11,9 +11,9 @@ import {
   InfoArray,
   LoginRequest,
   LoginResponse,
-} from '../models/Account';
-import { Booking, BookingArray } from '../models/Booking';
-import { Branch, BranchArray } from '../models/Branch';
+} from '../interfaces/Account';
+import { Booking, BookingArray } from '../interfaces/Booking';
+import { Branch, BranchArray } from '../interfaces/Branch';
 import {
   ClassActivationRequest,
   ClassArray,
@@ -21,19 +21,19 @@ import {
   ClassResponse,
   ClassStatus,
   StudentInClassArray,
-} from '../models/Class';
+} from '../interfaces/Class';
 import {
   CurriculumResponse,
   CurriculumResponseArray,
-} from '../models/Curriculum';
-import { Shift, ShiftArray } from '../models/Shift';
+} from '../interfaces/Curriculum';
+import { Shift, ShiftArray } from '../interfaces/Shift';
 import {
   Subject,
   SubjectArray,
   SubjectDetail,
   SubjectDetailArray,
-} from '../models/Subject';
-import { TeacherArray } from '../models/Teacher';
+} from '../interfaces/Subject';
+import { TeacherArray } from '../interfaces/Teacher';
 
 @Injectable({
   providedIn: 'root',

@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CreateInFoResponse, LoginResponse } from 'src/app/models/Account';
-import { Branch, BranchArray } from 'src/app/models/Branch';
-import { shiftModel } from 'src/app/models/Shift';
+import { CreateInFoResponse, LoginResponse } from 'src/app/interfaces/Account';
+import { Branch, BranchArray } from 'src/app/interfaces/Branch';
+import { shiftModel } from 'src/app/interfaces/Shift';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({

@@ -2,10 +2,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { LoginResponse } from 'src/app/models/Account';
-import { ClassRequest, ClassResponse } from 'src/app/models/Class';
-import { Shift, ShiftArray } from 'src/app/models/Shift';
-import { Subject, SubjectArray } from 'src/app/models/Subject';
+import { LoginResponse } from 'src/app/interfaces/Account';
+import { ClassRequest, ClassResponse } from 'src/app/interfaces/Class';
+import { Shift, ShiftArray } from 'src/app/interfaces/Shift';
+import { Subject, SubjectArray } from 'src/app/interfaces/Subject';
 import { ApiService } from 'src/app/services/api.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 

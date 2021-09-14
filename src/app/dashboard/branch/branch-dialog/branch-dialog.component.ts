@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Branch } from 'src/app/models/Branch';
+import { Branch } from 'src/app/interfaces/Branch';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({

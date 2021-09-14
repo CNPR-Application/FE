@@ -8,7 +8,7 @@ import {
   DAY_OF_WEEKS,
   Shift,
   shiftModel,
-} from 'src/app/models/Shift';
+} from 'src/app/interfaces/Shift';
 
 @Component({
   selector: 'app-shift-dialog',

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginResponse } from '../models/Account';
+import { LoginResponse } from '../interfaces/Account';
 import { LocalStorageService } from '../services/local-storage.service';
 
 @Component({

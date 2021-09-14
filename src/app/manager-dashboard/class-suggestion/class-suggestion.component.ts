@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LoginResponse } from 'src/app/models/Account';
+import { LoginResponse } from 'src/app/interfaces/Account';
 import {
   ClassActivationRequest,
   ClassRequest,
   ClassResponse,
   StudentInClass,
   StudentInClassArray,
-} from 'src/app/models/Class';
-import { TeacherArray, TeacherInfo } from 'src/app/models/Teacher';
-import { BookingPerClass, Single_Chart } from 'src/app/models/Utils';
+} from 'src/app/interfaces/Class';
+import { TeacherArray, TeacherInfo } from 'src/app/interfaces/Teacher';
+import { BookingPerClass, Single_Chart } from 'src/app/interfaces/Utils';
 import { ApiService } from 'src/app/services/api.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { DatePipe } from '@angular/common';
