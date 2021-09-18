@@ -15,6 +15,7 @@ import { ShiftComponent } from './dashboard/shift/shift.component';
 import { DetailCurriculumComponent } from './dashboard/detail-curriculum/detail-curriculum.component';
 import { DatePipe } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { SubjectDetailComponent } from './dashboard/subject-detail/subject-detail.component';
 import { SubjectDialogComponent } from './dashboard/subject-detail/subject-dialog/subject-dialog.component';
@@ -35,6 +36,8 @@ import { StatusDialogComponent } from './manager-dashboard/guest-booking/status-
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ClassSuggestionComponent } from './manager-dashboard/class-suggestion/class-suggestion.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ScheduleComponent } from './manager-dashboard/schedule/schedule.component';
+import { StudentInClassComponent } from './manager-dashboard/schedule/student-in-class/student-in-class.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +66,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     BookingCreateComponent,
     StatusDialogComponent,
     ClassSuggestionComponent,
+    ScheduleComponent,
+    StudentInClassComponent,
   ],
   entryComponents: [
     SubjectDialogComponent,
@@ -77,6 +82,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    NoopAnimationsModule,
     NgxChartsModule,
     AppRoutingModule,
     ReactiveFormsModule,

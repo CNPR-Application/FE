@@ -1,0 +1,217 @@
+.schedule {
+  padding: 6vh;
+  padding-bottom: 0;
+  .first-line {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    .div-title {
+      width: 87%;
+      float: left;
+      display: block;
+      .title {
+        font-family: Roboto;
+        font-size: 17px;
+        color: #2c3652;
+        font-weight: 500;
+        line-height: 18px;
+        margin: 0;
+      }
+      .line-title {
+        margin-top: 6px;
+        font-family: "Roboto", sans-serif;
+        font-size: 13px;
+        font-weight: 500;
+        .back-title {
+          color: #303e67;
+          text-decoration: none;
+          cursor: pointer;
+        }
+        .back-title:hover {
+          color: #124eca;
+        }
+        .else-title {
+          padding-left: 10px;
+          color: #7081b9;
+        }
+      }
+    }
+    .div-today {
+      width: 13%;
+      border: 1px solid #7081b9;
+      box-sizing: border-box;
+      text-align: center;
+      display: flex;
+      height: 1.6em;
+      align-items: center;
+      justify-content: center;
+      color: #7081b9;
+      .today {
+        margin: 0;
+        padding-left: 1em;
+        font-size: 12px;
+        font-family: "Roboto";
+      }
+      .icon-today {
+        font-size: 15px;
+        height: auto;
+        margin-left: 0.5em;
+        opacity: 0.5;
+      }
+    }
+    .div-today:hover {
+      color: #fff;
+      background-color: #673ab7;
+      border-color: #673ab7;
+    }
+  }
+  .body {
+    display: flex;
+    width: 100%;
+    margin-top: 2em;
+    .left {
+      width: 25%;
+      margin-right: 3%;
+    }
+    .right {
+      width: 72%;
+      .title-schedule-div {
+        border: 1px solid #e3ebf6;
+        height: 3.5em;
+        background: #b7d7ef26;
+        width: 54.8em;
+        max-width: 54.8em;
+        .title-schedule {
+          font-size: 14px;
+          color: #303e67;
+          text-align: center;
+          font-weight: 500;
+          line-height: 3.5em;
+        }
+      }
+    }
+    .high-light-class-div {
+      border: 1px solid #e3ebf6;
+      display: flex;
+      align-items: center;
+      padding-left: 1em;
+      .inner-div {
+        width: 90%;
+        padding-left: 2em;
+        .class-name {
+          font-size: 14px;
+          font-weight: 500;
+          margin-bottom: 0.2em;
+          margin-top: 1em;
+        }
+        .class-time {
+          font-size: 13px;
+          font-weight: 400;
+          color: #a4abc5;
+        }
+      }
+    }
+    .img-teacher {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+    .loading-inner-div {
+      height: 28em;
+      display: flex;
+      .img-loading {
+        margin: auto;
+        width: 50px;
+        height: 50px;
+      }
+    }
+    .left-session-div {
+      width: 4em;
+      padding-top: 3.5em;
+      text-align: center;
+      border: 1px solid #b7d7ef59;
+      max-height: 6.2em;
+      height: 6.2em;
+    }
+    .right-session-div {
+      width: 50.8em;
+      display: grid;
+      grid-template-columns: 12.7em 12.7em 12.7em 12.7em;
+      overflow-y: auto;
+      height: 9.9em;
+      overflow-x: clip;
+    }
+    .session-div {
+      height: 9.8em;
+      width: 12.7em;
+      border: 1px solid #b7d7ef59;
+      box-sizing: border-box;
+      padding-top: 2em;
+      min-width: 12.7em;
+      min-height: 9.8em;
+      .class-name {
+        text-align: center;
+        font-size: 12px;
+        font-weight: 500;
+        margin-bottom: 3px;
+      }
+      .div-img-session {
+        width: 25%;
+        display: flex;
+        align-items: center;
+        .img-teacher-session {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+        }
+      }
+      .div-info-session {
+        width: 75%;
+        padding-left: 0.5em;
+        .info-text {
+          margin: 0;
+          font-size: 12px;
+        }
+      }
+    }
+    .session-div:hover {
+      border: 2px solid rgba(0, 133, 247, 0.35);
+    }
+    .blue-border {
+      border: 1px solid #b7d7ef59;
+    }
+    .no-class {
+      background-image: linear-gradient(
+        -45deg,
+        #f1f5fa 25%,
+        transparent 25%,
+        transparent 50%,
+        #fff 50%,
+        #eaf0f9 75%,
+        transparent 75%,
+        transparent
+      );
+      background-size: 10px 10px;
+    }
+    /* width */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 2px #e3ebf6;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: rgb(179, 215, 243);
+      border-radius: 10px;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: #7081b9;
+    }
+  }
+}

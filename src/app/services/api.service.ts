@@ -26,7 +26,9 @@ import {
   CurriculumResponse,
   CurriculumResponseArray,
 } from '../interfaces/Curriculum';
+import { ScheduleListResponse } from '../interfaces/Schedule';
 import { Shift, ShiftArray } from '../interfaces/Shift';
+import { StudentInClassListResponse } from '../interfaces/StudentInClass';
 import {
   Subject,
   SubjectArray,
@@ -472,6 +474,22 @@ export class ApiService {
     const url = `${this.rootUrl}teachers?branchId=${branchId}&subjectId=${subjectId}&pageNo=${pageNo}&pageSize=${pageSize}`;
     return this.http
       .get<TeacherArray>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  //schedule
+  getSchedule(date: string) {
+    const url = `${this.rootUrl}schedules?date=${date}`;
+    return this.http
+      .get<ScheduleListResponse>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  //student in class
+  getAllStudentInClass(classId: number, pageNo: number, pageSize: number) {
+    const url = `${this.rootUrl}student-in-class?classId=${classId}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    return this.http
+      .get<StudentInClassListResponse>(url, { headers: this.headers })
       .pipe(retry(1));
   }
 }

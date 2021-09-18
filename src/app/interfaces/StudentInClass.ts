@@ -1,0 +1,16 @@
+export interface StudentInClassListResponse {
+  pageNo: number;
+  pageSize: number;
+  pageTotal: number;
+  studentInClassSearchResponseDtos?: StudentInClassResponse[];
+}
+
+export interface StudentInClassResponse {
+  classId: number;
+  studentId: number;
+  studentUserName: string;
+  studentName: string;
+  image?: string;
+  bookingId?: number;
+  payingDate?: string;
+}

@@ -14,6 +14,7 @@ import { ClassManagementComponent } from './manager-dashboard/class-management/c
 import { GuestMainComponent } from './guest-main/guest-main.component';
 import { GuestBookingComponent } from './manager-dashboard/guest-booking/guest-booking.component';
 import { ClassSuggestionComponent } from './manager-dashboard/class-suggestion/class-suggestion.component';
+import { ScheduleComponent } from './manager-dashboard/schedule/schedule.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/main', pathMatch: 'full' },
@@ -39,6 +40,7 @@ const routes: Routes = [
       { path: 'class-management', component: ClassManagementComponent },
       { path: 'guest-booking', component: GuestBookingComponent },
       { path: 'class-suggestion', component: ClassSuggestionComponent },
+      { path: 'schedule', component: ScheduleComponent}
     ],
   },
 ];
