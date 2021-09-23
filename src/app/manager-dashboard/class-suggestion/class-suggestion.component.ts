@@ -5,8 +5,6 @@ import {
   ClassActivationRequest,
   ClassRequest,
   ClassResponse,
-  StudentInClass,
-  StudentInClassArray,
 } from 'src/app/interfaces/Class';
 import { TeacherArray, TeacherInfo } from 'src/app/interfaces/Teacher';
 import { BookingPerClass, Single_Chart } from 'src/app/interfaces/Utils';
@@ -19,6 +17,10 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import {
+  StudentInClass,
+  StudentInClassArray,
+} from 'src/app/interfaces/StudentInClass';
 
 @Component({
   selector: 'app-class-suggestion',

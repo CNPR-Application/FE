@@ -52,19 +52,3 @@ export interface ClassActivationRequest {
   creator?: string;
   bookingIdList?: number[];
 }
-
-export interface StudentInClassArray {
-  pageNo: number;
-  pageSize: number;
-  studentInClassSearchResponseDtos: StudentInClass[];
-}
-
-export interface StudentInClass {
-  classId: number;
-  studentId: number;
-  studentUserName: string;
-  studentName: string;
-  image: string;
-  bookingId: number;
-  payingDate: string;
-}

@@ -12,6 +12,10 @@ import {
   LoginRequest,
   LoginResponse,
 } from '../interfaces/Account';
+import {
+  AttendanceEditRequest,
+  AttendanceList,
+} from '../interfaces/Attendance';
 import { Booking, BookingArray } from '../interfaces/Booking';
 import { Branch, BranchArray } from '../interfaces/Branch';
 import {
@@ -20,15 +24,18 @@ import {
   ClassRequest,
   ClassResponse,
   ClassStatus,
-  StudentInClassArray,
 } from '../interfaces/Class';
 import {
   CurriculumResponse,
   CurriculumResponseArray,
 } from '../interfaces/Curriculum';
 import { ScheduleListResponse } from '../interfaces/Schedule';
+import { SessionList } from '../interfaces/Session';
 import { Shift, ShiftArray } from '../interfaces/Shift';
-import { StudentInClassListResponse } from '../interfaces/StudentInClass';
+import {
+  StudentInClassListResponse,
+  StudentInClassArray,
+} from '../interfaces/StudentInClass';
 import {
   Subject,
   SubjectArray,
@@ -369,6 +376,18 @@ export class ApiService {
       .pipe(retry(1));
   }
 
+  searchClassByTeacherUsernameAndStatus(
+    teacherUsername: string,
+    status: string,
+    pageNo: number,
+    pageSize: number
+  ): Observable<ClassArray> {
+    const url = `${this.rootUrl}teacher-class/${teacherUsername}?status=${status}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    return this.http
+      .get<ClassArray>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
   activateClass(request: ClassActivationRequest): Observable<boolean> {
     const url = `${this.rootUrl}activate-class`;
     return this.http.post<boolean>(url, request, { headers: this.headers });
@@ -400,6 +419,13 @@ export class ApiService {
     const url = `${this.rootUrl}move-student-in-class?classId=${classId}`;
     return this.http
       .put<boolean>(url, bookingIdArray, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  getAllStudentInClass(classId: number, pageNo: number, pageSize: number) {
+    const url = `${this.rootUrl}student-in-class?classId=${classId}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    return this.http
+      .get<StudentInClassListResponse>(url, { headers: this.headers })
       .pipe(retry(1));
   }
 
@@ -485,11 +511,36 @@ export class ApiService {
       .pipe(retry(1));
   }
 
-  //student in class
-  getAllStudentInClass(classId: number, pageNo: number, pageSize: number) {
-    const url = `${this.rootUrl}student-in-class?classId=${classId}&pageNo=${pageNo}&pageSize=${pageSize}`;
+  //session view of a class
+  getSessionInClass(
+    classId: number,
+    pageNo: number,
+    pageSize: number
+  ): Observable<SessionList> {
+    const url = `${this.rootUrl}session?classId=${classId}&pageNo=${pageNo}&pageSize=${pageSize}`;
     return this.http
-      .get<StudentInClassListResponse>(url, { headers: this.headers })
+      .get<SessionList>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  //attendance
+  viewAttendanceInSession(
+    sessionId: number,
+    pageNo: number,
+    pageSize: number
+  ): Observable<AttendanceList> {
+    const url = `${this.rootUrl}attendance/teacher/${sessionId}/?pageNo=${pageNo}&pageSize=${pageSize}`;
+    return this.http
+      .get<AttendanceList>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  editAttendance(
+    attendanceList: Array<AttendanceEditRequest>
+  ): Observable<boolean> {
+    const url = `${this.rootUrl}attendance`;
+    return this.http
+      .put<boolean>(url, attendanceList, { headers: this.headers })
       .pipe(retry(1));
   }
 }

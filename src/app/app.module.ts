@@ -15,7 +15,7 @@ import { ShiftComponent } from './dashboard/shift/shift.component';
 import { DetailCurriculumComponent } from './dashboard/detail-curriculum/detail-curriculum.component';
 import { DatePipe } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { SubjectDetailComponent } from './dashboard/subject-detail/subject-detail.component';
 import { SubjectDialogComponent } from './dashboard/subject-detail/subject-dialog/subject-dialog.component';
@@ -38,6 +38,9 @@ import { ClassSuggestionComponent } from './manager-dashboard/class-suggestion/c
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ScheduleComponent } from './manager-dashboard/schedule/schedule.component';
 import { StudentInClassComponent } from './manager-dashboard/schedule/student-in-class/student-in-class.component';
+import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard.component';
+import { AttendanceComponent } from './teacher-dashboard/attendance/attendance.component';
+import { TeacherMenuComponent } from './teacher-dashboard/teacher-menu/teacher-menu.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +71,9 @@ import { StudentInClassComponent } from './manager-dashboard/schedule/student-in
     ClassSuggestionComponent,
     ScheduleComponent,
     StudentInClassComponent,
+    TeacherDashboardComponent,
+    AttendanceComponent,
+    TeacherMenuComponent,
   ],
   entryComponents: [
     SubjectDialogComponent,

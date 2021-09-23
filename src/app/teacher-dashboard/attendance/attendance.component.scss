@@ -1,0 +1,381 @@
+.attendance {
+  padding: 6vh;
+  padding-bottom: 0;
+  .first-line {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    .div-title {
+      width: 87%;
+      float: left;
+      display: block;
+      .title {
+        font-family: Roboto;
+        font-size: 17px;
+        color: #2c3652;
+        font-weight: 500;
+        line-height: 18px;
+        margin: 0;
+      }
+      .line-title {
+        margin-top: 6px;
+        font-family: "Roboto", sans-serif;
+        font-size: 13px;
+        font-weight: 500;
+        .back-title {
+          color: #303e67;
+          text-decoration: none;
+          cursor: pointer;
+        }
+        .back-title:hover {
+          color: #124eca;
+        }
+        .else-title {
+          padding-left: 10px;
+          color: #7081b9;
+        }
+      }
+    }
+    .div-today {
+      width: 13%;
+      border: 1px solid #7081b9;
+      box-sizing: border-box;
+      text-align: center;
+      display: flex;
+      height: 1.6em;
+      align-items: center;
+      justify-content: center;
+      color: #7081b9;
+      .today {
+        margin: 0;
+        padding-left: 1em;
+        font-size: 12px;
+        font-family: "Roboto";
+      }
+      .icon-today {
+        font-size: 15px;
+        height: auto;
+        margin-left: 0.5em;
+        opacity: 0.5;
+      }
+    }
+    .div-today:hover {
+      color: #fff;
+      background-color: #673ab7;
+      border-color: #673ab7;
+    }
+  }
+  .class-list {
+    width: 20%;
+  }
+  .session-list {
+    width: 20%;
+    margin-left: 2px;
+  }
+  .attendance-list {
+    width: 60%;
+    margin-left: 2px;
+  }
+  .header-list {
+    display: flex;
+    height: 3.5em;
+    align-items: center;
+    border-bottom: 1px solid rgba(29, 57, 200, 0.1);
+    .title-header-list {
+      font-weight: 500;
+      font-size: 13px;
+      color: #2c3652;
+      width: 71%;
+      float: left;
+      padding-left: 1.5em;
+      p {
+        margin: 0;
+      }
+    }
+    .small-icon-div {
+      width: 2em;
+      background: #fff;
+      border: 1px solid #1d39c81a;
+      box-sizing: border-box;
+      border-radius: 5px;
+      float: right;
+      height: 2em;
+      text-align: center;
+      .mat-icon {
+        font-size: 14px;
+        margin: 0;
+        line-height: 1.75em;
+        color: #c4c4c4;
+      }
+    }
+  }
+  .body-list {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 27em;
+    padding-top: 0.75em;
+  }
+  .body-loading {
+    height: 27em;
+    display: flex;
+    align-items: center;
+    .img-loading {
+      margin: auto;
+      width: 30px;
+      height: 30px;
+    }
+  }
+  .blue-border {
+    border: 1px solid rgba(29, 57, 200, 0.1);
+  }
+  .class-item {
+    display: flex;
+    padding: 1em;
+    align-items: center;
+    padding-bottom: 0;
+    cursor: pointer;
+    .class-item-image-div {
+      width: 10%;
+      .class-item-image {
+        color: rgba(24, 42, 136, 0.73);
+        fill: rgba(29, 44, 72, 0.12);
+        stroke-width: 1px;
+      }
+      .class-item-image:hover {
+        color: #1761fd;
+        fill: rgba(23, 97, 253, 0.12);
+        stroke-width: 1px;
+      }
+      .class-item-image-focus {
+        color: #1761fd;
+        fill: rgba(23, 97, 253, 0.12);
+        stroke-width: 1px;
+      }
+    }
+    .class-info-div {
+      width: 90%;
+      padding-left: 8%;
+      .big-class-name {
+        color: #303e67;
+        font-size: 12px;
+        font-weight: 500;
+        margin: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin-right: 1em;
+      }
+      .big-class-name:hover {
+        color: #1761fd;
+      }
+      .big-class-name-focus {
+        color: #1761fd;
+      }
+      .small-class-name {
+        color: #8997bd;
+        font-size: 10px;
+        margin: 0;
+      }
+    }
+  }
+  .session-item {
+    display: flex;
+    padding: 1em;
+    align-items: center;
+    padding-bottom: 0;
+    cursor: pointer;
+    .session-item-image-div {
+      width: 10%;
+      .session-item-image {
+        color: rgba(24, 42, 136, 0.73);
+        fill: rgba(29, 44, 72, 0.12);
+        stroke-width: 1px;
+      }
+      .session-item-image:hover {
+        color: #1761fd;
+        fill: rgba(23, 97, 253, 0.12);
+        stroke-width: 1px;
+      }
+      .session-item-image-focus {
+        color: #1761fd;
+        fill: rgba(23, 97, 253, 0.12);
+        stroke-width: 1px;
+      }
+    }
+    .session-info-div {
+      width: 80%;
+      padding-left: 8%;
+      .big-session-name {
+        color: #303e67;
+        font-size: 12px;
+        font-weight: 500;
+        margin: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin-right: 1em;
+      }
+      .big-session-name:hover {
+        color: #1761fd;
+      }
+      .big-session-name-focus {
+        color: #1761fd;
+      }
+      .small-session-name {
+        color: #8997bd;
+        font-size: 10px;
+        margin: 0;
+      }
+    }
+  }
+  //scroll bar
+  /* width */
+  ::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 0 white;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #c4c4c4;
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #7081b9;
+  }
+
+  //attendance
+  .div-radio {
+    display: flex;
+    flex-direction: row-reverse;
+    font-size: 11px;
+    padding-right: 1em;
+    .red-title {
+      color: #f5325c;
+    }
+    .green-title {
+      color: #01ca76;
+      margin-left: 1em;
+    }
+  }
+
+  .attendance-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(29, 57, 200, 0.1);
+    padding: 1em;
+    .ava-student-div {
+      width: 20%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .student-name-div {
+      width: 60%;
+      p {
+        color: #303e67;
+        font-size: 12px;
+        font-weight: 500;
+        margin: 0;
+      }
+    }
+    .student-ratio {
+      width: 30%;
+      display: flex;
+      justify-content: flex-start;
+      //custom radio
+      .container {
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        position: relative;
+      }
+      /* Hide the browser's default radio button */
+      .container input {
+        opacity: 0;
+        cursor: pointer;
+      }
+      .checkmark-red {
+        height: 8px;
+        width: 8px;
+        background-color: white;
+        border-radius: 50%;
+        border: 1.5px solid #e24646;
+        position: absolute;
+      }
+      .checkmark-green {
+        height: 8px;
+        width: 8px;
+        background-color: white;
+        border-radius: 50%;
+        position: absolute;
+        border: 1.5px solid rgba(157, 226, 146, 1);
+      }
+      .container:hover input ~ .checkmark-red {
+        background-color: rgba(200, 29, 39, 0.57);
+      }
+      .container input:checked ~ .checkmark-red {
+        background-color: rgba(200, 29, 39, 0.6);
+      }
+      .container:hover input ~ .checkmark-green {
+        background-color: rgba(157, 226, 146, 0.83);
+      }
+      .container input:checked ~ .checkmark-green {
+        background-color: rgba(157, 226, 146, 1);
+      }
+      /* Show the indicator (dot/circle) when checked */
+      .container input:checked ~ .checkmark-red:after {
+        display: block;
+      }
+
+      /* Style the indicator (dot/circle) */
+      .container .checkmark-red:after {
+        background: white;
+      }
+      /* Show the indicator (dot/circle) when checked */
+      .container input:checked ~ .checkmark-green:after {
+        display: block;
+      }
+
+      /* Style the indicator (dot/circle) */
+      .container .checkmark-green:after {
+        background: white;
+      }
+    }
+  }
+
+  .suggest-btn {
+    background: rgba(255, 255, 255, 0.19);
+    border: 1px solid #00bcf7;
+    box-sizing: border-box;
+    font-size: 9px;
+    height: 20px;
+    color: #182a88;
+  }
+  .suggest-btn:hover {
+    background-color: #00bcf7;
+    color: white;
+  }
+
+  .div-half-attendance {
+    width: 50%;
+    padding: 1em;
+    padding-right: 0.5em;
+    padding-top: 0.5em;
+  }
+
+  .ava-student {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+}

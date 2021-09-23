@@ -44,6 +44,8 @@ export class LoginComponent implements OnInit {
           this.loginResponse?.role === 'staff'
         ) {
           this.route.navigate(['/manager-dashboard']);
+        } else if (this.loginResponse.role === 'teacher') {
+          this.route.navigate(['/teacher-dashboard']);
         }
       },
       (error) => {

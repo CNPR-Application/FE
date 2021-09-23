@@ -1,4 +1,4 @@
-import { StudentInClass } from './Class';
+import { StudentInClass } from './StudentInClass';
 
 export interface Single_Chart {
   label?: string;
