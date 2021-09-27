@@ -1,4 +1,4 @@
-import { CurriculumResponseArray } from "./Curriculum";
+import { CurriculumResponseArray } from './Curriculum';
 
 export interface SubjectArray {
   pageNo: number;
@@ -8,7 +8,7 @@ export interface SubjectArray {
 }
 
 export interface Subject {
-  subjectId?: number,
+  subjectId?: number;
   subjectCode: string;
   subjectName: string;
   price: number;
@@ -18,7 +18,7 @@ export interface Subject {
   image?: string;
   slot?: number;
   slotPerWeek?: number;
-  rating?: string;
+  rating: number;
   curriculumId?: number;
   curriculumName?: string;
   curriculumCode?: string;
@@ -34,7 +34,7 @@ export interface SubjectDetailArray {
 
 export interface SubjectDetail {
   subjectDetailId?: number;
-  subjectId?:number;
+  subjectId?: number;
   weekNum?: number;
   weekDescription?: string;
   isAvailable?: boolean;

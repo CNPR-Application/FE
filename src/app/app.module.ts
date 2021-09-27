@@ -41,6 +41,7 @@ import { StudentInClassComponent } from './manager-dashboard/schedule/student-in
 import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard.component';
 import { AttendanceComponent } from './teacher-dashboard/attendance/attendance.component';
 import { TeacherMenuComponent } from './teacher-dashboard/teacher-menu/teacher-menu.component';
+import { FeedbackComponent } from './manager-dashboard/feedback/feedback.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { TeacherMenuComponent } from './teacher-dashboard/teacher-menu/teacher-m
     TeacherDashboardComponent,
     AttendanceComponent,
     TeacherMenuComponent,
+    FeedbackComponent,
   ],
   entryComponents: [
     SubjectDialogComponent,

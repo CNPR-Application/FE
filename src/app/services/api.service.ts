@@ -29,6 +29,7 @@ import {
   CurriculumResponse,
   CurriculumResponseArray,
 } from '../interfaces/Curriculum';
+import { FeedbackListResponse } from '../interfaces/Feedback';
 import { ScheduleListResponse } from '../interfaces/Schedule';
 import { SessionList } from '../interfaces/Session';
 import { Shift, ShiftArray } from '../interfaces/Shift';
@@ -50,6 +51,7 @@ import { TeacherArray } from '../interfaces/Teacher';
 export class ApiService {
   constructor(private http: HttpClient) {}
   rootUrl: string = 'https://lcss-fa21.herokuapp.com/';
+  //rootUrl: string = 'http://localhost:8080/';
   headers = new HttpHeaders()
     .set('content-type', 'application/json')
     .set('Access-Control-Allow-Origin', '*')
@@ -541,6 +543,18 @@ export class ApiService {
     const url = `${this.rootUrl}attendance`;
     return this.http
       .put<boolean>(url, attendanceList, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  //feedback
+  getFeedbackByClassId(
+    classId: number,
+    pageNo: number,
+    pageSize: number
+  ): Observable<FeedbackListResponse> {
+    const url = `${this.rootUrl}feedback/${classId}/?pageNo=${pageNo}&pageSize=${pageSize}`;
+    return this.http
+      .get<FeedbackListResponse>(url, { headers: this.headers })
       .pipe(retry(1));
   }
 }

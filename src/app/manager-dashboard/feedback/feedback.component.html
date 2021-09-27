@@ -1,0 +1,267 @@
+<div class="feedback">
+  <div class="first-line">
+    <div class="div-title">
+      <p class="title">Feedbacks</p>
+      <p class="line-title">
+        <a
+          class="back-title"
+          routerLink="/manager-dashboard"
+          title="Quay về trang chủ"
+          >Trang chủ</a
+        ><span class="else-title">/</span
+        ><span class="else-title">Feedbacks</span>
+      </p>
+    </div>
+    <div class="div-today" style="width: 13%">
+      <p class="today">{{ today | date: "dd/MM/yyyy" }}</p>
+      <mat-icon class="icon-today">date_range</mat-icon>
+    </div>
+  </div>
+  <div style="display: flex; margin-top: 1em; width: 100%">
+    <div class="class-list blue-border">
+      <div class="header-list">
+        <div class="title-header-list">
+          <p>Các Lớp Đã Kết Thúc</p>
+        </div>
+        <div class="small-icon-div">...</div>
+      </div>
+      <div class="body-list" *ngIf="!isLoadingClass">
+        <div class="class-item" *ngFor="let class of classArray; let i = index">
+          <div class="class-item-image-div">
+            <mat-icon
+              class="class-item-image"
+              [ngClass]="
+                class.classId == classId
+                  ? 'class-item-image-focus'
+                  : 'class-item-image'
+              "
+              >store</mat-icon
+            >
+          </div>
+          <div class="class-info-div">
+            <p
+              class="big-class-name"
+              [ngClass]="
+                class.classId == classId
+                  ? 'big-class-name-focus'
+                  : 'big-class-name'
+              "
+              (click)="chooseClass(i, class.classId)"
+            >
+              {{ class.className }}
+            </p>
+            <p class="grey-name">{{ class.teacherName }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="body-loading" *ngIf="isLoadingClass">
+        <img
+          class="img-loading"
+          src="/assets/image/loading.gif"
+          alt="Logo image"
+        />
+      </div>
+    </div>
+    <div class="feedback-list blue-border">
+      <div class="header-feedback">
+        <div style="display: flex; width: 95%; padding-left: 2em">
+          <p class="title-header-list">
+            {{ chosenClassName }}<span class="else-title">/</span
+            ><span class="else-title">{{ chosenClassSubject }}</span>
+          </p>
+        </div>
+        <div
+          style="
+            display: flex;
+            width: 5%;
+            justify-content: flex-end;
+            padding-right: 1em;
+          "
+        >
+          <mat-icon class="small-icon" style="color: rgb(255, 215, 64)"
+            >grade</mat-icon
+          >
+        </div>
+      </div>
+      <div class="body-list" style="padding-top: 0" *ngIf="!isLoadingFeedback">
+        <div class="feedback-item-div" *ngFor="let feedback of feedbackArray">
+          <div class="high-light-class-div">
+            <img [src]="feedback.studentImage" class="img-teacher" />
+            <div class="inner-div">
+              <p class="blue-name student-name">{{ feedback.studentName }}</p>
+              <p class="grey-name">{{ feedback.studentUsername }}</p>
+            </div>
+          </div>
+          <div style="width: 25%">
+            <div class="flex-align-cennter">
+              <p class="blue-name" style="margin-right: 10px">Môn học</p>
+              <mat-icon
+                [style.color]="showIcon(i, feedback.subjectRating)"
+                style="font-size: 21px"
+                *ngFor="let ratingId of ratingArr; index as i"
+              >
+                grade
+              </mat-icon>
+            </div>
+            <div class="flex-align-cennter">
+              <p class="blue-name" style="margin-right: 7px">Giáo viên</p>
+              <mat-icon
+                [style.color]="showIcon(i, feedback.teacherRating)"
+                style="font-size: 21px"
+                *ngFor="let ratingId of ratingArr; index as i"
+              >
+                grade
+              </mat-icon>
+            </div>
+          </div>
+          <div class="width: 47%; display: flex">
+            <div style="width: 13%">
+              <p class="blue-name">Góp ý:</p>
+            </div>
+            <div style="width: 70%">
+              <textarea
+                class="grey-name text-area"
+                disabled="true"
+                *ngIf="feedback.feedback"
+                >{{ feedback.feedback }}</textarea
+              >
+              <textarea
+                class="grey-name text-area"
+                disabled="true"
+                *ngIf="!feedback.feedback"
+              >
+Không có góp ý gì thêm.</textarea
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="body-loading" *ngIf="isLoadingFeedback">
+        <img
+          class="img-loading"
+          src="/assets/image/loading.gif"
+          alt="Logo image"
+        />
+      </div>
+    </div>
+  </div>
+
+  <p class="title-small">Điểm đánh giá các môn học</p>
+  <div class="flex" style="margin-top: 0.5em" *ngIf="!isLoadingSubject">
+    <div style="width: 60%">
+      <div>
+        <div>
+          <ngx-charts-bar-vertical
+            [view]="[620, 280]"
+            [results]="chartArray"
+            [scheme]="colorScheme"
+            [showXAxisLabel]="false"
+            [showYAxisLabel]="true"
+            [xAxis]="false"
+            [yAxis]="true"
+            [animations]="true"
+            [showDataLabel]="true"
+          >
+          </ngx-charts-bar-vertical>
+        </div>
+      </div>
+    </div>
+    <div class="right-table">
+      <table class="table" style="height: 280px; overflow: auto">
+        <tr
+          class="header"
+          style="font-size: 13px; color: rgba(24, 42, 136, 0.95)"
+        >
+          <th class="th1">Môn học</th>
+          <th class="th2">Đánh giá</th>
+        </tr>
+        <tr class="data" *ngFor="let subject of subjectArray; let i = index">
+          <td class="color-blue">{{ subject.subjectName }}</td>
+          <td class="color-grey">
+            <mat-icon
+              [style.color]="showIcon(i, subject.rating)"
+              style="font-size: 21px"
+              *ngFor="let ratingId of ratingArr; index as i"
+            >
+              grade
+            </mat-icon>
+          </td>
+        </tr>
+      </table>
+      <div class="paging" *ngIf="totalPage">
+        <div
+          class="item"
+          *ngFor="let i of pageArray"
+          (click)="changePageSubject(i)"
+        >
+          <a>{{ i }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="body-loading" *ngIf="isLoadingSubject">
+    <img class="img-loading" src="/assets/image/loading.gif" alt="Logo image" />
+  </div>
+  <p class="title-small">Điểm đánh giá các giáo viên</p>
+  <div class="flex" style="margin-top: 0.5em" *ngIf="!isLoadingTeacher">
+    <div style="width: 60%">
+      <div>
+        <div>
+          <ngx-charts-bar-vertical
+            [view]="[620, 280]"
+            [results]="chartArrayTeacher"
+            [scheme]="colorScheme"
+            [showXAxisLabel]="false"
+            [showYAxisLabel]="true"
+            [xAxis]="false"
+            [yAxis]="true"
+            [animations]="true"
+            [showDataLabel]="true"
+          >
+          </ngx-charts-bar-vertical>
+        </div>
+      </div>
+    </div>
+    <div class="right-table">
+      <table class="table" style="height: 280px; overflow: auto">
+        <tr
+          class="header"
+          style="font-size: 13px; color: rgba(24, 42, 136, 0.95)"
+        >
+          <th class="th1">Giáo viên</th>
+          <th class="th2">Đánh giá</th>
+        </tr>
+        <tr class="data" *ngFor="let teacher of teacherArray; let i = index">
+          <td class="color-blue">{{ teacher.name }}</td>
+          <td class="color-grey">
+            <mat-icon
+              [style.color]="showIcon(i, teacher.rating)"
+              style="font-size: 21px"
+              *ngFor="let ratingId of ratingArr; index as i"
+            >
+              grade
+            </mat-icon>
+          </td>
+        </tr>
+      </table>
+      <div class="paging" *ngIf="totalPageTeacher">
+        <div
+          class="item"
+          *ngFor="let i of pageArrayTeacher"
+          (click)="changePageTeacher(i)"
+        >
+          <a>{{ i }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="body-loading" *ngIf="isLoadingTeacher">
+    <img class="img-loading" src="/assets/image/loading.gif" alt="Logo image" />
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="haveAlertOk = !haveAlertOk">OK</button>
+  </div>
+</div>

@@ -16,7 +16,7 @@ export interface TeacherInfo {
   creatingDate: string;
   startingDate: string;
   experience?: string;
-  rating?: string;
+  rating: number;
   teachingSubjectList?: Array<SubjectInTeacher>;
 }
 
