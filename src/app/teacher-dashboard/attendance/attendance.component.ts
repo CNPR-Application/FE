@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginResponse } from 'src/app/interfaces/Account';
+import { LoginResponse } from 'src/interfaces/Account';
 import {
   AttendanceList,
   AttendanceResponse,
-} from 'src/app/interfaces/Attendance';
-import { ClassArray, ClassResponse } from 'src/app/interfaces/Class';
-import { SessionList, SessionResponse } from 'src/app/interfaces/Session';
-import { ApiService } from 'src/app/services/api.service';
-import { LocalStorageService } from 'src/app/services/local-storage.service';
+} from 'src/interfaces/Attendance';
+import { ClassArray, ClassResponse } from 'src/interfaces/Class';
+import { SessionList, SessionResponse } from 'src/interfaces/Session';
+import { ApiService } from 'src/service/api.service';
+import { LocalStorageService } from 'src/service/local-storage.service';
 import {
   AttendanceChecking,
   AttendanceEditClass,

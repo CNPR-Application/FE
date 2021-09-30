@@ -42,6 +42,14 @@ import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard
 import { AttendanceComponent } from './teacher-dashboard/attendance/attendance.component';
 import { TeacherMenuComponent } from './teacher-dashboard/teacher-menu/teacher-menu.component';
 import { FeedbackComponent } from './manager-dashboard/feedback/feedback.component';
+import { ClickOutsideModule } from 'ng-click-outside';
+import { NotificationDialogComponent } from './manager-dashboard/notification-dialog/notification-dialog.component';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { MessagingService } from '../service/messaging.service';
+import { NotificationAdminDialogComponent } from './dashboard/notification-admin-dialog/notification-admin-dialog.component';
+import { NotificationTeacherDialogComponent } from './teacher-dashboard/notification-teacher-dialog/notification-teacher-dialog.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +84,9 @@ import { FeedbackComponent } from './manager-dashboard/feedback/feedback.compone
     AttendanceComponent,
     TeacherMenuComponent,
     FeedbackComponent,
+    NotificationDialogComponent,
+    NotificationAdminDialogComponent,
+    NotificationTeacherDialogComponent,
   ],
   entryComponents: [
     SubjectDialogComponent,
@@ -86,6 +97,9 @@ import { FeedbackComponent } from './manager-dashboard/feedback/feedback.compone
     ClassCreateComponent,
     BookingCreateComponent,
     StatusDialogComponent,
+    NotificationDialogComponent,
+    NotificationAdminDialogComponent,
+    NotificationTeacherDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -99,18 +113,22 @@ import { FeedbackComponent } from './manager-dashboard/feedback/feedback.compone
     BrowserAnimationsModule,
     MaterialModule,
     AngularFireStorageModule,
+    ClickOutsideModule,
+    AngularFireMessagingModule,
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
     AngularFireModule.initializeApp({
-      apiKey: 'AIzaSyBAMMpbBeXOms18xvoNTPpPGCCnPoHQOgQ',
-      authDomain: 'lcss-d2272.firebaseapp.com',
-      projectId: 'lcss-d2272',
-      storageBucket: 'lcss-d2272.appspot.com',
-      messagingSenderId: '525406720486',
-      appId: '1:525406720486:web:22964928381817a89b0627',
-      measurementId: 'G-CVF3V0SBWN',
+      apiKey: 'AIzaSyDpAOynBW6XsCygjz_AIQkz2oAmp9a_-Tc',
+      authDomain: 'app-test-c1bfb.firebaseapp.com',
+      projectId: 'app-test-c1bfb',
+      storageBucket: 'app-test-c1bfb.appspot.com',
+      messagingSenderId: '399453444594',
+      appId: '1:399453444594:web:0e2145dc7d04548d5c336b',
+      measurementId: 'G-DNB0913N47',
     }),
     DragDropModule,
   ],
-  providers: [DatePipe],
+  providers: [DatePipe, MessagingService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LoginResponse } from 'src/app/interfaces/Account';
+import { LoginResponse } from 'src/interfaces/Account';
 import {
   ClassActivationRequest,
   ClassRequest,
   ClassResponse,
-} from 'src/app/interfaces/Class';
-import { TeacherArray, TeacherInfo } from 'src/app/interfaces/Teacher';
-import { BookingPerClass, Single_Chart } from 'src/app/interfaces/Utils';
-import { ApiService } from 'src/app/services/api.service';
-import { LocalStorageService } from 'src/app/services/local-storage.service';
+} from 'src/interfaces/Class';
+import { TeacherArray, TeacherInfo } from 'src/interfaces/Teacher';
+import { BookingPerClass, Single_Chart } from 'src/interfaces/Utils';
+import { ApiService } from 'src/service/api.service';
+import { LocalStorageService } from 'src/service/local-storage.service';
 import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
@@ -20,7 +20,7 @@ import {
 import {
   StudentInClass,
   StudentInClassArray,
-} from 'src/app/interfaces/StudentInClass';
+} from 'src/interfaces/StudentInClass';
 
 @Component({
   selector: 'app-class-suggestion',
@@ -101,7 +101,7 @@ export class ClassSuggestionComponent implements OnInit {
     this.form.controls.managerUsername.setValue(user.username);
     this.form.controls.subjectId.setValue(this.classModel?.subjectName);
     this.form.controls.shiftId.setValue(this.classModel?.shiftDescription);
-    this.form.controls.roomNo.setValue(this.classModel?.roomNo);
+    this.form.controls.roomNo.setValue(this.classModel?.roomId);
     this.openingDate = this.classModel?.openingDate;
   }
 
@@ -478,7 +478,7 @@ export class ClassSuggestionComponent implements OnInit {
       branchId: this.branchId,
       openingDate: form.controls.openingDate.value,
       creator: user.username,
-      roomNo: +form.controls.roomNo.value,
+      roomId: +form.controls.roomNo.value,
     };
     this.api.createClass(request).subscribe(
       (response: ClassResponse) => {

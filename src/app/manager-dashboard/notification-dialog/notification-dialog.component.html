@@ -1,0 +1,19 @@
+<div class="notification-content">
+  <div class="notification-header">
+    <span class="label">Thông báo</span>
+    <span class="badge" *ngIf="totalNoti != 0">{{ totalNoti }}</span>
+  </div>
+  <div
+    class="media"
+    *ngFor="let noti of notiArray"
+    [ngClass]="totalNoti == 0 ? 'media' : 'bottom-border'"
+  >
+    <div class="avatar-md-div">
+      <mat-icon class="icon-xs">notifications_none</mat-icon>
+    </div>
+    <div class="media-body">
+      <p class="noti-title">{{ noti.title }}</p>
+      <small class="noti-body">{{ noti.body }}</small>
+    </div>
+  </div>
+</div>

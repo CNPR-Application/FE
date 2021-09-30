@@ -3,8 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   StudentInClassListResponse,
   StudentInClassResponse,
-} from 'src/app/interfaces/StudentInClass';
-import { ApiService } from 'src/app/services/api.service';
+} from 'src/interfaces/StudentInClass';
+import { ApiService } from 'src/service/api.service';
 
 @Component({
   selector: 'app-student-in-class',

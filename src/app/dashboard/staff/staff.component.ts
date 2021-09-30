@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { InfoArray, LoginResponse } from 'src/app/interfaces/Account';
-import { ApiService } from 'src/app/services/api.service';
+import { InfoArray, LoginResponse } from 'src/interfaces/Account';
+import { ApiService } from 'src/service/api.service';
 import { StaffDialogComponent } from './staff-dialog/staff-dialog.component';
 
 @Component({

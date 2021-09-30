@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginResponse } from 'src/app/interfaces/Account';
-import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { LoginResponse } from 'src/interfaces/Account';
+import { LocalStorageService } from 'src/service/local-storage.service';
 
 @Component({
   selector: 'app-manager-menu',

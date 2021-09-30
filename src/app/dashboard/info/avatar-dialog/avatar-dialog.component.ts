@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ImageRequest, ImageResponse } from 'src/app/interfaces/Account';
-import { ApiService } from 'src/app/services/api.service';
+import { ImageRequest, ImageResponse } from 'src/interfaces/Account';
+import { ApiService } from 'src/service/api.service';
 
 @Component({
   selector: 'app-avatar-dialog',

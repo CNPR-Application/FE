@@ -1,15 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { LoginResponse } from 'src/app/interfaces/Account';
-import { ClassArray, ClassResponse } from 'src/app/interfaces/Class';
+import { LoginResponse } from 'src/interfaces/Account';
+import { ClassArray, ClassResponse } from 'src/interfaces/Class';
 import {
   FeedbackListResponse,
   FeedbackResponse,
-} from 'src/app/interfaces/Feedback';
-import { Subject, SubjectArray } from 'src/app/interfaces/Subject';
-import { TeacherArray, TeacherInfo } from 'src/app/interfaces/Teacher';
-import { Single_Chart } from 'src/app/interfaces/Utils';
-import { ApiService } from 'src/app/services/api.service';
-import { LocalStorageService } from 'src/app/services/local-storage.service';
+} from 'src/interfaces/Feedback';
+import { Subject, SubjectArray } from 'src/interfaces/Subject';
+import { TeacherArray, TeacherInfo } from 'src/interfaces/Teacher';
+import { Single_Chart } from 'src/interfaces/Utils';
+import { ApiService } from 'src/service/api.service';
+import { LocalStorageService } from 'src/service/local-storage.service';
 
 @Component({
   selector: 'app-feedback',

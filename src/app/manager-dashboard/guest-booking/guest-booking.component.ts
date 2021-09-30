@@ -8,17 +8,17 @@ import {
   Guest,
   GuestArray,
   LoginResponse,
-} from 'src/app/interfaces/Account';
-import { ClassResponse, ClassArray } from 'src/app/interfaces/Class';
+} from 'src/interfaces/Account';
+import { ClassResponse, ClassArray } from 'src/interfaces/Class';
 import {
   CurriculumResponse,
   CurriculumResponseArray,
-} from 'src/app/interfaces/Curriculum';
-import { ShiftArray, Shift } from 'src/app/interfaces/Shift';
-import { SubjectArray, Subject } from 'src/app/interfaces/Subject';
-import { Single_Chart } from 'src/app/interfaces/Utils';
-import { ApiService } from 'src/app/services/api.service';
-import { LocalStorageService } from 'src/app/services/local-storage.service';
+} from 'src/interfaces/Curriculum';
+import { ShiftArray, Shift } from 'src/interfaces/Shift';
+import { SubjectArray, Subject } from 'src/interfaces/Subject';
+import { Single_Chart } from 'src/interfaces/Utils';
+import { ApiService } from 'src/service/api.service';
+import { LocalStorageService } from 'src/service/local-storage.service';
 import { BookingCreateComponent } from './booking-create/booking-create.component';
 import { StatusDialogComponent } from './status-dialog/status-dialog.component';
 

@@ -21,7 +21,7 @@ export interface ClassResponse {
   teacherId?: string;
   teacherName?: string;
   roomId?: number;
-  roomNo?: number;
+  roomName?: string;
   numberOfStudent?: number;
   managerId?: number;
   managerUsername?: string;
@@ -35,7 +35,7 @@ export interface ClassRequest {
   shiftId?: number;
   creator?: string;
   roomId?: number;
-  roomNo?: number;
+  roomName?: string;
 }
 
 export interface ClassStatus {

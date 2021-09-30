@@ -3,12 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { LoginResponse } from 'src/app/interfaces/Account';
-import { ClassArray, ClassResponse, ClassStatus } from 'src/app/interfaces/Class';
-import { Shift, ShiftArray } from 'src/app/interfaces/Shift';
-import { Subject, SubjectArray } from 'src/app/interfaces/Subject';
-import { ApiService } from 'src/app/services/api.service';
-import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { LoginResponse } from 'src/interfaces/Account';
+import { ClassArray, ClassResponse, ClassStatus } from 'src/interfaces/Class';
+import { NotiPersonRequest } from 'src/interfaces/Notification';
+import { Shift, ShiftArray } from 'src/interfaces/Shift';
+import { Subject, SubjectArray } from 'src/interfaces/Subject';
+import { ApiService } from 'src/service/api.service';
+import { LocalStorageService } from 'src/service/local-storage.service';
 import { ClassCreateComponent } from './class-create/class-create.component';
 
 @Component({
@@ -162,6 +163,7 @@ export class ClassManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
         this.getClassAll(this.branchId, this.status, 1);
+        
       }
     });
   }
@@ -243,7 +245,7 @@ export class ClassManagementComponent implements OnInit {
     this.form.controls.shiftId.setValue(c.shiftId);
     this.form.controls.status.setValue(c.status);
     this.form.controls.teacherName.setValue(c.teacherName);
-    this.form.controls.roomNo.setValue(c.roomNo);
+    this.form.controls.roomNo.setValue(c.roomId);
     this.form.controls.slot.setValue(c.slot);
     this.form.controls.managerUsername.setValue(c.managerUsername);
   }

@@ -3,12 +3,12 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ApiService } from 'src/app/services/api.service';
+import { ApiService } from 'src/service/api.service';
 import { formatDate } from '@angular/common';
 import {
   ScheduleListResponse,
   ScheduleResponse,
-} from 'src/app/interfaces/Schedule';
+} from 'src/interfaces/Schedule';
 import { ScheduleClass } from './session';
 import { StudentInClassComponent } from './student-in-class/student-in-class.component';
 

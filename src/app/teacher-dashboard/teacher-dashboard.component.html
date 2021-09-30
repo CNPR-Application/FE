@@ -5,7 +5,63 @@
   <div class="right">
     <div class="header">
       <div class="right-header">
-        <mat-icon class="bell">notifications_none</mat-icon>
+        <div class="notification-wrapper">
+          <div
+            class="notification-btn"
+            (click)="openNotification(!showNotification)"
+          >
+            <mat-icon class="bell">notifications_none</mat-icon>
+            <span class="badge red-circle-bell" *ngIf="unreadNoti != 0">{{
+              unreadNoti
+            }}</span>
+          </div>
+          <div
+            class="notification-content"
+            *ngIf="showNotification"
+            (clickOutside)="openNotification(false)"
+            [exclude]="'.notification-btn'"
+          >
+            <div class="notification-header">
+              <span class="label">Thông báo</span>
+              <span class="badge" *ngIf="unreadNoti != 0">{{
+                unreadNoti
+              }}</span>
+            </div>
+            <div style="height: 260px; overflow: auto">
+              <div
+                class="media"
+                *ngFor="let noti of notiArray"
+                (click)="openDialog('one', noti)"
+              >
+                <div class="avatar-md-div">
+                  <mat-icon class="icon-xs">notifications_none</mat-icon>
+                </div>
+                <div class="media-body">
+                  <p class="noti-title">{{ noti.title }}</p>
+                  <small class="noti-body">{{ noti.body }}</small>
+                </div>
+                <div class="media-end">
+                  <mat-icon class="icon-dot" *ngIf="!noti.isRead"
+                    >fiber_manual_record</mat-icon
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div style="text-align: center; padding: 0.7em; cursor: pointer">
+              <a
+                style="
+                  color: #1761fd;
+                  font-weight: 500;
+                  font-family: 'Roboto';
+                  font-size: 13px;
+                "
+                (click)="openDialog('array')"
+                >Xem Tất Cả</a
+              >
+            </div>
+          </div>
+        </div>
         <p class="name">{{ name }}</p>
         <img [src]="url" alt="avatar" class="image" />
       </div>

@@ -2,12 +2,16 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { LoginResponse } from 'src/app/interfaces/Account';
-import { ClassRequest, ClassResponse } from 'src/app/interfaces/Class';
-import { Shift, ShiftArray } from 'src/app/interfaces/Shift';
-import { Subject, SubjectArray } from 'src/app/interfaces/Subject';
-import { ApiService } from 'src/app/services/api.service';
-import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { LoginResponse } from 'src/interfaces/Account';
+import { ClassRequest, ClassResponse } from 'src/interfaces/Class';
+import {
+  NotiBranchRequest,
+  NotiPersonRequest,
+} from 'src/interfaces/Notification';
+import { Shift, ShiftArray } from 'src/interfaces/Shift';
+import { Subject, SubjectArray } from 'src/interfaces/Subject';
+import { ApiService } from 'src/service/api.service';
+import { LocalStorageService } from 'src/service/local-storage.service';
 
 @Component({
   selector: 'app-class-create',
@@ -86,13 +90,24 @@ export class ClassCreateComponent implements OnInit {
       branchId: this.data.branchId,
       openingDate: this.form.controls.openingDate.value,
       creator: user.username,
-      roomNo: +this.form.controls.roomNo.value,
+      roomId: +this.form.controls.roomNo.value,
     };
     this.isLoading = true;
     this.api.createClass(request).subscribe(
       (response: ClassResponse) => {
         if (response) {
           this.isSuccess = true;
+          let request: NotiPersonRequest = {
+            receiverUsername: 'lanql000008',
+            senderUsername: 'system',
+            title: 'Đăng ký ngay lớp học mới !',
+            body: 'Lớp học' + this.form.controls.name.value + 'đã sẵn sàng đăng ký chỉ với ' + this.price,
+          };
+          this.api.createNotiForPerson(request).subscribe(
+            (response) => {
+              console.log('create noti success for ' + request);
+            }
+          );
           this.isLoading = false;
           this.callAlert('Ok', 'Tạo mới thành công');
         }

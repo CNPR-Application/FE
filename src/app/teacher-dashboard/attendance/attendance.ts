@@ -1,8 +1,8 @@
 import {
   AttendanceEditRequest,
   AttendanceResponse,
-} from 'src/app/interfaces/Attendance';
-import { SessionResponse } from 'src/app/interfaces/Session';
+} from 'src/interfaces/Attendance';
+import { SessionResponse } from 'src/interfaces/Session';
 
 export class AttendanceEditClass implements AttendanceEditRequest {
   attendanceId: number;

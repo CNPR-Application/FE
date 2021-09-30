@@ -1,4 +1,4 @@
-import { ScheduleResponse } from 'src/app/interfaces/Schedule';
+import { ScheduleResponse } from 'src/interfaces/Schedule';
 
 export class ScheduleClass {
   timeStart: string;

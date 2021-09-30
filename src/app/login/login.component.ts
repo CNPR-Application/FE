@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginRequest, LoginResponse } from '../interfaces/Account';
-import { ApiService } from '../services/api.service';
-import { LocalStorageService } from '../services/local-storage.service';
+import { LoginRequest, LoginResponse } from '../../interfaces/Account';
+import { ApiService } from '../../service/api.service';
+import { LocalStorageService } from '../../service/local-storage.service';
 
 @Component({
   selector: 'app-login',

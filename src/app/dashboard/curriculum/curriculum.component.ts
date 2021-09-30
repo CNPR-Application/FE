@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import {
   CurriculumResponse,
   CurriculumResponseArray,
-} from 'src/app/interfaces/Curriculum';
-import { Subject, SubjectArray } from 'src/app/interfaces/Subject';
-import { ApiService } from 'src/app/services/api.service';
-import { LocalStorageService } from 'src/app/services/local-storage.service';
+} from 'src/interfaces/Curriculum';
+import { Subject, SubjectArray } from 'src/interfaces/Subject';
+import { ApiService } from 'src/service/api.service';
+import { LocalStorageService } from 'src/service/local-storage.service';
 
 @Component({
   selector: 'app-curriculum',

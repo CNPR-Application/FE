@@ -4,14 +4,14 @@ import { Router } from '@angular/router';
 import {
   CurriculumResponse,
   CurriculumResponseArray,
-} from 'src/app/interfaces/Curriculum';
+} from 'src/interfaces/Curriculum';
 import {
   Subject,
   SubjectDetail,
   SubjectDetailArray,
-} from 'src/app/interfaces/Subject';
-import { ApiService } from 'src/app/services/api.service';
-import { LocalStorageService } from 'src/app/services/local-storage.service';
+} from 'src/interfaces/Subject';
+import { ApiService } from 'src/service/api.service';
+import { LocalStorageService } from 'src/service/local-storage.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SubjectDialogComponent } from 'src/app/dashboard/subject-detail/subject-dialog/subject-dialog.component';
 

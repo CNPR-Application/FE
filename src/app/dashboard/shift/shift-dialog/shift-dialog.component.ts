@@ -1,14 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ApiService } from 'src/app/services/api.service';
+import { ApiService } from 'src/service/api.service';
 import {
   TIME_END,
   TIME_START,
   DAY_OF_WEEKS,
   Shift,
   shiftModel,
-} from 'src/app/interfaces/Shift';
+} from 'src/interfaces/Shift';
 
 @Component({
   selector: 'app-shift-dialog',
