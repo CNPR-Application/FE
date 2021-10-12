@@ -163,7 +163,6 @@ export class ClassManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
         this.getClassAll(this.branchId, this.status, 1);
-        
       }
     });
   }
@@ -183,7 +182,7 @@ export class ClassManagementComponent implements OnInit {
         shiftId,
         status,
         pageNo,
-        10
+        13
       )
       .subscribe(
         (response: ClassArray) => {
@@ -206,7 +205,7 @@ export class ClassManagementComponent implements OnInit {
 
   getClassAll(branchId: number, status: string, pageNo: number): void {
     this.isLoading = true;
-    this.api.getClassByBranch(branchId, status, pageNo, 10).subscribe(
+    this.api.getClassByBranch(branchId, status, pageNo, 13).subscribe(
       (response: ClassArray) => {
         this.classArray = response.classList;
         this.totalPage = response.pageTotal;
@@ -245,7 +244,7 @@ export class ClassManagementComponent implements OnInit {
     this.form.controls.shiftId.setValue(c.shiftId);
     this.form.controls.status.setValue(c.status);
     this.form.controls.teacherName.setValue(c.teacherName);
-    this.form.controls.roomNo.setValue(c.roomId);
+    this.form.controls.roomNo.setValue(c.roomName);
     this.form.controls.slot.setValue(c.slot);
     this.form.controls.managerUsername.setValue(c.managerUsername);
   }

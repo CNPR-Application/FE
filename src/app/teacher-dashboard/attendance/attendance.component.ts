@@ -1,10 +1,9 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { LoginResponse } from 'src/interfaces/Account';
-import {
-  AttendanceList,
-  AttendanceResponse,
-} from 'src/interfaces/Attendance';
+import { AttendanceList, AttendanceResponse } from 'src/interfaces/Attendance';
 import { ClassArray, ClassResponse } from 'src/interfaces/Class';
+import { NotiClassRequest, NotiPersonRequest } from 'src/interfaces/Notification';
 import { SessionList, SessionResponse } from 'src/interfaces/Session';
 import { ApiService } from 'src/service/api.service';
 import { LocalStorageService } from 'src/service/local-storage.service';
@@ -31,6 +30,8 @@ export class AttendanceComponent implements OnInit {
   classId?: number;
   sessionId?: number;
   sessionStatus?: string;
+  selectedSession?: SessionResponse;
+  selectedClass?: ClassResponse;
 
   // isLoading
   isLoadingClass: boolean = false;
@@ -104,6 +105,7 @@ export class AttendanceComponent implements OnInit {
               this.statusSession.push(s);
               if (s.status === 'Đang mở') {
                 this.sessionId = s.sessionResponse.sessionId;
+                this.selectedSession = s.sessionResponse;
                 this.sessionStatus = s.status;
                 this.getAttendance(this.sessionId);
               }
@@ -120,6 +122,14 @@ export class AttendanceComponent implements OnInit {
           );
         }
       );
+    }
+    if (this.classArray) {
+      for (let i = 0; i < this.classArray.length; i++) {
+        if (classId == this.classArray[i].classId) {
+          this.selectedClass = this.classArray[i];
+          break;
+        }
+      }
     }
   }
 
@@ -167,6 +177,7 @@ export class AttendanceComponent implements OnInit {
       for (let i = 0; i < this.statusSession?.length; i++) {
         if (newSessionId == this.statusSession[i].sessionResponse.sessionId) {
           this.sessionId = newSessionId;
+          this.selectedSession = this.statusSession[i].sessionResponse;
           this.sessionStatus = this.statusSession[i].status;
           this.getAttendance(newSessionId);
           break;

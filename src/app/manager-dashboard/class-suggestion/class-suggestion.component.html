@@ -224,7 +224,16 @@
 
       <div class="input-div">
         <p class="label">Phòng</p>
-        <input class="input" type="text" formControlName="roomNo" />
+        <select
+          id="roomNo"
+          name="roomNo"
+          class="input"
+          formControlName="roomNo"
+        >
+          <option *ngFor="let room of roomArray" [value]="room.roomId">
+            ID: {{ room.roomId }} - {{ room.roomName }}
+          </option>
+        </select>
         <p class="invalid">Vui lòng điền phòng</p>
       </div>
       <div class="input-div">
@@ -235,6 +244,7 @@
           formControlName="openingDate"
           [min]="today"
           [ngModel]="openingDate | date: 'yyyy-MM-dd'"
+          (change)="getRoomListChange()"
         />
         <p class="invalid">Vui lòng điền ngày khai giảng</p>
       </div>
@@ -288,7 +298,7 @@
           </div>
           <div style="width: 72%">
             <h5>{{ student.studentName }}</h5>
-            <p>Tài khoản: {{ student.studentUserName }}</p>
+            <p>Tài khoản: {{ student.studentUsername }}</p>
             <p>
               Ngày đăng ký: {{ student.payingDate | date: "HH:mm dd-MM-yyyy" }}
             </p>
@@ -365,7 +375,7 @@
             </div>
             <div style="width: 74%">
               <h5>{{ student.studentName }}</h5>
-              <p>Tài khoản: {{ student.studentUserName }}</p>
+              <p>Tài khoản: {{ student.studentUsername }}</p>
               <p>Lúc {{ student.payingDate | date: "HH:mm dd-MM-yyyy" }}</p>
             </div>
           </div>
@@ -404,7 +414,7 @@
                 </div>
                 <div style="width: 74%">
                   <h5>{{ student.studentName }}</h5>
-                  <p>Tài khoản: {{ student.studentUserName }}</p>
+                  <p>Tài khoản: {{ student.studentId }}</p>
                   <p>Lúc {{ student.payingDate | date: "HH:mm dd-MM-yyyy" }}</p>
                 </div>
               </div>

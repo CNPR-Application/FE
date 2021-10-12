@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { retry } from 'rxjs/operators';
+import { RoomList } from 'src/interfaces/Room';
 import {
   CreateInFoResponse,
   Guest,
@@ -498,6 +499,18 @@ export class ApiService {
       .pipe(retry(1));
   }
 
+  searchBookingByClassIdAndStatus(
+    classId: number,
+    status: string,
+    pageNo: number,
+    pageSize: number
+  ): Observable<BookingArray> {
+    const url = `${this.rootUrl}bookings?classId=${classId}&status=${status}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    return this.http
+      .get<BookingArray>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
   //teacher
 
   searchTeacher(
@@ -605,6 +618,14 @@ export class ApiService {
     const url = `${this.rootUrl}notification/${notificationId}`;
     return this.http
       .put<boolean>(url, request, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  //room
+  getRoomByBranchShiftOpeningDate(branchId: number, shiftId: number, openingDate: string):Observable<RoomList>{
+    const url = `${this.rootUrl}rooms/${branchId}/search?shiftId=${shiftId}&openingDate=${openingDate}`;
+    return this.http
+      .get<RoomList>(url, { headers: this.headers })
       .pipe(retry(1));
   }
 }

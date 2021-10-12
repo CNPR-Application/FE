@@ -1,8 +1,8 @@
 export interface BookingArray {
   pageNo: number;
   pageSize: number;
-  totalPage: number;
-  bookingSearchResponseDtoList?: Booking[];
+  pageTotal: number;
+  classList?: Booking[];
 }
 
 export interface Booking {
@@ -22,4 +22,5 @@ export interface Booking {
   payingPrice?: number;
   description?: string;
   classId?: number;
+  className?: string
 }

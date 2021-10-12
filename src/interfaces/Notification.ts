@@ -17,8 +17,8 @@ export interface NotificationResponse {
 }
 
 export interface NotiClassRequest {
-  classId: number;
-  senderUsername: string;
+  classId?: number;
+  senderUsername?: string;
   title: string;
   body: string;
 }

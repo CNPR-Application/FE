@@ -103,7 +103,7 @@
           <th class="th2">Môn học</th>
           <th class="th3">Ca học</th>
           <th class="th4">Khai giảng</th>
-          <th class="th5">Đã đăng ký</th>
+          <th class="th5">Học viên</th>
           <th class="th6"></th>
         </tr>
         <tr
@@ -129,7 +129,7 @@
           <td (click)="setFormDetail(class)">
             {{ class.numberOfStudent }} học viên
           </td>
-          <td>
+          <td *ngIf="listTitle == 'Danh sách lớp chờ đăng ký'">
             <button class="suggest-btn" (click)="goToClassSuggest(class)">
               Gợi ý
             </button>

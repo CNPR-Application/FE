@@ -84,7 +84,7 @@ export class ScheduleComponent implements OnInit {
           this.scheduleArray?.forEach((x) => {
             let newDate = new Date(x.startTime);
             let now = new Date();
-            now = new Date(now.getTime() + 7 * 60 * 60 * 1000);
+            //now = new Date(now.getTime() + 7 * 60 * 60 * 1000);
             if (newDate.getTime() >= now.getTime()) {
               this.upcomingSession?.push(x);
             }

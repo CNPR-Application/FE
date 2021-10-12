@@ -42,8 +42,7 @@ export class ClassCreateComponent implements OnInit {
     openingDate: ['', Validators.required],
     subjectId: ['', Validators.required],
     shiftId: ['', Validators.required],
-    status: ['Chờ mở lớp', Validators.required],
-    roomNo: ['', Validators.required],
+    status: ['Chờ mở lớp', Validators.required]
   });
 
   //for logic
@@ -89,25 +88,13 @@ export class ClassCreateComponent implements OnInit {
       subjectId: +this.form.controls.subjectId.value,
       branchId: this.data.branchId,
       openingDate: this.form.controls.openingDate.value,
-      creator: user.username,
-      roomId: +this.form.controls.roomNo.value,
+      creator: user.username
     };
     this.isLoading = true;
     this.api.createClass(request).subscribe(
       (response: ClassResponse) => {
         if (response) {
           this.isSuccess = true;
-          let request: NotiPersonRequest = {
-            receiverUsername: 'lanql000008',
-            senderUsername: 'system',
-            title: 'Đăng ký ngay lớp học mới !',
-            body: 'Lớp học' + this.form.controls.name.value + 'đã sẵn sàng đăng ký chỉ với ' + this.price,
-          };
-          this.api.createNotiForPerson(request).subscribe(
-            (response) => {
-              console.log('create noti success for ' + request);
-            }
-          );
           this.isLoading = false;
           this.callAlert('Ok', 'Tạo mới thành công');
         }

@@ -46,7 +46,7 @@ export interface ClassStatus {
 }
 
 export interface ClassActivationRequest {
-  roomNo?: number;
+  roomId?: number;
   teacherId?: number;
   classId?: number;
   creator?: string;

@@ -7,20 +7,19 @@ import {
   ClassResponse,
 } from 'src/interfaces/Class';
 import { TeacherArray, TeacherInfo } from 'src/interfaces/Teacher';
-import { BookingPerClass, Single_Chart } from 'src/interfaces/Utils';
+import { Single_Chart } from 'src/interfaces/Utils';
 import { ApiService } from 'src/service/api.service';
 import { LocalStorageService } from 'src/service/local-storage.service';
-import { DatePipe } from '@angular/common';
+import { DatePipe, formatDate } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
   CdkDragDrop,
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import {
-  StudentInClass,
-  StudentInClassArray,
-} from 'src/interfaces/StudentInClass';
+import { Booking, BookingArray } from 'src/interfaces/Booking';
+import { BookingPerClass } from './class-suggestion';
+import { RoomResponse } from 'src/interfaces/Room';
 
 @Component({
   selector: 'app-class-suggestion',
@@ -66,14 +65,15 @@ export class ClassSuggestionComponent implements OnInit {
   today: string | null = '';
 
   //booking
-  studentArray?: Array<StudentInClass>; // array of all bookings ( not process )
-  studentPerClassArray?: Array<StudentInClass>; // array of current clicked booking
+  studentArray?: Array<Booking>; // array of all bookings ( not process )
+  studentPerClassArray?: Array<Booking>; // array of current clicked booking
   studentPerClassObject?: BookingPerClass; // object of current clicked booking
   allStudentPerClassObjectArray?: Array<BookingPerClass>; // array of all array of booking ( after process )
   clickedItemChart?: Single_Chart;
   isDisplayStudent: boolean = false;
   numberOfStudentPerClass: number = 0;
   teacherArray?: Array<TeacherInfo>;
+  roomArray?: Array<RoomResponse>;
 
   // activate
   activateClassArray: Array<BookingPerClass> = [];
@@ -84,45 +84,74 @@ export class ClassSuggestionComponent implements OnInit {
     this.today = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
     this.classModel = this.localStorage.get('class');
     this.classId = this.classModel?.classId;
+    this.branchId = this.classModel?.branchId;
     this.getBookingList();
     this.getTeacherList();
     this.getStartChart();
+    this.getRoomList();
     this.initForm();
   }
 
-  initForm(): void {
+  initForm(
+    classId?: number,
+    className?: string,
+    teacherId?: number,
+    roomId?: number,
+    openingDate?: string
+  ): void {
     let user: LoginResponse = this.localStorage.get('user');
     if (this.clickedItemChart?.label) {
       this.clickedId = this.clickedItemChart?.label;
     }
-    this.form.controls.id.setValue(this.classModel?.classId);
-    this.form.controls.name.setValue(this.classModel?.className);
+    if (classId) {
+      this.form.controls.id.setValue(classId);
+    } else {
+      this.form.controls.id.setValue(this.classModel?.classId);
+    }
+    if (className) {
+      this.form.controls.name.setValue(className);
+    } else {
+      this.form.controls.name.setValue(this.classModel?.className);
+    }
     this.form.controls.slot.setValue(this.classModel?.slot);
     this.form.controls.managerUsername.setValue(user.username);
     this.form.controls.subjectId.setValue(this.classModel?.subjectName);
     this.form.controls.shiftId.setValue(this.classModel?.shiftDescription);
-    this.form.controls.roomNo.setValue(this.classModel?.roomId);
-    this.openingDate = this.classModel?.openingDate;
+    if (roomId) {
+      this.form.controls.roomNo.setValue(roomId);
+    } else {
+      this.form.controls.roomNo.setValue(this.classModel?.roomId);
+    }
+    if (openingDate) {
+      this.openingDate = openingDate;
+    } else {
+      this.openingDate = this.classModel?.openingDate;
+    }
+    if (teacherId) {
+      this.form.controls.teacherId.setValue(teacherId);
+    }
   }
 
   getBookingList(): void {
     this.isLoadingInner = true;
     if (this.classId) {
-      this.api.getStudentInClass(this.classId, 1, 1000).subscribe(
-        (data: StudentInClassArray) => {
-          this.studentArray = data.studentInClassSearchResponseDtos;
-          this.isLoadingInner = false;
-          if (this.isDisplayStudent) {
-            this.processBookingPerClass();
+      this.api
+        .searchBookingByClassIdAndStatus(this.classId, 'paid', 1, 1000)
+        .subscribe(
+          (data: BookingArray) => {
+            this.studentArray = data.classList;
+            this.isLoadingInner = false;
+            if (this.isDisplayStudent) {
+              this.processBookingPerClass();
+            }
+          },
+          (error) => {
+            this.callAlert(
+              'Ok',
+              'Có lỗi xảy ra khi tải học sinh đăng ký, vui lòng thử lại'
+            );
           }
-        },
-        (error) => {
-          this.callAlert(
-            'Ok',
-            'Có lỗi xảy ra khi tải học sinh đăng ký, vui lòng thử lại'
-          );
-        }
-      );
+        );
     }
   }
 
@@ -146,6 +175,34 @@ export class ClassSuggestionComponent implements OnInit {
     }
   }
 
+  getRoomList(openingDate?: string): void {
+    if (
+      this.classModel &&
+      this.classModel.openingDate &&
+      this.branchId &&
+      this.classModel.shiftId
+    ) {
+      let date;
+      if (openingDate) {
+        date = formatDate(openingDate, 'yyyy-MM-dd', 'en-US');
+      } else {
+        date = formatDate(this.classModel?.openingDate, 'yyyy-MM-dd', 'en-US');
+      }
+      this.api
+        .getRoomByBranchShiftOpeningDate(
+          this.branchId,
+          this.classModel?.shiftId,
+          date
+        )
+        .subscribe((response) => {
+          this.roomArray = response.roomList;
+        });
+    }
+  }
+
+  getRoomListChange(){
+    this.getRoomList(this.form.controls.openingDate.value);
+  }
   //chart
   chartArray: Array<Single_Chart> = [];
 
@@ -307,8 +364,22 @@ export class ClassSuggestionComponent implements OnInit {
     this.activateClassArray?.forEach((x) => {
       if (x.label == this.clickedItemChart?.name && x.isActivated != 2) {
         this.isDisplayActivateButton = false;
+        this.initForm(
+          x.classId,
+          x.classCreateRequest?.className,
+          x.classActivateRequest?.teacherId,
+          x.classActivateRequest?.roomId,
+          x.classCreateRequest?.openingDate
+        );
       } else if (x.label == this.clickedItemChart?.name && x.isActivated == 2) {
         this.studentPerClassObject?.setIsActivated(0);
+        this.initForm(
+          x.classId,
+          x.classCreateRequest?.className,
+          x.classActivateRequest?.teacherId,
+          x.classActivateRequest?.roomId,
+          x.classCreateRequest?.openingDate
+        );
       }
     });
     if (this.studentPerClassArray) {
@@ -342,7 +413,7 @@ export class ClassSuggestionComponent implements OnInit {
         }
       }
       if (this.studentArray && item.name) {
-        let array = new Array<StudentInClass>();
+        let array = new Array<Booking>();
         if (startIndex != endIndex) {
           array = this.studentArray?.slice(startIndex, endIndex + 1);
         } else {
@@ -370,7 +441,7 @@ export class ClassSuggestionComponent implements OnInit {
 
   // change student list per class
   changeClickedObject?: BookingPerClass; //object of current click in change frame
-  changeClickedArray?: Array<StudentInClass>; //object of current click in change frame
+  changeClickedArray?: Array<Booking>; //object of current click in change frame
   allChangeObjectArray?: Array<BookingPerClass>; // array of all array of booking ( after process ) in change frame
   isChosenObjectArray?: Array<BookingPerClass>;
 
@@ -412,7 +483,7 @@ export class ClassSuggestionComponent implements OnInit {
     return this.studentPerClassObject?.color;
   }
 
-  drop(event: CdkDragDrop<StudentInClass[]>) {
+  drop(event: CdkDragDrop<Booking[]>) {
     if (event.previousContainer !== event.container) {
       transferArrayItem(
         event.previousContainer.data,
@@ -433,14 +504,34 @@ export class ClassSuggestionComponent implements OnInit {
   //activate class
   activateClass() {
     let form1: FormGroup = this.form;
-    let studentPerClassArray: Array<StudentInClass> | undefined =
+    let studentPerClassArray: Array<Booking> | undefined =
       this.studentPerClassArray;
     let studentPerClassObject: BookingPerClass | undefined =
       this.studentPerClassObject;
     let index: number = 0;
-    // get id student
+    // add classActivatedRequest for studentPerClassObject
     let bookingNumberArray: Array<number> = [];
-    studentPerClassArray?.forEach((x) => bookingNumberArray.push(x.bookingId));
+    studentPerClassArray?.forEach((x) => {
+      if (x.bookingId) bookingNumberArray.push(x.bookingId);
+    });
+    let user: LoginResponse = this.localStorage.get('user');
+    const request: ClassRequest = {
+      className: form1.controls.name.value,
+      shiftId: this.classModel?.shiftId,
+      subjectId: this.classModel?.subjectId,
+      branchId: this.branchId,
+      openingDate: form1.controls.openingDate.value,
+      creator: user.username,
+      roomId: +form1.controls.roomNo.value,
+    };
+    const request2: ClassActivationRequest = {
+      roomId: +form1.controls.roomNo.value,
+      teacherId: +form1.controls.teacherName.value,
+      classId: 0,
+      creator: form1.controls.managerUsername.value,
+      bookingIdList: bookingNumberArray,
+    };
+    studentPerClassObject?.setClassActivateRequest(request, request2);
     // thêm lớp hiện tại vào mảng activate
     if (studentPerClassObject) {
       this.activateClassArray.push(studentPerClassObject);
@@ -460,72 +551,59 @@ export class ClassSuggestionComponent implements OnInit {
     //     this.activateStepFinal(index, form1, this.classId);
     //   }
     // }
-    this.create(index, form1, bookingNumberArray);
+    this.create(index);
   }
 
-  create(
-    index: number,
-    form: FormGroup,
-    bookingNumberArray: Array<number>
-  ): void {
-    let classId: number | undefined;
-    let user: LoginResponse = this.localStorage.get('user');
-    console.log(form);
-    const request: ClassRequest = {
-      className: form.controls.name.value,
-      shiftId: this.classModel?.shiftId,
-      subjectId: this.classModel?.subjectId,
-      branchId: this.branchId,
-      openingDate: form.controls.openingDate.value,
-      creator: user.username,
-      roomId: +form.controls.roomNo.value,
-    };
-    this.api.createClass(request).subscribe(
-      (response: ClassResponse) => {
-        classId = response.classId;
-        this.activateClassArray[index].setIsCreateClass(true);
-        console.log('after create class, classIdInProcess: ' + classId);
-        console.log(
-          'after create class, isCreateClass: ' +
-            this.activateClassArray[index].isCreateClass
-        );
-        if (classId)
-          this.activateStepFinal(index, form, classId, bookingNumberArray);
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error);
-        this.activateClassArray[index].setIsActivated(2);
-        if (error.error === 'Class Name is null or empty!') {
-          this.callAlert('Ok', 'Tên lớp không được để trống');
-        } else if (error.error === 'Opening Day must be a day in Shift!') {
-          this.callAlert(
-            'Ok',
-            'Ngày khai giảng phải là ngày thuộc ca học đã chọn !'
+  create(index: number): void {
+    let request: ClassRequest | undefined =
+      this.activateClassArray[index].classCreateRequest;
+    if (request) {
+      this.api.createClass(request).subscribe(
+        (response: ClassResponse) => {
+          this.activateClassArray[index].setClassId(response.classId);
+          this.activateClassArray[index].setIsCreateClass(true);
+          console.log(
+            'after create class, classIdInProcess: ' +
+              this.activateClassArray[index].classId
           );
-        } else {
-          this.callAlert(
-            'Ok',
-            'Có lỗi xảy ra khi tạo mới lớp vui lòng thử lại'
+          console.log(
+            'after create class, isCreateClass: ' +
+              this.activateClassArray[index].isCreateClass
           );
+          this.activateStepFinal(index);
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+          this.activateClassArray[index].setIsActivated(2);
+          if (error.error === 'Class Name is null or empty!') {
+            this.callAlert('Ok', 'Tên lớp không được để trống');
+          } else if (error.error === 'Opening Day must be a day in Shift!') {
+            this.callAlert(
+              'Ok',
+              'Ngày khai giảng phải là ngày thuộc ca học đã chọn !'
+            );
+          } else {
+            this.callAlert(
+              'Ok',
+              'Có lỗi xảy ra khi tạo mới lớp vui lòng thử lại'
+            );
+          }
         }
-      }
-    );
+      );
+    }
   }
 
-  activateStepFinal(
-    index: number,
-    form: FormGroup,
-    classId: number,
-    bookingNumberArray: Array<number>
-  ): void {
+  activateStepFinal(index: number): void {
     if (this.activateClassArray[index])
       if (this.activateClassArray[index].isCreateClass) {
         const request: ClassActivationRequest = {
-          roomNo: +form.controls.roomNo.value,
-          teacherId: +form.controls.teacherName.value,
-          classId: classId,
-          creator: form.controls.managerUsername.value,
-          bookingIdList: bookingNumberArray,
+          roomId: this.activateClassArray[index].classActivateRequest?.roomId,
+          teacherId:
+            this.activateClassArray[index].classActivateRequest?.teacherId,
+          classId: this.activateClassArray[index].classId,
+          creator: this.activateClassArray[index].classActivateRequest?.creator,
+          bookingIdList:
+            this.activateClassArray[index].classActivateRequest?.bookingIdList,
         };
         this.api.activateClass(request).subscribe(
           (response: boolean) => {
