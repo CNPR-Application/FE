@@ -5,12 +5,6 @@
   src: url(assets/font/Poppins-Regular.ttf) format("opentype");
 }
 
-@font-face {
-  font-family: Inter;
-  src: url("https://fonts.googleapis.com/css2?family=Inter&display=swap")
-    format("opentype");
-}
-
 .loading-page {
   position: fixed;
   width: 100%;
@@ -27,7 +21,7 @@
   }
 }
 
-.mat-dialog-actions{
+.mat-dialog-actions {
   display: block !important;
 }
 .loading-page-popup {
@@ -131,17 +125,19 @@
     background: #f1f5fa;
     letter-spacing: 0.005em;
     color: rgba(0, 0, 0, 0.8);
-    font-family: Inter;
-    font-style: normal;
+    font-family: "Roboto";
+    font-style: 500 !important;
     font-weight: normal;
-    font-size: 15px;
+    font-size: 14px;
     letter-spacing: 0.005em;
+  }
+  th {
+    font-weight: 500 !important;
   }
   .data {
     height: 3.5em;
     border-bottom: 1px solid rgba(216, 216, 216, 0.3);
     font-size: 14px;
-    font-family: "Inter";
   }
   .data:hover {
     background: rgba(236, 237, 241, 0.2);
