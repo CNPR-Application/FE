@@ -1,0 +1,285 @@
+<div class="attendance">
+  <div class="first-line">
+    <div class="div-title">
+      <p class="title">Điểm danh</p>
+      <p class="line-title">
+        <a
+          class="back-title"
+          routerLink="/manager-dashboard"
+          title="Quay về trang chủ"
+          >Trang chủ</a
+        ><span class="else-title">/</span
+        ><span class="else-title">Điểm danh</span>
+      </p>
+    </div>
+    <div class="div-today" style="width: 13%">
+      <p class="today">{{ today | date: "dd/MM/yyyy" }}</p>
+      <mat-icon class="icon-today">date_range</mat-icon>
+    </div>
+  </div>
+  <div style="display: flex; margin-top: 1em">
+    <div class="class-list blue-border">
+      <div class="header-list">
+        <div class="title-header-list">
+          <p>Các Lớp Đang Học</p>
+        </div>
+        <div class="small-icon-div">...</div>
+      </div>
+      <div class="body-list" *ngIf="!isLoadingClass">
+        <div class="class-item" *ngFor="let class of classArray">
+          <div class="class-item-image-div">
+            <mat-icon
+              class="class-item-image"
+              (click)="getSession(class.classId)"
+              [ngClass]="
+                class.classId == classId
+                  ? 'class-item-image-focus'
+                  : 'class-item-image'
+              "
+              >store</mat-icon
+            >
+          </div>
+          <div class="class-info-div">
+            <p
+              class="big-class-name"
+              (click)="getSession(class.classId)"
+              [ngClass]="
+                class.classId == classId
+                  ? 'big-class-name-focus'
+                  : 'big-class-name'
+              "
+            >
+              {{ class.className }}
+            </p>
+            <p class="small-class-name">{{ class.shiftDescription }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="body-loading" *ngIf="isLoadingClass">
+        <img
+          class="img-loading"
+          src="/assets/image/loading.gif"
+          alt="Logo image"
+        />
+      </div>
+    </div>
+    <div class="session-list blue-border">
+      <div class="header-list">
+        <div class="title-header-list">
+          <p>Chọn Buổi Học</p>
+        </div>
+        <div class="small-icon-div">...</div>
+      </div>
+      <div class="body-list" *ngIf="!isLoadingSession">
+        <div class="session-item" *ngFor="let session of statusSession">
+          <div class="session-item-image-div">
+            <mat-icon
+              class="session-item-image"
+              (click)="changeSessionId(session.sessionResponse.sessionId)"
+              [ngClass]="
+                session.sessionResponse.sessionId == sessionId
+                  ? 'session-item-image-focus'
+                  : 'session-item-image'
+              "
+              >restore</mat-icon
+            >
+          </div>
+          <div class="session-info-div">
+            <p
+              class="big-session-name"
+              (click)="changeSessionId(session.sessionResponse.sessionId)"
+              [ngClass]="
+                session.sessionResponse.sessionId == sessionId
+                  ? 'big-session-name-focus'
+                  : 'big-session-name'
+              "
+            >
+              {{ session.sessionResponse.startTime | date: "dd/MM/yyyy" }}
+            </p>
+            <p class="small-session-name">{{ session.status }}</p>
+          </div>
+          <div class="session-item-image-div">
+            <mat-icon
+              class="session-item-image"
+              *ngIf="session.status == 'Đang mở'"
+              [ngClass]="
+                session.sessionResponse.sessionId == sessionId
+                  ? 'session-item-image-focus'
+                  : 'session-item-image'
+              "
+              (click)="changeSessionId(session.sessionResponse.sessionId)"
+              >touch_app</mat-icon
+            >
+            <mat-icon
+              class="session-item-image"
+              *ngIf="session.status != 'Đang mở'"
+              (click)="changeSessionId(session.sessionResponse.sessionId)"
+              >visibility</mat-icon
+            >
+          </div>
+        </div>
+      </div>
+      <div class="body-loading" *ngIf="isLoadingSession">
+        <img
+          class="img-loading"
+          src="/assets/image/loading.gif"
+          alt="Logo image"
+        />
+      </div>
+    </div>
+    <div class="attendance-list blue-border">
+      <div class="header-list">
+        <div class="title-header-list" style="width: 80%">
+          <p>Chấm điểm danh</p>
+        </div>
+        <button class="suggest-btn">Mở Lại Điểm Danh</button>
+      </div>
+      <div
+        class="body-list"
+        style="display: flex; width: 100%"
+        *ngIf="!isLoadingAttendance"
+      >
+        <div class="div-half-attendance" *ngIf="attendanceArray">
+          <div class="div-radio">
+            <p class="green-title">Có mặt</p>
+            <p class="red-title">Vắng</p>
+          </div>
+          <div
+            class="attendance-item"
+            *ngFor="
+              let student of attendanceArray | slice: 0:midpoint;
+              let i = index
+            "
+          >
+            <div class="ava-student-div">
+              <img
+                [src]="student.attendanceResponse.studentImage"
+                class="ava-student"
+              />
+            </div>
+            <div class="student-name-div">
+              <p>{{ student.attendanceResponse.studentName }}</p>
+            </div>
+            <div class="student-ratio" *ngIf="!student.isNotYet">
+              <label class="container">
+                <input
+                  type="radio"
+                  [disabled]="sessionStatus === 'Đang mở' ? false : true"
+                  [checked]="student.isAbsent"
+                  (change)="
+                    onItemChange(
+                      student.attendanceResponse.attendanceId,
+                      'absent',
+                      i
+                    )
+                  "
+                  [name]="student.attendanceResponse.studentInClassId"
+                />
+                <span class="checkmark-red"></span>
+              </label>
+              <label class="container" style="padding-left: 1em">
+                <input
+                  type="radio"
+                  [disabled]="sessionStatus === 'Đang mở' ? false : true"
+                  [checked]="student.isPresent"
+                  (change)="
+                    onItemChange(
+                      student.attendanceResponse.attendanceId,
+                      'present',
+                      i
+                    )
+                  "
+                  [name]="student.attendanceResponse.studentInClassId"
+                />
+                <span class="checkmark-green"></span>
+              </label>
+            </div>
+            <div *ngIf="student.isNotYet"><p class="not-yet">Not yet</p></div>
+          </div>
+        </div>
+        <div
+          class="div-half-attendance"
+          *ngIf="attendanceArray"
+          style="padding-left: 0.5em; padding-right: 1em"
+        >
+          <div class="div-radio">
+            <p class="green-title">Có mặt</p>
+            <p class="red-title">Vắng</p>
+          </div>
+          <div
+            class="attendance-item"
+            *ngFor="
+              let student of attendanceArray | slice: midpoint:endpoint;
+              let i = index
+            "
+          >
+            <div class="ava-student-div">
+              <img
+                [src]="student.attendanceResponse.studentImage"
+                class="ava-student"
+              />
+            </div>
+            <div class="student-name-div">
+              <p>{{ student.attendanceResponse.studentName }}</p>
+            </div>
+            <div class="student-ratio" *ngIf="!student.isNotYet">
+              <label class="container">
+                <input
+                  type="radio"
+                  [checked]="student.isAbsent"
+                  [disabled]="sessionStatus === 'Đang mở' ? false : true"
+                  (change)="
+                    onItemChange(
+                      student.attendanceResponse.attendanceId,
+                      'absent',
+                      i
+                    )
+                  "
+                  [name]="student.attendanceResponse.studentInClassId"
+                />
+                <span class="checkmark-red"></span>
+              </label>
+              <label class="container" style="padding-left: 1em">
+                <input
+                  type="radio"
+                  [disabled]="sessionStatus === 'Đang mở' ? false : true"
+                  [checked]="student.isPresent"
+                  (change)="
+                    onItemChange(
+                      student.attendanceResponse.attendanceId,
+                      'present',
+                      i
+                    )
+                  "
+                  [name]="student.attendanceResponse.studentInClassId"
+                />
+                <span class="checkmark-green"></span>
+              </label>
+            </div>
+            <div *ngIf="student.isNotYet"><p class="not-yet">Not yet</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="body-loading" *ngIf="isLoadingAttendance">
+        <img
+          class="img-loading"
+          src="/assets/image/loading.gif"
+          alt="Logo image"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="haveAlertOk = !haveAlertOk">OK</button>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertYN">
+  <div class="alert" *ngIf="haveAlertYN">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doYes()">Yes</button>
+    <button (click)="doNo()">No</button>
+  </div>
+</div>

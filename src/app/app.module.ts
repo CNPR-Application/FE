@@ -50,6 +50,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { MessagingService } from '../service/messaging.service';
 import { NotificationAdminDialogComponent } from './dashboard/notification-admin-dialog/notification-admin-dialog.component';
 import { NotificationTeacherDialogComponent } from './teacher-dashboard/notification-teacher-dialog/notification-teacher-dialog.component';
+import { ManagerAttendanceComponent } from './manager-dashboard/manager-attendance/manager-attendance.component';
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import { NotificationTeacherDialogComponent } from './teacher-dashboard/notifica
     NotificationDialogComponent,
     NotificationAdminDialogComponent,
     NotificationTeacherDialogComponent,
+    ManagerAttendanceComponent,
   ],
   entryComponents: [
     SubjectDialogComponent,
