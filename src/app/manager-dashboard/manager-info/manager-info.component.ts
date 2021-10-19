@@ -1,23 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { LoginResponse } from 'src/interfaces/Account';
 import { ApiService } from 'src/service/api.service';
 import { LocalStorageService } from 'src/service/local-storage.service';
-import { MatDialog } from '@angular/material/dialog';
-import { AvatarDialogComponent } from './avatar-dialog/avatar-dialog.component';
+import { ManagerAvatarComponent } from './manager-avatar/manager-avatar.component';
 
 @Component({
-  selector: 'app-info',
-  templateUrl: './info.component.html',
-  styleUrls: ['./info.component.scss'],
+  selector: 'app-manager-info',
+  templateUrl: './manager-info.component.html',
+  styleUrls: ['./manager-info.component.scss'],
 })
-export class InfoComponent implements OnInit {
-
+export class ManagerInfoComponent implements OnInit {
   constructor(
     private api: ApiService,
     private formBuilder: FormBuilder,
     private localStorageService: LocalStorageService,
-    private dialog: MatDialog,
+    private dialog: MatDialog
   ) {}
 
   // for alert, loading
@@ -75,23 +74,21 @@ export class InfoComponent implements OnInit {
     this.isLoading = false;
   }
 
-  openAvatarDialog():void{
-    let dialogRef = this.dialog.open(AvatarDialogComponent, {
-      data: this.info?.username
+  openAvatarDialog(): void {
+    let dialogRef = this.dialog.open(ManagerAvatarComponent, {
+      data: this.info?.username,
     });
-    dialogRef.afterClosed().subscribe(
-      (data: string) => {
-        if(data){
-          this.url = data;
-          if(this.info){
-            let request: LoginResponse = this.info;
-            request.image = this.url;
-            this.localStorageService.set('user', request);
-            window.location.reload();
-          }
+    dialogRef.afterClosed().subscribe((data: string) => {
+      if (data) {
+        this.url = data;
+        if (this.info) {
+          let request: LoginResponse = this.info;
+          request.image = this.url;
+          this.localStorageService.set('user', request);
+          window.location.reload();
         }
       }
-    )
+    });
   }
 
   editInfo(): void {
@@ -107,8 +104,8 @@ export class InfoComponent implements OnInit {
       branchId: this.info?.branchId,
       role: this.info?.role,
       creatingDate: this.info?.creatingDate,
-      branchName: this.info?.branchName
-    };    
+      branchName: this.info?.branchName,
+    };
     this.api.editInfo(request).subscribe(
       (response: boolean) => {
         this.isLoading = false;

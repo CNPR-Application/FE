@@ -19,6 +19,8 @@ import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard
 import { AttendanceComponent } from './teacher-dashboard/attendance/attendance.component';
 import { FeedbackComponent } from './manager-dashboard/feedback/feedback.component';
 import { ManagerAttendanceComponent } from './manager-dashboard/manager-attendance/manager-attendance.component';
+import { ManagerInfoComponent } from './manager-dashboard/manager-info/manager-info.component';
+import { TeacherInfoComponent } from './teacher-dashboard/teacher-info/teacher-info.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/main', pathMatch: 'full' },
@@ -47,12 +49,16 @@ const routes: Routes = [
       { path: 'schedule', component: ScheduleComponent },
       { path: 'feedback', component: FeedbackComponent },
       { path: 'attendance', component: ManagerAttendanceComponent },
+      { path: 'info', component: ManagerInfoComponent },
     ],
   },
   {
     path: 'teacher-dashboard',
     component: TeacherDashboardComponent,
-    children: [{ path: 'attendance', component: AttendanceComponent }],
+    children: [
+      { path: 'attendance', component: AttendanceComponent },
+      { path: 'info', component: TeacherInfoComponent },
+    ],
   },
 ];
 

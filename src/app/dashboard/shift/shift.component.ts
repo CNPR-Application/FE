@@ -28,6 +28,7 @@ export class ShiftComponent implements OnInit {
   //khôi phục
   isAvailable: boolean = true;
   clickId: number = 0;
+  today = new Date();
 
   ngOnInit(): void {
     this.getAllShift(1, this.isAvailable);

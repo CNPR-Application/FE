@@ -1,0 +1,36 @@
+<div *ngIf="isLoading" class="loading-page">
+  <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+</div>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="close()">OK</button>
+  </div>
+</div>
+<div class="div-avatar">
+  <img [src]="url" class="img-ava" *ngIf="url" />
+  <div class="first-line">
+    <img
+      class="img-upload"
+      src="../../../../assets/image/img-upload.png"
+    /><br />
+    <input
+      class="input-ava"
+      type="file"
+      accept="*.png.jpg.jpec"
+      (change)="onSelectFile($event)"
+    />
+  </div>
+  <div mat-dialog-actions class="button-div">
+    <button class="btn-edit" (click)="uploadImage()">
+      Thay đổi ảnh đại diện
+    </button>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertYN">
+  <div class="alert" *ngIf="haveAlertYN">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doYes()">Yes</button>
+    <button (click)="doNo()">No</button>
+  </div>
+</div>

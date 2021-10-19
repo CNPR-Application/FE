@@ -6,7 +6,10 @@
     <div class="div-title">
       <p class="title">Thông tin cá nhân</p>
       <p class="line-title">
-        <a class="back-title" routerLink="/dashboard" title="Quay về trang chủ"
+        <a
+          class="back-title"
+          routerLink="/manager-dashboard"
+          title="Quay về trang chủ"
           >Trang chủ</a
         ><span class="else-title">/</span
         ><span class="else-title">Thông tin cá nhân</span>
@@ -19,13 +22,22 @@
   </div>
   <div class="left" *ngIf="!isLoading">
     <form class="form" [formGroup]="form">
-      <div class="logo-div">
+      <div class="logo-div" style="margin-bottom: 1em">
         <img
           class="img"
           src="{{ url }}"
           alt="avatar image"
           (click)="openAvatarDialog()"
         />
+      </div>
+      <div class="logo-div">
+        <mat-icon
+          [style.color]="showIcon(i)"
+          style="font-size: 25px"
+          *ngFor="let ratingId of ratingArr; index as i"
+        >
+          grade
+        </mat-icon>
       </div>
       <div class="flex">
         <div style="width: 25%; padding-right: 10%">
@@ -102,6 +114,16 @@
               formControlName="address"
             ></textarea>
             <p class="invalid">Vui lòng điền địa chỉ</p>
+          </div>
+          <div class="input-div">
+            <p class="label">Kinh nghiệm</p>
+            <textarea
+              class="input textarea-deco"
+              type="text"
+              formControlName="experience"
+              readonly
+            ></textarea>
+            <p class="invalid">Vui lòng điền kinh nghiệm</p>
           </div>
           <div class="button-div">
             <button class="btn-edit">Đổi Mật Khẩu</button>

@@ -51,6 +51,10 @@ import { MessagingService } from '../service/messaging.service';
 import { NotificationAdminDialogComponent } from './dashboard/notification-admin-dialog/notification-admin-dialog.component';
 import { NotificationTeacherDialogComponent } from './teacher-dashboard/notification-teacher-dialog/notification-teacher-dialog.component';
 import { ManagerAttendanceComponent } from './manager-dashboard/manager-attendance/manager-attendance.component';
+import { ManagerInfoComponent } from './manager-dashboard/manager-info/manager-info.component';
+import { ManagerAvatarComponent } from './manager-dashboard/manager-info/manager-avatar/manager-avatar.component';
+import { TeacherInfoComponent } from './teacher-dashboard/teacher-info/teacher-info.component';
+import { TeacherAvatarComponent } from './teacher-dashboard/teacher-info/teacher-avatar/teacher-avatar.component';
 
 @NgModule({
   declarations: [
@@ -89,6 +93,10 @@ import { ManagerAttendanceComponent } from './manager-dashboard/manager-attendan
     NotificationAdminDialogComponent,
     NotificationTeacherDialogComponent,
     ManagerAttendanceComponent,
+    ManagerInfoComponent,
+    ManagerAvatarComponent,
+    TeacherInfoComponent,
+    TeacherAvatarComponent,
   ],
   entryComponents: [
     SubjectDialogComponent,
@@ -102,6 +110,8 @@ import { ManagerAttendanceComponent } from './manager-dashboard/manager-attendan
     NotificationDialogComponent,
     NotificationAdminDialogComponent,
     NotificationTeacherDialogComponent,
+    ManagerAvatarComponent,
+    TeacherAvatarComponent
   ],
   imports: [
     BrowserModule,

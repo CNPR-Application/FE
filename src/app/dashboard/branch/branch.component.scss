@@ -1,23 +1,8 @@
 .body-branch {
-  margin-left: 25px;
-  margin-right: 25px;
-  .line-menu {
-    letter-spacing: 0.005em;
-    color: #182a88;
-    opacity: 0.9;
-    padding-top: 5.5em;
-    font-weight: 500;
-    .left-line {
-      margin-left: 15px;
-    }
-    a {
-      text-decoration: auto;
-    }
-  }
+  padding: 6vh;
+  padding-bottom: 0;
   .branch {
     margin-top: 2.5%;
-    padding-left: 0.2em;
-    padding-right: 1em;
     .search {
       display: block;
       float: right;
@@ -63,15 +48,18 @@
         cursor: pointer;
       }
     }
-    .table{
+    .table {
       margin-top: 1em;
-      .td-1, .th-1{
+      .td-1,
+      .th-1 {
         width: 5%;
       }
-      .td-2, .th-2{
+      .td-2,
+      .th-2 {
         text-align: left;
       }
-      .td-3, .th-3{
+      .td-3,
+      .th-3 {
         text-align: left;
       }
     }

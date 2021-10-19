@@ -40,7 +40,6 @@ export class TeacherDashboardComponent implements OnInit {
     this.messagingService.requestPermission();
     this.messagingService.receiveMessage();
     this.messagingService.notiUpdated.subscribe((data) => {
-      console.log('new message received. ', data);
       this.getNotification();
     });
     this.getNotification();

@@ -1,23 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { LoginResponse } from 'src/interfaces/Account';
 import { ApiService } from 'src/service/api.service';
 import { LocalStorageService } from 'src/service/local-storage.service';
-import { MatDialog } from '@angular/material/dialog';
-import { AvatarDialogComponent } from './avatar-dialog/avatar-dialog.component';
+import { TeacherAvatarComponent } from './teacher-avatar/teacher-avatar.component';
 
 @Component({
-  selector: 'app-info',
-  templateUrl: './info.component.html',
-  styleUrls: ['./info.component.scss'],
+  selector: 'app-teacher-info',
+  templateUrl: './teacher-info.component.html',
+  styleUrls: ['./teacher-info.component.scss'],
 })
-export class InfoComponent implements OnInit {
-
+export class TeacherInfoComponent implements OnInit {
   constructor(
     private api: ApiService,
     private formBuilder: FormBuilder,
     private localStorageService: LocalStorageService,
-    private dialog: MatDialog,
+    private dialog: MatDialog
   ) {}
 
   // for alert, loading
@@ -41,6 +40,7 @@ export class InfoComponent implements OnInit {
     branchName: [],
     creatingDate: [],
     image: [''],
+    experience: [''],
   });
   //for form
   creatingDate?: string;
@@ -51,9 +51,33 @@ export class InfoComponent implements OnInit {
   url?: string;
   isUpload: boolean = false;
 
+  ratingArr: Array<number> = [];
+  rating: number = 3;
+
   ngOnInit(): void {
     this.info = this.localStorageService.get('user');
     this.setValue();
+    if (this.info?.rating) {
+      this.rating = this.getRating(this.info?.rating);
+    }
+    for (let i = 0; i < 5; i++) {
+      this.ratingArr.push(i);
+    }
+  }
+
+  getRating(ratingString: string): number {
+    let temp = ratingString.split('/');
+    let n1: number = +temp[0];
+    let n2: number = +temp[1];
+    return n1 / n2;
+  }
+
+  showIcon(index: number) {
+    if (this.rating >= index + 1) {
+      return '#ffd740';
+    } else {
+      return 'rgba(216, 216, 216, 0.41)';
+    }
   }
 
   setValue(): void {
@@ -69,29 +93,28 @@ export class InfoComponent implements OnInit {
     this.form.controls.creatingDate.setValue(this.info?.creatingDate);
     this.form.controls.role.setValue(this.info?.role);
     this.form.controls.image.setValue(this.info?.image);
+    this.form.controls.experience.setValue(this.info?.experience);
     this.url = this.info?.image;
     this.creatingDate = this.info?.creatingDate;
     this.role = this.info?.role;
     this.isLoading = false;
   }
 
-  openAvatarDialog():void{
-    let dialogRef = this.dialog.open(AvatarDialogComponent, {
-      data: this.info?.username
+  openAvatarDialog(): void {
+    let dialogRef = this.dialog.open(TeacherAvatarComponent, {
+      data: this.info?.username,
     });
-    dialogRef.afterClosed().subscribe(
-      (data: string) => {
-        if(data){
-          this.url = data;
-          if(this.info){
-            let request: LoginResponse = this.info;
-            request.image = this.url;
-            this.localStorageService.set('user', request);
-            window.location.reload();
-          }
+    dialogRef.afterClosed().subscribe((data: string) => {
+      if (data) {
+        this.url = data;
+        if (this.info) {
+          let request: LoginResponse = this.info;
+          request.image = this.url;
+          this.localStorageService.set('user', request);
+          window.location.reload();
         }
       }
-    )
+    });
   }
 
   editInfo(): void {
@@ -104,11 +127,7 @@ export class InfoComponent implements OnInit {
       address: this.form.controls.address.value,
       birthday: this.birthday,
       image: this.url,
-      branchId: this.info?.branchId,
-      role: this.info?.role,
-      creatingDate: this.info?.creatingDate,
-      branchName: this.info?.branchName
-    };    
+    };
     this.api.editInfo(request).subscribe(
       (response: boolean) => {
         this.isLoading = false;

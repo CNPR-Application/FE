@@ -30,6 +30,7 @@ export class BranchComponent implements OnInit {
   clickedId: number = 0;
   //for search
   isAvailable: boolean = true;
+  today = new Date();
 
   searchBranch(): void {
     this.getBranchByName(this.keyBranch, 1, this.isAvailable);

@@ -2,14 +2,20 @@
   <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
 </div>
 <div class="body-shift">
-  <div class="line-menu">
-    |<a
-      class="left-line"
-      style="cursor: pointer"
-      title="Quay về trang chủ"
-      routerLink="/dashboard"
-      >Trang chủ</a
-    ><span class="left-line">|</span><span class="left-line">Ca học</span>
+  <div class="first-line">
+    <div class="div-title">
+      <p class="title">Ca học</p>
+      <p class="line-title">
+        <a class="back-title" routerLink="/dashboard" title="Quay về trang chủ"
+          >Trang chủ</a
+        ><span class="else-title">/</span
+        ><span class="else-title">Ca học</span>
+      </p>
+    </div>
+    <div class="div-today" style="width: 13%">
+      <p class="today">{{ today | date: "dd/MM/yyyy" }}</p>
+      <mat-icon class="icon-today">date_range</mat-icon>
+    </div>
   </div>
   <mat-menu #appMenu="matMenu">
     <button mat-menu-item (click)="viewCurrentShift()">Hiện có</button>
