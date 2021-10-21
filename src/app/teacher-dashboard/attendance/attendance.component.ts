@@ -3,7 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { LoginResponse } from 'src/interfaces/Account';
 import { AttendanceList, AttendanceResponse } from 'src/interfaces/Attendance';
 import { ClassArray, ClassResponse } from 'src/interfaces/Class';
-import { NotiClassRequest, NotiPersonRequest } from 'src/interfaces/Notification';
+import {
+  NotiClassRequest,
+  NotiPersonRequest,
+} from 'src/interfaces/Notification';
 import { SessionList, SessionResponse } from 'src/interfaces/Session';
 import { ApiService } from 'src/service/api.service';
 import { LocalStorageService } from 'src/service/local-storage.service';
@@ -43,6 +46,8 @@ export class AttendanceComponent implements OnInit {
   classArray?: Array<ClassResponse>;
   sessionArray?: Array<SessionResponse>;
   attendanceArray?: Array<AttendanceChecking>;
+  pageArray?: Array<number>;
+  currentPage?: number = 1;
 
   //midpoint
   midpoint: number = 0;
@@ -60,17 +65,21 @@ export class AttendanceComponent implements OnInit {
 
   getClass(): void {
     this.isLoadingClass = true;
-    if (this.teacherUsername) {
+    if (this.teacherUsername && this.currentPage) {
       this.api
         .searchClassByTeacherUsernameAndStatus(
           this.teacherUsername,
           this.status,
-          1,
-          2000
+          this.currentPage,
+          20
         )
         .subscribe(
           (response: ClassArray) => {
             this.classArray = response.classList;
+            this.pageArray = Array(response.pageTotal)
+              .fill(1)
+              .map((x, i) => i + 1);
+            this.currentPage = response.pageNo;
             this.isLoadingClass = false;
             if (this.classArray) {
               this.classId = this.classArray[0].classId;
@@ -87,6 +96,19 @@ export class AttendanceComponent implements OnInit {
           }
         );
     }
+  }
+
+  changeStatusClass(status: string) {
+    if (this.status != status) {
+      this.status = status;
+      this.currentPage = 1;
+      this.getClass();
+    }
+  }
+
+  changePage(pageNo: number) {
+    this.currentPage = pageNo;
+    this.getClass();
   }
 
   getSession(classId?: number): void {

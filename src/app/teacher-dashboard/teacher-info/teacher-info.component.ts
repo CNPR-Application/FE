@@ -60,6 +60,7 @@ export class TeacherInfoComponent implements OnInit {
     if (this.info?.rating) {
       this.rating = this.getRating(this.info?.rating);
     }
+    this.ratingArr = [];
     for (let i = 0; i < 5; i++) {
       this.ratingArr.push(i);
     }
@@ -124,7 +125,13 @@ export class TeacherInfoComponent implements OnInit {
       name: this.form.controls.name.value,
       email: this.form.controls.email.value,
       phone: this.form.controls.phone.value,
+      rating: this.info?.rating,
+      experience: this.form.controls.experience.value,
+      role: this.info?.role,
       address: this.form.controls.address.value,
+      branchId: this.info?.branchId,
+      branchName: this.info?.branchName,
+      creatingDate: this.info?.creatingDate,
       birthday: this.birthday,
       image: this.url,
     };

@@ -44,6 +44,8 @@ export class ManagerAttendanceComponent implements OnInit {
   classArray?: Array<ClassResponse>;
   sessionArray?: Array<SessionResponse>;
   attendanceArray?: Array<AttendanceCheckingManager>;
+  pageArray?: Array<number>;
+  currentPage?: number = 1;
 
   //midpoint
   midpoint: number = 0;
@@ -61,26 +63,45 @@ export class ManagerAttendanceComponent implements OnInit {
 
   getClass(): void {
     this.isLoadingClass = true;
-    if (this.branchId) {
-      this.api.getClassByBranch(this.branchId, this.status, 1, 30).subscribe(
-        (response: ClassArray) => {
-          this.classArray = response.classList;
-          this.isLoadingClass = false;
-          if (this.classArray) {
-            this.classId = this.classArray[0].classId;
-            this.getSession(this.classId);
+    if (this.branchId && this.currentPage) {
+      this.api
+        .getClassByBranch(this.branchId, this.status, this.currentPage, 20)
+        .subscribe(
+          (response: ClassArray) => {
+            this.classArray = response.classList;
+            this.pageArray = Array(response.pageTotal)
+              .fill(1)
+              .map((x, i) => i + 1);
+            this.currentPage = response.pageNo;
+            this.isLoadingClass = false;
+            if (this.classArray) {
+              this.classId = this.classArray[0].classId;
+              this.getSession(this.classId);
+            }
+          },
+          (error) => {
+            console.log(error);
+            this.isLoadingClass = false;
+            this.callAlert(
+              'Ok',
+              'Có lỗi xảy ra khi tải lớp học, vui lòng thử lại'
+            );
           }
-        },
-        (error) => {
-          console.log(error);
-          this.isLoadingClass = false;
-          this.callAlert(
-            'Ok',
-            'Có lỗi xảy ra khi tải lớp học, vui lòng thử lại'
-          );
-        }
-      );
+        );
     }
+  }
+
+  changeStatusClass(status: string) {
+    if (this.status != status) {
+      this.status = status;
+      this.currentPage = 1;
+      this.getClass();
+    }
+  }
+
+  changePage(pageNo: number) {
+    this.currentPage = pageNo;
+    this.getClass();
   }
 
   getSession(classId?: number): void {

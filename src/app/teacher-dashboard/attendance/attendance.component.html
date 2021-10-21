@@ -21,9 +21,20 @@
     <div class="class-list blue-border">
       <div class="header-list">
         <div class="title-header-list">
-          <p>Các Lớp Đang Dạy</p>
+          <p *ngIf="status === 'studying'">Các Lớp Đang Dạy</p>
+          <p *ngIf="status === 'finished'">Các Lớp Đã Dạy</p>
         </div>
-        <div class="small-icon-div">...</div>
+        <div class="small-icon-div" [matMenuTriggerFor]="changeClassStatus">
+          ...
+        </div>
+        <mat-menu #changeClassStatus="matMenu">
+          <button mat-menu-item (click)="changeStatusClass('studying')">
+            Các Lớp Đang Học
+          </button>
+          <button mat-menu-item (click)="changeStatusClass('finished')">
+            Các Lớp Đã Học
+          </button>
+        </mat-menu>
       </div>
       <div class="body-list" *ngIf="!isLoadingClass">
         <div class="class-item" *ngFor="let class of classArray">
@@ -271,6 +282,11 @@
           alt="Logo image"
         />
       </div>
+    </div>
+  </div>
+  <div class="paging">
+    <div class="item" *ngFor="let i of pageArray" (click)="changePage(i)">
+      <a>{{ i }}</a>
     </div>
   </div>
 </div>
