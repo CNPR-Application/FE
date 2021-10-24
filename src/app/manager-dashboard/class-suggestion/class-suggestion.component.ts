@@ -160,10 +160,10 @@ export class ClassSuggestionComponent implements OnInit {
     this.branchId = user.branchId;
     if (this.branchId && this.classModel?.subjectId) {
       this.api
-        .searchTeacher(this.branchId, this.classModel?.subjectId, 1, 1000)
+        .searchTeacherByBranchSubject(this.branchId, this.classModel?.subjectId, 1, 1000)
         .subscribe(
           (data: TeacherArray) => {
-            this.teacherArray = data.teacherList;
+            this.teacherArray = data.teacherInBranchList;
           },
           (error) => {
             this.callAlert(

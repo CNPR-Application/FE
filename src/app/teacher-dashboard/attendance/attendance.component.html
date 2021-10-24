@@ -29,10 +29,10 @@
         </div>
         <mat-menu #changeClassStatus="matMenu">
           <button mat-menu-item (click)="changeStatusClass('studying')">
-            Các Lớp Đang Học
+            Các Lớp Đang Dạy
           </button>
           <button mat-menu-item (click)="changeStatusClass('finished')">
-            Các Lớp Đã Học
+            Các Lớp Đã Dạy
           </button>
         </mat-menu>
       </div>
@@ -299,7 +299,7 @@
 <div class="alert-div" *ngIf="haveAlertYN">
   <div class="alert" *ngIf="haveAlertYN">
     <p>{{ alertMessage }}</p>
-    <button (click)="doYes()">Yes</button>
-    <button (click)="doNo()">No</button>
+    <button (click)="doYes()">Có</button>
+    <button (click)="doNo()">Không</button>
   </div>
 </div>

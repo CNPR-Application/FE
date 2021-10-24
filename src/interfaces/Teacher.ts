@@ -5,23 +5,23 @@ export interface SubjectInTeacher {
 
 export interface TeacherInfo {
   teacherId: number;
-  name: string;
-  username: string;
-  address?: string;
-  email?: string;
-  birthday: string;
-  phone: string;
-  image?: string;
+  teacherName: string;
+  teacherUsername: string;
+  teacherAddress?: string;
+  teacherEmail?: string;
+  teacherBirthday: string;
+  teacherPhone: string;
+  teacherImage?: string;
   role: string;
-  creatingDate: string;
-  startingDate: string;
-  experience?: string;
-  rating: number;
+  accountCreatingDate: string;
+  teacherStartingDate: string;
+  teacherExperience?: string;
+  teacherRating: number;
   teachingSubjectList?: Array<SubjectInTeacher>;
 }
 
 export interface TeacherArray {
-  teacherList?: Array<TeacherInfo>;
+  teacherInBranchList?: Array<TeacherInfo>;
   pageNo: number;
   pageSize: number;
   totalPage: number;

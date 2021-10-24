@@ -232,10 +232,10 @@ Không có góp ý gì thêm.</textarea
           <th class="th2">Đánh giá</th>
         </tr>
         <tr class="data" *ngFor="let teacher of teacherArray; let i = index">
-          <td class="color-blue">{{ teacher.name }}</td>
+          <td class="color-blue">{{ teacher.teacherName }}</td>
           <td class="color-grey">
             <mat-icon
-              [style.color]="showIcon(i, teacher.rating)"
+              [style.color]="showIcon(i, teacher.teacherRating)"
               style="font-size: 21px"
               *ngFor="let ratingId of ratingArr; index as i"
             >

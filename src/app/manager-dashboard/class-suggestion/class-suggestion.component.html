@@ -216,7 +216,7 @@
             *ngFor="let teacher of teacherArray"
             [value]="teacher.teacherId"
           >
-            {{ teacher.name }} - {{ teacher.username }}
+            {{ teacher.teacherName }} - {{ teacher.teacherUsername }}
           </option>
         </select>
         <p class="invalid">Vui lòng điền tên giáo viên</p>
@@ -437,7 +437,7 @@
 <div class="alert-div" *ngIf="haveAlertYN">
   <div class="alert" *ngIf="haveAlertYN">
     <p>{{ alertMessage }}</p>
-    <button (click)="doYes()">Yes</button>
-    <button (click)="doNo()">No</button>
+    <button (click)="doYes()">Có</button>
+    <button (click)="doNo()">Không</button>
   </div>
 </div>

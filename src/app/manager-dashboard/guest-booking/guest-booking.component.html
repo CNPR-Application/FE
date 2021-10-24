@@ -177,29 +177,6 @@
           <button class="suggest-btn" (click)="openStatusDialog(guest)">
             Đổi trạng thái
           </button>
-          <!-- <mat-menu #changeStatusMenu="matMenu">
-            <button
-              *ngIf="titleGuest != 'Đơn tư vấn mới'"
-              mat-menu-item
-              (click)="changeStatusGuest(guest.id, 'pending')"
-            >
-              Đơn tư vấn mới
-            </button>
-            <button
-              *ngIf="titleGuest != 'Đơn tư vấn đã xử lý'"
-              mat-menu-item
-              (click)="changeStatusGuest(guest.id, 'contacted')"
-            >
-              Đơn tư vấn đã xử lý
-            </button>
-            <button
-              mat-menu-item
-              *ngIf="titleGuest != 'Khách hàng không liên lạc được'"
-              (click)="changeStatusGuest(guest.id, 'canceled')"
-            >
-              Khách hàng không liên lạc được
-            </button>
-          </mat-menu> -->
         </div>
         <div class="card">
           <div class="flex">
@@ -362,7 +339,7 @@
 <div class="alert-div" *ngIf="haveAlertYN">
   <div class="alert" *ngIf="haveAlertYN">
     <p>{{ alertMessage }}</p>
-    <button (click)="doYes()">Yes</button>
-    <button (click)="doNo()">No</button>
+    <button (click)="doYes()">Có</button>
+    <button (click)="doNo()">Không</button>
   </div>
 </div>

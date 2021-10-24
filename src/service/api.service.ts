@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { retry } from 'rxjs/operators';
 import { RoomList } from 'src/interfaces/Room';
+import { StudentArrayResponse } from 'src/interfaces/Student';
 import {
   CreateInFoResponse,
   Guest,
@@ -513,7 +514,7 @@ export class ApiService {
 
   //teacher
 
-  searchTeacher(
+  searchTeacherByBranchSubject(
     branchId: number,
     subjectId: number,
     pageNo: number,
@@ -522,6 +523,25 @@ export class ApiService {
     const url = `${this.rootUrl}teachers?branchId=${branchId}&subjectId=${subjectId}&pageNo=${pageNo}&pageSize=${pageSize}`;
     return this.http
       .get<TeacherArray>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  searchTeacherByBranchIsAvail(
+    branchId: number,
+    isAvailable: boolean,
+    pageNo: number,
+    pageSize: number
+  ): Observable<TeacherArray> {
+    const url = `${this.rootUrl}teachers?branchId=${branchId}&isAvailable=${isAvailable}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    return this.http
+      .get<TeacherArray>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  deleteTeacher(username: string): Observable<boolean> {
+    const url = `${this.rootUrl}teachers/${username}`;
+    return this.http
+      .delete<boolean>(url, { headers: this.headers })
       .pipe(retry(1));
   }
 
@@ -622,10 +642,34 @@ export class ApiService {
   }
 
   //room
-  getRoomByBranchShiftOpeningDate(branchId: number, shiftId: number, openingDate: string):Observable<RoomList>{
+  getRoomByBranchShiftOpeningDate(
+    branchId: number,
+    shiftId: number,
+    openingDate: string
+  ): Observable<RoomList> {
     const url = `${this.rootUrl}rooms/${branchId}/search?shiftId=${shiftId}&openingDate=${openingDate}`;
     return this.http
       .get<RoomList>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  //student
+  getStudentInBranch(
+    branchId: number,
+    isAvailable: boolean,
+    pageNo: number,
+    pageSize: number
+  ): Observable<StudentArrayResponse> {
+    const url = `${this.rootUrl}students?branchId=${branchId}&isAvailable=${isAvailable}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    return this.http
+      .get<StudentArrayResponse>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  deleteStudent(username: string): Observable<boolean> {
+    const url = `${this.rootUrl}students/${username}`;
+    return this.http
+      .delete<boolean>(url, { headers: this.headers })
       .pipe(retry(1));
   }
 }

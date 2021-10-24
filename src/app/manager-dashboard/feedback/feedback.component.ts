@@ -198,11 +198,12 @@ export class FeedbackComponent implements OnInit {
   getTeacher(pageNo: number): void {
     this.isLoadingTeacher = true;
     if (this.branchId)
-      this.api.searchTeacher(this.branchId, 0, pageNo, 5).subscribe(
+      this.api.searchTeacherByBranchSubject(this.branchId, 0, pageNo, 5).subscribe(
         (response: TeacherArray) => {
-          this.teacherArray = response.teacherList;
+          this.teacherArray = response.teacherInBranchList;
           this.teacherArray = this.teacherArray?.sort(
-            (a, b) => this.toFloat(b.rating) - this.toFloat(a.rating)
+            (a, b) =>
+              this.toFloat(b.teacherRating) - this.toFloat(a.teacherRating)
           );
           this.totalPageTeacher = response.totalPage;
           this.pageArrayTeacher = Array(this.totalPageTeacher)
@@ -212,10 +213,10 @@ export class FeedbackComponent implements OnInit {
           this.currentPageTeacher = response.pageNo;
           this.chartArrayTeacher = [];
           this.teacherArray?.forEach((y) => {
-            if (y && y.rating) {
-              let num = this.toFloat(y.rating);
+            if (y && y.teacherRating) {
+              let num = this.toFloat(y.teacherRating);
               let item: Single_Chart = {
-                name: y.name,
+                name: y.teacherName,
                 value: num,
               };
               this.chartArrayTeacher?.push(item);

@@ -1,0 +1,249 @@
+<div class="student">
+  <div class="first-line">
+    <div class="div-title">
+      <p class="title">Về chi nhánh</p>
+      <p class="line-title">
+        <a
+          class="back-title"
+          routerLink="/manager-dashboard"
+          title="Quay về trang chủ"
+          >Trang chủ</a
+        ><span class="else-title">/</span
+        ><span class="else-title">Danh sách học sinh</span>
+        <span
+          ><mat-icon class="icon-add" title="Tạo mới"
+            >add_circle</mat-icon
+          ></span
+        >
+      </p>
+    </div>
+
+    <div class="div-today" style="width: 13%">
+      <p class="today">{{ today | date: "dd/MM/yyyy" }}</p>
+      <mat-icon class="icon-today">date_range</mat-icon>
+    </div>
+  </div>
+  <div class="flex" style="margin-top: 1em">
+    <div class="left">
+      <div class="head-list">
+        <div class="div-today">
+          <p class="today" *ngIf="isAvailable">Học sinh hiện tại</p>
+          <p class="today" *ngIf="!isAvailable">Học sinh đã xóa</p>
+          <mat-icon class="icon-today" [matMenuTriggerFor]="studentStatus"
+            >swap_vert</mat-icon
+          >
+          <mat-menu #studentStatus="matMenu">
+            <button mat-menu-item (click)="changeStatus(true)">
+              Học sinh hiện tại
+            </button>
+            <button mat-menu-item (click)="changeStatus(false)">
+              Học sinh đã xóa
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+      <div style="max-height: 60em; overflow-y: auto; overflow-x: hidden">
+        <div
+          class="head-body"
+          *ngFor="let student of studentArray"
+          (click)="setForm(student)"
+          [ngStyle]="{
+            'background-color':
+              student.studentId === clickedId
+                ? 'rgba(236, 237, 241, 0.5)'
+                : 'white'
+          }"
+        >
+          <div class="num">
+            <button class="suggest-btn" style="margin-right: 5px">
+              Lớp Học
+            </button>
+            <button class="suggest-btn">Bookings</button>
+          </div>
+          <div class="card">
+            <div class="flex">
+              <mat-icon class="icon">perm_identity</mat-icon>
+              <p class="name">{{ student.name }}</p>
+              <div class="flex" style="width: 50%; justify-content: flex-end">
+                <mat-icon class="icon">access_time</mat-icon>
+                <p>Ngày sinh: {{ student.birthday | date: "dd/MM/yyyy" }}</p>
+              </div>
+            </div>
+            <div class="flex" style="margin-top: 1.25em">
+              <p style="width: 45%">Tài khoản: {{ student.username }}</p>
+              <p style="width: 55%">Số điện thoại: {{ student.phone }}</p>
+            </div>
+            <div class="flex" style="margin-top: 0.7em; margin-bottom: 0.25em">
+              <p style="width: 45%">Email: {{ student.email }}</p>
+              <p style="width: 50%">Nơi ở: {{ student.address }}</p>
+              <mat-icon
+                *ngIf="isAvailable"
+                class="icon-add"
+                title="Xóa"
+                (click)="
+                  callAlert(
+                    'YN',
+                    'Bạn có chắc chắn muốn xóa học sinh này không?',
+                    student.username
+                  )
+                "
+                >delete_outline</mat-icon
+              >
+              <mat-icon
+                *ngIf="!isAvailable"
+                class="icon-add"
+                title="Khôi phục"
+                (click)="
+                  callAlert(
+                    'YN',
+                    'Bạn có chắc chắn muốn khôi phục học sinh này không?',
+                    student.username
+                  )
+                "
+                >restore_from_trash</mat-icon
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="paging">
+        <div
+          class="item"
+          *ngFor="let page of pageArray"
+          [ngStyle]="{
+            'background-color':
+              page === currentPage ? 'rgba(236, 237, 241, 0.5)' : 'white'
+          }"
+          (click)="changePage(page)"
+        >
+          <a>{{ page }}</a>
+        </div>
+      </div>
+    </div>
+    <div class="form" [formGroup]="form">
+      <div class="flex-center">
+        <mat-icon class="icon" style="color: rgb(0, 0, 0, 0.3)"
+          >supervised_user_circle</mat-icon
+        >
+        <form class="search" #heroForm="ngForm" style="margin-top: 0">
+          <input
+            class="form-control"
+            style="width: 100%"
+            type="text"
+            placeholder="Tìm tên học sinh"
+          />
+        </form>
+      </div>
+      <div class="flex-center" style="margin-top: 1em">
+        <mat-icon class="icon" style="color: rgb(0, 0, 0, 0.3)"
+          >settings_phone</mat-icon
+        >
+        <form class="search" #heroForm="ngForm" style="margin-top: 0">
+          <input
+            class="form-control"
+            style="width: 100%"
+            type="text"
+            placeholder="Tìm theo điện thoại"
+          />
+        </form>
+      </div>
+      <div class="form-detail" [formGroup]="form">
+        <div class="flex" style="margin-top: 1.5em; margin-bottom: 1em">
+          <p
+            class="label"
+            style="font-size: 11px; width: 75%; text-align: left"
+          >
+            ID: {{ clickedId }}
+          </p>
+          <button class="suggest-btn">Chỉnh sửa</button>
+        </div>
+        <div class="div-img-ava" *ngIf="clickedImage">
+          <img [src]="clickedImage" class="ava-img" />
+        </div>
+        <div class="input-div">
+          <p class="label">Tên Đăng Nhập</p>
+          <input
+            class="input"
+            type="text"
+            formControlName="username"
+            readonly
+          />
+          <p class="invalid">Vui lòng điền tên lớp</p>
+        </div>
+        <div class="input-div">
+          <p class="label">Họ và tên</p>
+          <input class="input" type="text" formControlName="name" readonly />
+          <p class="invalid">Vui lòng điền tên lớp</p>
+        </div>
+        <div class="input-div">
+          <p class="label">Số điện thoại</p>
+          <input class="input" type="text" formControlName="phone" readonly />
+          <p class="invalid">Vui lòng điền số điện thoại</p>
+        </div>
+        <div class="input-div">
+          <p class="label">Email</p>
+          <input class="input" type="email" formControlName="email" readonly />
+          <p class="invalid">Vui lòng điền email</p>
+        </div>
+        <div class="input-div">
+          <p class="label">Ngày sinh</p>
+          <input
+            class="input"
+            type="date"
+            formControlName="birthday"
+            [ngModel]="birthday | date: 'yyyy-MM-dd'"
+            readonly
+          />
+          <p class="invalid">Vui lòng điền ngày sinh</p>
+        </div>
+        <div class="input-div">
+          <p class="label">Địa chỉ</p>
+          <textarea
+            class="input"
+            style="height: 5em"
+            type="text"
+            formControlName="address"
+            readonly
+          ></textarea>
+          <p class="invalid">Vui lòng điền ngày sinh</p>
+        </div>
+        <div class="input-div">
+          <p class="label">Tên phụ huynh</p>
+          <input
+            class="input"
+            type="text"
+            formControlName="parentName"
+            readonly
+          />
+          <p class="invalid">Vui lòng điền ngày sinh</p>
+        </div>
+        <div class="input-div">
+          <p class="label">Số điện thoại phụ huynh</p>
+          <input
+            class="input"
+            type="text"
+            formControlName="parentPhone"
+            readonly
+          />
+          <p class="invalid">Vui lòng điền ngày sinh</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="haveAlertOk = !haveAlertOk">OK</button>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertYN">
+  <div class="alert" *ngIf="haveAlertYN">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doYes()">Có</button>
+    <button (click)="doNo()">Không</button>
+  </div>
+</div>
+<div *ngIf="isLoadingStudent" class="loading-page" style="padding-left: 39.5%">
+  <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+</div>

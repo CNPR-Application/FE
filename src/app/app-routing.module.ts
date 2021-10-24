@@ -21,6 +21,8 @@ import { FeedbackComponent } from './manager-dashboard/feedback/feedback.compone
 import { ManagerAttendanceComponent } from './manager-dashboard/manager-attendance/manager-attendance.component';
 import { ManagerInfoComponent } from './manager-dashboard/manager-info/manager-info.component';
 import { TeacherInfoComponent } from './teacher-dashboard/teacher-info/teacher-info.component';
+import { StudentManagementComponent } from './manager-dashboard/student-management/student-management.component';
+import { TeacherManagementComponent } from './manager-dashboard/teacher-management/teacher-management.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/main', pathMatch: 'full' },
@@ -50,6 +52,8 @@ const routes: Routes = [
       { path: 'feedback', component: FeedbackComponent },
       { path: 'attendance', component: ManagerAttendanceComponent },
       { path: 'info', component: ManagerInfoComponent },
+      { path: 'student', component: StudentManagementComponent },
+      { path: 'teacher', component: TeacherManagementComponent },
     ],
   },
   {

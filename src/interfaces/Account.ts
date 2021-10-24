@@ -12,11 +12,11 @@ export interface InfoArray {
 
 export interface LoginResponse {
   username?: string;
-  name: string;
-  address: string;
+  name?: string;
+  address?: string;
   email?: string;
   birthday?: string;
-  phone: string;
+  phone?: string;
   image?: string;
   role?: string;
   creatingDate?: string;

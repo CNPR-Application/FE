@@ -55,6 +55,8 @@ import { ManagerInfoComponent } from './manager-dashboard/manager-info/manager-i
 import { ManagerAvatarComponent } from './manager-dashboard/manager-info/manager-avatar/manager-avatar.component';
 import { TeacherInfoComponent } from './teacher-dashboard/teacher-info/teacher-info.component';
 import { TeacherAvatarComponent } from './teacher-dashboard/teacher-info/teacher-avatar/teacher-avatar.component';
+import { StudentManagementComponent } from './manager-dashboard/student-management/student-management.component';
+import { TeacherManagementComponent } from './manager-dashboard/teacher-management/teacher-management.component';
 
 @NgModule({
   declarations: [
@@ -97,6 +99,8 @@ import { TeacherAvatarComponent } from './teacher-dashboard/teacher-info/teacher
     ManagerAvatarComponent,
     TeacherInfoComponent,
     TeacherAvatarComponent,
+    StudentManagementComponent,
+    TeacherManagementComponent
   ],
   entryComponents: [
     SubjectDialogComponent,
