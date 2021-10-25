@@ -11,7 +11,10 @@
         ><span class="else-title">/</span
         ><span class="else-title">Danh sách học sinh</span>
         <span
-          ><mat-icon class="icon-add" title="Tạo mới"
+          ><mat-icon
+            class="icon-add"
+            title="Tạo mới"
+            (click)="openCreateAccount('createStudent')"
             >add_circle</mat-icon
           ></span
         >
@@ -139,6 +142,9 @@
             class="form-control"
             style="width: 100%"
             type="text"
+            name="keyNameGuest"
+            [(ngModel)]="keyNameGuest"
+            (change)="searchGuest()"
             placeholder="Tìm tên học sinh"
           />
         </form>
@@ -152,6 +158,9 @@
             class="form-control"
             style="width: 100%"
             type="text"
+            name="keyPhoneGuest"
+            [(ngModel)]="keyPhoneGuest"
+            (change)="searchGuest()"
             placeholder="Tìm theo điện thoại"
           />
         </form>
@@ -164,7 +173,13 @@
           >
             ID: {{ clickedId }}
           </p>
-          <button class="suggest-btn" *ngIf="clickedId">Chỉnh sửa</button>
+          <button
+            class="suggest-btn"
+            *ngIf="clickedId"
+            (click)="openCreateAccount('editStudent')"
+          >
+            Chỉnh sửa
+          </button>
         </div>
         <div class="div-img-ava" *ngIf="clickedImage">
           <img [src]="clickedImage" class="ava-img" />

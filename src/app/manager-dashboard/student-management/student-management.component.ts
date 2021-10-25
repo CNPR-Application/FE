@@ -7,6 +7,7 @@ import { LoginResponse } from 'src/interfaces/Account';
 import { StudentResponse } from 'src/interfaces/Student';
 import { ApiService } from 'src/service/api.service';
 import { LocalStorageService } from 'src/service/local-storage.service';
+import { CreateAccountComponent } from './create-account/create-account.component';
 
 @Component({
   selector: 'app-student-management',
@@ -48,6 +49,10 @@ export class StudentManagementComponent implements OnInit {
   clickedStudent?: StudentResponse;
   birthday?: string;
 
+  //search
+  keyNameGuest: string = '';
+  keyPhoneGuest: string = '';
+
   ngOnInit(): void {
     let user: LoginResponse = this.localStorage.get('user');
     this.branchId = user.branchId;
@@ -83,10 +88,45 @@ export class StudentManagementComponent implements OnInit {
     }
   }
 
+  searchGuest() {
+    if (this.keyNameGuest === '' && this.keyPhoneGuest === '') {
+      this.getStudentList();
+    } else {
+      if (this.branchId) {
+        this.isLoadingStudent = true;
+        this.api
+          .searchStudentByBranchNamePhone(
+            this.branchId,
+            this.isAvailable,
+            this.keyPhoneGuest,
+            this.keyNameGuest,
+            this.currentPage,
+            15
+          )
+          .subscribe(
+            (response) => {
+              this.studentArray = response.studentList;
+              this.currentPage = response.pageNo;
+              this.pageArray = Array(response.pageTotal)
+                .fill(1)
+                .map((x, i) => i + 1)
+                .reverse();
+              this.isLoadingStudent = false;
+            },
+            (error) => {
+              console.error(error);
+              this.isLoadingStudent = false;
+              this.callAlert('Ok', 'Có lỗi xảy ra khi tải, vui lòng thử lại');
+            }
+          );
+      }
+    }
+  }
+
   changePage(pageNo: number) {
     this.currentPage = pageNo;
     this.resetForm();
-    this.getStudentList();
+    this.searchGuest();
   }
 
   changeStatus(isAvailable: boolean) {
@@ -94,7 +134,7 @@ export class StudentManagementComponent implements OnInit {
       this.currentPage = 1;
       this.isAvailable = isAvailable;
       this.resetForm();
-      this.getStudentList();
+      this.searchGuest();
     }
   }
 
@@ -129,7 +169,7 @@ export class StudentManagementComponent implements OnInit {
         if (response) {
           this.callAlert('Ok', 'Xóa thành công');
           this.resetForm();
-          this.getStudentList();
+          this.searchGuest();
         } else {
           this.callAlert('Ok', 'Có lỗi xảy ra khi xóa, vui lòng thử lại');
         }
@@ -173,7 +213,7 @@ export class StudentManagementComponent implements OnInit {
         this.isLoadingStudent = false;
         this.callAlert('Ok', 'Khôi phục thành công');
         this.resetForm();
-        this.getStudentList();
+        this.searchGuest();
       },
       (error) => {
         this.isLoadingStudent = false;
@@ -193,6 +233,21 @@ export class StudentManagementComponent implements OnInit {
     this.localStorage.set('data', student);
     this.localStorage.set('message', 'viewStudentBooking');
     this.router.navigate(['manager-dashboard/student-bookings']);
+  }
+
+  openCreateAccount(type: string) {
+    let dialogRef = this.dialog.open(CreateAccountComponent, {
+      data: {
+        type: type,
+        param: this.clickedStudent,
+      },
+    });
+    dialogRef.afterClosed().subscribe((data: string) => {
+      if (data) {
+        this.searchGuest();
+        this.resetForm();
+      }
+    });
   }
 
   haveAlertOk: boolean = false;

@@ -11,7 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import {
   BrowserAnimationsModule,
-  NoopAnimationsModule
+  NoopAnimationsModule,
 } from '@angular/platform-browser/animations';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ClickOutsideModule } from 'ng-click-outside';
@@ -52,11 +52,8 @@ import { ScheduleComponent } from './manager-dashboard/schedule/schedule.compone
 import { StudentInClassComponent } from './manager-dashboard/schedule/student-in-class/student-in-class.component';
 import { BookingStatusComponent } from './manager-dashboard/student-bookings/booking-status/booking-status.component';
 import { StudentBookingsComponent } from './manager-dashboard/student-bookings/student-bookings.component';
-import { StudentClassComponent } from './manager-dashboard/student-class/student-class.component';
 import { StudentManagementComponent } from './manager-dashboard/student-management/student-management.component';
-import { TeacherClassComponent } from './manager-dashboard/teacher-class/teacher-class.component';
 import { TeacherManagementComponent } from './manager-dashboard/teacher-management/teacher-management.component';
-import { TeachingSubjectComponent } from './manager-dashboard/teacher-management/teaching-subject/teaching-subject.component';
 import { MaterialModule } from './material/material.module';
 import { AttendanceComponent } from './teacher-dashboard/attendance/attendance.component';
 import { NotificationTeacherDialogComponent } from './teacher-dashboard/notification-teacher-dialog/notification-teacher-dialog.component';
@@ -64,6 +61,10 @@ import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard
 import { TeacherAvatarComponent } from './teacher-dashboard/teacher-info/teacher-avatar/teacher-avatar.component';
 import { TeacherInfoComponent } from './teacher-dashboard/teacher-info/teacher-info.component';
 import { TeacherMenuComponent } from './teacher-dashboard/teacher-menu/teacher-menu.component';
+import { CreateAccountComponent } from './manager-dashboard/student-management/create-account/create-account.component';
+import { TeachingSubjectComponent } from './manager-dashboard/teacher-management/teaching-subject/teaching-subject.component';
+import { StudentClassComponent } from './manager-dashboard/student-class/student-class.component';
+import { TeacherClassComponent } from './manager-dashboard/teacher-class/teacher-class.component';
 
 @NgModule({
   declarations: [
@@ -113,6 +114,7 @@ import { TeacherMenuComponent } from './teacher-dashboard/teacher-menu/teacher-m
     TeacherClassComponent,
     StudentBookingsComponent,
     BookingStatusComponent,
+    CreateAccountComponent,
   ],
   entryComponents: [
     SubjectDialogComponent,
@@ -130,6 +132,7 @@ import { TeacherMenuComponent } from './teacher-dashboard/teacher-menu/teacher-m
     TeacherAvatarComponent,
     TeachingSubjectComponent,
     BookingStatusComponent,
+    CreateAccountComponent,
   ],
   imports: [
     BrowserModule,

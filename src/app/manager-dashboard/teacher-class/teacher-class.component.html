@@ -81,7 +81,12 @@
           <th class="th3">Ca học</th>
           <th class="th4">Khai giảng</th>
           <th class="th4">Chi nhánh</th>
-          <th class="th4">Phòng học</th>
+          <th
+            class="th4"
+            *ngIf="status === 'studying' || status === 'finished'"
+          >
+            Phòng học
+          </th>
           <th class="th4">Tổng buổi học</th>
         </tr>
         <tr
@@ -110,7 +115,7 @@
           <td>
             {{ class.branchName }}
           </td>
-          <td>
+          <td *ngIf="status === 'studying' || status === 'finished'">
             {{ class.roomName }}
           </td>
           <td>

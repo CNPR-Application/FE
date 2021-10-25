@@ -7,6 +7,7 @@ import { LoginResponse } from 'src/interfaces/Account';
 import { TeacherInfo } from 'src/interfaces/Teacher';
 import { ApiService } from 'src/service/api.service';
 import { LocalStorageService } from 'src/service/local-storage.service';
+import { CreateAccountComponent } from '../student-management/create-account/create-account.component';
 import { TeachingSubjectComponent } from './teaching-subject/teaching-subject.component';
 
 @Component({
@@ -55,6 +56,10 @@ export class TeacherManagementComponent implements OnInit {
 
   clickedTeacher?: TeacherInfo;
 
+  //search
+  keyNameGuest: string = '';
+  keyPhoneGuest: string = '';
+
   ngOnInit(): void {
     let user: LoginResponse = this.localStorage.get('user');
     this.branchId = user.branchId;
@@ -93,7 +98,7 @@ export class TeacherManagementComponent implements OnInit {
   changePage(pageNo: number) {
     this.currentPage = pageNo;
     this.resetForm();
-    this.getTeacherList();
+    this.searchGuest();
   }
 
   showIcon(index: number) {
@@ -115,7 +120,7 @@ export class TeacherManagementComponent implements OnInit {
       this.currentPage = 1;
       this.isAvailable = isAvailable;
       this.resetForm();
-      this.getTeacherList();
+      this.searchGuest();
     }
   }
 
@@ -159,7 +164,7 @@ export class TeacherManagementComponent implements OnInit {
         if (response) {
           this.callAlert('Ok', 'Xóa thành công');
           this.resetForm();
-          this.getTeacherList();
+          this.searchGuest();
         } else {
           this.callAlert('Ok', 'Có lỗi xảy ra khi xóa, vui lòng thử lại');
         }
@@ -196,7 +201,7 @@ export class TeacherManagementComponent implements OnInit {
         this.isLoadingTeacher = false;
         this.callAlert('Ok', 'Khôi phục thành công');
         this.resetForm();
-        this.getTeacherList();
+        this.searchGuest();
       },
       (error) => {
         this.isLoadingTeacher = false;
@@ -216,6 +221,56 @@ export class TeacherManagementComponent implements OnInit {
     this.localStorage.set('data', teacher);
     this.localStorage.set('message', 'viewTeacherClass');
     this.router.navigate(['manager-dashboard/teacher-class']);
+  }
+
+  openCreateAccount(type: string) {
+    let dialogRef = this.dialog.open(CreateAccountComponent, {
+      data: {
+        type: type,
+        param: this.clickedTeacher,
+      },
+    });
+    dialogRef.afterClosed().subscribe((data: string) => {
+      if (data) {
+        this.searchGuest();
+        this.resetForm();
+      }
+    });
+  }
+
+  searchGuest() {
+    if (this.keyNameGuest === '' && this.keyPhoneGuest === '') {
+      this.getTeacherList();
+    } else {
+      if (this.branchId) {
+        this.isLoadingTeacher = true;
+        this.api
+          .searchTeacherByBranchNamePhone(
+            this.branchId,
+            this.isAvailable,
+            this.keyPhoneGuest,
+            this.keyNameGuest,
+            this.currentPage,
+            15
+          )
+          .subscribe(
+            (response) => {
+              this.teacherArray = response.teacherList;
+              this.currentPage = response.pageNo;
+              this.pageArray = Array(response.totalPage)
+                .fill(1)
+                .map((x, i) => i + 1)
+                .reverse();
+              this.isLoadingTeacher = false;
+            },
+            (error) => {
+              console.error(error);
+              this.isLoadingTeacher = false;
+              this.callAlert('Ok', 'Có lỗi xảy ra khi tải, vui lòng thử lại');
+            }
+          );
+      }
+    }
   }
 
   haveAlertOk: boolean = false;

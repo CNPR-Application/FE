@@ -5,6 +5,13 @@ export interface StudentArrayResponse {
   studentResponseDtos: StudentResponse[];
 }
 
+export interface StudentArraySearchResponse {
+  pageNo: number;
+  pageSize: number;
+  pageTotal: number;
+  studentList: StudentResponse[];
+}
+
 export interface StudentResponse {
   studentId: number;
   username?: string;

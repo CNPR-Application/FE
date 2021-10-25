@@ -32,3 +32,9 @@ export interface TeacherArray {
   pageSize: number;
   totalPage: number;
 }
+export interface TeacherSearchArray {
+  teacherList?: Array<TeacherInfo>;
+  pageNo: number;
+  pageSize: number;
+  totalPage: number;
+}

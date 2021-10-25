@@ -3,7 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { retry } from 'rxjs/operators';
 import { RoomList } from 'src/interfaces/Room';
-import { StudentArrayResponse } from 'src/interfaces/Student';
+import {
+  StudentArrayResponse,
+  StudentArraySearchResponse,
+} from 'src/interfaces/Student';
 import {
   CreateInFoResponse,
   Guest,
@@ -55,6 +58,7 @@ import {
 import {
   SubjectInTeacher,
   TeacherArray,
+  TeacherSearchArray,
   TeachingSubjectRequest,
 } from '../interfaces/Teacher';
 
@@ -549,6 +553,20 @@ export class ApiService {
       .pipe(retry(1));
   }
 
+  searchTeacherByBranchNamePhone(
+    branchId: number,
+    isAvailable: boolean,
+    phone: string,
+    name: string,
+    pageNo: number,
+    pageSize: number
+  ): Observable<TeacherSearchArray> {
+    const url = `${this.rootUrl}teachers-in-branch?branchId=${branchId}&isAvailable=${isAvailable}&phone=${phone}&name=${name}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    return this.http
+      .get<TeacherSearchArray>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
   searchTeacherByBranchIsAvail(
     branchId: number,
     isAvailable: boolean,
@@ -683,9 +701,23 @@ export class ApiService {
     pageNo: number,
     pageSize: number
   ): Observable<StudentArrayResponse> {
-    const url = `${this.rootUrl}students?branchId=${branchId}&isAvailable=${isAvailable}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    const url = `${this.rootUrl}student?branchId=${branchId}&isAvailable=${isAvailable}&pageNo=${pageNo}&pageSize=${pageSize}`;
     return this.http
       .get<StudentArrayResponse>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  searchStudentByBranchNamePhone(
+    branchId: number,
+    isAvailable: boolean,
+    phone: string,
+    name: string,
+    pageNo: number,
+    pageSize: number
+  ): Observable<StudentArraySearchResponse> {
+    const url = `${this.rootUrl}students?branchId=${branchId}&isAvailable=${isAvailable}&phone=${phone}&name=${name}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    return this.http
+      .get<StudentArraySearchResponse>(url, { headers: this.headers })
       .pipe(retry(1));
   }
 
