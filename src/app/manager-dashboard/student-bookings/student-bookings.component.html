@@ -1,0 +1,148 @@
+<div class="class-management">
+  <div class="first-line">
+    <div class="div-title">
+      <p class="title">Chi tiết đơn đăng ký của học sinh</p>
+      <p class="line-title">
+        <a
+          class="back-title"
+          routerLink="/manager-dashboard"
+          title="Quay về trang chủ"
+          >Trang chủ</a
+        ><span class="else-title">/</span>
+        <a
+          class="back-title"
+          routerLink="/manager-dashboard/student"
+          title="Quay về danh sách học sinh"
+          style="padding-left: 10px"
+          >Danh sách học sinh</a
+        ><span class="else-title">/</span
+        ><span class="else-title">Chi tiết đơn đăng ký của học sinh</span>
+      </p>
+    </div>
+    <div class="div-today" style="width: 13%">
+      <p class="today">{{ today | date: "dd/MM/yyyy" }}</p>
+      <mat-icon class="icon-today">date_range</mat-icon>
+    </div>
+  </div>
+  <div class="logo-div" *ngIf="student">
+    <img class="img" src="{{ url }}" alt="avatar image" />
+    <p class="title" style="margin: 3px">{{ student.name }}</p>
+    <p style="color: gray; text-decoration: none; margin: 0">
+      {{ student.username }}
+    </p>
+  </div>
+  <div class="menu">
+    <div class="div-menu" title="Xem đơn đăng ký mới">
+      <a class="flex" (click)="changeTitle('Danh sách đơn đăng ký mới')">
+        <img class="img" src="../../../assets/image/paid_booking.png" />
+        <div class="right">
+          <p class="blue-line">Đơn đăng ký mới</p>
+        </div>
+      </a>
+    </div>
+    <div class="div-menu" title="Xem đơn đăng ký đã xử lý">
+      <a class="flex" (click)="changeTitle('Danh sách đơn đăng ký đã xử lý')">
+        <img class="img" src="../../../assets/image/processed_booking.png" />
+        <div class="right">
+          <p class="blue-line">Đơn đăng ký đã xử lý</p>
+        </div>
+      </a>
+    </div>
+    <div class="div-menu" style="margin-right: 0" title="Xem lớp đã hủy">
+      <a class="flex" (click)="changeTitle('Danh sách đơn đăng ký đã hủy')">
+        <img class="img" src="../../../assets/image/canceled_booking.png" />
+        <div class="right">
+          <p class="blue-line">Đơn đăng ký đã hủy</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="flex" style="align-items: baseline; margin-top: 1em">
+    <p class="title-small" style="width: 20%">
+      {{ listTitle }}
+      <span
+        ><mat-icon
+          class="icon-add"
+          title="Tạo đơn đăng ký mới"
+          (click)="openCreateDialog()"
+          >add_circle</mat-icon
+        ></span
+      >
+    </p>
+  </div>
+  <div class="flex">
+    <div class="right-table">
+      <table class="table">
+        <tr class="header">
+          <th class="th1" style="width: 5%">ID</th>
+          <th class="th1">Lớp học</th>
+          <th class="th2">Môn học</th>
+          <th class="th3">Ca học</th>
+          <th class="th4">Ngày đặt</th>
+          <th class="th4">Học phí</th>
+          <th class="th4">Chi nhánh</th>
+          <th class="th4">Ghi chú</th>
+          <th class="th4"></th>
+        </tr>
+        <tr class="data" *ngFor="let booking of displayArray">
+          <td class="color-grey" (click)="openStatusDialog(booking)">
+            {{ booking.bookingId }}
+          </td>
+          <td class="color-blue" (click)="openStatusDialog(booking)">
+            {{ booking.className }}
+          </td>
+          <td class="color-grey" (click)="openStatusDialog(booking)">
+            {{ booking.subjectName }}
+          </td>
+          <td class="color-grey" (click)="openStatusDialog(booking)">
+            {{ booking.shiftDescription }}
+          </td>
+          <td class="color-grey" (click)="openStatusDialog(booking)">
+            {{ booking.payingDate | date: "dd-MM-yyyy" }}
+          </td>
+          <td (click)="openStatusDialog(booking)">
+            {{ booking.payingPrice | currency: "VND" }}
+          </td>
+          <td (click)="openStatusDialog(booking)">
+            {{ booking.branchName }}
+          </td>
+          <td (click)="openStatusDialog(booking)" *ngIf="booking.description">
+            {{ booking.description }}
+          </td>
+          <td (click)="openStatusDialog(booking)" *ngIf="!booking.description">
+            Không
+          </td>
+          <td style="width: 5%">
+            <mat-icon
+              class="icon-add"
+              title="Chỉnh sửa trạng thái"
+              (click)="openStatusDialog(booking)"
+              >create</mat-icon
+            >
+          </td>
+        </tr>
+      </table>
+      <div class="paging" *ngIf="totalPage">
+        <div class="item" *ngFor="let i of pageArray" (click)="changePage(i)">
+          <a>{{ i }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="isLoading" class="loading-page" style="padding-left: 39.5%">
+  <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+</div>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="haveAlertOk = !haveAlertOk">OK</button>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertYN">
+  <div class="alert" *ngIf="haveAlertYN">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doYes()">Có</button>
+    <button (click)="doNo()">Không</button>
+  </div>
+</div>

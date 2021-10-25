@@ -1,28 +1,31 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { LoginComponent } from './login/login.component';
 import { BranchComponent } from './dashboard/branch/branch.component';
 import { CurriculumComponent } from './dashboard/curriculum/curriculum.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { DetailCurriculumComponent } from './dashboard/detail-curriculum/detail-curriculum.component';
 import { InfoComponent } from './dashboard/info/info.component';
 import { ShiftComponent } from './dashboard/shift/shift.component';
 import { StaffComponent } from './dashboard/staff/staff.component';
 import { SubjectDetailComponent } from './dashboard/subject-detail/subject-detail.component';
-import { ManagerDashboardComponent } from './manager-dashboard/manager-dashboard.component';
-import { ClassManagementComponent } from './manager-dashboard/class-management/class-management.component';
 import { GuestMainComponent } from './guest-main/guest-main.component';
-import { GuestBookingComponent } from './manager-dashboard/guest-booking/guest-booking.component';
+import { LoginComponent } from './login/login.component';
+import { ClassManagementComponent } from './manager-dashboard/class-management/class-management.component';
 import { ClassSuggestionComponent } from './manager-dashboard/class-suggestion/class-suggestion.component';
-import { ScheduleComponent } from './manager-dashboard/schedule/schedule.component';
-import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard.component';
-import { AttendanceComponent } from './teacher-dashboard/attendance/attendance.component';
 import { FeedbackComponent } from './manager-dashboard/feedback/feedback.component';
+import { GuestBookingComponent } from './manager-dashboard/guest-booking/guest-booking.component';
 import { ManagerAttendanceComponent } from './manager-dashboard/manager-attendance/manager-attendance.component';
+import { ManagerDashboardComponent } from './manager-dashboard/manager-dashboard.component';
 import { ManagerInfoComponent } from './manager-dashboard/manager-info/manager-info.component';
-import { TeacherInfoComponent } from './teacher-dashboard/teacher-info/teacher-info.component';
+import { ScheduleComponent } from './manager-dashboard/schedule/schedule.component';
+import { StudentBookingsComponent } from './manager-dashboard/student-bookings/student-bookings.component';
+import { StudentClassComponent } from './manager-dashboard/student-class/student-class.component';
 import { StudentManagementComponent } from './manager-dashboard/student-management/student-management.component';
+import { TeacherClassComponent } from './manager-dashboard/teacher-class/teacher-class.component';
 import { TeacherManagementComponent } from './manager-dashboard/teacher-management/teacher-management.component';
+import { AttendanceComponent } from './teacher-dashboard/attendance/attendance.component';
+import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard.component';
+import { TeacherInfoComponent } from './teacher-dashboard/teacher-info/teacher-info.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/main', pathMatch: 'full' },
@@ -53,7 +56,10 @@ const routes: Routes = [
       { path: 'attendance', component: ManagerAttendanceComponent },
       { path: 'info', component: ManagerInfoComponent },
       { path: 'student', component: StudentManagementComponent },
+      { path: 'student-class', component: StudentClassComponent },
+      { path: 'student-bookings', component: StudentBookingsComponent },
       { path: 'teacher', component: TeacherManagementComponent },
+      { path: 'teacher-class', component: TeacherClassComponent },
     ],
   },
   {

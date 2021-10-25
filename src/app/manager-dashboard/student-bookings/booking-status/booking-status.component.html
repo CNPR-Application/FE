@@ -1,0 +1,23 @@
+<form class="form" [formGroup]="form" *ngIf="booking">
+  <div class="flex">
+    <p class="label" style="width: 58%" title="{{ booking.studentName }}">
+      {{ booking.studentName }}
+    </p>
+    <button class="suggest-btn" (click)="close()">Đổi trạng thái</button>
+  </div>
+  <div class="input-div">
+    <p class="label">Trạng thái</p>
+    <select class="input" formControlName="status">
+      <option value="paid">Đơn đăng ký mới</option>
+      <option value="canceled">Đơn đăng ký hủy</option>
+    </select>
+  </div>
+  <div class="input-div">
+    <p class="label">Ghi chú</p>
+    <textarea
+      class="input"
+      style="height: 7em; padding-top: 1em"
+      formControlName="description"
+    ></textarea>
+  </div>
+</form>

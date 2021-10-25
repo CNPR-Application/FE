@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { LoginResponse } from 'src/interfaces/Account';
 import { StudentResponse } from 'src/interfaces/Student';
 import { ApiService } from 'src/service/api.service';
@@ -16,6 +17,7 @@ export class StudentManagementComponent implements OnInit {
   constructor(
     private localStorage: LocalStorageService,
     private dialog: MatDialog,
+    private router: Router,
     private api: ApiService,
     private formBuilder: FormBuilder
   ) {}
@@ -43,6 +45,7 @@ export class StudentManagementComponent implements OnInit {
   studentArray?: Array<StudentResponse>;
   clickedId?: number;
   clickedImage?: string;
+  clickedStudent?: StudentResponse;
   birthday?: string;
 
   ngOnInit(): void {
@@ -98,6 +101,7 @@ export class StudentManagementComponent implements OnInit {
   setForm(student: StudentResponse) {
     this.clickedId = student.studentId;
     this.birthday = student.birthday;
+    this.clickedStudent = student;
     this.form.controls.name.setValue(student.name);
     this.form.controls.username.setValue(student.username);
     this.form.controls.email.setValue(student.email);
@@ -113,6 +117,7 @@ export class StudentManagementComponent implements OnInit {
     this.clickedImage = undefined;
     this.clickedId = undefined;
     this.birthday = undefined;
+    this.clickedStudent = undefined;
     this.form.reset();
   }
 
@@ -176,6 +181,18 @@ export class StudentManagementComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  goToDetailPage(student: StudentResponse) {
+    this.localStorage.set('data', student);
+    this.localStorage.set('message', 'viewStudentClass');
+    this.router.navigate(['manager-dashboard/student-class']);
+  }
+
+  goToDetailBookingPage(student: StudentResponse) {
+    this.localStorage.set('data', student);
+    this.localStorage.set('message', 'viewStudentBooking');
+    this.router.navigate(['manager-dashboard/student-bookings']);
   }
 
   haveAlertOk: boolean = false;

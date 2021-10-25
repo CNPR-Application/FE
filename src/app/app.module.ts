@@ -1,62 +1,69 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { DatePipe } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {
+  BrowserAnimationsModule,
+  NoopAnimationsModule
+} from '@angular/platform-browser/animations';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { ClickOutsideModule } from 'ng-click-outside';
+import { MessagingService } from '../service/messaging.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { HttpClientModule } from '@angular/common/http';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { MenuComponent } from './dashboard/menu/menu.component';
-import { CurriculumComponent } from './dashboard/curriculum/curriculum.component';
-import { StaffComponent } from './dashboard/staff/staff.component';
+import { BranchDialogComponent } from './dashboard/branch/branch-dialog/branch-dialog.component';
 import { BranchComponent } from './dashboard/branch/branch.component';
-import { InfoComponent } from './dashboard/info/info.component';
-import { ShiftComponent } from './dashboard/shift/shift.component';
+import { CurriculumComponent } from './dashboard/curriculum/curriculum.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { DetailCurriculumComponent } from './dashboard/detail-curriculum/detail-curriculum.component';
-import { DatePipe } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from './material/material.module';
+import { AvatarDialogComponent } from './dashboard/info/avatar-dialog/avatar-dialog.component';
+import { InfoComponent } from './dashboard/info/info.component';
+import { MenuComponent } from './dashboard/menu/menu.component';
+import { NotificationAdminDialogComponent } from './dashboard/notification-admin-dialog/notification-admin-dialog.component';
+import { ShiftDialogComponent } from './dashboard/shift/shift-dialog/shift-dialog.component';
+import { ShiftComponent } from './dashboard/shift/shift.component';
+import { StaffDialogComponent } from './dashboard/staff/staff-dialog/staff-dialog.component';
+import { StaffComponent } from './dashboard/staff/staff.component';
 import { SubjectDetailComponent } from './dashboard/subject-detail/subject-detail.component';
 import { SubjectDialogComponent } from './dashboard/subject-detail/subject-dialog/subject-dialog.component';
-import { BranchDialogComponent } from './dashboard/branch/branch-dialog/branch-dialog.component';
-import { ShiftDialogComponent } from './dashboard/shift/shift-dialog/shift-dialog.component';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireStorageModule } from '@angular/fire/storage';
-import { AvatarDialogComponent } from './dashboard/info/avatar-dialog/avatar-dialog.component';
-import { StaffDialogComponent } from './dashboard/staff/staff-dialog/staff-dialog.component';
-import { ManagerDashboardComponent } from './manager-dashboard/manager-dashboard.component';
-import { ManagerMenuComponent } from './manager-dashboard/manager-menu/manager-menu.component';
-import { ClassManagementComponent } from './manager-dashboard/class-management/class-management.component';
-import { ClassCreateComponent } from './manager-dashboard/class-management/class-create/class-create.component';
 import { GuestMainComponent } from './guest-main/guest-main.component';
-import { GuestBookingComponent } from './manager-dashboard/guest-booking/guest-booking.component';
-import { BookingCreateComponent } from './manager-dashboard/guest-booking/booking-create/booking-create.component';
-import { StatusDialogComponent } from './manager-dashboard/guest-booking/status-dialog/status-dialog.component';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { LoginComponent } from './login/login.component';
+import { ClassCreateComponent } from './manager-dashboard/class-management/class-create/class-create.component';
+import { ClassManagementComponent } from './manager-dashboard/class-management/class-management.component';
 import { ClassSuggestionComponent } from './manager-dashboard/class-suggestion/class-suggestion.component';
-import { DragDropModule } from '@angular/cdk/drag-drop';
+import { FeedbackComponent } from './manager-dashboard/feedback/feedback.component';
+import { BookingCreateComponent } from './manager-dashboard/guest-booking/booking-create/booking-create.component';
+import { GuestBookingComponent } from './manager-dashboard/guest-booking/guest-booking.component';
+import { StatusDialogComponent } from './manager-dashboard/guest-booking/status-dialog/status-dialog.component';
+import { ManagerAttendanceComponent } from './manager-dashboard/manager-attendance/manager-attendance.component';
+import { ManagerDashboardComponent } from './manager-dashboard/manager-dashboard.component';
+import { ManagerAvatarComponent } from './manager-dashboard/manager-info/manager-avatar/manager-avatar.component';
+import { ManagerInfoComponent } from './manager-dashboard/manager-info/manager-info.component';
+import { ManagerMenuComponent } from './manager-dashboard/manager-menu/manager-menu.component';
+import { NotificationDialogComponent } from './manager-dashboard/notification-dialog/notification-dialog.component';
 import { ScheduleComponent } from './manager-dashboard/schedule/schedule.component';
 import { StudentInClassComponent } from './manager-dashboard/schedule/student-in-class/student-in-class.component';
-import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard.component';
-import { AttendanceComponent } from './teacher-dashboard/attendance/attendance.component';
-import { TeacherMenuComponent } from './teacher-dashboard/teacher-menu/teacher-menu.component';
-import { FeedbackComponent } from './manager-dashboard/feedback/feedback.component';
-import { ClickOutsideModule } from 'ng-click-outside';
-import { NotificationDialogComponent } from './manager-dashboard/notification-dialog/notification-dialog.component';
-import { AngularFireMessagingModule } from '@angular/fire/messaging';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
-import { AngularFireAuthModule } from '@angular/fire/auth';
-import { MessagingService } from '../service/messaging.service';
-import { NotificationAdminDialogComponent } from './dashboard/notification-admin-dialog/notification-admin-dialog.component';
-import { NotificationTeacherDialogComponent } from './teacher-dashboard/notification-teacher-dialog/notification-teacher-dialog.component';
-import { ManagerAttendanceComponent } from './manager-dashboard/manager-attendance/manager-attendance.component';
-import { ManagerInfoComponent } from './manager-dashboard/manager-info/manager-info.component';
-import { ManagerAvatarComponent } from './manager-dashboard/manager-info/manager-avatar/manager-avatar.component';
-import { TeacherInfoComponent } from './teacher-dashboard/teacher-info/teacher-info.component';
-import { TeacherAvatarComponent } from './teacher-dashboard/teacher-info/teacher-avatar/teacher-avatar.component';
+import { BookingStatusComponent } from './manager-dashboard/student-bookings/booking-status/booking-status.component';
+import { StudentBookingsComponent } from './manager-dashboard/student-bookings/student-bookings.component';
+import { StudentClassComponent } from './manager-dashboard/student-class/student-class.component';
 import { StudentManagementComponent } from './manager-dashboard/student-management/student-management.component';
+import { TeacherClassComponent } from './manager-dashboard/teacher-class/teacher-class.component';
 import { TeacherManagementComponent } from './manager-dashboard/teacher-management/teacher-management.component';
+import { TeachingSubjectComponent } from './manager-dashboard/teacher-management/teaching-subject/teaching-subject.component';
+import { MaterialModule } from './material/material.module';
+import { AttendanceComponent } from './teacher-dashboard/attendance/attendance.component';
+import { NotificationTeacherDialogComponent } from './teacher-dashboard/notification-teacher-dialog/notification-teacher-dialog.component';
+import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard.component';
+import { TeacherAvatarComponent } from './teacher-dashboard/teacher-info/teacher-avatar/teacher-avatar.component';
+import { TeacherInfoComponent } from './teacher-dashboard/teacher-info/teacher-info.component';
+import { TeacherMenuComponent } from './teacher-dashboard/teacher-menu/teacher-menu.component';
 
 @NgModule({
   declarations: [
@@ -100,7 +107,12 @@ import { TeacherManagementComponent } from './manager-dashboard/teacher-manageme
     TeacherInfoComponent,
     TeacherAvatarComponent,
     StudentManagementComponent,
-    TeacherManagementComponent
+    TeacherManagementComponent,
+    TeachingSubjectComponent,
+    StudentClassComponent,
+    TeacherClassComponent,
+    StudentBookingsComponent,
+    BookingStatusComponent,
   ],
   entryComponents: [
     SubjectDialogComponent,
@@ -115,7 +127,9 @@ import { TeacherManagementComponent } from './manager-dashboard/teacher-manageme
     NotificationAdminDialogComponent,
     NotificationTeacherDialogComponent,
     ManagerAvatarComponent,
-    TeacherAvatarComponent
+    TeacherAvatarComponent,
+    TeachingSubjectComponent,
+    BookingStatusComponent,
   ],
   imports: [
     BrowserModule,

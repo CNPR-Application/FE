@@ -1,6 +1,12 @@
 export interface SubjectInTeacher {
-  subjectId: number;
-  subjectName: string;
+  subjectId?: number;
+  subjectCode?: string;
+  subjectName?: string;
+}
+
+export interface TeachingSubjectRequest {
+  teacherUsername?: string;
+  subjectId?: number;
 }
 
 export interface TeacherInfo {

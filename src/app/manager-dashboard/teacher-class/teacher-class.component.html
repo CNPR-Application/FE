@@ -1,0 +1,144 @@
+<div class="class-management">
+  <div class="first-line">
+    <div class="div-title">
+      <p class="title">Chi tiết lớp học của giáo viên</p>
+      <p class="line-title">
+        <a
+          class="back-title"
+          routerLink="/manager-dashboard"
+          title="Quay về trang chủ"
+          >Trang chủ</a
+        ><span class="else-title">/</span>
+        <a
+          class="back-title"
+          routerLink="/manager-dashboard/teacher"
+          title="Quay về danh sách giáo viên"
+          style="padding-left: 10px"
+          >Danh sách giáo viên</a
+        ><span class="else-title">/</span
+        ><span class="else-title">Chi tiết lớp học của giáo viên</span>
+      </p>
+    </div>
+    <div class="div-today" style="width: 13%">
+      <p class="today">{{ today | date: "dd/MM/yyyy" }}</p>
+      <mat-icon class="icon-today">date_range</mat-icon>
+    </div>
+  </div>
+  <div class="logo-div" *ngIf="teacher">
+    <img class="img" src="{{ url }}" alt="avatar image" />
+    <p class="title" style="margin: 3px">{{ teacher.teacherName }}</p>
+    <p style="color: gray; text-decoration: none; margin: 0">
+      {{ teacher.teacherUsername }}
+    </p>
+  </div>
+  <div class="menu">
+    <div class="div-menu" title="Xem lớp chờ khai giảng">
+      <a class="flex" (click)="changeTitle('Danh sách lớp chờ khai giảng')">
+        <img
+          class="img"
+          src="../../../assets/image/waiting_class_teacher.png"
+        />
+        <div class="right">
+          <p class="blue-line">Lớp chờ khai giảng</p>
+        </div>
+      </a>
+    </div>
+    <div class="div-menu" title="Xem lớp đang dạy">
+      <a class="flex" (click)="changeTitle('Danh sách lớp đang dạy')">
+        <img
+          class="img"
+          src="../../../assets/image/studying_class_teacher.png"
+        />
+        <div class="right">
+          <p class="blue-line">Lớp đang dạy</p>
+        </div>
+      </a>
+    </div>
+    <div class="div-menu" style="margin-right: 0" title="Xem lớp đã kết thúc">
+      <a class="flex" (click)="changeTitle('Danh sách lớp đã kết thúc')">
+        <img
+          class="img"
+          src="../../../assets/image/finished_class_teacher.png"
+        />
+        <div class="right">
+          <p class="blue-line">Lớp đã kết thúc</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="flex" style="align-items: baseline; margin-top: 1em">
+    <p class="title-small" style="width: 20%">
+      {{ listTitle }}
+    </p>
+  </div>
+  <div class="flex">
+    <div class="right-table">
+      <table class="table">
+        <tr class="header">
+          <th class="th1">ID</th>
+          <th class="th1">Lớp học</th>
+          <th class="th2">Môn học</th>
+          <th class="th3">Ca học</th>
+          <th class="th4">Khai giảng</th>
+          <th class="th4">Chi nhánh</th>
+          <th class="th4">Phòng học</th>
+          <th class="th4">Tổng buổi học</th>
+        </tr>
+        <tr
+          class="data"
+          *ngFor="let class of classArray"
+          [ngStyle]="{
+            'background-color':
+              class.classId === clickedId ? 'rgba(236, 237, 241, 0.2)' : 'white'
+          }"
+        >
+          <td class="color-grey" style="width: 5%">
+            {{ class.classId }}
+          </td>
+          <td class="color-blue">
+            {{ class.className }}
+          </td>
+          <td class="color-grey">
+            {{ class.subjectName }}
+          </td>
+          <td class="color-grey">
+            {{ class.shiftDescription }}
+          </td>
+          <td class="color-grey">
+            {{ class.openingDate | date: "dd-MM-yyyy" }}
+          </td>
+          <td>
+            {{ class.branchName }}
+          </td>
+          <td>
+            {{ class.roomName }}
+          </td>
+          <td>
+            {{ class.slot }}
+          </td>
+        </tr>
+      </table>
+      <div class="paging" *ngIf="totalPage">
+        <div class="item" *ngFor="let i of pageArray" (click)="changePage(i)">
+          <a>{{ i }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="isLoading" class="loading-page" style="padding-left: 39.5%">
+  <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+</div>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="haveAlertOk = !haveAlertOk">OK</button>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertYN">
+  <div class="alert" *ngIf="haveAlertYN">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doYes()">Có</button>
+    <button (click)="doNo()">Không</button>
+  </div>
+</div>

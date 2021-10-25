@@ -2,10 +2,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { LoginResponse } from 'src/interfaces/Account';
 import { TeacherInfo } from 'src/interfaces/Teacher';
 import { ApiService } from 'src/service/api.service';
 import { LocalStorageService } from 'src/service/local-storage.service';
+import { TeachingSubjectComponent } from './teaching-subject/teaching-subject.component';
 
 @Component({
   selector: 'app-teacher-management',
@@ -17,7 +19,8 @@ export class TeacherManagementComponent implements OnInit {
     private localStorage: LocalStorageService,
     private dialog: MatDialog,
     private api: ApiService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
   ) {}
 
   today = new Date();
@@ -49,6 +52,8 @@ export class TeacherManagementComponent implements OnInit {
 
   ratingArr: Array<number> = [];
   rating?: number;
+
+  clickedTeacher?: TeacherInfo;
 
   ngOnInit(): void {
     let user: LoginResponse = this.localStorage.get('user');
@@ -116,6 +121,7 @@ export class TeacherManagementComponent implements OnInit {
 
   setForm(teacher: TeacherInfo) {
     this.clickedId = teacher.teacherId;
+    this.clickedTeacher = teacher;
     this.birthday = teacher.teacherBirthday;
     this.creatingDate = teacher.accountCreatingDate;
     this.form.controls.name.setValue(teacher.teacherName);
@@ -141,6 +147,7 @@ export class TeacherManagementComponent implements OnInit {
     this.birthday = undefined;
     this.creatingDate = undefined;
     this.rating = undefined;
+    this.clickedTeacher = undefined;
     this.form.reset();
   }
 
@@ -197,6 +204,18 @@ export class TeacherManagementComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  openSubjectForm() {
+    let dialogRef = this.dialog.open(TeachingSubjectComponent, {
+      data: { teacher: this.clickedTeacher },
+    });
+  }
+
+  goToDetailPage(teacher: TeacherInfo) {
+    this.localStorage.set('data', teacher);
+    this.localStorage.set('message', 'viewTeacherClass');
+    this.router.navigate(['manager-dashboard/teacher-class']);
   }
 
   haveAlertOk: boolean = false;

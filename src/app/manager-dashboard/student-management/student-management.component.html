@@ -55,10 +55,19 @@
           }"
         >
           <div class="num">
-            <button class="suggest-btn" style="margin-right: 5px">
+            <button
+              class="suggest-btn"
+              style="margin-right: 5px"
+              (click)="goToDetailPage(student)"
+            >
               Lớp Học
             </button>
-            <button class="suggest-btn">Bookings</button>
+            <button
+              class="suggest-btn"
+              (click)="goToDetailBookingPage(student)"
+            >
+              Bookings
+            </button>
           </div>
           <div class="card">
             <div class="flex">
@@ -155,7 +164,7 @@
           >
             ID: {{ clickedId }}
           </p>
-          <button class="suggest-btn">Chỉnh sửa</button>
+          <button class="suggest-btn" *ngIf="clickedId">Chỉnh sửa</button>
         </div>
         <div class="div-img-ava" *ngIf="clickedImage">
           <img [src]="clickedImage" class="ava-img" />

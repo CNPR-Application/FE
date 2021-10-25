@@ -277,6 +277,17 @@
       border-radius: 50%;
     }
   }
+
+  .link {
+    color: #1761fd;
+    text-decoration: underline;
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  .link:hover {
+    color: #182a88;
+  }
   //scroll bar
   /* width */
   ::-webkit-scrollbar {

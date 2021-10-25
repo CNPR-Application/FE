@@ -1,0 +1,86 @@
+<div class="flex teaching-subject">
+  <div class="left">
+    <table class="table">
+      <tr
+        class="header"
+        style="font-size: 13px; color: rgba(24, 42, 136, 0.95)"
+      >
+        <th>ID</th>
+        <th>Môn Học Giảng Dạy</th>
+        <th></th>
+      </tr>
+      <tr
+        class="data"
+        style="font-size: 13px"
+        *ngFor="let subject of subjectList"
+      >
+        <td class="color-blue" style="width: 10%">{{ subject.subjectId }}</td>
+        <td class="color-grey">{{ subject.subjectName }}</td>
+        <td style="width: 20%">
+          <mat-icon
+            class="icon-delete"
+            title="Xóa"
+            (click)="
+              callAlert(
+                'YN',
+                'Bạn có chắc chắn muốn xóa môn học này không?',
+                subject
+              )
+            "
+            >delete_outline</mat-icon
+          >
+        </td>
+      </tr>
+      <tr class="data" style="font-size: 13px" *ngIf="!subjectList">
+        <td class="color-blue" style="width: 10%"></td>
+        <td class="color-grey">Không có dữ liệu</td>
+        <td style="width: 20%"></td>
+      </tr>
+    </table>
+  </div>
+  <div class="right" [formGroup]="form">
+    <div class="input-div">
+      <p class="label">Môn Học</p>
+      <select
+        class="input"
+        name="subjectId"
+        id="subjectId"
+        type="text"
+        formControlName="subjectId"
+      >
+        <option
+          *ngFor="let subject of subjectAllList"
+          [value]="subject.subjectId"
+        >
+          {{ subject.subjectName }}
+        </option>
+      </select>
+    </div>
+    <div class="button-div">
+      <button class="suggest-btn" (click)="createTeachingSubject()">
+        Thêm mới
+      </button>
+    </div>
+  </div>
+</div>
+<div class="alert-div alert-div-popup" *ngIf="haveAlertOk">
+  <div class="alert alert-popup">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doOk()">OK</button>
+  </div>
+</div>
+<div class="alert-div alert-div-popup" *ngIf="haveAlertYN">
+  <div class="alert" *ngIf="haveAlertYN">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doYes()">Có</button>
+    <button (click)="doNo()">Không</button>
+  </div>
+</div>
+<div *ngIf="isLoadingSubject" class="loading-page loading-page-popup">
+  <img
+    class="loading-popup"
+    style="top: 47%; margin-left: 4.5em"
+    src="/assets/image/loading.gif"
+    alt="Logo image"
+  />
+</div>

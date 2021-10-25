@@ -52,7 +52,11 @@ import {
   SubjectDetail,
   SubjectDetailArray,
 } from '../interfaces/Subject';
-import { TeacherArray } from '../interfaces/Teacher';
+import {
+  SubjectInTeacher,
+  TeacherArray,
+  TeachingSubjectRequest,
+} from '../interfaces/Teacher';
 
 @Injectable({
   providedIn: 'root',
@@ -399,6 +403,18 @@ export class ApiService {
       .pipe(retry(1));
   }
 
+  searchClassByStudentUsernameAndStatus(
+    studentUsername: string,
+    status: string,
+    pageNo: number,
+    pageSize: number
+  ): Observable<ClassArray> {
+    const url = `${this.rootUrl}student-class/${studentUsername}?status=${status}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    return this.http
+      .get<ClassArray>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
   activateClass(request: ClassActivationRequest): Observable<boolean> {
     const url = `${this.rootUrl}activate-class`;
     return this.http.post<boolean>(url, request, { headers: this.headers });
@@ -489,12 +505,12 @@ export class ApiService {
       .pipe(retry(1));
   }
 
-  searchBookingByStudentId(
-    studentId: string,
+  searchBookingByStudentUsername(
+    studentUsername: string,
     pageNo: number,
     pageSize: number
   ): Observable<BookingArray> {
-    const url = `${this.rootUrl}bookings?studentId=${studentId}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    const url = `${this.rootUrl}bookings?studentUsername=${studentUsername}&pageNo=${pageNo}&pageSize=${pageSize}`;
     return this.http
       .get<BookingArray>(url, { headers: this.headers })
       .pipe(retry(1));
@@ -509,6 +525,13 @@ export class ApiService {
     const url = `${this.rootUrl}bookings?classId=${classId}&status=${status}&pageNo=${pageNo}&pageSize=${pageSize}`;
     return this.http
       .get<BookingArray>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  updateBooking(booking: Booking): Observable<boolean> {
+    const url = `${this.rootUrl}bookings?bookingId=${booking.bookingId}`;
+    return this.http
+      .put<boolean>(url, booking, { headers: this.headers })
       .pipe(retry(1));
   }
 
@@ -670,6 +693,30 @@ export class ApiService {
     const url = `${this.rootUrl}students/${username}`;
     return this.http
       .delete<boolean>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  //teaching subject
+  searchTeachingSubjectByTeacherUsername(
+    teacherUsername: string
+  ): Observable<SubjectInTeacher[]> {
+    const url = `${this.rootUrl}teaching-subjects?teacherUsername=${teacherUsername}`;
+    return this.http
+      .get<SubjectInTeacher[]>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  deleteTeachingSubject(request: TeachingSubjectRequest): Observable<boolean> {
+    const url = `${this.rootUrl}teaching-subjects/${request.teacherUsername}/${request.subjectId}`;
+    return this.http
+      .delete<boolean>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  createTeachingSubject(request: TeachingSubjectRequest): Observable<boolean> {
+    const url = `${this.rootUrl}teaching-subjects`;
+    return this.http
+      .post<boolean>(url, request, { headers: this.headers })
       .pipe(retry(1));
   }
 }
