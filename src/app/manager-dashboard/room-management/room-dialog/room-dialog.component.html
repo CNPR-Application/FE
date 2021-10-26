@@ -1,0 +1,35 @@
+<div class="room-dialog" [formGroup]="form">
+  <div class="input-div" *ngIf="type === 'edit'" style="margin-bottom: 1em">
+    <p class="label">ID</p>
+    <input class="input" type="text" formControlName="roomId" readonly />
+  </div>
+  <div class="input-div">
+    <p class="label">Tên Phòng</p>
+    <input class="input" type="text" formControlName="roomName" />
+  </div>
+  <div class="button-div">
+    <button
+      class="suggest-btn"
+      *ngIf="type === 'create'"
+      (click)="createRoom()"
+    >
+      Thêm mới
+    </button>
+    <button class="suggest-btn" *ngIf="type === 'edit'" (click)="editRoom()">
+      Chỉnh sửa
+    </button>
+  </div>
+</div>
+<div class="alert-div alert-div-popup" *ngIf="haveAlertOk">
+  <div class="alert alert-popup">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doOk()">OK</button>
+  </div>
+</div>
+<div class="alert-div alert-div-popup" *ngIf="haveAlertYN">
+  <div class="alert" *ngIf="haveAlertYN">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doYes()">Có</button>
+    <button (click)="doNo()">Không</button>
+  </div>
+</div>

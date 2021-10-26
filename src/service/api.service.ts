@@ -2,7 +2,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { retry } from 'rxjs/operators';
-import { RoomList } from 'src/interfaces/Room';
+import {
+  RoomArrayResponse,
+  RoomCreateRequest,
+  RoomList,
+  RoomResponse,
+} from 'src/interfaces/Room';
 import {
   StudentArrayResponse,
   StudentArraySearchResponse,
@@ -691,6 +696,39 @@ export class ApiService {
     const url = `${this.rootUrl}rooms/${branchId}/search?shiftId=${shiftId}&openingDate=${openingDate}`;
     return this.http
       .get<RoomList>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  getRoomByBranchIsAvailable(
+    branchId: number,
+    isAvailable: boolean,
+    pageNo: number,
+    pageSize: number
+  ): Observable<RoomArrayResponse> {
+    const url = `${this.rootUrl}rooms/${branchId}?isAvailable=${isAvailable}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    return this.http
+      .get<RoomArrayResponse>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  editRoom(request: RoomResponse): Observable<boolean> {
+    const url = `${this.rootUrl}rooms`;
+    return this.http
+      .put<boolean>(url, request, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  createRoom(request: RoomCreateRequest): Observable<boolean> {
+    const url = `${this.rootUrl}rooms`;
+    return this.http
+      .post<boolean>(url, request, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  deleteRoom(roomId: number): Observable<boolean> {
+    const url = `${this.rootUrl}rooms?roomId=${roomId}`;
+    return this.http
+      .delete<boolean>(url, { headers: this.headers })
       .pipe(retry(1));
   }
 

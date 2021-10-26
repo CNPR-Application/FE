@@ -1,0 +1,108 @@
+<div *ngIf="isLoading" class="loading-page" style="padding-left: 39.5%">
+  <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+</div>
+<div class="body-room">
+  <div class="first-line">
+    <div class="div-title" style="width: 85%">
+      <p class="title">Phòng học</p>
+      <p class="line-title">
+        <a
+          class="back-title"
+          routerLink="/manager-dashboard"
+          title="Quay về trang chủ"
+          >Trang chủ</a
+        ><span class="else-title">/</span
+        ><span class="else-title">Danh sách phòng học</span
+        ><span
+          ><mat-icon
+            class="icon-add"
+            title="Tạo mới"
+            (click)="openDialog('create')"
+            >add_circle</mat-icon
+          ></span
+        >
+      </p>
+    </div>
+    <div
+      class="div-today"
+      style="width: 15%; margin-right: 1.5em"
+      [matMenuTriggerFor]="appMenu"
+    >
+      <p class="today" *ngIf="isAvailable">Phòng học hiện tại</p>
+      <p class="today" *ngIf="!isAvailable">Phòng học đã xóa</p>
+      <mat-icon class="icon-today">swap_vert</mat-icon>
+    </div>
+  </div>
+  <mat-menu #appMenu="matMenu">
+    <button mat-menu-item *ngIf="!isAvailable" (click)="changeStatus(true)">
+      Phòng học hiện tại
+    </button>
+    <button mat-menu-item *ngIf="isAvailable" (click)="changeStatus(false)">
+      Phòng học đã xóa
+    </button>
+  </mat-menu>
+  <div class="room">
+    <div class="room-list">
+      <div class="item" *ngFor="let room of roomArray; let i = index">
+        <img
+          [src]="imageArray[i % 7]"
+          class="room-img"
+          (click)="openDialog('edit', room)"
+          style="cursor: pointer"
+          title="Chỉnh sửa"
+        />
+        <p (click)="openDialog('edit', room)" style="cursor: pointer">
+          ID: {{ room.roomId }} - Phòng {{ room.roomName }}
+        </p>
+        <mat-icon
+          class="icon-add"
+          title="Xóa"
+          *ngIf="isAvailable"
+          (click)="
+            callAlert('YN', 'Bạn có chắc chắn muốn xóa phòng này không?', room)
+          "
+          >delete_outline</mat-icon
+        >
+        <mat-icon
+          class="icon-add"
+          title="Xóa"
+          *ngIf="!isAvailable"
+          (click)="
+            callAlert(
+              'YN',
+              'Bạn có chắc chắn muốn khôi phục phòng này không?',
+              room
+            )
+          "
+          >restore_from_trash</mat-icon
+        >
+      </div>
+    </div>
+    <div class="paging">
+      <div
+        class="item"
+        *ngFor="let page of pageArray"
+        (click)="changePage(page)"
+        [ngStyle]="{
+          'background-color':
+            page === currentPage ? 'rgba(236, 237, 241, 0.5)' : 'white'
+        }"
+      >
+        <a>{{ page }}</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="haveAlertOk = !haveAlertOk">OK</button>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertYN">
+  <div class="alert" *ngIf="haveAlertYN">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doYes()">Có</button>
+    <button (click)="doNo()">Không</button>
+  </div>
+</div>

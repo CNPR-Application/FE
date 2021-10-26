@@ -17,6 +17,7 @@ import { GuestBookingComponent } from './manager-dashboard/guest-booking/guest-b
 import { ManagerAttendanceComponent } from './manager-dashboard/manager-attendance/manager-attendance.component';
 import { ManagerDashboardComponent } from './manager-dashboard/manager-dashboard.component';
 import { ManagerInfoComponent } from './manager-dashboard/manager-info/manager-info.component';
+import { RoomManagementComponent } from './manager-dashboard/room-management/room-management.component';
 import { ScheduleComponent } from './manager-dashboard/schedule/schedule.component';
 import { StudentBookingsComponent } from './manager-dashboard/student-bookings/student-bookings.component';
 import { StudentClassComponent } from './manager-dashboard/student-class/student-class.component';
@@ -55,6 +56,7 @@ const routes: Routes = [
       { path: 'feedback', component: FeedbackComponent },
       { path: 'attendance', component: ManagerAttendanceComponent },
       { path: 'info', component: ManagerInfoComponent },
+      { path: 'room', component: RoomManagementComponent },
       { path: 'student', component: StudentManagementComponent },
       { path: 'student-class', component: StudentClassComponent },
       { path: 'student-bookings', component: StudentBookingsComponent },

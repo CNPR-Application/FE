@@ -107,9 +107,7 @@ export class StudentBookingsComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((data) => {
-      if (data) {
-        this.getBookingAll();
-      }
+      this.getBookingAll();
     });
   }
 
