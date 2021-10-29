@@ -1,14 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { ApiService } from 'src/service/api.service';
 import { formatDate } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import {
   ScheduleListResponse,
   ScheduleResponse,
 } from 'src/interfaces/Schedule';
+import { ApiService } from 'src/service/api.service';
+import { TimeService } from 'src/service/time.service';
 import { ScheduleClass } from './session';
 import { StudentInClassComponent } from './student-in-class/student-in-class.component';
 
@@ -41,7 +39,7 @@ export class ScheduleComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private api: ApiService,
-    private router: Router
+    private timeService: TimeService
   ) {}
 
   ngOnInit(): void {
@@ -82,10 +80,9 @@ export class ScheduleComponent implements OnInit {
           this.isLoading = false;
           this.upcomingSession = [];
           this.scheduleArray?.forEach((x) => {
-            let newDate = new Date(x.startTime);
+            let newDate = this.timeService.convertTimeFromApi(x.startTime);
             let now = new Date();
-            //now = new Date(now.getTime() + 7 * 60 * 60 * 1000);
-            if (newDate.getTime() >= now.getTime()) {
+            if (newDate >= now.getTime()) {
               this.upcomingSession?.push(x);
             }
           });

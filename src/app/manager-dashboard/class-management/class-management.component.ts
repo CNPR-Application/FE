@@ -117,6 +117,11 @@ export class ClassManagementComponent implements OnInit {
     this.router.navigateByUrl('/manager-dashboard/class-suggestion');
   }
 
+  goToSessionPage(c: ClassResponse) {
+    this.localStorage.set('class', c);
+    this.router.navigateByUrl('/manager-dashboard/session');
+  }
+
   changeTitle(name: string): void {
     this.listTitle = name;
     if (name === 'Danh sách lớp chờ đăng ký') {

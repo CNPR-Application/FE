@@ -13,7 +13,7 @@
       </p>
     </div>
     <div class="div-today" style="width: 13%">
-      <p class="today">{{ today | date: "dd/MM/yyyy" }}</p>
+      <p class="today">{{ today | date: "dd/MM/yyyy":"+000" }}</p>
       <mat-icon class="icon-today">date_range</mat-icon>
     </div>
   </div>
@@ -35,8 +35,8 @@
         <div class="inner-div">
           <p class="class-name">{{ item.className }}</p>
           <p class="class-time">
-            {{ item.startTime | date: "HH:mm" }} -
-            {{ item.endTime | date: "HH:mm" }}
+            {{ item.startTime | date: "HH:mm":"+000" }} -
+            {{ item.endTime | date: "HH:mm":"+000" }}
           </p>
         </div>
       </div>
@@ -44,7 +44,7 @@
     <div class="right">
       <div class="title-schedule-div">
         <p class="title-schedule">
-          LỊCH NGÀY {{ selectedDate | date: "dd/MM/yyyy" }}
+          LỊCH NGÀY {{ selectedDate | date: "dd/MM/yyyy":"+000" }}
         </p>
       </div>
       <div *ngIf="!isLoading">
@@ -54,8 +54,8 @@
         >
           <div class="left-session-div">
             <p>
-              {{ classArray.timeStart | date: "HH:mm" }}
-              {{ classArray.timeEnd | date: "HH:mm" }}
+              {{ classArray.timeStart | date: "HH:mm":"+000" }}
+              {{ classArray.timeEnd | date: "HH:mm":"+000" }}
             </p>
           </div>
           <div class="right-session-div">

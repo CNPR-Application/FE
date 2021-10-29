@@ -1,0 +1,104 @@
+<form class="form" [formGroup]="form">
+  <div class="flex">
+    <p
+      class="label"
+      style="width: 70%"
+      title="{{ classModel.className }}"
+      *ngIf="classModel"
+    >
+      Lớp {{ classModel.className }}
+    </p>
+    <button class="suggest-btn" (click)="editSession()">Chỉnh sửa</button>
+  </div>
+  <p class="label" *ngIf="sessionModel">
+    Ca học: {{ startTime | date: "HH:mm":"+000" }} -
+    {{ sessionModel.endTime | date: "HH:mm":"+000" }}, ngày
+    {{ startTime | date: "dd-MM-yyyy" }}
+  </p>
+  <div class="input-div">
+    <p class="label">Giáo viên</p>
+    <select
+      id="newTeacherId"
+      name="newTeacherId"
+      class="input"
+      formControlName="newTeacherId"
+    >
+      <option *ngFor="let teacher of teacherArray" [value]="teacher.teacherId">
+        {{ teacher.teacherName }} - {{ teacher.teacherUsername }}
+      </option>
+    </select>
+  </div>
+  <div class="input-div">
+    <input
+      type="checkbox"
+      id="changeAllTeacher"
+      formControlName="changeAllTeacher"
+      name="changeAllTeacher"
+      value="true"
+    />
+    <label for="changeAllTeacher">Đổi tất cả các buổi học</label><br />
+  </div>
+  <div class="input-div">
+    <p class="label">Phòng</p>
+    <select
+      id="newRoomId"
+      name="newRoomId"
+      class="input"
+      formControlName="newRoomId"
+    >
+      <option *ngFor="let room of roomArray" [value]="room.roomId">
+        ID: {{ room.roomId }} - {{ room.roomName }}
+      </option>
+    </select>
+  </div>
+  <div class="input-div">
+    <input
+      type="checkbox"
+      id="changeAllRoom"
+      formControlName="changeAllRoom"
+      name="changeAllRoom"
+      value="true"
+    />
+    <label for="changeAllRoom">Đổi tất cả các buổi học</label><br />
+  </div>
+  <div class="input-div">
+    <p class="label">Ngày dời</p>
+    <input
+      class="input"
+      type="datetime-local"
+      formControlName="newStartTime"
+      [min]="startTime"
+    />
+  </div>
+  <div class="input-div">
+    <input
+      type="checkbox"
+      id="changeAllTime"
+      formControlName="changeAllTime"
+      name="changeAllTime"
+      value="true"
+    />
+    <label for="changeAllTime">Đổi tất cả các buổi học</label><br />
+  </div>
+</form>
+<div class="alert-div alert-div-popup" *ngIf="haveAlertOk">
+  <div class="alert alert-popup">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doOk()">OK</button>
+  </div>
+</div>
+<div class="alert-div alert-div-popup" *ngIf="haveAlertYN">
+  <div class="alert" *ngIf="haveAlertYN">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doYes()">Có</button>
+    <button (click)="doNo()">Không</button>
+  </div>
+</div>
+<div *ngIf="isLoading" class="loading-page loading-page-popup">
+  <img
+    class="loading-popup"
+    style="top: 47%; margin-left: -4.5em"
+    src="/assets/image/loading.gif"
+    alt="Logo image"
+  />
+</div>

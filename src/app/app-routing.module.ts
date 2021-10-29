@@ -19,6 +19,7 @@ import { ManagerDashboardComponent } from './manager-dashboard/manager-dashboard
 import { ManagerInfoComponent } from './manager-dashboard/manager-info/manager-info.component';
 import { RoomManagementComponent } from './manager-dashboard/room-management/room-management.component';
 import { ScheduleComponent } from './manager-dashboard/schedule/schedule.component';
+import { SessionManagementComponent } from './manager-dashboard/session-management/session-management.component';
 import { StudentBookingsComponent } from './manager-dashboard/student-bookings/student-bookings.component';
 import { StudentClassComponent } from './manager-dashboard/student-class/student-class.component';
 import { StudentManagementComponent } from './manager-dashboard/student-management/student-management.component';
@@ -56,6 +57,7 @@ const routes: Routes = [
       { path: 'feedback', component: FeedbackComponent },
       { path: 'attendance', component: ManagerAttendanceComponent },
       { path: 'info', component: ManagerInfoComponent },
+      { path: 'session', component: SessionManagementComponent },
       { path: 'room', component: RoomManagementComponent },
       { path: 'student', component: StudentManagementComponent },
       { path: 'student-class', component: StudentClassComponent },

@@ -52,6 +52,7 @@ import { RoomDialogComponent } from './manager-dashboard/room-management/room-di
 import { RoomManagementComponent } from './manager-dashboard/room-management/room-management.component';
 import { ScheduleComponent } from './manager-dashboard/schedule/schedule.component';
 import { StudentInClassComponent } from './manager-dashboard/schedule/student-in-class/student-in-class.component';
+import { SessionManagementComponent } from './manager-dashboard/session-management/session-management.component';
 import { BookingStatusComponent } from './manager-dashboard/student-bookings/booking-status/booking-status.component';
 import { StudentBookingsComponent } from './manager-dashboard/student-bookings/student-bookings.component';
 import { StudentClassComponent } from './manager-dashboard/student-class/student-class.component';
@@ -67,6 +68,7 @@ import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard
 import { TeacherAvatarComponent } from './teacher-dashboard/teacher-info/teacher-avatar/teacher-avatar.component';
 import { TeacherInfoComponent } from './teacher-dashboard/teacher-info/teacher-info.component';
 import { TeacherMenuComponent } from './teacher-dashboard/teacher-menu/teacher-menu.component';
+import { SessionDialogComponent } from './manager-dashboard/session-management/session-dialog/session-dialog.component';
 
 @NgModule({
   declarations: [
@@ -119,6 +121,8 @@ import { TeacherMenuComponent } from './teacher-dashboard/teacher-menu/teacher-m
     CreateAccountComponent,
     RoomManagementComponent,
     RoomDialogComponent,
+    SessionManagementComponent,
+    SessionDialogComponent,
   ],
   entryComponents: [
     SubjectDialogComponent,
@@ -138,6 +142,7 @@ import { TeacherMenuComponent } from './teacher-dashboard/teacher-menu/teacher-m
     BookingStatusComponent,
     CreateAccountComponent,
     RoomDialogComponent,
+    SessionDialogComponent,
   ],
   imports: [
     BrowserModule,

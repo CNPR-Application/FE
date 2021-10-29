@@ -48,7 +48,7 @@ import {
   NotiPutRequest,
 } from '../interfaces/Notification';
 import { ScheduleListResponse } from '../interfaces/Schedule';
-import { SessionList } from '../interfaces/Session';
+import { SessionList, SessionRequest } from '../interfaces/Session';
 import { Shift, ShiftArray } from '../interfaces/Shift';
 import {
   StudentInClassListResponse,
@@ -608,6 +608,13 @@ export class ApiService {
     const url = `${this.rootUrl}session?classId=${classId}&pageNo=${pageNo}&pageSize=${pageSize}`;
     return this.http
       .get<SessionList>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  updateSession(request: SessionRequest): Observable<boolean> {
+    const url = `${this.rootUrl}sessions`;
+    return this.http
+      .put<boolean>(url, request, { headers: this.headers })
       .pipe(retry(1));
   }
 

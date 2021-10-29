@@ -112,7 +112,7 @@ export class ManagerAttendanceComponent implements OnInit {
     if (classId) {
       this.api.getSessionInClass(classId, 1, 1000).subscribe(
         (response: SessionList) => {
-          this.sessionArray = response.sessionClassList;
+          this.sessionArray = response.sessionList;
           this.statusSession = [];
           if (this.sessionArray) {
             for (let i = 0; i < this.sessionArray?.length; i++) {

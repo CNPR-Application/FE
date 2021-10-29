@@ -1,19 +1,14 @@
-import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { LoginResponse } from 'src/interfaces/Account';
-import { AttendanceList, AttendanceResponse } from 'src/interfaces/Attendance';
+import { AttendanceList } from 'src/interfaces/Attendance';
 import { ClassArray, ClassResponse } from 'src/interfaces/Class';
-import {
-  NotiClassRequest,
-  NotiPersonRequest,
-} from 'src/interfaces/Notification';
 import { SessionList, SessionResponse } from 'src/interfaces/Session';
 import { ApiService } from 'src/service/api.service';
 import { LocalStorageService } from 'src/service/local-storage.service';
 import {
   AttendanceChecking,
   AttendanceEditClass,
-  SessionStatus,
+  SessionStatus
 } from './attendance';
 
 @Component({
@@ -119,7 +114,7 @@ export class AttendanceComponent implements OnInit {
     if (classId) {
       this.api.getSessionInClass(classId, 1, 1000).subscribe(
         (response: SessionList) => {
-          this.sessionArray = response.sessionClassList;
+          this.sessionArray = response.sessionList;
           this.statusSession = [];
           if (this.sessionArray) {
             for (let i = 0; i < this.sessionArray?.length; i++) {

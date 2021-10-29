@@ -1,0 +1,186 @@
+<div class="session">
+  <div class="first-line">
+    <div class="div-title">
+      <p class="title">Quản lý lớp học</p>
+      <p class="line-title">
+        <a
+          class="back-title"
+          routerLink="/manager-dashboard"
+          title="Quay về trang chủ"
+          >Trang chủ</a
+        ><span class="else-title">/</span>
+        <a
+          style="margin-left: 10px"
+          class="back-title"
+          routerLink="/manager-dashboard/class-management"
+          title="Quay về quản lý lớp học"
+          >Quản lý lớp học</a
+        ><span class="else-title">/</span
+        ><span class="else-title">Lộ trình học</span>
+      </p>
+    </div>
+    <div class="div-today" style="width: 13%">
+      <p class="today">{{ today | date: "dd/MM/yyyy" }}</p>
+      <mat-icon class="icon-today">date_range</mat-icon>
+    </div>
+  </div>
+  <div class="flex">
+    <div class="session-list flex">
+      <div class="time-line">
+        <div
+          class="time-info"
+          *ngFor="let session of sessionArray | slice: 0:midpoint1"
+          (click)="setForm(session)"
+          [ngStyle]="{
+            'background-color':
+              session.sessionId === clickedId
+                ? 'rgba(236, 237, 241, 0.2)'
+                : 'white'
+          }"
+        >
+          <mat-icon class="dot">radio_button_unchecked</mat-icon>
+          <div class="flex div-info">
+            <div class="ava-div">
+              <img [src]="session.teacherImage" class="ava-student" />
+            </div>
+            <div>
+              <p class="time-p light-font">
+                {{ session.startTime | date: "HH:mm EEE, dd/MM/yyyy":"+000" }}
+              </p>
+              <p>Giáo viên: {{ session.teacherName }}</p>
+              <p class="light-font">Phòng: {{ session.roomName }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="time-line">
+        <div
+          class="time-info"
+          (click)="setForm(session)"
+          [ngStyle]="{
+            'background-color':
+              session.sessionId === clickedId
+                ? 'rgba(236, 237, 241, 0.2)'
+                : 'white'
+          }"
+          *ngFor="let session of sessionArray | slice: midpoint1:midpoint2"
+        >
+          <mat-icon class="dot">radio_button_unchecked</mat-icon>
+          <div class="flex div-info">
+            <div class="ava-div">
+              <img [src]="session.teacherImage" class="ava-student" />
+            </div>
+            <div>
+              <p class="time-p light-font">
+                {{ session.startTime | date: "HH:mm EEE, dd/MM/yyyy":"+000" }}
+              </p>
+              <p>Giáo viên: {{ session.teacherName }}</p>
+              <p class="light-font">Phòng: {{ session.roomName }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="time-line">
+        <div
+          class="time-info"
+          (click)="setForm(session)"
+          [ngStyle]="{
+            'background-color':
+              session.sessionId === clickedId
+                ? 'rgba(236, 237, 241, 0.2)'
+                : 'white'
+          }"
+          *ngFor="let session of sessionArray | slice: midpoint2:midpoint3"
+        >
+          <mat-icon class="dot">radio_button_unchecked</mat-icon>
+          <div class="flex div-info">
+            <div class="ava-div">
+              <img [src]="session.teacherImage" class="ava-student" />
+            </div>
+            <div>
+              <p class="time-p light-font">
+                {{ session.startTime | date: "HH:mm EEE, dd/MM/yyyy":"+000" }}
+              </p>
+              <p>Giáo viên: {{ session.teacherName }}</p>
+              <p class="light-font">Phòng: {{ session.roomName }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-detail" [formGroup]="form">
+      <div
+        class="flex"
+        style="margin-top: 1.5em; margin-bottom: 1em; justify-content: flex-end"
+      >
+        <button class="suggest-btn" (click)="openDialog()" *ngIf="isEdit">
+          Chỉnh sửa
+        </button>
+      </div>
+      <div class="input-div">
+        <p class="label">Giáo viên</p>
+        <input
+          class="input"
+          readonly
+          type="text"
+          formControlName="teacherName"
+        />
+        <p class="invalid">Vui lòng điền tên lớp</p>
+      </div>
+      <div class="input-div">
+        <p class="label">Phòng</p>
+        <input class="input" readonly type="text" formControlName="roomName" />
+        <p class="invalid">Vui lòng điền</p>
+      </div>
+      <div class="input-div">
+        <p class="label">Ngày học</p>
+        <input
+          class="input"
+          readonly
+          type="text"
+          formControlName="date"
+          [ngModel]="date | date: 'EEEE, dd-MM-yyyy':'+000'"
+        />
+        <p class="invalid">Vui lòng điền</p>
+      </div>
+      <div class="input-div">
+        <p class="label">Thời gian bắt đầu</p>
+        <input
+          class="input"
+          readonly
+          type="text"
+          formControlName="startTime"
+          [ngModel]="startTime | date: 'HH:mm':'+000'"
+        />
+        <p class="invalid">Vui lòng điền</p>
+      </div>
+      <div class="input-div">
+        <p class="label">Thời gian kết thúc</p>
+        <input
+          class="input"
+          readonly
+          type="text"
+          formControlName="endTime"
+          [ngModel]="endTime | date: 'HH:mm':'+000'"
+        />
+        <p class="invalid">Vui lòng điền</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="isLoading" class="loading-page" style="padding-left: 39.5%">
+  <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+</div>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="haveAlertOk = !haveAlertOk">OK</button>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertYN">
+  <div class="alert" *ngIf="haveAlertYN">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doYes()">Có</button>
+    <button (click)="doNo()">Không</button>
+  </div>
+</div>

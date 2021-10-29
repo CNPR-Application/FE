@@ -2,7 +2,7 @@ export interface SessionList {
   pageNo: number;
   pageSize: number;
   pageTotal: number;
-  sessionClassList?: SessionResponse[];
+  sessionList?: SessionResponse[];
 }
 
 export interface SessionResponse {
@@ -14,4 +14,15 @@ export interface SessionResponse {
   roomName?: string;
   startTime: string;
   endTime: string;
+}
+
+export interface SessionRequest {
+  sessionId?: number;
+  classId?: number;
+  newRoomId: number | null;
+  changeAllRoom?: boolean;
+  newTeacherId: number | null;
+  changeAllTeacher?: boolean;
+  newStartTime: string | null;
+  changeAllTime?: boolean;
 }

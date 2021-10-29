@@ -1,6 +1,6 @@
 import {
   AttendanceEditRequest,
-  AttendanceResponse,
+  AttendanceResponse
 } from 'src/interfaces/Attendance';
 import { SessionResponse } from 'src/interfaces/Session';
 
@@ -52,9 +52,10 @@ export class SessionStatus {
 
   setStatus(): string {
     let now = new Date();
-    now = new Date(now.getTime() + 7 * 60 * 60 * 1000);
     let startTime = new Date(this.sessionResponse.startTime);
+    startTime = new Date(startTime.getTime() - 7 * 60 * 60 * 1000);
     let endTime = new Date(this.sessionResponse.endTime);
+    endTime = new Date(endTime.getTime() - 7 * 60 * 60 * 1000);
     if (
       startTime.getTime() <= now.getTime() &&
       endTime.getTime() >= now.getTime()

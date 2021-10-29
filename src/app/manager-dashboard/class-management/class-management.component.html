@@ -129,9 +129,20 @@
           <td (click)="setFormDetail(class)">
             {{ class.numberOfStudent }} học viên
           </td>
-          <td *ngIf="listTitle == 'Danh sách lớp chờ đăng ký'">
-            <button class="suggest-btn" (click)="goToClassSuggest(class)">
+          <td>
+            <button
+              class="suggest-btn"
+              (click)="goToClassSuggest(class)"
+              *ngIf="listTitle == 'Danh sách lớp chờ đăng ký'"
+            >
               Gợi ý
+            </button>
+            <button
+              class="suggest-btn"
+              (click)="goToSessionPage(class)"
+              *ngIf="listTitle == 'Danh sách lớp đang học'"
+            >
+              Lộ trình
             </button>
           </td>
         </tr>
