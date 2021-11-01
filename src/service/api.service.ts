@@ -52,7 +52,8 @@ import { ScheduleListResponse } from '../interfaces/Schedule';
 import { SessionList, SessionRequest } from '../interfaces/Session';
 import { Shift, ShiftArray } from '../interfaces/Shift';
 import {
-  StudentInClassArray, StudentInClassListResponse
+  StudentInClassArray,
+  StudentInClassListResponse
 } from '../interfaces/StudentInClass';
 import {
   Subject,
@@ -581,6 +582,18 @@ export class ApiService {
     const url = `${this.rootUrl}teachers?branchId=${branchId}&isAvailable=${isAvailable}&pageNo=${pageNo}&pageSize=${pageSize}`;
     return this.http
       .get<TeacherArray>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  searchAvailTeacherForClass(
+    branchId: number,
+    shiftId: number,
+    openingDate: string,
+    subjectId: number
+  ): Observable<TeacherSearchArray> {
+    const url = `${this.rootUrl}teachers/${branchId}/search?shiftId=${shiftId}&openingDate=${openingDate}&subjectId=${subjectId}`;
+    return this.http
+      .get<TeacherSearchArray>(url, { headers: this.headers })
       .pipe(retry(1));
   }
 
