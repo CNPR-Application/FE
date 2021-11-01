@@ -63,6 +63,8 @@
               {{ class.className }}
             </p>
             <p class="small-class-name">{{ class.shiftDescription }}</p>
+            <p class="small-class-name">GV: {{ class.teacherName }}</p>
+            <p class="small-class-name">Phòng: {{ class.roomName }}</p>
           </div>
         </div>
       </div>
@@ -140,10 +142,22 @@
     </div>
     <div class="attendance-list blue-border">
       <div class="header-list">
-        <div class="title-header-list" style="width: 80%">
+        <div class="title-header-list" style="width: 80%" *ngIf="!isReopen">
           <p>Chấm điểm danh</p>
         </div>
-        <button class="suggest-btn">Mở Lại Điểm Danh</button>
+        <div class="title-header-list" style="width: 80%" *ngIf="isReopen">
+          <p>
+            Mở lại điểm danh đến
+            {{ closingDate | date: "HH:mm, dd/MM/yyyy" }}
+          </p>
+        </div>
+        <button
+          class="suggest-btn"
+          *ngIf="sessionStatus === 'Đã đóng' && !isReopen"
+          (click)="openDialog()"
+        >
+          Mở Lại Điểm Danh
+        </button>
       </div>
       <div
         class="body-list"

@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { LoginResponse } from 'src/interfaces/Account';
 import { AttendanceList } from 'src/interfaces/Attendance';
@@ -51,6 +52,10 @@ export class AttendanceComponent implements OnInit {
   // edit attendance
   statusAttendanceArray?: Array<AttendanceEditClass>;
   statusSession?: Array<SessionStatus>;
+
+  //reopen
+  isReopen: boolean = false;
+  closingDate?: string;
 
   ngOnInit(): void {
     let user: LoginResponse = this.localStorage.get('user');
@@ -163,6 +168,14 @@ export class AttendanceComponent implements OnInit {
           array.forEach((x) => {
             let y = new AttendanceChecking(x);
             this.attendanceArray?.push(y);
+            if (x.isReopen) {
+              this.isReopen = true;
+              this.closingDate = x.closingDate;
+              this.sessionStatus = 'Đang mở';
+            } else {
+              this.isReopen = false;
+              this.closingDate = undefined;
+            }
           });
           this.midpoint = this.attendanceArray.length / 2;
           this.endpoint = this.attendanceArray.length;
@@ -187,6 +200,50 @@ export class AttendanceComponent implements OnInit {
         }
       );
     }
+  }
+
+  reopen() {
+    this.isLoadingAttendance = true;
+    let date;
+    if (this.selectedSession?.startTime) {
+      date = formatDate(this.selectedSession?.startTime, 'dd-MM-yyyy', 'en-US');
+    }
+    // if (this.selectedClass?.teacherUsername) {
+    //   let request: NotiPersonRequest = {
+    //     receiverUsername: 'lanql000008',
+    //     senderUsername: this.selectedClass?.teacherUsername,
+    //     title:
+    //       'Yêu cầu mở lại điểm danh từ giáo viên ' +
+    //       this.selectedClass?.teacherName,
+    //     body:
+    //       'Yêu cầu mở lại điểm danh từ giáo viên ' +
+    //       this.selectedClass?.teacherName +
+    //       ' đối với lớp ' +
+    //       this.selectedClass?.className +
+    //       ' vào ngày học ' +
+    //       date,
+    //   };
+    //   this.api.createNotiForPerson(request).subscribe(
+    //     (response) => {
+    //       if (response) {
+    //         this.callAlert('Ok', 'Yêu cầu mở lại điểm danh thành công!');
+    //         this.isLoadingAttendance = false;
+    //       } else {
+    //         this.callAlert(
+    //           'Ok',
+    //           'Có lỗi xảy ra khi yêu cầu mở lại điểm danh, vui lòng thử lại !'
+    //         );
+    //       }
+    //     },
+    //     (error) => {
+    //       console.log(error);
+    //       this.callAlert(
+    //         'Ok',
+    //         'Có lỗi xảy ra khi yêu cầu mở lại điểm danh, vui lòng thử lại !'
+    //       );
+    //     }
+    //   );
+    // }
   }
 
   changeSessionId(newSessionId: number) {

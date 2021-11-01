@@ -140,16 +140,38 @@
     </div>
     <div class="attendance-list blue-border">
       <div class="header-list">
-        <div class="title-header-list" style="width: 90%">
+        <div class="title-header-list" style="width: 80%" *ngIf="!isReopen">
           <p>Chấm điểm danh</p>
         </div>
-        <button
-          class="suggest-btn"
-          *ngIf="sessionStatus === 'Đang mở'"
-          (click)="editAttendance()"
+        <div class="title-header-list" style="width: 80%" *ngIf="isReopen">
+          <p>
+            Mở lại điểm danh đến
+            {{ closingDate | date: "HH:mm, dd/MM/yyyy" }}
+          </p>
+        </div>
+        <div
+          style="
+            width: 20%;
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 15px;
+          "
         >
-          Lưu
-        </button>
+          <button
+            class="suggest-btn"
+            *ngIf="sessionStatus === 'Đang mở'"
+            (click)="editAttendance()"
+          >
+            Lưu
+          </button>
+          <button
+            class="suggest-btn"
+            *ngIf="sessionStatus === 'Đã đóng' && !isReopen"
+            (click)="reopen()"
+          >
+            Mở Lại Điểm Danh
+          </button>
+        </div>
       </div>
       <div
         class="body-list"

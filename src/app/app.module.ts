@@ -11,7 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import {
   BrowserAnimationsModule,
-  NoopAnimationsModule,
+  NoopAnimationsModule
 } from '@angular/platform-browser/animations';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ClickOutsideModule } from 'ng-click-outside';
@@ -43,6 +43,7 @@ import { BookingCreateComponent } from './manager-dashboard/guest-booking/bookin
 import { GuestBookingComponent } from './manager-dashboard/guest-booking/guest-booking.component';
 import { StatusDialogComponent } from './manager-dashboard/guest-booking/status-dialog/status-dialog.component';
 import { ManagerAttendanceComponent } from './manager-dashboard/manager-attendance/manager-attendance.component';
+import { ReopenDialogComponent } from './manager-dashboard/manager-attendance/reopen-dialog/reopen-dialog.component';
 import { ManagerDashboardComponent } from './manager-dashboard/manager-dashboard.component';
 import { ManagerAvatarComponent } from './manager-dashboard/manager-info/manager-avatar/manager-avatar.component';
 import { ManagerInfoComponent } from './manager-dashboard/manager-info/manager-info.component';
@@ -52,6 +53,7 @@ import { RoomDialogComponent } from './manager-dashboard/room-management/room-di
 import { RoomManagementComponent } from './manager-dashboard/room-management/room-management.component';
 import { ScheduleComponent } from './manager-dashboard/schedule/schedule.component';
 import { StudentInClassComponent } from './manager-dashboard/schedule/student-in-class/student-in-class.component';
+import { SessionDialogComponent } from './manager-dashboard/session-management/session-dialog/session-dialog.component';
 import { SessionManagementComponent } from './manager-dashboard/session-management/session-management.component';
 import { BookingStatusComponent } from './manager-dashboard/student-bookings/booking-status/booking-status.component';
 import { StudentBookingsComponent } from './manager-dashboard/student-bookings/student-bookings.component';
@@ -68,7 +70,6 @@ import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard
 import { TeacherAvatarComponent } from './teacher-dashboard/teacher-info/teacher-avatar/teacher-avatar.component';
 import { TeacherInfoComponent } from './teacher-dashboard/teacher-info/teacher-info.component';
 import { TeacherMenuComponent } from './teacher-dashboard/teacher-menu/teacher-menu.component';
-import { SessionDialogComponent } from './manager-dashboard/session-management/session-dialog/session-dialog.component';
 
 @NgModule({
   declarations: [
@@ -123,6 +124,7 @@ import { SessionDialogComponent } from './manager-dashboard/session-management/s
     RoomDialogComponent,
     SessionManagementComponent,
     SessionDialogComponent,
+    ReopenDialogComponent,
   ],
   entryComponents: [
     SubjectDialogComponent,
@@ -143,6 +145,7 @@ import { SessionDialogComponent } from './manager-dashboard/session-management/s
     CreateAccountComponent,
     RoomDialogComponent,
     SessionDialogComponent,
+    ReopenDialogComponent,
   ],
   imports: [
     BrowserModule,

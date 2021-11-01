@@ -20,6 +20,7 @@ export interface ClassResponse {
   shiftDescription?: string;
   teacherId?: string;
   teacherName?: string;
+  teacherUsername?: string;
   roomId?: number;
   roomName?: string;
   numberOfStudent?: number;

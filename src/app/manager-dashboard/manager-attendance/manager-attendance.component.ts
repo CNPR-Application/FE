@@ -1,18 +1,24 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import {
-  AttendanceChecking,
-  SessionStatus,
+  SessionStatus
 } from 'src/app/teacher-dashboard/attendance/attendance';
 import { LoginResponse } from 'src/interfaces/Account';
-import { AttendanceList } from 'src/interfaces/Attendance';
-import { ClassResponse, ClassArray } from 'src/interfaces/Class';
-import { SessionResponse, SessionList } from 'src/interfaces/Session';
+import {
+  AttendanceList,
+  AttendanceReopenRequest
+} from 'src/interfaces/Attendance';
+import { ClassArray, ClassResponse } from 'src/interfaces/Class';
+import { NotiPersonRequest } from 'src/interfaces/Notification';
+import { SessionList, SessionResponse } from 'src/interfaces/Session';
 import { ApiService } from 'src/service/api.service';
 import { LocalStorageService } from 'src/service/local-storage.service';
 import {
   AttendanceCheckingManager,
-  AttendanceManagerClass,
+  AttendanceManagerClass
 } from './manager-attendance';
+import { ReopenDialogComponent } from './reopen-dialog/reopen-dialog.component';
 
 @Component({
   selector: 'app-manager-attendance',
@@ -22,7 +28,8 @@ import {
 export class ManagerAttendanceComponent implements OnInit {
   constructor(
     private localStorage: LocalStorageService,
-    private api: ApiService
+    private api: ApiService,
+    private dialog: MatDialog
   ) {}
 
   today: Date = new Date();
@@ -54,6 +61,10 @@ export class ManagerAttendanceComponent implements OnInit {
   // edit attendance
   statusAttendanceArray?: Array<AttendanceManagerClass>;
   statusSession?: Array<SessionStatus>;
+
+  //reopen
+  isReopen: boolean = false;
+  closingDate?: string;
 
   ngOnInit(): void {
     let user: LoginResponse = this.localStorage.get('user');
@@ -161,6 +172,14 @@ export class ManagerAttendanceComponent implements OnInit {
           array.forEach((x) => {
             let y = new AttendanceCheckingManager(x);
             this.attendanceArray?.push(y);
+            if (x.isReopen) {
+              this.isReopen = true;
+              this.closingDate = x.closingDate;
+              this.sessionStatus = 'Đang mở';
+            } else {
+              this.isReopen = false;
+              this.closingDate = undefined;
+            }
           });
           this.midpoint = this.attendanceArray.length / 2;
           this.endpoint = this.attendanceArray.length;
@@ -215,6 +234,65 @@ export class ManagerAttendanceComponent implements OnInit {
           break;
         }
       }
+  }
+
+  openDialog() {
+    let dialogRef = this.dialog.open(ReopenDialogComponent, {
+      data: {
+        sessionId: this.selectedSession?.sessionId,
+      },
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      let request: AttendanceReopenRequest = data;
+      this.api.reopenAttendance(request).subscribe(
+        (response) => {
+          if (response) {
+            this.callAlert('Ok', 'Mở lại điểm danh thành công!');
+            this.sendNotiToTeacher();
+          } else {
+            this.callAlert(
+              'Ok',
+              'Có lỗi xảy ra khi mở lại điểm danh, vui lòng thử lại !'
+            );
+          }
+        },
+        (error) => {
+          console.log(error);
+          this.callAlert(
+            'Ok',
+            'Có lỗi xảy ra khi mở lại điểm danh, vui lòng thử lại !'
+          );
+        }
+      );
+    });
+  }
+
+  sendNotiToTeacher() {
+    let date;
+    if (this.selectedSession?.startTime) {
+      date = formatDate(this.selectedSession?.startTime, 'dd-MM-yyyy', 'en-US');
+    }
+    if (this.selectedClass?.teacherUsername) {
+      let request: NotiPersonRequest = {
+        receiverUsername: this.selectedClass?.teacherUsername,
+        senderUsername: 'system',
+        title:
+          'Yêu cầu mở lại điểm danh từ giáo viên ' +
+          this.selectedClass?.teacherName +
+          ' đã được chấp thuận',
+        body:
+          'Yêu cầu mở lại điểm danh từ giáo viên ' +
+          this.selectedClass?.teacherName +
+          ' đối với lớp ' +
+          this.selectedClass?.className +
+          ' vào ngày học ' +
+          date +
+          ' đã được chấp thuận',
+      };
+      this.api.createNotiForPerson(request).subscribe((response) => {
+        console.log('Kết quả gửi noti cho giáo viên sau reopen: ' + response);
+      });
+    }
   }
 
   // alert

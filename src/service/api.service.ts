@@ -6,11 +6,11 @@ import {
   RoomArrayResponse,
   RoomCreateRequest,
   RoomList,
-  RoomResponse,
+  RoomResponse
 } from 'src/interfaces/Room';
 import {
   StudentArrayResponse,
-  StudentArraySearchResponse,
+  StudentArraySearchResponse
 } from 'src/interfaces/Student';
 import {
   CreateInFoResponse,
@@ -20,11 +20,12 @@ import {
   ImageResponse,
   InfoArray,
   LoginRequest,
-  LoginResponse,
+  LoginResponse
 } from '../interfaces/Account';
 import {
   AttendanceEditRequest,
   AttendanceList,
+  AttendanceReopenRequest
 } from '../interfaces/Attendance';
 import { Booking, BookingArray } from '../interfaces/Booking';
 import { Branch, BranchArray } from '../interfaces/Branch';
@@ -33,11 +34,11 @@ import {
   ClassArray,
   ClassRequest,
   ClassResponse,
-  ClassStatus,
+  ClassStatus
 } from '../interfaces/Class';
 import {
   CurriculumResponse,
-  CurriculumResponseArray,
+  CurriculumResponseArray
 } from '../interfaces/Curriculum';
 import { FeedbackListResponse } from '../interfaces/Feedback';
 import {
@@ -45,26 +46,25 @@ import {
   NotiClassRequest,
   NotificationListResponse,
   NotiPersonRequest,
-  NotiPutRequest,
+  NotiPutRequest
 } from '../interfaces/Notification';
 import { ScheduleListResponse } from '../interfaces/Schedule';
 import { SessionList, SessionRequest } from '../interfaces/Session';
 import { Shift, ShiftArray } from '../interfaces/Shift';
 import {
-  StudentInClassListResponse,
-  StudentInClassArray,
+  StudentInClassArray, StudentInClassListResponse
 } from '../interfaces/StudentInClass';
 import {
   Subject,
   SubjectArray,
   SubjectDetail,
-  SubjectDetailArray,
+  SubjectDetailArray
 } from '../interfaces/Subject';
 import {
   SubjectInTeacher,
   TeacherArray,
   TeacherSearchArray,
-  TeachingSubjectRequest,
+  TeachingSubjectRequest
 } from '../interfaces/Teacher';
 
 @Injectable({
@@ -72,8 +72,8 @@ import {
 })
 export class ApiService {
   constructor(private http: HttpClient) {}
-  rootUrl: string = 'https://lcss-fa21.herokuapp.com/';
-  //rootUrl: string = 'http://localhost:8080/';
+  //rootUrl: string = 'https://lcss-fa21.herokuapp.com/';
+  rootUrl: string = 'http://localhost:8080/';
   headers = new HttpHeaders()
     .set('content-type', 'application/json')
     .set('Access-Control-Allow-Origin', '*')
@@ -636,6 +636,13 @@ export class ApiService {
     const url = `${this.rootUrl}attendance`;
     return this.http
       .put<boolean>(url, attendanceList, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  reopenAttendance(request: AttendanceReopenRequest) {
+    const url = `${this.rootUrl}reopen-attendance`;
+    return this.http
+      .put<boolean>(url, request, { headers: this.headers })
       .pipe(retry(1));
   }
 

@@ -136,7 +136,6 @@ export class SessionDialogComponent implements OnInit {
     } else {
       changeDate = null;
     }
-    console.log(changeDate);
     let request: SessionRequest = {
       sessionId: this.sessionModel?.sessionId,
       classId: this.classModel?.classId,

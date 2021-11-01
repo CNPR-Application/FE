@@ -15,10 +15,18 @@ export interface AttendanceResponse {
   studentName?: string;
   studentImage?: string;
   checkingDate?: string;
+  isReopen?: boolean;
+  closingDate?: string;
+  reopenReason?: string;
   status: string;
 }
 
 export interface AttendanceEditRequest {
   attendanceId: number;
   status: string;
+}
+
+export interface AttendanceReopenRequest {
+  sessionId: number;
+  reopenReason: string;
 }
