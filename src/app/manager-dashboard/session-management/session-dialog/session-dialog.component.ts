@@ -6,7 +6,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ClassResponse } from 'src/interfaces/Class';
 import { RoomResponse } from 'src/interfaces/Room';
 import { SessionRequest, SessionResponse } from 'src/interfaces/Session';
-import { TeacherArray, TeacherInfo } from 'src/interfaces/Teacher';
+import {
+  TeacherInfo,
+  TeacherSearchArray
+} from 'src/interfaces/Teacher';
 import { ApiService } from 'src/service/api.service';
 import { TimeService } from 'src/service/time.service';
 
@@ -102,18 +105,29 @@ export class SessionDialogComponent implements OnInit {
 
   getTeacher(): void {
     this.isLoading = true;
-    if (this.branchId && this.classModel?.subjectId) {
+    if (
+      this.branchId &&
+      this.classModel?.subjectId &&
+      this.classModel.openingDate &&
+      this.classModel.shiftId
+    ) {
+      let date;
+      if (this.startTime) {
+        date = formatDate(this.startTime, 'yyyy-MM-dd', 'en-US');
+      } else {
+        date = formatDate(this.classModel?.openingDate, 'yyyy-MM-dd', 'en-US');
+      }
       this.api
-        .searchTeacherByBranchSubject(
+        .searchAvailTeacherForClass(
           this.branchId,
-          this.classModel?.subjectId,
-          1,
-          1000
+          this.classModel.shiftId,
+          date,
+          this.classModel?.subjectId
         )
         .subscribe(
-          (data: TeacherArray) => {
+          (data: TeacherSearchArray) => {
             this.isLoading = false;
-            this.teacherArray = data.teacherInBranchList;
+            this.teacherArray = data.teacherList;
           },
           (error) => {
             this.isLoading = false;

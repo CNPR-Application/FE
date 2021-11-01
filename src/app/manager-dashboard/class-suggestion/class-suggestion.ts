@@ -5,8 +5,6 @@ export interface Booking_Per_Class {
   label: string;
   numberOfStudent: number;
   studentPerClassArray: Array<Booking>;
-  isCreateClass: boolean;
-  isMovedStudent: boolean;
   isActivated: number;
   color: string;
 }
@@ -15,8 +13,6 @@ export class BookingPerClass implements Booking_Per_Class {
   label: string;
   numberOfStudent: number;
   studentPerClassArray: Array<Booking>;
-  isCreateClass: boolean;
-  isMovedStudent: boolean;
   isActivated: number;
   color: string;
   gridRow: string;
@@ -28,23 +24,18 @@ export class BookingPerClass implements Booking_Per_Class {
     label: string,
     numberOfStudent: number,
     studentPerClassArray: Array<Booking>,
-    isCreateClass: boolean,
-    isMovedStudent: boolean,
     isActivated: number,
     color: string
   ) {
     this.label = label;
     this.numberOfStudent = numberOfStudent;
     this.studentPerClassArray = studentPerClassArray;
-    this.isCreateClass = isCreateClass;
-    this.isMovedStudent = isMovedStudent;
     this.isActivated = isActivated;
     this.color = color;
     this.gridRow = this.getGridRow(this.numberOfStudent);
   }
 
-  setClassActivateRequest(request: ClassRequest, classActivateRequest: ClassActivationRequest) {
-    this.classCreateRequest = request;
+  setClassActivateRequest(classActivateRequest: ClassActivationRequest) {
     this.classActivateRequest = classActivateRequest;
   }
 
@@ -91,20 +82,6 @@ export class BookingPerClass implements Booking_Per_Class {
     this.gridRow = this.getGridRow(numberOfStudent);
   }
 
-  getIsCreateClass() {
-    return this.isCreateClass;
-  }
-
-  setIsCreateClass(isCreateClass: boolean) {
-    this.isCreateClass = isCreateClass;
-  }
-  getIsMovedStudent() {
-    return this.isMovedStudent;
-  }
-
-  setIsMovedStudent(isMovedStudent: boolean) {
-    this.isMovedStudent = isMovedStudent;
-  }
   getIsActivated() {
     return this.isActivated;
   }

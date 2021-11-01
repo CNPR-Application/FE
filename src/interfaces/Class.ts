@@ -48,8 +48,12 @@ export interface ClassStatus {
 
 export interface ClassActivationRequest {
   roomId?: number;
+  className?: string;
+  openingDate?: string;
+  subjectId?: number;
+  branchId?: number;
+  shiftId?: number;
   teacherId?: number;
-  classId?: number;
   creator?: string;
   bookingIdList?: number[];
 }

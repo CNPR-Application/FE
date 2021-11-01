@@ -15,12 +15,12 @@ export interface TeacherInfo {
   teacherUsername: string;
   teacherAddress?: string;
   teacherEmail?: string;
-  teacherBirthday: string;
-  teacherPhone: string;
+  teacherBirthday?: string;
+  teacherPhone?: string;
   teacherImage?: string;
-  role: string;
-  accountCreatingDate: string;
-  teacherStartingDate: string;
+  role?: string;
+  accountCreatingDate?: string;
+  teacherStartingDate?: string;
   teacherExperience?: string;
   teacherRating: number;
   teachingSubjectList?: Array<SubjectInTeacher>;
