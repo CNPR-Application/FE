@@ -17,7 +17,7 @@ export class TeacherClassComponent implements OnInit {
   ) {}
 
   today?: Date;
-  listTitle: string = 'Danh sách lớp chờ khai giảng';
+  listTitle: string = 'Danh sách lớp đang dạy';
   isLoading: boolean = true;
   classArray?: Array<ClassResponse>;
   //paging
@@ -27,7 +27,7 @@ export class TeacherClassComponent implements OnInit {
   //clickId
   clickedId: number = 0;
   //for search
-  status: string = 'waiting';
+  status: string = 'studying';
   //
   teacher?: TeacherInfo;
   url?: string;

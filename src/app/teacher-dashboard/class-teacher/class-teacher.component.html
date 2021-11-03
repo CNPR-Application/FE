@@ -1,0 +1,293 @@
+<div class="class-management">
+  <div class="first-line">
+    <div class="div-title">
+      <p class="title">Chi tiết lớp học của giáo viên</p>
+      <p class="line-title">
+        <a
+          class="back-title"
+          routerLink="/manager-dashboard"
+          title="Quay về trang chủ"
+          >Trang chủ</a
+        ><span class="else-title">/</span
+        ><span class="else-title">Lớp học</span>
+      </p>
+    </div>
+    <div class="div-today" style="width: 13%">
+      <p class="today">{{ today | date: "dd/MM/yyyy" }}</p>
+      <mat-icon class="icon-today">date_range</mat-icon>
+    </div>
+  </div>
+  <div class="logo-div" *ngIf="teacher">
+    <img class="img" src="{{ url }}" alt="avatar image" />
+    <p class="title" style="margin: 3px">{{ teacher.name }}</p>
+    <p style="color: gray; text-decoration: none; margin: 0">
+      {{ teacher.username }}
+    </p>
+  </div>
+  <div class="menu">
+    <div class="div-menu" title="Xem lớp chờ khai giảng">
+      <a class="flex" (click)="changeTitle('Danh sách lớp chờ khai giảng')">
+        <img
+          class="img"
+          src="../../../assets/image/waiting_class_teacher.png"
+        />
+        <div class="right">
+          <p class="blue-line">Lớp chờ khai giảng</p>
+        </div>
+      </a>
+    </div>
+    <div class="div-menu" title="Xem lớp đang dạy">
+      <a class="flex" (click)="changeTitle('Danh sách lớp đang dạy')">
+        <img
+          class="img"
+          src="../../../assets/image/studying_class_teacher.png"
+        />
+        <div class="right">
+          <p class="blue-line">Lớp đang dạy</p>
+        </div>
+      </a>
+    </div>
+    <div class="div-menu" style="margin-right: 0" title="Xem lớp đã kết thúc">
+      <a class="flex" (click)="changeTitle('Danh sách lớp đã kết thúc')">
+        <img
+          class="img"
+          src="../../../assets/image/finished_class_teacher.png"
+        />
+        <div class="right">
+          <p class="blue-line">Lớp đã kết thúc</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <!-- class -->
+  <div class="flex" style="align-items: baseline; margin-top: 1em">
+    <p class="title-small" style="width: 20%">
+      {{ listTitle }}
+    </p>
+  </div>
+  <div class="flex">
+    <div class="right-table">
+      <table class="table">
+        <tr class="header">
+          <th class="th1">ID</th>
+          <th class="th1">Lớp học</th>
+          <th class="th2">Môn học</th>
+          <th class="th3">Ca học</th>
+          <th class="th4">Khai giảng</th>
+          <th class="th4">Chi nhánh</th>
+          <th
+            class="th4"
+            *ngIf="status === 'studying' || status === 'finished'"
+          >
+            Phòng học
+          </th>
+          <th class="th4">Tổng buổi học</th>
+          <th class="th4">Học sinh</th>
+        </tr>
+        <tr
+          class="data"
+          *ngFor="let class of classArray"
+          style="cursor: pointer"
+          [ngStyle]="{
+            'background-color':
+              class.classId === clickedId ? 'rgba(236, 237, 241, 0.2)' : 'white'
+          }"
+        >
+          <td class="color-grey" style="width: 5%" (click)="getSession(class)">
+            {{ class.classId }}
+          </td>
+          <td class="color-blue" (click)="getSession(class)">
+            {{ class.className }}
+          </td>
+          <td class="color-grey" (click)="getSession(class)">
+            {{ class.subjectName }}
+          </td>
+          <td class="color-grey" (click)="getSession(class)">
+            {{ class.shiftDescription }}
+          </td>
+          <td class="color-grey" (click)="getSession(class)">
+            {{ class.openingDate | date: "dd-MM-yyyy" }}
+          </td>
+          <td (click)="getSession(class)">
+            {{ class.branchName }}
+          </td>
+          <td
+            (click)="getSession(class)"
+            *ngIf="status === 'studying' || status === 'finished'"
+          >
+            {{ class.roomName }}
+          </td>
+          <td (click)="getSession(class)">
+            {{ class.slot }}
+          </td>
+          <td>
+            <mat-icon
+              style="cursor: pointer"
+              (click)="viewStudentInClass(class.classId)"
+              >visibility</mat-icon
+            >
+          </td>
+        </tr>
+      </table>
+      <div class="paging" *ngIf="totalPage">
+        <div class="item" *ngFor="let i of pageArray" (click)="changePage(i)">
+          <a>{{ i }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- session -->
+  <div
+    class="flex"
+    *ngIf="classModel"
+    style="align-items: baseline; margin-top: 0.5em; margin-bottom: 1em"
+  >
+    <p class="title-small" style="width: 20%; margin: 0" id="session">
+      Lộ trình học
+    </p>
+  </div>
+  <div class="flex" *ngIf="classModel">
+    <div class="session-list flex">
+      <div class="time-line">
+        <div
+          class="time-info"
+          *ngFor="let session of sessionArray | slice: 0:midpoint1"
+          (click)="setForm(session)"
+          [ngStyle]="{
+            'background-color':
+              session.sessionId === clickedId
+                ? 'rgba(236, 237, 241, 0.2)'
+                : 'white'
+          }"
+        >
+          <mat-icon class="dot">radio_button_unchecked</mat-icon>
+          <div class="flex div-info">
+            <div class="ava-div">
+              <img [src]="session.teacherImage" class="ava-student" />
+            </div>
+            <div>
+              <p class="time-p light-font">
+                {{ session.startTime | date: "HH:mm EEE, dd/MM/yyyy":"+000" }}
+              </p>
+              <p>Giáo viên: {{ session.teacherName }}</p>
+              <p class="light-font">Phòng: {{ session.roomName }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="time-line">
+        <div
+          class="time-info"
+          (click)="setForm(session)"
+          [ngStyle]="{
+            'background-color':
+              session.sessionId === clickedId
+                ? 'rgba(236, 237, 241, 0.2)'
+                : 'white'
+          }"
+          *ngFor="let session of sessionArray | slice: midpoint1:midpoint2"
+        >
+          <mat-icon class="dot">radio_button_unchecked</mat-icon>
+          <div class="flex div-info">
+            <div class="ava-div">
+              <img [src]="session.teacherImage" class="ava-student" />
+            </div>
+            <div>
+              <p class="time-p light-font">
+                {{ session.startTime | date: "HH:mm EEE, dd/MM/yyyy":"+000" }}
+              </p>
+              <p>Giáo viên: {{ session.teacherName }}</p>
+              <p class="light-font">Phòng: {{ session.roomName }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="time-line">
+        <div
+          class="time-info"
+          (click)="setForm(session)"
+          [ngStyle]="{
+            'background-color':
+              session.sessionId === clickedId
+                ? 'rgba(236, 237, 241, 0.2)'
+                : 'white'
+          }"
+          *ngFor="let session of sessionArray | slice: midpoint2:midpoint3"
+        >
+          <mat-icon class="dot">radio_button_unchecked</mat-icon>
+          <div class="flex div-info">
+            <div class="ava-div">
+              <img [src]="session.teacherImage" class="ava-student" />
+            </div>
+            <div>
+              <p class="time-p light-font">
+                {{ session.startTime | date: "HH:mm EEE, dd/MM/yyyy":"+000" }}
+              </p>
+              <p>Giáo viên: {{ session.teacherName }}</p>
+              <p class="light-font">Phòng: {{ session.roomName }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-detail" [formGroup]="form">
+      <div
+        class="flex"
+        style="margin-top: 1.5em; margin-bottom: 1em; justify-content: flex-end"
+      >
+        <button class="suggest-btn" (click)="goToAttendance()">
+          Điểm danh
+        </button>
+      </div>
+      <div class="input-div">
+        <p class="label">Ngày học</p>
+        <input
+          class="input"
+          readonly
+          type="text"
+          formControlName="date"
+          [ngModel]="date | date: 'EEEE, dd-MM-yyyy':'+000'"
+        />
+        <p class="invalid">Vui lòng điền</p>
+      </div>
+      <div class="input-div">
+        <p class="label">Thời gian bắt đầu</p>
+        <input
+          class="input"
+          readonly
+          type="text"
+          formControlName="startTime"
+          [ngModel]="startTime | date: 'HH:mm':'+000'"
+        />
+        <p class="invalid">Vui lòng điền</p>
+      </div>
+      <div class="input-div">
+        <p class="label">Thời gian kết thúc</p>
+        <input
+          class="input"
+          readonly
+          type="text"
+          formControlName="endTime"
+          [ngModel]="endTime | date: 'HH:mm':'+000'"
+        />
+        <p class="invalid">Vui lòng điền</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="isLoading" class="loading-page" style="padding-left: 39.5%">
+  <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+</div>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="haveAlertOk = !haveAlertOk">OK</button>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertYN">
+  <div class="alert" *ngIf="haveAlertYN">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doYes()">Có</button>
+    <button (click)="doNo()">Không</button>
+  </div>
+</div>

@@ -26,6 +26,7 @@ import { StudentManagementComponent } from './manager-dashboard/student-manageme
 import { TeacherClassComponent } from './manager-dashboard/teacher-class/teacher-class.component';
 import { TeacherManagementComponent } from './manager-dashboard/teacher-management/teacher-management.component';
 import { AttendanceComponent } from './teacher-dashboard/attendance/attendance.component';
+import { ClassTeacherComponent } from './teacher-dashboard/class-teacher/class-teacher.component';
 import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard.component';
 import { TeacherInfoComponent } from './teacher-dashboard/teacher-info/teacher-info.component';
 
@@ -72,6 +73,7 @@ const routes: Routes = [
     children: [
       { path: 'attendance', component: AttendanceComponent },
       { path: 'info', component: TeacherInfoComponent },
+      { path: 'class', component: ClassTeacherComponent },
     ],
   },
 ];

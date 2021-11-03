@@ -65,6 +65,7 @@ import { TeacherManagementComponent } from './manager-dashboard/teacher-manageme
 import { TeachingSubjectComponent } from './manager-dashboard/teacher-management/teaching-subject/teaching-subject.component';
 import { MaterialModule } from './material/material.module';
 import { AttendanceComponent } from './teacher-dashboard/attendance/attendance.component';
+import { ClassTeacherComponent } from './teacher-dashboard/class-teacher/class-teacher.component';
 import { NotificationTeacherDialogComponent } from './teacher-dashboard/notification-teacher-dialog/notification-teacher-dialog.component';
 import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard.component';
 import { TeacherAvatarComponent } from './teacher-dashboard/teacher-info/teacher-avatar/teacher-avatar.component';
@@ -125,6 +126,7 @@ import { TeacherMenuComponent } from './teacher-dashboard/teacher-menu/teacher-m
     SessionManagementComponent,
     SessionDialogComponent,
     ReopenDialogComponent,
+    ClassTeacherComponent,
   ],
   entryComponents: [
     SubjectDialogComponent,
