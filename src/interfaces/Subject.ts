@@ -7,6 +7,13 @@ export interface SubjectArray {
   subjectsResponseDtos?: Subject[];
 }
 
+export interface SubjectTeacherArray {
+  pageNo: number;
+  pageSize: number;
+  totalPage: number;
+  subjectList?: Subject[];
+}
+
 export interface Subject {
   subjectId?: number;
   subjectCode: string;
@@ -35,7 +42,7 @@ export interface SubjectDetailArray {
 export interface SubjectDetail {
   subjectDetailId?: number;
   subjectId?: number;
-  weekNum?: number;
+  weekNum: number;
   weekDescription?: string;
   isAvailable?: boolean;
   learningOutcome?: string;

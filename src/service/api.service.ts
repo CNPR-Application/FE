@@ -63,6 +63,7 @@ import {
   SubjectArray,
   SubjectDetail,
   SubjectDetailArray,
+  SubjectTeacherArray,
 } from '../interfaces/Subject';
 import {
   SubjectInTeacher,
@@ -204,6 +205,17 @@ export class ApiService {
     const url = `${this.rootUrl}subjects?curriculumId=${curriculumId}&isAvailable=${isAvailable}&pageNo=${pageNo}&pageSize=${pageSize}`;
     return this.http
       .get<SubjectArray>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  getSubjectOfTeacher(
+    teacherUsername: string,
+    pageNo: number,
+    pageSize: number
+  ): Observable<SubjectTeacherArray> {
+    const url = `${this.rootUrl}subjects?teacherUsername=${teacherUsername}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    return this.http
+      .get<SubjectTeacherArray>(url, { headers: this.headers })
       .pipe(retry(1));
   }
 

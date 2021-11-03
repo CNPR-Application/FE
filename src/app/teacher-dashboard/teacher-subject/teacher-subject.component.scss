@@ -1,0 +1,118 @@
+.teacher-subject {
+  padding: 6vh;
+  padding-bottom: 0;
+  .subject {
+    width: 70%;
+    .paging {
+      float: right;
+      margin-top: 2%;
+      width: -webkit-fill-available;
+      .item {
+        background: #fff;
+        border: 1px solid #0000001a;
+        box-sizing: border-box;
+        width: 4%;
+        text-align: center;
+        height: 1.3em;
+        margin: auto;
+        float: right;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .item:hover {
+        border: 1px solid rgba(24, 42, 136, 0.14);
+        box-sizing: border-box;
+        box-shadow: 0px 4px 4px rgba(24, 42, 136, 0.4);
+      }
+      a {
+        text-decoration: auto;
+        top: 2%;
+        color: #000;
+        font-size: 11px;
+        font-family: poppins;
+      }
+    }
+  }
+  .subject-detail {
+    width: 30%;
+    padding-left: 2%;
+    .time-line {
+      border-left: 2px dotted #dbe0ec;
+      width: 100%;
+      padding-top: 0.5em;
+    }
+    .time-info {
+      padding-bottom: 15px;
+      cursor: pointer;
+      p {
+        margin: 0;
+        padding-left: 10px;
+        margin-bottom: 5px;
+      }
+    }
+    .time-p {
+      margin-top: -1.3em !important;
+      margin-bottom: 1em !important;
+    }
+    .time-info:hover {
+      background-color: rgba(236, 237, 241, 0.2) !important;
+    }
+    .div-info {
+      display: flex;
+      align-items: center;
+    }
+    .light-font {
+      font-size: 14px;
+      color: #50649c;
+    }
+    .dark-font {
+      color: #1a253f;
+      font-weight: 500;
+    }
+    .dot {
+      font-size: 10px;
+      color: #f1f5fa;
+      width: 10px;
+      background-color: #4d79f6;
+      height: 10px;
+      margin-left: -6px;
+      border-radius: 10px;
+    }
+  }
+  .loading-inner-div {
+    width: 29%;
+    justify-content: center;
+    align-items: center;
+    height: 10em;
+    display: flex;
+    .img-loading {
+      margin: auto;
+      width: 40px;
+      height: 40px;
+    }
+  }
+  .table {
+    .th-1,
+    .td-1 {
+      width: 10%;
+    }
+    .th-2,
+    .td-2 {
+      width: 20%;
+    }
+    .th-3,
+    .td-3 {
+      width: 50%;
+    }
+    .th-4,
+    .td-4 {
+      width: 10%;
+    }
+    .th-5,
+    .td-5 {
+      width: 10%;
+    }
+  }
+}

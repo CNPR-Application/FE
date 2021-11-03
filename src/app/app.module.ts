@@ -11,7 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import {
   BrowserAnimationsModule,
-  NoopAnimationsModule
+  NoopAnimationsModule,
 } from '@angular/platform-browser/animations';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ClickOutsideModule } from 'ng-click-outside';
@@ -72,6 +72,7 @@ import { TeacherAvatarComponent } from './teacher-dashboard/teacher-info/teacher
 import { TeacherInfoComponent } from './teacher-dashboard/teacher-info/teacher-info.component';
 import { TeacherMenuComponent } from './teacher-dashboard/teacher-menu/teacher-menu.component';
 import { TeacherScheduleComponent } from './teacher-dashboard/teacher-schedule/teacher-schedule.component';
+import { TeacherSubjectComponent } from './teacher-dashboard/teacher-subject/teacher-subject.component';
 
 @NgModule({
   declarations: [
@@ -129,6 +130,7 @@ import { TeacherScheduleComponent } from './teacher-dashboard/teacher-schedule/t
     ReopenDialogComponent,
     ClassTeacherComponent,
     TeacherScheduleComponent,
+    TeacherSubjectComponent,
   ],
   entryComponents: [
     SubjectDialogComponent,

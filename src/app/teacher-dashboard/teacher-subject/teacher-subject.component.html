@@ -1,0 +1,114 @@
+<div class="teacher-subject">
+  <div class="first-line">
+    <div class="div-title">
+      <p class="title">Giáo án</p>
+      <p class="line-title">
+        <a
+          class="back-title"
+          routerLink="/manager-dashboard"
+          title="Quay về trang chủ"
+          >Trang chủ</a
+        ><span class="else-title">/</span
+        ><span class="else-title">Giáo án</span>
+      </p>
+    </div>
+    <div class="div-today" style="width: 13%">
+      <p class="today">{{ today | date: "dd/MM/yyyy" }}</p>
+      <mat-icon class="icon-today">date_range</mat-icon>
+    </div>
+  </div>
+  <div class="flex">
+    <div class="subject">
+      <table class="table" style="margin-top: 1.7%">
+        <tr class="header">
+          <th class="th-1">Mã môn</th>
+          <th class="th-2">Tên môn học</th>
+          <th class="th-3">Miêu tả</th>
+          <th class="th-4">Chương trình</th>
+          <th class="th-5">Slot</th>
+        </tr>
+        <tr
+          class="data color-grey poppins"
+          *ngFor="let sub of subjectArray"
+          style="cursor: pointer"
+          [ngStyle]="{
+            'background-color':
+              sub.subjectId === clickedId ? 'rgba(236, 237, 241, 0.2)' : 'white'
+          }"
+        >
+          <td (click)="goToDetailSubject(sub.subjectId)" class="td-1">
+            {{ sub.subjectCode }}
+          </td>
+          <td
+            (click)="goToDetailSubject(sub.subjectId)"
+            class="td-2 color-blue"
+            title="{{ sub.subjectName }}"
+          >
+            {{ sub.subjectName }}
+          </td>
+          <td
+            (click)="goToDetailSubject(sub.subjectId)"
+            class="td-3"
+            title="{{ sub.description }}"
+          >
+            {{ sub.description }}
+          </td>
+          <td (click)="goToDetailSubject(sub.subjectId)" class="td-4">
+            {{ sub.curriculumName }}
+          </td>
+          <td (click)="goToDetailSubject(sub.subjectId)" class="td-5">
+            {{ sub.slot }}
+          </td>
+        </tr>
+        <tr class="data color-grey poppins" *ngFor="let row of moreRowArray">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+      <div class="paging">
+        <div
+          class="item"
+          *ngFor="let page of pageArray"
+          (click)="changePage(page)"
+        >
+          <a>{{ page }}</a>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isLoadingDetail" class="loading-inner-div">
+      <img
+        class="img-loading"
+        src="/assets/image/loading.gif"
+        alt="Logo image"
+      />
+    </div>
+    <div class="subject-detail" *ngIf="!isLoadingDetail">
+      <div class="time-line">
+        <div class="time-info" *ngFor="let detail of subjectDetailArray">
+          <mat-icon class="dot">radio_button_unchecked</mat-icon>
+          <div class="flex div-info">
+            <div>
+              <p class="time-p light-font">Tuần {{ detail.weekNum }}</p>
+              <p>Miêu tả: {{ detail.weekDescription }}</p>
+              <p class="light-font" style="color: black">
+                Kết quả đầu ra: {{ detail.learningOutcome }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="isLoading" class="loading-page" style="padding-left: 39.5%">
+  <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+</div>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="haveAlertOk = !haveAlertOk">OK</button>
+  </div>
+</div>
