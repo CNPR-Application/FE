@@ -8,9 +8,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginResponse } from 'src/interfaces/Account';
 import { Booking, BookingArray } from 'src/interfaces/Booking';
-import {
-  ClassActivationRequest, ClassResponse
-} from 'src/interfaces/Class';
+import { ClassActivationRequest, ClassResponse } from 'src/interfaces/Class';
 import { RoomResponse } from 'src/interfaces/Room';
 import { TeacherInfo, TeacherSearchArray } from 'src/interfaces/Teacher';
 import { Single_Chart } from 'src/interfaces/Utils';
@@ -236,7 +234,7 @@ export class ClassSuggestionComponent implements OnInit {
     domain: ['#498DD0'],
   };
   colorScheme = {
-    domain: ['#aaece5', '#b3d7f3', '#c3cdd7', '#ffe6b1', '#e3c5d5'],
+    domain: ['#aaece5', '#ffe6b1', '#b3d7f3', '#e3c5d5', '#c3cdd7'],
   };
 
   getStartChart(): void {
@@ -462,10 +460,10 @@ export class ClassSuggestionComponent implements OnInit {
   colorIndex: number = 5;
   colorArray: Array<string> = [
     'rgb(170, 236, 229,0.7)',
-    'rgb(179, 215, 243,0.7)',
-    'rgb(195,205,215,0.7)',
     'rgb(255,230,177,0.7)',
+    'rgb(179, 215, 243,0.7)',
     'rgb(227,197,213,0.7)',
+    'rgb(195,205,215,0.7)',
   ];
 
   openChangeStudentFrame(): void {

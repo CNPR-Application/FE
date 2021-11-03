@@ -350,7 +350,9 @@
         <div
           style="width: 32%; height: 42.5em; overflow-y: auto"
           cdkDropList
+          id="listOne"
           [cdkDropListData]="changeClickedArray"
+          [cdkDropListConnectedTo]="['listTwo']"
           (cdkDropListDropped)="drop($event)"
         >
           <div class="title-change-student-div">
@@ -363,20 +365,27 @@
           </div>
           <div
             cdkDrag
-            class="student-div"
+            class="student-div-activate-class"
             *ngFor="let student of changeClickedArray"
           >
             <div
-              class="color-div"
+              class="color-div-activate-class"
               [style.background-color]="getBackgroundColor()"
             ></div>
-            <div style="width: 17%; margin-right: 1%">
-              <img [src]="student.image" class="ava-img-student" />
+            <div class="img-div-activate-class">
+              <img
+                [src]="student.image"
+                class="ava-img-student-activate-class"
+              />
             </div>
-            <div style="width: 74%">
-              <h5>{{ student.studentName }}</h5>
-              <p>Tài khoản: {{ student.studentUsername }}</p>
-              <p>Lúc {{ student.payingDate | date: "HH:mm dd-MM-yyyy" }}</p>
+            <div class="info-div-activate-class">
+              <h5 class="h5-activate-class">{{ student.studentName }}</h5>
+              <p class="p-activate-class">
+                Tài khoản: {{ student.studentUsername }}
+              </p>
+              <p class="p-activate-class">
+                Lúc {{ student.payingDate | date: "HH:mm dd-MM-yyyy" }}
+              </p>
             </div>
           </div>
         </div>
@@ -397,25 +406,34 @@
               "
               [style.grid-template-rows]="classObject.gridRow"
               cdkDropList
+              id="listTwo"
               [cdkDropListData]="classObject.studentPerClassArray"
+              [cdkDropListConnectedTo]="['listOne']"
               (cdkDropListDropped)="drop($event)"
             >
               <div
-                class="student-div"
+                class="student-div-activate-class"
                 cdkDrag
                 *ngFor="let student of classObject.studentPerClassArray"
               >
                 <div
-                  class="color-div"
+                  class="color-div-activate-class"
                   [style.background-color]="classObject.color"
                 ></div>
-                <div style="width: 17%; margin-right: 1%">
-                  <img [src]="student.image" class="ava-img-student" />
+                <div class="img-div-activate-class">
+                  <img
+                    [src]="student.image"
+                    class="ava-img-student-activate-class"
+                  />
                 </div>
-                <div style="width: 74%">
-                  <h5>{{ student.studentName }}</h5>
-                  <p>Tài khoản: {{ student.studentId }}</p>
-                  <p>Lúc {{ student.payingDate | date: "HH:mm dd-MM-yyyy" }}</p>
+                <div class="info-div-activate-class">
+                  <h5 class="h5-activate-class">{{ student.studentName }}</h5>
+                  <p class="p-activate-class">
+                    Tài khoản: {{ student.studentId }}
+                  </p>
+                  <p class="p-activate-class">
+                    Lúc {{ student.payingDate | date: "HH:mm dd-MM-yyyy" }}
+                  </p>
                 </div>
               </div>
             </div>
