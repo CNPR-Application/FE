@@ -1,9 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ClassArray, ClassResponse } from 'src/interfaces/Class';
 import { TeacherInfo } from 'src/interfaces/Teacher';
 import { ApiService } from 'src/service/api.service';
 import { LocalStorageService } from 'src/service/local-storage.service';
+import { StudentInClassComponent } from '../schedule/student-in-class/student-in-class.component';
 
 @Component({
   selector: 'app-teacher-class',
@@ -13,7 +15,8 @@ import { LocalStorageService } from 'src/service/local-storage.service';
 export class TeacherClassComponent implements OnInit {
   constructor(
     private localStorage: LocalStorageService,
-    private api: ApiService
+    private api: ApiService,
+    private dialog: MatDialog
   ) {}
 
   today?: Date;
@@ -55,6 +58,12 @@ export class TeacherClassComponent implements OnInit {
       this.status = 'finished';
     }
     if (this.username) this.getClassAll(this.username, this.status, 1);
+  }
+
+  viewStudentInClass(classId: number | undefined) {
+    let dialogRef = this.dialog.open(StudentInClassComponent, {
+      data: { classId: classId },
+    });
   }
 
   getClassAll(username: string, status: string, pageNo: number): void {

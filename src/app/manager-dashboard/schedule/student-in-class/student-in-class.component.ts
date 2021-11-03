@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   StudentInClassListResponse,
-  StudentInClassResponse,
+  StudentInClassResponse
 } from 'src/interfaces/StudentInClass';
 import { ApiService } from 'src/service/api.service';
 

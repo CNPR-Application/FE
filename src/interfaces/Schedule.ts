@@ -16,3 +16,18 @@ export interface ScheduleResponse {
   startTime: string;
   endTime: string;
 }
+
+export interface ScheduleTeacherListResponse {
+  MONDAY: ScheduleTeacherMiddle;
+  TUESDAY: ScheduleTeacherMiddle;
+  WEDNESDAY: ScheduleTeacherMiddle;
+  THURSDAY: ScheduleTeacherMiddle;
+  FRIDAY: ScheduleTeacherMiddle;
+  SATURDAY: ScheduleTeacherMiddle;
+  SUNDAY: ScheduleTeacherMiddle;
+}
+
+export interface ScheduleTeacherMiddle {
+  datetime: string;
+  sessionList?: ScheduleResponse[];
+}

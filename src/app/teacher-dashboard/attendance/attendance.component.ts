@@ -267,6 +267,7 @@ export class AttendanceComponent implements OnInit {
           if (response) {
             this.callAlert('Ok', 'Điểm danh thành công');
             this.isLoadingAttendance = false;
+            this.getAttendance(this.selectedSession?.sessionId);
           } else {
             this.isLoadingAttendance = false;
             this.callAlert(

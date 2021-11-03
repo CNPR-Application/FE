@@ -71,6 +71,7 @@ import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard
 import { TeacherAvatarComponent } from './teacher-dashboard/teacher-info/teacher-avatar/teacher-avatar.component';
 import { TeacherInfoComponent } from './teacher-dashboard/teacher-info/teacher-info.component';
 import { TeacherMenuComponent } from './teacher-dashboard/teacher-menu/teacher-menu.component';
+import { TeacherScheduleComponent } from './teacher-dashboard/teacher-schedule/teacher-schedule.component';
 
 @NgModule({
   declarations: [
@@ -127,6 +128,7 @@ import { TeacherMenuComponent } from './teacher-dashboard/teacher-menu/teacher-m
     SessionDialogComponent,
     ReopenDialogComponent,
     ClassTeacherComponent,
+    TeacherScheduleComponent,
   ],
   entryComponents: [
     SubjectDialogComponent,

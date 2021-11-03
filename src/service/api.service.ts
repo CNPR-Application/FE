@@ -6,11 +6,11 @@ import {
   RoomArrayResponse,
   RoomCreateRequest,
   RoomList,
-  RoomResponse
+  RoomResponse,
 } from 'src/interfaces/Room';
 import {
   StudentArrayResponse,
-  StudentArraySearchResponse
+  StudentArraySearchResponse,
 } from 'src/interfaces/Student';
 import {
   CreateInFoResponse,
@@ -20,12 +20,12 @@ import {
   ImageResponse,
   InfoArray,
   LoginRequest,
-  LoginResponse
+  LoginResponse,
 } from '../interfaces/Account';
 import {
   AttendanceEditRequest,
   AttendanceList,
-  AttendanceReopenRequest
+  AttendanceReopenRequest,
 } from '../interfaces/Attendance';
 import { Booking, BookingArray } from '../interfaces/Booking';
 import { Branch, BranchArray } from '../interfaces/Branch';
@@ -34,11 +34,11 @@ import {
   ClassArray,
   ClassRequest,
   ClassResponse,
-  ClassStatus
+  ClassStatus,
 } from '../interfaces/Class';
 import {
   CurriculumResponse,
-  CurriculumResponseArray
+  CurriculumResponseArray,
 } from '../interfaces/Curriculum';
 import { FeedbackListResponse } from '../interfaces/Feedback';
 import {
@@ -46,26 +46,29 @@ import {
   NotiClassRequest,
   NotificationListResponse,
   NotiPersonRequest,
-  NotiPutRequest
+  NotiPutRequest,
 } from '../interfaces/Notification';
-import { ScheduleListResponse } from '../interfaces/Schedule';
+import {
+  ScheduleListResponse,
+  ScheduleTeacherListResponse,
+} from '../interfaces/Schedule';
 import { SessionList, SessionRequest } from '../interfaces/Session';
 import { Shift, ShiftArray } from '../interfaces/Shift';
 import {
   StudentInClassArray,
-  StudentInClassListResponse
+  StudentInClassListResponse,
 } from '../interfaces/StudentInClass';
 import {
   Subject,
   SubjectArray,
   SubjectDetail,
-  SubjectDetailArray
+  SubjectDetailArray,
 } from '../interfaces/Subject';
 import {
   SubjectInTeacher,
   TeacherArray,
   TeacherSearchArray,
-  TeachingSubjectRequest
+  TeachingSubjectRequest,
 } from '../interfaces/Teacher';
 
 @Injectable({
@@ -605,10 +608,20 @@ export class ApiService {
   }
 
   //schedule
-  getSchedule(date: string) {
+  getSchedule(date: string): Observable<ScheduleListResponse> {
     const url = `${this.rootUrl}schedules?date=${date}`;
     return this.http
       .get<ScheduleListResponse>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  getTeacherSchedule(
+    teacherUsername: string,
+    date: string
+  ): Observable<ScheduleTeacherListResponse> {
+    const url = `${this.rootUrl}/schedules?teacherUsername=${teacherUsername}&srchDate=${date}`;
+    return this.http
+      .get<ScheduleTeacherListResponse>(url, { headers: this.headers })
       .pipe(retry(1));
   }
 

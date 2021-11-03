@@ -1,0 +1,293 @@
+<div class="schedule">
+  <div class="first-line">
+    <div class="div-title">
+      <p class="title">Xem lịch</p>
+      <p class="line-title">
+        <a
+          class="back-title"
+          routerLink="/manager-dashboard"
+          title="Quay về trang chủ"
+          >Trang chủ</a
+        ><span class="else-title">/</span
+        ><span class="else-title">Xem lịch</span>
+      </p>
+    </div>
+    <div class="div-today" style="width: 13%">
+      <p class="today">{{ today | date: "dd/MM/yyyy":"+000" }}</p>
+      <mat-icon class="icon-today">date_range</mat-icon>
+    </div>
+  </div>
+  <div class="body">
+    <div class="left">
+      <div style="border: 1px solid #e3ebf6">
+        <mat-calendar
+          [selected]="selectedDate"
+          (selectedChange)="onSelect($event)"
+        >
+        </mat-calendar>
+      </div>
+    </div>
+    <div class="right">
+      <div class="title-schedule-div">
+        <div
+          class="title-schedule"
+          style="display: flex; justify-content: center; align-items: center"
+        >
+          <mat-icon class="session-item-image">access_time</mat-icon>
+        </div>
+        <div class="div-title-schedule">
+          <p class="title-schedule">MON</p>
+          <p class="title-schedule" *ngIf="monArray">
+            {{ monArray.datetime | date: "dd/MM":"+000" }}
+          </p>
+        </div>
+        <div class="div-title-schedule">
+          <p class="title-schedule">TUE</p>
+          <p class="title-schedule" *ngIf="tueArray">
+            {{ tueArray.datetime | date: "dd/MM":"+000" }}
+          </p>
+        </div>
+        <div class="div-title-schedule">
+          <p class="title-schedule">WED</p>
+          <p class="title-schedule" *ngIf="wedArray">
+            {{ wedArray.datetime | date: "dd/MM":"+000" }}
+          </p>
+        </div>
+        <div class="div-title-schedule">
+          <p class="title-schedule">THU</p>
+          <p class="title-schedule" *ngIf="thuArray">
+            {{ thuArray.datetime | date: "dd/MM":"+000" }}
+          </p>
+        </div>
+        <div class="div-title-schedule">
+          <p class="title-schedule">FRI</p>
+          <p class="title-schedule" *ngIf="friArray">
+            {{ friArray.datetime | date: "dd/MM":"+000" }}
+          </p>
+        </div>
+        <div class="div-title-schedule">
+          <p class="title-schedule">SAT</p>
+          <p class="title-schedule" *ngIf="satArray">
+            {{ satArray.datetime | date: "dd/MM":"+000" }}
+          </p>
+        </div>
+        <div class="div-title-schedule">
+          <p class="title-schedule">SUN</p>
+          <p class="title-schedule" *ngIf="sunArray">
+            {{ sunArray.datetime | date: "dd/MM":"+000" }}
+          </p>
+        </div>
+      </div>
+      <div *ngIf="!isLoading">
+        <div
+          style="display: flex; width: 100%"
+          *ngFor="let classArray of classSameShiftArray"
+        >
+          <div class="left-session-div no-class">
+            <p>
+              {{ classArray.timeStart | date: "HH:mm":"+000" }}
+              {{ classArray.timeEnd | date: "HH:mm":"+000" }}
+            </p>
+          </div>
+          <div class="right-session-div">
+            <!-- mon -->
+            <div
+              class="session-div"
+              matTooltip="Môn : {{ classArray.monSession.subjectName }}"
+              matTooltipPosition="after"
+              (click)="viewStudentInClass(classArray.monSession.classId)"
+              *ngIf="classArray.monSession"
+            >
+              <div>
+                <p class="class-name">
+                  {{ classArray.monSession.className | uppercase }}
+                </p>
+              </div>
+              <div style="display: flex; justify-content: center">
+                <div class="div-info-session">
+                  <p class="info-text">
+                    Phòng: {{ classArray.monSession.roomName }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="session-div" *ngIf="!classArray.monSession"></div>
+            <!-- tue -->
+            <div
+              *ngIf="classArray.tueSession"
+              matTooltip="Môn : {{ classArray.tueSession.subjectName }}"
+              matTooltipPosition="after"
+              class="session-div"
+              (click)="viewStudentInClass(classArray.tueSession.classId)"
+            >
+              <div>
+                <p class="class-name">
+                  {{ classArray.tueSession.className | uppercase }}
+                </p>
+              </div>
+              <div style="display: flex; justify-content: center">
+                <div class="div-info-session">
+                  <p class="info-text">
+                    Phòng: {{ classArray.tueSession.roomName }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="session-div" *ngIf="!classArray.tueSession"></div>
+            <!-- wed -->
+            <div
+              *ngIf="classArray.wedSession"
+              matTooltip="Môn : {{ classArray.wedSession.subjectName }}"
+              matTooltipPosition="after"
+              class="session-div"
+              (click)="viewStudentInClass(classArray.wedSession.classId)"
+            >
+              <div>
+                <p class="class-name">
+                  {{ classArray.wedSession.className | uppercase }}
+                </p>
+              </div>
+              <div style="display: flex; justify-content: center">
+                <div class="div-info-session">
+                  <p class="info-text">
+                    Phòng: {{ classArray.wedSession.roomName }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="session-div" *ngIf="!classArray.wedSession"></div>
+            <!-- thu -->
+            <div
+              *ngIf="classArray.thuSession"
+              matTooltip="Môn : {{ classArray.thuSession.subjectName }}"
+              matTooltipPosition="after"
+              class="session-div"
+              (click)="viewStudentInClass(classArray.thuSession.classId)"
+            >
+              <div>
+                <p class="class-name">
+                  {{ classArray.thuSession.className | uppercase }}
+                </p>
+              </div>
+              <div style="display: flex; justify-content: center">
+                <div class="div-info-session">
+                  <p class="info-text">
+                    Phòng: {{ classArray.thuSession.roomName }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="session-div" *ngIf="!classArray.thuSession"></div>
+            <!-- fri -->
+            <div
+              *ngIf="classArray.friSession"
+              matTooltip="Môn : {{ classArray.friSession.subjectName }}"
+              matTooltipPosition="after"
+              class="session-div"
+              (click)="viewStudentInClass(classArray.friSession.classId)"
+            >
+              <div>
+                <p class="class-name">
+                  {{ classArray.friSession.className | uppercase }}
+                </p>
+              </div>
+              <div style="display: flex; justify-content: center">
+                <div class="div-info-session">
+                  <p class="info-text">
+                    Phòng: {{ classArray.friSession.roomName }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="session-div" *ngIf="!classArray.friSession"></div>
+            <!-- sat -->
+            <div
+              *ngIf="classArray.satSession"
+              matTooltip="Môn : {{ classArray.satSession.subjectName }}"
+              matTooltipPosition="after"
+              class="session-div"
+              (click)="viewStudentInClass(classArray.satSession.classId)"
+            >
+              <div>
+                <p class="class-name">
+                  {{ classArray.satSession.className | uppercase }}
+                </p>
+              </div>
+              <div style="display: flex; justify-content: center">
+                <div class="div-info-session">
+                  <p class="info-text">
+                    Phòng: {{ classArray.satSession.roomName }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="session-div" *ngIf="!classArray.satSession"></div>
+            <!-- sun -->
+            <div
+              *ngIf="classArray.sunSession"
+              matTooltip="Môn : {{ classArray.sunSession.subjectName }}"
+              matTooltipPosition="after"
+              class="session-div"
+              (click)="viewStudentInClass(classArray.sunSession.classId)"
+            >
+              <div>
+                <p class="class-name">
+                  {{ classArray.sunSession.className | uppercase }}
+                </p>
+              </div>
+              <div style="display: flex; justify-content: center">
+                <div class="div-info-session">
+                  <p class="info-text">
+                    Phòng: {{ classArray.sunSession.roomName }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="session-div" *ngIf="!classArray.sunSession"></div>
+          </div>
+        </div>
+        <div style="display: flex; width: 100%" *ngIf="moreRows == 2">
+          <div class="left-session-div no-class"></div>
+          <div class="right-session-div">
+            <div class="session-div"></div>
+            <div class="session-div"></div>
+            <div class="session-div"></div>
+            <div class="session-div"></div>
+            <div class="session-div"></div>
+            <div class="session-div"></div>
+            <div class="session-div"></div>
+          </div>
+        </div>
+        <div
+          style="display: flex; width: 100%"
+          *ngIf="moreRows == 2 || moreRows == 1"
+        >
+          <div class="left-session-div no-class"></div>
+          <div class="right-session-div">
+            <div class="session-div"></div>
+            <div class="session-div"></div>
+            <div class="session-div"></div>
+            <div class="session-div"></div>
+            <div class="session-div"></div>
+            <div class="session-div"></div>
+            <div class="session-div"></div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="isLoading" class="loading-inner-div">
+        <img
+          class="img-loading"
+          src="/assets/image/loading.gif"
+          alt="Logo image"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="haveAlertOk = !haveAlertOk">OK</button>
+  </div>
+</div>

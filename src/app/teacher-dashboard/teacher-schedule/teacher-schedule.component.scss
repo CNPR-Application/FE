@@ -1,12 +1,13 @@
 .schedule {
   padding: 6vh;
   padding-bottom: 0;
+  padding-right: 0;
   .first-line {
     width: 100%;
     display: flex;
     align-items: center;
     .div-title {
-      width: 87%;
+      width: 84%;
       float: left;
       display: block;
       .title {
@@ -68,25 +69,33 @@
   .body {
     display: flex;
     width: 100%;
-    margin-top: 2em;
+    margin-top: 4em;
+    align-items: center;
     .left {
-      width: 25%;
-      margin-right: 3%;
+      width: 20%;
+      margin-right: 2%;
     }
     .right {
-      width: 72%;
+      width: 77%;
       .title-schedule-div {
         border: 1px solid #e3ebf6;
-        height: 3.5em;
+        height: 5em;
         background: #b7d7ef26;
-        width: 54.8em;
-        max-width: 54.8em;
+        width: 60em;
+        max-width: 60em;
+        display: grid;
+        grid-template-columns: 4em 8em 8em 8em 8em 8em 8em 8em;
+        overflow: hidden;
+        .div-title-schedule {
+          line-height: 1.5em;
+          padding-top: 13px;
+        }
         .title-schedule {
           font-size: 14px;
           color: #303e67;
           text-align: center;
           font-weight: 500;
-          line-height: 3.5em;
+          margin: 0;
         }
       }
     }
@@ -104,12 +113,14 @@
           margin-bottom: 0.2em;
           margin-top: 1em;
         }
-        .class-time {
-          font-size: 13px;
-          font-weight: 400;
-          color: #a4abc5;
-        }
       }
+    }
+
+    .session-item-image {
+      color: rgba(24, 42, 136, 0.73);
+      fill: rgba(29, 44, 72, 0.12);
+      stroke-width: 1px;
+      font-size: 24px;
     }
     .img-teacher {
       width: 40px;
@@ -117,7 +128,7 @@
       border-radius: 50%;
     }
     .loading-inner-div {
-      height: 28em;
+      height: 18em;
       display: flex;
       .img-loading {
         margin: auto;
@@ -127,28 +138,30 @@
     }
     .left-session-div {
       width: 4em;
-      padding-top: 3.5em;
+      padding-top: 3em;
       text-align: center;
       border: 1px solid #b7d7ef59;
-      max-height: 6.2em;
-      height: 6.2em;
+      max-height: 5.7em;
+      height: 5.7em;
     }
     .right-session-div {
-      width: 50.8em;
+      width: 56em;
       display: grid;
-      grid-template-columns: 12.7em 12.7em 12.7em 12.7em;
+      grid-template-columns: 8em 8em 8em 8em 8em 8em 8em;
       overflow-y: auto;
-      height: 9.9em;
+      height: 8.9em;
       overflow-x: clip;
     }
     .session-div {
-      height: 9.8em;
-      width: 12.7em;
+      height: 8.8em;
+      width: 8em;
       border: 1px solid #b7d7ef59;
       box-sizing: border-box;
-      padding-top: 2em;
-      min-width: 12.7em;
-      min-height: 9.8em;
+      padding-top: 2.5em;
+      min-width: 8em;
+      min-height: 8.8em;
+      padding-left: 5px;
+      padding-right: 5px;
       cursor: pointer;
       .class-name {
         text-align: center;
@@ -156,21 +169,9 @@
         font-weight: 500;
         margin-bottom: 3px;
       }
-      .div-img-session {
-        width: 25%;
-        display: flex;
-        align-items: center;
-        padding-left: 8px;
-        .img-teacher-session {
-          width: 45px;
-          height: 45px;
-          border-radius: 50%;
-        }
-      }
       .div-info-session {
         width: 75%;
-        padding-left: 0.5em;
-        padding-top: 0.5em;
+        text-align: center;
         .info-text {
           margin: 0;
           font-size: 12px;

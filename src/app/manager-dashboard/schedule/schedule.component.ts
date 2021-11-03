@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {
   ScheduleListResponse,
-  ScheduleResponse,
+  ScheduleResponse
 } from 'src/interfaces/Schedule';
 import { ApiService } from 'src/service/api.service';
 import { TimeService } from 'src/service/time.service';
@@ -72,9 +72,9 @@ export class ScheduleComponent implements OnInit {
               this.classSameShiftArray?.push(newClass);
             }
           });
-          if (this.classSameShiftArray.length < 2) {
+          if (this.classSameShiftArray.length == 0) {
             this.moreRows = 2;
-          } else if (this.classSameShiftArray.length < 3) {
+          } else if (this.classSameShiftArray.length <= 2) {
             this.moreRows = 1;
           }
           this.isLoading = false;

@@ -88,6 +88,7 @@
             Phòng học
           </th>
           <th class="th4">Tổng buổi học</th>
+          <th class="th4">Học sinh</th>
         </tr>
         <tr
           class="data"
@@ -120,6 +121,13 @@
           </td>
           <td>
             {{ class.slot }}
+          </td>
+          <td>
+            <mat-icon
+              style="cursor: pointer"
+              (click)="viewStudentInClass(class.classId)"
+              >visibility</mat-icon
+            >
           </td>
         </tr>
       </table>

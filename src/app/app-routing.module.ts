@@ -29,6 +29,7 @@ import { AttendanceComponent } from './teacher-dashboard/attendance/attendance.c
 import { ClassTeacherComponent } from './teacher-dashboard/class-teacher/class-teacher.component';
 import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard.component';
 import { TeacherInfoComponent } from './teacher-dashboard/teacher-info/teacher-info.component';
+import { TeacherScheduleComponent } from './teacher-dashboard/teacher-schedule/teacher-schedule.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/main', pathMatch: 'full' },
@@ -74,6 +75,7 @@ const routes: Routes = [
       { path: 'attendance', component: AttendanceComponent },
       { path: 'info', component: TeacherInfoComponent },
       { path: 'class', component: ClassTeacherComponent },
+      { path: 'schedule', component: TeacherScheduleComponent },
     ],
   },
 ];
