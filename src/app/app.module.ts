@@ -73,6 +73,7 @@ import { TeacherInfoComponent } from './teacher-dashboard/teacher-info/teacher-i
 import { TeacherMenuComponent } from './teacher-dashboard/teacher-menu/teacher-menu.component';
 import { TeacherScheduleComponent } from './teacher-dashboard/teacher-schedule/teacher-schedule.component';
 import { TeacherSubjectComponent } from './teacher-dashboard/teacher-subject/teacher-subject.component';
+import { ManagerComponent } from './dashboard/manager/manager.component';
 
 @NgModule({
   declarations: [
@@ -131,6 +132,7 @@ import { TeacherSubjectComponent } from './teacher-dashboard/teacher-subject/tea
     ClassTeacherComponent,
     TeacherScheduleComponent,
     TeacherSubjectComponent,
+    ManagerComponent,
   ],
   entryComponents: [
     SubjectDialogComponent,

@@ -5,6 +5,7 @@ import { CurriculumComponent } from './dashboard/curriculum/curriculum.component
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DetailCurriculumComponent } from './dashboard/detail-curriculum/detail-curriculum.component';
 import { InfoComponent } from './dashboard/info/info.component';
+import { ManagerComponent } from './dashboard/manager/manager.component';
 import { ShiftComponent } from './dashboard/shift/shift.component';
 import { StaffComponent } from './dashboard/staff/staff.component';
 import { SubjectDetailComponent } from './dashboard/subject-detail/subject-detail.component';
@@ -47,6 +48,7 @@ const routes: Routes = [
       { path: 'info', component: InfoComponent },
       { path: 'shift', component: ShiftComponent },
       { path: 'staff', component: StaffComponent },
+      { path: 'manager', component: ManagerComponent },
     ],
   },
   {

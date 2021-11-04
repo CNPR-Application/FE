@@ -138,6 +138,7 @@
           <th class="th-6">Slot</th>
           <th class="th-7">Điểm đánh giá</th>
           <th class="th-8">Ngày tạo</th>
+          <th class="th-8" style="width: 10%"></th>
         </tr>
         <tr class="data color-grey poppins" *ngFor="let sub of subjectArray">
           <td (click)="goToDetailSubject(sub.subjectId)" class="td-1">
@@ -172,9 +173,9 @@
           <td
             (click)="goToDetailSubject(sub.subjectId)"
             class="td-5"
-            *ngIf="sub.curriculum"
+            *ngIf="sub"
           >
-            {{ sub.curriculum.curriculumName }}
+            {{ sub.curriculumName }}
           </td>
           <td (click)="goToDetailSubject(sub.subjectId)" class="td-6">
             {{ sub.slot }}

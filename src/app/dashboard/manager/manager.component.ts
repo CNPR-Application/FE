@@ -2,18 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { InfoArray, LoginResponse } from 'src/interfaces/Account';
 import { ApiService } from 'src/service/api.service';
-import { StaffDialogComponent } from './staff-dialog/staff-dialog.component';
+import { StaffDialogComponent } from '../staff/staff-dialog/staff-dialog.component';
 
 @Component({
-  selector: 'app-staff',
-  templateUrl: './staff.component.html',
-  styleUrls: ['./staff.component.scss'],
+  selector: 'app-manager',
+  templateUrl: './manager.component.html',
+  styleUrls: ['./manager.component.scss'],
 })
-export class StaffComponent implements OnInit {
+export class ManagerComponent implements OnInit {
   constructor(private api: ApiService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.getAccountList('staff', '', true, 1);
+    this.getAccountList('manager', '', true, 1);
   }
 
   clickId?: LoginResponse;
@@ -25,14 +25,22 @@ export class StaffComponent implements OnInit {
   haveAlertYN: boolean = false;
   alertMessage: string = '';
 
-  //staff
-  keyStaff: string = '';
-  isAvailableStaff: boolean = true;
-  staffResponse?: InfoArray;
-  staffArray: Array<LoginResponse> | undefined;
-  totalStaffPage?: number;
-  currentStaffPage?: number;
-  pageStaffArray?: Array<number>;
+  //manager
+  keyManager: string = '';
+  isAvailableManager: boolean = true;
+  managerResponse?: InfoArray;
+  managerArray: Array<LoginResponse> | undefined;
+  totalManagerPage?: number;
+  currentManagerPage?: number;
+  pageManagerArray?: Array<number>;
+
+  viewManager() {
+    if (!this.isManager) {
+      this.isManager = true;
+      this.getAccountList('manager', '', true, 1);
+      this.isAvailableManager = true;
+    }
+  }
 
   getAccountList(
     role: string,
@@ -42,14 +50,14 @@ export class StaffComponent implements OnInit {
   ) {
     this.isLoading = true;
     this.api
-      .searchInfoByUsername('staff', username, isAvailable, pageNo, 10)
+      .searchInfoByUsername('manager', username, isAvailable, pageNo, 10)
       .subscribe(
         (response: InfoArray) => {
-          this.staffResponse = response;
-          this.staffArray = this.staffResponse.accountResponseDtoList;
-          this.totalStaffPage = this.staffResponse.totalPage;
-          this.currentStaffPage = this.staffResponse.pageNo;
-          this.pageStaffArray = Array(this.totalStaffPage)
+          this.managerResponse = response;
+          this.managerArray = this.managerResponse.accountResponseDtoList;
+          this.totalManagerPage = this.managerResponse.totalPage;
+          this.currentManagerPage = this.managerResponse.pageNo;
+          this.pageManagerArray = Array(this.totalManagerPage)
             .fill(1)
             .map((x, i) => i + 1)
             .reverse();
@@ -85,36 +93,39 @@ export class StaffComponent implements OnInit {
     }
   }
 
-  //staff
-
-  searchStaff(): void {
-    this.getAccountList('staff', this.keyStaff, this.isAvailableStaff, 1);
+  searchManager(): void {
+    this.getAccountList('manager', this.keyManager, this.isAvailableManager, 1);
   }
 
-  createStaff(): void {
-    this.goToDetail('create', 'staff');
+  createManager(): void {
+    this.goToDetail('create', 'manager');
   }
 
-  changePageStaff(page: number): void {
-    this.getAccountList('staff', this.keyStaff, this.isAvailableStaff, page);
+  changePageManager(page: number): void {
+    this.getAccountList(
+      'manager',
+      this.keyManager,
+      this.isAvailableManager,
+      page
+    );
   }
 
-  viewCurrentStaff(): void {
-    if (!this.isAvailableStaff) {
-      this.isAvailableStaff = true;
-      this.getAccountList('staff', '', this.isAvailableStaff, 1);
+  viewCurrentManager(): void {
+    if (!this.isAvailableManager) {
+      this.isAvailableManager = true;
+      this.getAccountList('manager', '', this.isAvailableManager, 1);
     }
   }
 
-  viewDeletedStaff(): void {
-    if (this.isAvailableStaff) {
-      this.isAvailableStaff = false;
-      this.getAccountList('staff', '', this.isAvailableStaff, 1);
+  viewDeletedManager(): void {
+    if (this.isAvailableManager) {
+      this.isAvailableManager = false;
+      this.getAccountList('manager', '', this.isAvailableManager, 1);
     }
   }
 
   goToDetail(type: string, role: string, param?: any): void {
-    if (type === 'edit' && role === 'staff' && !this.isAvailableStaff) {
+    if (type === 'edit' && role === 'manager' && !this.isAvailableManager) {
       type = 'undo';
     }
     let dialogRef = this.dialog.open(StaffDialogComponent, {
@@ -126,7 +137,7 @@ export class StaffComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((data: string) => {
       if (data) {
-        this.getAccountList('staff', '', this.isAvailableStaff, 1);
+        this.getAccountList('manager', '', this.isAvailableManager, 1);
       }
     });
   }
