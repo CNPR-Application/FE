@@ -1,38 +1,6 @@
 <div *ngIf="isLoading" class="loading-page" style="padding-left: 50%">
   <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
 </div>
-<div class="line-head">
-  <div class="left">
-    <img src="../../assets/image/Logo_big.png" class="img-logo" />
-    <div class="detail">
-      <mat-icon class="icon-head"> add_location</mat-icon>
-      <p>Trung tâm gần nhất</p>
-    </div>
-    <div class="detail">
-      <mat-icon class="icon-head"> local_phone</mat-icon>
-      <p>Hotline: 0987888777</p>
-    </div>
-  </div>
-  <div class="right">
-    <mat-icon
-      class="icon-head"
-      style="font-size: 25px; cursor: pointer"
-      [matMenuTriggerFor]="appMenu"
-      >reorder</mat-icon
-    >
-    <mat-menu #appMenu="matMenu">
-      <button mat-menu-item (click)="login()">Đăng nhập</button>
-    </mat-menu>
-  </div>
-</div>
-<div class="menu">
-  <a>VỀ CNPR</a>
-  <a>CÁC KHÓA HỌC</a>
-  <a>TRUNG TÂM ĐÀO TẠO</a>
-  <a>LỊCH KHAI GIẢNG</a>
-  <a>TIN TỨC</a>
-  <a>LIÊN HỆ</a>
-</div>
 <div class="ani-img">
   <img
     style="width: 40%; padding-bottom: 7em"

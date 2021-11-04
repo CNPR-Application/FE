@@ -9,7 +9,13 @@ import { ManagerComponent } from './dashboard/manager/manager.component';
 import { ShiftComponent } from './dashboard/shift/shift.component';
 import { StaffComponent } from './dashboard/staff/staff.component';
 import { SubjectDetailComponent } from './dashboard/subject-detail/subject-detail.component';
-import { GuestMainComponent } from './guest-main/guest-main.component';
+import { GuestBranchComponent } from './guest-dashboard/guest-branch/guest-branch.component';
+import { GuestContactComponent } from './guest-dashboard/guest-contact/guest-contact.component';
+import { GuestCourseComponent } from './guest-dashboard/guest-course/guest-course.component';
+import { GuestDashboardComponent } from './guest-dashboard/guest-dashboard.component';
+import { GuestMainComponent } from './guest-dashboard/guest-main/guest-main.component';
+import { GuestNewComponent } from './guest-dashboard/guest-new/guest-new.component';
+import { GuestScheduleComponent } from './guest-dashboard/guest-schedule/guest-schedule.component';
 import { LoginComponent } from './login/login.component';
 import { ClassManagementComponent } from './manager-dashboard/class-management/class-management.component';
 import { ClassSuggestionComponent } from './manager-dashboard/class-suggestion/class-suggestion.component';
@@ -34,9 +40,20 @@ import { TeacherScheduleComponent } from './teacher-dashboard/teacher-schedule/t
 import { TeacherSubjectComponent } from './teacher-dashboard/teacher-subject/teacher-subject.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/main', pathMatch: 'full' },
+  { path: '', redirectTo: '/main/intro', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'main', component: GuestMainComponent },
+  {
+    path: 'main',
+    component: GuestDashboardComponent,
+    children: [
+      { path: 'intro', component: GuestMainComponent },
+      { path: 'courses', component: GuestCourseComponent },
+      { path: 'branches', component: GuestBranchComponent },
+      { path: 'schedules', component: GuestScheduleComponent },
+      { path: 'news', component: GuestNewComponent },
+      { path: 'contact', component: GuestContactComponent },
+    ],
+  },
   {
     path: 'dashboard',
     component: DashboardComponent,

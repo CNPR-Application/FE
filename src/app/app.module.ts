@@ -33,7 +33,7 @@ import { StaffDialogComponent } from './dashboard/staff/staff-dialog/staff-dialo
 import { StaffComponent } from './dashboard/staff/staff.component';
 import { SubjectDetailComponent } from './dashboard/subject-detail/subject-detail.component';
 import { SubjectDialogComponent } from './dashboard/subject-detail/subject-dialog/subject-dialog.component';
-import { GuestMainComponent } from './guest-main/guest-main.component';
+import { GuestMainComponent } from './guest-dashboard/guest-main/guest-main.component';
 import { LoginComponent } from './login/login.component';
 import { ClassCreateComponent } from './manager-dashboard/class-management/class-create/class-create.component';
 import { ClassManagementComponent } from './manager-dashboard/class-management/class-management.component';
@@ -74,6 +74,12 @@ import { TeacherMenuComponent } from './teacher-dashboard/teacher-menu/teacher-m
 import { TeacherScheduleComponent } from './teacher-dashboard/teacher-schedule/teacher-schedule.component';
 import { TeacherSubjectComponent } from './teacher-dashboard/teacher-subject/teacher-subject.component';
 import { ManagerComponent } from './dashboard/manager/manager.component';
+import { GuestDashboardComponent } from './guest-dashboard/guest-dashboard.component';
+import { GuestCourseComponent } from './guest-dashboard/guest-course/guest-course.component';
+import { GuestBranchComponent } from './guest-dashboard/guest-branch/guest-branch.component';
+import { GuestScheduleComponent } from './guest-dashboard/guest-schedule/guest-schedule.component';
+import { GuestNewComponent } from './guest-dashboard/guest-new/guest-new.component';
+import { GuestContactComponent } from './guest-dashboard/guest-contact/guest-contact.component';
 
 @NgModule({
   declarations: [
@@ -133,6 +139,12 @@ import { ManagerComponent } from './dashboard/manager/manager.component';
     TeacherScheduleComponent,
     TeacherSubjectComponent,
     ManagerComponent,
+    GuestDashboardComponent,
+    GuestCourseComponent,
+    GuestBranchComponent,
+    GuestScheduleComponent,
+    GuestNewComponent,
+    GuestContactComponent,
   ],
   entryComponents: [
     SubjectDialogComponent,

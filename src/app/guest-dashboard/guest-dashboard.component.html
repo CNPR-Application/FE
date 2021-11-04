@@ -1,0 +1,37 @@
+<div class="guest">
+  <div class="line-head">
+    <div class="left">
+      <img src="../../assets/image/Logo_big.png" class="img-logo" />
+      <div class="detail">
+        <mat-icon class="icon-head"> add_location</mat-icon>
+        <p>Trung tâm gần nhất</p>
+      </div>
+      <div class="detail">
+        <mat-icon class="icon-head"> local_phone</mat-icon>
+        <p>Hotline: 0987888777</p>
+      </div>
+    </div>
+    <div class="right">
+      <mat-icon
+        class="icon-head"
+        style="font-size: 25px; cursor: pointer"
+        [matMenuTriggerFor]="appMenu"
+        >reorder</mat-icon
+      >
+      <mat-menu #appMenu="matMenu">
+        <button mat-menu-item (click)="login()">Đăng nhập</button>
+      </mat-menu>
+    </div>
+  </div>
+  <div class="menu">
+    <a class="a-menu" routerLink="/main/intro">VỀ CNPR</a>
+    <a class="a-menu" routerLink="/main/courses">CÁC KHÓA HỌC</a>
+    <a class="a-menu" routerLink="/main/branches">TRUNG TÂM ĐÀO TẠO</a>
+    <a class="a-menu" routerLink="/main/schedules">LỊCH KHAI GIẢNG</a>
+    <a class="a-menu" routerLink="/main/news">TIN TỨC</a>
+    <a class="a-menu" routerLink="/main/contact">LIÊN HỆ</a>
+  </div>
+  <div class="body">
+    <router-outlet></router-outlet>
+  </div>
+</div>

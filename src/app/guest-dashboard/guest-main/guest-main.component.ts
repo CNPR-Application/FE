@@ -1,15 +1,14 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Guest } from '../../interfaces/Account';
-import { Branch, BranchArray } from '../../interfaces/Branch';
+import { Guest } from '../../../interfaces/Account';
+import { Branch, BranchArray } from '../../../interfaces/Branch';
 import {
   CurriculumResponse,
-  CurriculumResponseArray,
-} from '../../interfaces/Curriculum';
-import { CITY } from '../../interfaces/Shift';
-import { ApiService } from '../../service/api.service';
+  CurriculumResponseArray
+} from '../../../interfaces/Curriculum';
+import { CITY } from '../../../interfaces/Shift';
+import { ApiService } from '../../../service/api.service';
 
 @Component({
   selector: 'app-guest-main',
@@ -20,7 +19,6 @@ export class GuestMainComponent implements OnInit {
   constructor(
     private api: ApiService,
     private formBuilder: FormBuilder,
-    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -96,9 +94,7 @@ export class GuestMainComponent implements OnInit {
     );
   }
 
-  login() {
-    this.router.navigateByUrl('/login');
-  }
+  
   callAlert(type: string, message: string) {
     this.alertMessage = message;
     if (type === 'Ok') {
