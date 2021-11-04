@@ -1,1 +1,66 @@
-<p>guest-branch works!</p>
+<div class="guest-branch">
+  <div class="flex">
+    <div class="img-div">
+      <img style="width: 100%" src="../../assets/image/guest-branch.gif" />
+    </div>
+    <div class="map" id="map">
+      <!-- for local -->
+      <!-- <iframe
+        target="_parent"
+        frameborder="0"
+        [src]="safeSrc"
+        width="100%"
+        height="100%"
+        allowfullscreen
+      ></iframe> -->
+      <!-- for deploy -->
+      <iframe
+        target="_parent"
+        frameborder="0"
+        src="https://maps.google.com/maps?q=ho%20chi%20minh&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed"
+        width="100%"
+        height="100%"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </div>
+  <div class="branch">
+    <div class="div-title">
+      <p class="title">Danh Sách Chi Nhánh</p>
+    </div>
+    <div class="branch-list">
+      <div class="item" *ngFor="let branch of branchArray; let i = index">
+        <img
+          [src]="imageArray[i % 9]"
+          class="branch-img"
+          (click)="searchBranch(branch.address)"
+          style="cursor: pointer"
+          title="Xem địa chỉ trên bản đồ"
+        />
+        <p
+          class="p-big"
+          (click)="searchBranch(branch.address)"
+          style="cursor: pointer"
+        >
+          Chi Nhánh {{ branch.branchName }}
+        </p>
+        <p
+          class="p-small"
+          (click)="searchBranch(branch.address)"
+          style="cursor: pointer"
+        >
+          {{ branch.address }}
+        </p>
+      </div>
+    </div>
+    <div class="paging">
+      <div
+        class="item"
+        *ngFor="let page of pageArray"
+        (click)="changePage(page)"
+      >
+        <a>{{ page }}</a>
+      </div>
+    </div>
+  </div>
+</div>
