@@ -19,8 +19,8 @@ export class ScheduleClass {
     this.sessionList.push(session);
     var needingCol = 0;
     this.moreColumnArray = [];
-    if (this.sessionList.length <= 6) {
-      needingCol = 7 - this.sessionList.length;
+    if (this.sessionList.length <= 3) {
+      needingCol = 4 - this.sessionList.length;
     }
     while (needingCol >= 1) {
       this.moreColumnArray?.push(1);

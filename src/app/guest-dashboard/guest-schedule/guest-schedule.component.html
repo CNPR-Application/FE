@@ -1,1 +1,140 @@
-<p>guest-schedule works!</p>
+<div class="guest-schedule">
+  <div class="flex center-justify center-align-item">
+    <img src="../../../assets/image/new_course.jpg" style="width: 95%" />
+  </div>
+  <div class="ladi-group tada-animation">
+    <p class="ladi-headline">-20%</p>
+  </div>
+  <div class="flex border-yellow-div">
+    <div class="div-branch" *ngIf="!isLoadingBranch">
+      <div>
+        <p class="title">Chọn chi nhánh</p>
+      </div>
+      <div class="branch-list">
+        <div
+          class="item"
+          *ngFor="let branch of branchArray; let i = index"
+          (click)="chooseBranch(branch)"
+        >
+          <img
+            [src]="imageArray[i % 8]"
+            class="branch-img"
+            matTooltip="{{ branch.address }}"
+            [ngClass]="
+              branch.branchId == branchId ? 'branch-img-hover' : 'branch-img'
+            "
+            matTooltipPosition="after"
+            style="cursor: pointer"
+            title="Xem địa chỉ trên bản đồ"
+          />
+          <p class="p-big" style="cursor: pointer">
+            Chi Nhánh {{ branch.branchName }}
+          </p>
+        </div>
+      </div>
+      <div class="paging">
+        <div
+          class="item"
+          *ngFor="let page of pageArrayBranch"
+          [ngClass]="page == currentPageBranch ? 'item-hover' : 'item'"
+          (click)="changePageBranch(page)"
+        >
+          <a>{{ page }}</a>
+        </div>
+      </div>
+    </div>
+    <div
+      class="div-class body-loading"
+      style="width: 40%"
+      *ngIf="isLoadingBranch"
+    >
+      <img
+        class="img-loading"
+        src="/assets/image/loading.gif"
+        alt="Logo image"
+      />
+    </div>
+    <div class="div-class" *ngIf="!isLoading">
+      <div>
+        <p class="title" *ngIf="selectedBranch">
+          Lớp sắp mở chi nhánh {{ selectedBranch.branchName }}
+        </p>
+      </div>
+      <div class="div-card" *ngIf="classArray && classArray.length != 0">
+        <div class="card" *ngFor="let class of classArray">
+          <div class="img-card-div">
+            <img
+              src="../../../assets/image/cancel_class_student.png"
+              class="img-card"
+            />
+          </div>
+          <div class="info-card-div">
+            <div class="flex center-align-item">
+              <div style="width: 70%">
+                <p class="p-big">{{ class.className }}</p>
+                <p class="p-big">
+                  {{ class.subjectPrice | currency: "VND" }}
+                </p>
+              </div>
+              <div style="width: 30%; justify-content: flex-end">
+                <button class="tada-animation regis-btn">Đăng ký ngay</button>
+              </div>
+            </div>
+
+            <div
+              class="flex center-align-item"
+              style="width: 100%; margin-top: 1em"
+            >
+              <div style="width: 50%">
+                <div class="flex center-align-item">
+                  <mat-icon class="icon">ballot</mat-icon>
+                  <p class="p-small">Môn học: {{ class.subjectName }}</p>
+                </div>
+                <div class="flex center-align-item">
+                  <mat-icon class="icon">access_time</mat-icon>
+                  <p class="p-small">
+                    Ngày khai giảng:
+                    {{ class.openingDate | date: "dd/MM/yyyy" }}
+                  </p>
+                </div>
+              </div>
+              <div style="width: 50%">
+                <div class="flex center-align-item">
+                  <mat-icon class="icon">calendar_today</mat-icon>
+                  <p class="p-small">Ca học: {{ class.shiftDescription }}</p>
+                </div>
+                <div class="flex center-align-item">
+                  <mat-icon class="icon">group</mat-icon>
+                  <p class="p-small">
+                    Đã đăng ký: {{ class.numberOfStudent }} học viên
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="body-loading" *ngIf="classArray && classArray.length == 0">
+        <img src="../../../assets/image/no-data.jpg" style="width: 100%" />
+      </div>
+      <div class="paging" *ngIf="totalPage">
+        <div
+          class="item"
+          *ngFor="let i of pageArray"
+          [ngClass]="i == currentPage ? 'item-hover' : 'item'"
+          style="width: 4.5%"
+          (click)="changePage(i)"
+        >
+          <a>{{ i }}</a>
+        </div>
+      </div>
+    </div>
+    <div class="div-class body-loading" *ngIf="isLoading">
+      <img
+        class="img-loading"
+        src="/assets/image/loading.gif"
+        alt="Logo image"
+      />
+    </div>
+  </div>
+</div>

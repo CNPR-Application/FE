@@ -77,8 +77,8 @@ import {
 })
 export class ApiService {
   constructor(private http: HttpClient) {}
-  rootUrl: string = 'https://lcss-fa21.herokuapp.com/';
-  //rootUrl: string = 'http://localhost:8080/';
+  //rootUrl: string = 'https://lcss-fa21.herokuapp.com/';
+  rootUrl: string = 'http://localhost:8080/';
   headers = new HttpHeaders()
     .set('content-type', 'application/json')
     .set('Access-Control-Allow-Origin', '*')
