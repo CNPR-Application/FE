@@ -23,39 +23,45 @@
     color: rgba(255, 255, 255, 0.85);
     .list-item {
       padding-left: 1.5vw;
+      padding-right: 1vw;
       display: flex;
       height: 35px;
+      align-items: center;
+      width: 100%;
     }
     .icon {
-      padding-right: 15px;
-      width: 15px;
-      height: 16px;
+      padding-right: 10px;
+      font-size: 20px;
+      height: auto;
+      color: #7081b9;
+      fill: rgba(112, 129, 185, 0.12);
+    }
+    .arrow {
+      padding-top: 3px;
+      font-size: 14px;
+      width: 15%;
+      float: right;
+      height: auto;
+    }
+    .dot {
+      font-size: 5px !important;
+      height: auto !important;
+      padding-left: 20px;
     }
     a {
       margin: 0;
       text-decoration: auto;
-      color: rgba(255, 255, 255, 0.85);
+      color: #a9baca;
+      font-size: 14px;
     }
     a:hover {
       color: white !important;
     }
-    .vector {
-      width: 7px;
-      height: 11px;
-      padding-left: 21%;
-      padding-top: 5px;
-    }
-    .small-dot {
-      width: 7px;
-      height: 7px;
-      padding-right: 10px;
-      padding-top: 7px;
-    }
     .inner-item {
       padding-left: 1.5vw;
-      padding-left: 40px;
       display: flex;
-      height: 35px;
+      height: 30px;
+      align-items: center;
     }
   }
 }
