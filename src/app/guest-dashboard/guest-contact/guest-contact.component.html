@@ -1,1 +1,126 @@
-<p>guest-contact works!</p>
+<div class="flex center-justify title-div">
+  <p>Liên hệ</p>
+</div>
+<div class="flex center-justify center-align-item" style="padding-top: 3em">
+  <img src="../../../assets/image/contact.gif" style="width: 40%" />
+</div>
+<div
+  class="flex center-justify"
+  style="padding: 5em; padding-bottom: 0; padding-top: 3em"
+>
+  <div class="contact-icon-div">
+    <div class="flex center-justify" style="width: 100%">
+      <div class="icon-div">
+        <mat-icon style="height: auto; font-size: 21px">touch_app</mat-icon>
+      </div>
+    </div>
+    <p>Facebook: <span style="color: #42bef8">cnpr@facebook.com</span></p>
+  </div>
+  <div class="contact-icon-div">
+    <div class="flex center-justify" style="width: 100%">
+      <div class="icon-div">
+        <mat-icon style="height: auto; font-size: 21px">ring_volume</mat-icon>
+      </div>
+    </div>
+    <p>Phone: <span style="color: #42bef8">0987888777</span></p>
+  </div>
+  <div class="contact-icon-div">
+    <div class="flex center-justify" style="width: 100%">
+      <div class="icon-div">
+        <mat-icon style="height: auto; font-size: 21px">mail_outline</mat-icon>
+      </div>
+    </div>
+    <p>Gmail: <span style="color: #42bef8">cnpr@gmail.com</span></p>
+  </div>
+  <div class="contact-icon-div">
+    <div class="flex center-justify" style="width: 100%">
+      <div class="icon-div">
+        <mat-icon style="height: auto; font-size: 21px">play_arrow</mat-icon>
+      </div>
+    </div>
+    <p>
+      Youtube:
+      <span style="color: #42bef8">https://www.youtube.com/watch?v=cnpr</span>
+    </p>
+  </div>
+</div>
+<div class="flex center-justify" style="padding: 5em; padding-top: 3em">
+  <div class="form-div">
+    <form class="form" [formGroup]="form">
+      <div class="flex">
+        <div class="input-div" style="padding-right: 10%">
+          <p class="label">Họ và tên</p>
+          <input class="input" type="text" formControlName="name" />
+        </div>
+        <div class="input-div">
+          <p class="label">Số điện thoại</p>
+          <input class="input" type="text" formControlName="phone" />
+        </div>
+      </div>
+      <div class="input-div">
+        <p class="label">Thành phố</p>
+        <select id="city" name="city" class="input" formControlName="city">
+          <option value="" disabled selected>Tỉnh thành bạn sống (*)</option>
+          <option *ngFor="let city of cityList" [value]="city">
+            {{ city }}
+          </option>
+        </select>
+      </div>
+      <div class="input-div">
+        <p class="label">Chi nhánh gần bạn</p>
+        <select
+          id="branchId"
+          name="branchId"
+          class="input"
+          formControlName="branchId"
+          style="margin-top: 1em"
+        >
+          <option value="" disabled selected>Chi nhánh gần bạn</option>
+          <option *ngFor="let branch of branchList" [value]="branch.branchId">
+            {{ branch.branchName }}
+          </option>
+        </select>
+      </div>
+      <div class="input-div">
+        <p class="label">Chương trình quan tâm</p>
+        <select
+          id="curriculumId"
+          name="curriculumId"
+          class="input"
+          formControlName="curriculumId"
+        >
+          <option value="" disabled selected>Chương trình quan tâm</option>
+          <option *ngFor="let cur of curriculumList" [value]="cur.curriculumId">
+            {{ cur.curriculumName }}
+          </option>
+        </select>
+      </div>
+      <div class="input-div">
+        <p class="label">Ghi chú</p>
+        <textarea
+          class="input textarea-deco"
+          type="text"
+          formControlName="description"
+        ></textarea>
+      </div>
+      <div class="button-div">
+        <button class="btn-edit" (click)="createGuest()">Đăng ký tư vấn</button>
+      </div>
+    </form>
+  </div>
+  <div class="img-div">
+    <img
+      src="../../../assets/image/contact.jpg"
+      style="width: 100%; height: 100%"
+    />
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert" style="left: calc(50% - 14.5%)">
+    <p>{{ alertMessage }}</p>
+    <button (click)="haveAlertOk = !haveAlertOk">OK</button>
+  </div>
+</div>
+<div *ngIf="isLoading" class="loading-page" style="padding-left: 50%">
+  <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+</div>
