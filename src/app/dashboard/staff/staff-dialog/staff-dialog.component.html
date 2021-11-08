@@ -2,24 +2,6 @@
   <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
 </div>
 <form class="form" [formGroup]="form" *ngIf="!isLoading">
-  <div class="flex" *ngIf="type != 'create'">
-    <div class="input-div" style="padding-right: 10%">
-      <p class="label">Tên đăng nhập</p>
-      <input class="input" type="text" formControlName="username" readonly />
-      <p class="invalid">Vui lòng điền tên đăng nhập</p>
-    </div>
-    <div class="input-div">
-      <p class="label">Ngày tạo tài khoản</p>
-      <input
-        class="input"
-        readonly
-        type="date"
-        formControlName="creatingDate"
-        [ngModel]="creatingDate | date: 'yyyy-MM-dd'"
-      />
-      <p class="invalid"></p>
-    </div>
-  </div>
   <div class="flex">
     <div class="input-div" style="padding-right: 10%">
       <p class="label">Họ và tên</p>
