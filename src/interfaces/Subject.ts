@@ -3,15 +3,15 @@ import { CurriculumResponseArray } from './Curriculum';
 export interface SubjectArray {
   pageNo: number;
   pageSize: number;
-  pageTotal: number;
-  subjectsResponseDtos?: Subject[];
+  totalPage?: number;
+  subjectsResponseDto?: Array<Subject>;
 }
 
 export interface SubjectTeacherArray {
   pageNo: number;
   pageSize: number;
   totalPage: number;
-  subjectList?: Subject[];
+  subjectList?: Array<Subject>;
 }
 
 export interface Subject {

@@ -91,7 +91,7 @@ export class GuestBookingComponent implements OnInit {
     );
     let req4 = this.api.getSubjectByName('', true, 1, 1000).subscribe(
       (response: SubjectArray) => {
-        this.subjectList = response.subjectsResponseDtos;
+        this.subjectList = response.subjectsResponseDto;
         this.api.getAllShift(1, 100, true).subscribe(
           (response: ShiftArray) => {
             this.shiftList = response.shiftDtos;

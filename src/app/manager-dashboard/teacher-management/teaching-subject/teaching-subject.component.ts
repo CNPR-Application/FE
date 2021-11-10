@@ -46,7 +46,7 @@ export class TeachingSubjectComponent implements OnInit {
   getListSubject(): void {
     this.api.getSubjectByName('', true, 1, 1000).subscribe(
       (response: SubjectArray) => {
-        this.subjectAllList = response.subjectsResponseDtos;
+        this.subjectAllList = response.subjectsResponseDto;
         this.isLoadingSubject = false;
       },
       (error) => {

@@ -147,11 +147,11 @@ export class FeedbackComponent implements OnInit {
     this.isLoadingSubject = true;
     this.api.getSubjectByName('', true, pageNo, 5).subscribe(
       (response: SubjectArray) => {
-        this.subjectArray = response.subjectsResponseDtos;
+        this.subjectArray = response.subjectsResponseDto;
         this.subjectArray = this.subjectArray?.sort(
           (a, b) => this.toFloat(b.rating) - this.toFloat(a.rating)
         );
-        this.totalPage = response.pageTotal;
+        this.totalPage = response.totalPage;
         this.pageArray = Array(this.totalPage)
           .fill(1)
           .map((x, i) => i + 1)
@@ -198,39 +198,44 @@ export class FeedbackComponent implements OnInit {
   getTeacher(pageNo: number): void {
     this.isLoadingTeacher = true;
     if (this.branchId)
-      this.api.searchTeacherByBranchSubject(this.branchId, 0, pageNo, 5).subscribe(
-        (response: TeacherArray) => {
-          this.teacherArray = response.teacherInBranchList;
-          this.teacherArray = this.teacherArray?.sort(
-            (a, b) =>
-              this.toFloat(b.teacherRating) - this.toFloat(a.teacherRating)
-          );
-          this.totalPageTeacher = response.totalPage;
-          this.pageArrayTeacher = Array(this.totalPageTeacher)
-            .fill(1)
-            .map((x, i) => i + 1)
-            .reverse();
-          this.currentPageTeacher = response.pageNo;
-          this.chartArrayTeacher = [];
-          this.teacherArray?.forEach((y) => {
-            if (y && y.teacherRating) {
-              let num = this.toFloat(y.teacherRating);
-              let item: Single_Chart = {
-                name: y.teacherName,
-                value: num,
-              };
-              this.chartArrayTeacher?.push(item);
-            }
-          });
-          this.chartArrayTeacher = this.chartArrayTeacher.slice(0, 10);
-          this.isLoadingTeacher = false;
-        },
-        (error) => {
-          console.error(error);
-          this.isLoadingTeacher = false;
-          this.callAlert('Ok', 'Có lỗi xảy ra khi giáo viên, vui lòng thử lại');
-        }
-      );
+      this.api
+        .searchTeacherByBranchSubject(this.branchId, 0, pageNo, 5)
+        .subscribe(
+          (response: TeacherArray) => {
+            this.teacherArray = response.teacherInBranchList;
+            this.teacherArray = this.teacherArray?.sort(
+              (a, b) =>
+                this.toFloat(b.teacherRating) - this.toFloat(a.teacherRating)
+            );
+            this.totalPageTeacher = response.totalPage;
+            this.pageArrayTeacher = Array(this.totalPageTeacher)
+              .fill(1)
+              .map((x, i) => i + 1)
+              .reverse();
+            this.currentPageTeacher = response.pageNo;
+            this.chartArrayTeacher = [];
+            this.teacherArray?.forEach((y) => {
+              if (y && y.teacherRating) {
+                let num = this.toFloat(y.teacherRating);
+                let item: Single_Chart = {
+                  name: y.teacherName,
+                  value: num,
+                };
+                this.chartArrayTeacher?.push(item);
+              }
+            });
+            this.chartArrayTeacher = this.chartArrayTeacher.slice(0, 10);
+            this.isLoadingTeacher = false;
+          },
+          (error) => {
+            console.error(error);
+            this.isLoadingTeacher = false;
+            this.callAlert(
+              'Ok',
+              'Có lỗi xảy ra khi giáo viên, vui lòng thử lại'
+            );
+          }
+        );
   }
 
   getFeedback(classId: number | undefined): void {

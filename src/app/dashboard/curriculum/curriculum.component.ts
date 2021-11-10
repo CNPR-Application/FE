@@ -179,8 +179,8 @@ export class CurriculumComponent implements OnInit {
       .subscribe(
         (response: SubjectArray) => {
           this.subjectResponse = response;
-          this.subjectArray = response.subjectsResponseDtos;
-          this.totalSubPage = this.subjectResponse.pageTotal;
+          this.subjectArray = response.subjectsResponseDto;
+          this.totalSubPage = this.subjectResponse.totalPage;
           this.currentSubPage = this.subjectResponse.pageNo;
           this.pageSubArray = Array(this.totalSubPage)
             .fill(1)

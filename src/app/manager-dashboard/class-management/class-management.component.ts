@@ -74,7 +74,7 @@ export class ClassManagementComponent implements OnInit {
     this.getClassAll(this.branchId, this.status, 1);
     this.api.getSubjectByName('', true, 1, 1000).subscribe(
       (response: SubjectArray) => {
-        this.subjectList = response.subjectsResponseDtos;
+        this.subjectList = response.subjectsResponseDto;
         this.api.getAllShift(1, 100, true).subscribe(
           (response: ShiftArray) => {
             this.shiftList = response.shiftDtos;

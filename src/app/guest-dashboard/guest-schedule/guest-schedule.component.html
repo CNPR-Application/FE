@@ -61,9 +61,10 @@
         </p>
       </div>
       <div class="div-card" *ngIf="classArray && classArray.length != 0">
-        <div class="card" *ngFor="let class of classArray">
+        <div class="card" *ngFor="let class of classArray; let i = index">
           <div class="img-card-div">
             <img
+              [src]="imageClass[i % 10]"
               src="../../../assets/image/cancel_class_student.png"
               class="img-card"
             />

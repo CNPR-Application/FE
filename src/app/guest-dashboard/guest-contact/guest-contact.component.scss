@@ -2,6 +2,7 @@
   width: 45%;
   display: flex;
   justify-content: center;
+  background-color: white;
   .form {
     padding: 1.5em;
     width: 70%;
@@ -181,19 +182,19 @@
   }
 }
 .title-div {
-  background-color: #f0f5f4;
+  background-color: #FAFAFA;
   width: 100%;
   height: 7em;
   align-items: center;
   max-height: 7em;
   text-align: center;
-  margin-top: 5em;
+  margin-top: 2em;
   p {
     margin: 0;
     font-size: 30px;
     font-family: helvetica-w01-bold, helvetica-w02-bold, helvetica-lt-w10-bold,
       sans-serif;
-    color: #414bb2;
+    color: #182A88;
     font-weight: bold;
   }
 }

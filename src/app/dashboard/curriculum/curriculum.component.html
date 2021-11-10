@@ -54,7 +54,9 @@
         <p class="p-title color-red" *ngIf="!item.isAvailable">
           {{ item.curriculumName }}
         </p>
-        <p class="p-description">{{ item.description }}</p>
+        <p class="p-description no-wrap" title="{{ item.description }}">
+          {{ item.description }}
+        </p>
         <div class="icon-button">
           <img
             *ngIf="isAvailable"

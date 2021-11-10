@@ -56,7 +56,7 @@ export class BookingCreateComponent implements OnInit {
   getListSubject(): void {
     this.api.getSubjectByName('', true, 1, 1000).subscribe(
       (response: SubjectArray) => {
-        this.subjectList = response.subjectsResponseDtos;
+        this.subjectList = response.subjectsResponseDto;
         this.isLoadingSubject = false;
       },
       (error) => {

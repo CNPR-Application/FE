@@ -184,8 +184,8 @@ export class DetailCurriculumComponent implements OnInit {
       .subscribe(
         (response: SubjectArray) => {
           this.subject = response;
-          this.subjectArray = response.subjectsResponseDtos;
-          this.totalPage = this.subject.pageTotal;
+          this.subjectArray = response.subjectsResponseDto;
+          this.totalPage = this.subject.totalPage;
           this.currentPage = this.subject.pageNo;
           this.pageArray = Array(this.totalPage)
             .fill(1)

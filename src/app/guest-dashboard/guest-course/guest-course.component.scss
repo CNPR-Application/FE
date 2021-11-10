@@ -1,0 +1,139 @@
+.curriculum {
+  background-image: url("../../../assets/image/guest-curriculum.gif");
+  background-size: cover;
+  width: 100%;
+  height: 600px;
+  display: flex;
+  align-items: center;
+  .cur-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 2%;
+  }
+  .cur {
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid #b7d7ef;
+    box-sizing: border-box;
+    box-shadow: 2px 4px 5px 5px rgba(255, 255, 255, 0.44);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 240px;
+    height: 240px;
+    padding-left: 8%;
+    padding-right: 8%;
+    margin-right: 3em;
+    margin-top: 5%;
+  }
+  .cur:hover {
+    transform: scale(1.1);
+  }
+  .img-cur {
+    width: 120px;
+  }
+  .cur-name {
+    font-family: Roboto;
+    font-weight: 500;
+    font-size: 18px;
+    text-align: center;
+    color: #000000ad;
+    text-shadow: 0 1px 4px #b7d7ef1a;
+  }
+}
+.paging {
+  float: right;
+  width: -webkit-fill-available;
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+  .item {
+    background: #fff;
+    border: 1px solid #0000001a;
+    box-sizing: border-box;
+    width: 2.3em;
+    text-align: center;
+    height: 2.3em;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 2px 2px 5px 2px #ffffff70;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+  .item:hover {
+    transform: scale(1.2);
+  }
+  .item-hover {
+    transform: scale(1.2);
+  }
+  a {
+    text-decoration: auto;
+    top: 2%;
+    color: #000;
+    font-size: 11px;
+  }
+}
+.sub-div {
+  width: 100%;
+  align-items: center;
+  text-align: center;
+  padding-top: 10%;
+  padding-bottom: 5%;
+  background-image: url("../../../assets/image/guest-subject.jpg");
+  height: 600px;
+  background-size: cover;
+  .sub-name {
+    margin: 0;
+    font-size: 30px;
+    color: #6dbaf3;
+    font-weight: bold;
+    margin-bottom: 1em;
+  }
+  .sub-description {
+    font-size: 17px;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+  .subject-name-div {
+    width: 45%;
+    margin-top: 2em;
+
+    .subject-name-item {
+      border-radius: 200px;
+      padding-left: 6%;
+      padding-right: 6%;
+      color: #fff;
+      font-size: 22px;
+      font-weight: 500;
+      height: 2.5em;
+      margin-bottom: 1em;
+      cursor: pointer;
+    }
+    .subject-name-item:hover {
+      transform: scale(1.1);
+    }
+    p {
+      margin: 0;
+    }
+  }
+  .detail-title {
+    text-align: left;
+    color: rgb(113, 102, 238);
+    font-size: 20px;
+    line-height: 1.6;
+  }
+  .detail-text {
+    text-align: left;
+    font-size: 15px;
+    padding-top: 0.5em;
+    padding-bottom: 1em;
+  }
+  .detail-div {
+    padding-left: 6%;
+    padding-right: 6%;
+  }
+}

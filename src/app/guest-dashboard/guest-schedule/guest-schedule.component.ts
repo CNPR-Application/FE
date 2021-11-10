@@ -38,6 +38,19 @@ export class GuestScheduleComponent implements OnInit {
     'assets/image/building9.jpg',
   ];
 
+  imageClass: Array<string> = [
+    'assets/image/cancel_class_student.png',
+    'assets/image/canceled_booking.png',
+    'assets/image/finished_class_student.png',
+    'assets/image/finished_class_teacher.png',
+    'assets/image/paid_booking.png',
+    'assets/image/processed_booking.png',
+    'assets/image/waiting_class_student.png',
+    'assets/image/studying_class_student.png',
+    'assets/image/waiting_class_teacher.png',
+    'assets/image/studying_class_teacher.png',
+  ]
+
   ngOnInit(): void {
     this.getBranchByName();
   }

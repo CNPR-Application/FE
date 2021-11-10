@@ -223,6 +223,11 @@
     padding-top: 13px;
   }
 }
+.no-wrap {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 html,
 body {
   height: 100%;

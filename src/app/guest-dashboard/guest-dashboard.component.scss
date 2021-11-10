@@ -52,11 +52,12 @@
   }
   .menu {
     width: 100%;
-    height: 9vh;
-
+    height: 13vh;
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
+    background-color: white;
+    align-items: center;
     .a-menu {
       margin-right: 3em;
       color: #42bef8;

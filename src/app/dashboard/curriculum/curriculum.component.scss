@@ -47,7 +47,7 @@
         border: 1px solid rgba(85, 87, 95, 0.14);
         box-sizing: border-box;
         box-shadow: 0px 4px 4px rgb(24 42 136 / 14%);
-        width: 17%;
+        width: 13.2em;
         height: 10em;
         text-align: center;
         padding: 5px;
@@ -59,17 +59,16 @@
           margin: 0;
         }
         .p-title {
-          font-family: Poppins;
-
           color: #182a88;
-          font-family: Poppins;
-          font-weight: 600;
+          font-weight: 500;
         }
         .p-description {
           padding-top: 5%;
           font-weight: normal;
           color: rgba(0, 0, 0, 0.8);
           opacity: 0.9;
+          padding-left: 5%;
+          padding-right: 5%;
         }
         .icon-button {
           padding-top: 5%;
@@ -118,7 +117,6 @@
         color: #000000;
         opacity: 0.5;
         font-size: 14px;
-        font-family: "poppins";
       }
     }
     .table {
