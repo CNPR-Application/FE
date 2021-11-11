@@ -62,7 +62,7 @@ export class BranchComponent implements OnInit {
       (response: BranchArray) => {
         this.branchResponse = response;
         this.branchArray = this.branchResponse.branchResponseDtos;
-        this.totalPage = this.branchResponse.pageTotal;
+        this.totalPage = this.branchResponse.totalPage;
         this.pageArray = Array(this.totalPage)
           .fill(1)
           .map((x, i) => i + 1)

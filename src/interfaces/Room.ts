@@ -16,6 +16,6 @@ export interface RoomCreateRequest {
 export interface RoomArrayResponse {
   pageNo: number;
   pageSize: number;
-  pageTotal: number;
+  totalPage: number;
   roomList: RoomResponse[];
 }

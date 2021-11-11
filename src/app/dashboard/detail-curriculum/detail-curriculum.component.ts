@@ -109,8 +109,6 @@ export class DetailCurriculumComponent implements OnInit {
       curriculumName: this.form.controls.name.value,
       description: this.form.controls.description.value,
       learningOutcome: this.form.controls.learningOutcome.value,
-      image: 'image',
-      linkClip: 'link-clip',
       isAvailable: this.curriculum?.isAvailable,
     };
     this.isLoading = true;
@@ -144,8 +142,6 @@ export class DetailCurriculumComponent implements OnInit {
       curriculumName: this.form.controls.name.value,
       description: this.form.controls.description.value,
       learningOutcome: this.form.controls.learningOutcome.value,
-      image: 'image',
-      linkClip: 'link-clip',
     };
     this.isLoading = true;
     this.api.createCurriculum(request).subscribe(

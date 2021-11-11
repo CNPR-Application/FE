@@ -168,7 +168,7 @@ export class GuestBookingComponent implements OnInit {
                 response.registeringGuestSearchResponseDtos?.filter(
                   (x) => x.status === this.statusGuest
                 );
-              this.totalPageGuest = response.pageTotal;
+              this.totalPageGuest = response.totalPage;
               this.pageArrayGuest = Array(this.totalPageGuest)
                 .fill(1)
                 .map((x, i) => i + 1)
@@ -201,7 +201,7 @@ export class GuestBookingComponent implements OnInit {
         .subscribe(
           (response: GuestArray) => {
             this.guestArray = response.registeringGuestSearchResponseDtos;
-            this.totalPageGuest = response.pageTotal;
+            this.totalPageGuest = response.totalPage;
             this.pageArrayGuest = Array(this.totalPageGuest)
               .fill(1)
               .map((x, i) => i + 1)
@@ -430,7 +430,7 @@ export class GuestBookingComponent implements OnInit {
             };
             this.chartArray?.push(item);
           });
-          this.totalPage = response.pageTotal;
+          this.totalPage = response.totalPage;
           this.pageArray = Array(this.totalPage)
             .fill(1)
             .map((x, i) => i + 1)

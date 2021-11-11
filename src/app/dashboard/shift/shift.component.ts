@@ -44,7 +44,7 @@ export class ShiftComponent implements OnInit {
           .map((x, i) => i + 1)
           .reverse();
         this.currentPage = response.pageNo;
-        this.totalPage = response.pageTotal;
+        this.totalPage = response.totalPage;
         this.isLoading = false;
       },
       (error) => {

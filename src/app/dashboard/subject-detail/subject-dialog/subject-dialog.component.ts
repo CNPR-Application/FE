@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -28,10 +29,10 @@ export class SubjectDialogComponent implements OnInit {
   //for edit/ create
   isEdit: boolean = false;
   //form
-  form : FormGroup = this.formBuilder.group({
-    id: ['',Validators.required],
-    weekNum: ['',Validators.required],
-    subjectId: ['',Validators.required],
+  form: FormGroup = this.formBuilder.group({
+    id: ['', Validators.required],
+    weekNum: ['', Validators.required],
+    subjectId: ['', Validators.required],
     learningOutcome: [],
     description: [],
   });
@@ -40,31 +41,37 @@ export class SubjectDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.subject = this.data.subject;
-    this.form.controls.subjectId.setValue(this.subject?.subjectCode+" - "+this.subject?.subjectName);
+    this.form.controls.subjectId.setValue(
+      this.subject?.subjectCode + ' - ' + this.subject?.subjectName
+    );
     this.subjectDetail = this.data.subjectDetail;
-    if(this.subjectDetail !== undefined){
+    if (this.subjectDetail !== undefined) {
       this.subjectDetail = this.data.subjectDetail;
       this.isEdit = true;
       this.form.controls.id.setValue(this.subjectDetail?.subjectDetailId);
       this.form.controls.id.disable();
       this.form.controls.weekNum.setValue(this.subjectDetail?.weekNum);
-      this.form.controls.description.setValue(this.subjectDetail?.weekDescription);
-      this.form.controls.learningOutcome.setValue(this.subjectDetail?.learningOutcome);
-    }else{
+      this.form.controls.description.setValue(
+        this.subjectDetail?.weekDescription
+      );
+      this.form.controls.learningOutcome.setValue(
+        this.subjectDetail?.learningOutcome
+      );
+    } else {
       this.isEdit = false;
     }
   }
 
   editSubjectDetail(): void {
     this.isLoading = true;
-    const request:SubjectDetail = {
+    const request: SubjectDetail = {
       subjectDetailId: this.subjectDetail?.subjectDetailId,
       subjectId: this.subject?.subjectId,
       weekNum: this.form.controls.weekNum.value,
       weekDescription: this.form.controls.description.value,
       learningOutcome: this.form.controls.learningOutcome.value,
-      isAvailable: true
-    }
+      isAvailable: true,
+    };
     this.service.updateSubjectDetail(request).subscribe(
       (response: boolean) => {
         this.isLoading = false;
@@ -76,47 +83,56 @@ export class SubjectDialogComponent implements OnInit {
           this.isSuccess = false;
         }
       },
-      (error) => {
+      (error: HttpErrorResponse) => {
         console.error(error);
-        this.isLoading = false;
         this.callAlert('Ok', 'Có lỗi xảy ra khi chỉnh sửa, vui lòng thử lại');
+        this.isLoading = false;
         this.isSuccess = false;
       }
     );
   }
   createSubjectDetail(): void {
     this.isLoading = true;
-    const request:SubjectDetail = {
+    const request: SubjectDetail = {
       subjectDetailId: 0,
       weekNum: this.form.controls.weekNum.value,
       subjectId: this.subject?.subjectId,
       weekDescription: this.form.controls.description.value,
       learningOutcome: this.form.controls.learningOutcome.value,
-      isAvailable: true
-    }
+      isAvailable: true,
+    };
     this.service.createSubjectDetail(request).subscribe(
       (response: boolean) => {
         this.isLoading = false;
         if (response) {
-          this.callAlert('Ok', 'Thêm mới thành công');
+          this.callAlert('Ok', 'Tạo mới thành công');
           this.isSuccess = true;
         } else {
           this.callAlert('Ok', 'Có lỗi xảy ra. Vui lòng thử lại');
           this.isSuccess = false;
         }
       },
-      (error) => {
+      (error: HttpErrorResponse) => {
         console.error(error);
         this.isLoading = false;
-        this.callAlert('Ok', 'Có lỗi xảy ra khi chỉnh sửa, vui lòng thử lại');
+        if (
+          error.error == 'Number of weeks for this Subject is at their limit!'
+        ) {
+          this.callAlert(
+            'Ok',
+            'Số lượng tuần của lớp học này đã vượt quá, không thể thêm mới'
+          );
+        } else {
+          this.callAlert('Ok', 'Có lỗi xảy ra khi tạo mới, vui lòng thử lại');
+        }
         this.isSuccess = false;
       }
     );
   }
 
-  close():void{
+  close(): void {
     this.haveAlertOk = false;
-    if(this.isSuccess){
+    if (this.isSuccess) {
       this.dialogRef.close(this.subject?.subjectId);
     }
   }

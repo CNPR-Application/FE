@@ -65,9 +65,9 @@ export class GuestCourseComponent implements OnInit {
     this.service.getCurriculumByName('', true, this.currentPage, 4).subscribe(
       (response: CurriculumResponse) => {
         this.curriculumArray = response.curriculumResponseDtos;
-        this.totalPage = response.pageTotal;
+        this.totalPage = response.totalPage;
         this.currentPage = response.pageNo;
-        this.pageArray = Array(response.pageTotal)
+        this.pageArray = Array(response.totalPage)
           .fill(1)
           .map((x, i) => i + 1);
         this.isLoading = false;

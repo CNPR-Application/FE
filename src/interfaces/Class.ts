@@ -1,7 +1,7 @@
 export interface ClassArray {
   pageNo?: number;
   pageSize?: number;
-  pageTotal?: number;
+  totalPage?: number;
   classList?: ClassResponse[];
 }
 

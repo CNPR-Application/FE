@@ -22,7 +22,6 @@ export interface Subject {
   creatingDate?: string;
   description?: string;
   isAvailable?: boolean;
-  image?: string;
   slot?: number;
   slotPerWeek?: number;
   rating: number;
@@ -35,7 +34,7 @@ export interface Subject {
 export interface SubjectDetailArray {
   pageNo: number;
   pageSize: number;
-  pageTotal: number;
+  totalPage: number;
   subjectDetailDtoList?: SubjectDetail[];
 }
 

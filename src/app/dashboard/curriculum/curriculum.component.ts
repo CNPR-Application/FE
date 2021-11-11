@@ -64,7 +64,7 @@ export class CurriculumComponent implements OnInit {
       (response: CurriculumResponse) => {
         this.curriculumResponse = response;
         this.curriculumArray = this.curriculumResponse.curriculumResponseDtos;
-        this.totalPage = this.curriculumResponse.pageTotal;
+        this.totalPage = this.curriculumResponse.totalPage;
         this.currentPage = this.curriculumResponse.pageNo;
         this.pageArray = Array(this.totalPage)
           .fill(1)

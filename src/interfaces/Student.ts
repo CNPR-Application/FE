@@ -1,14 +1,14 @@
 export interface StudentArrayResponse {
   pageNo: number;
   pageSize: number;
-  pageTotal: number;
+  totalPage: number;
   studentResponseDtos: StudentResponse[];
 }
 
 export interface StudentArraySearchResponse {
   pageNo: number;
   pageSize: number;
-  pageTotal: number;
+  totalPage: number;
   studentList: StudentResponse[];
 }
 

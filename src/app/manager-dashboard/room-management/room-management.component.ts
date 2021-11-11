@@ -56,7 +56,7 @@ export class RoomManagementComponent implements OnInit {
           (response) => {
             this.roomArray = response.roomList;
             this.currentPage = response.pageNo;
-            this.pageArray = Array(response.pageTotal)
+            this.pageArray = Array(response.totalPage)
               .fill(1)
               .map((x, i) => i + 1)
               .reverse();

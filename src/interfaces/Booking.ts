@@ -1,7 +1,7 @@
 export interface BookingArray {
   pageNo: number;
   pageSize: number;
-  pageTotal: number;
+  totalPage: number;
   classList?: Booking[];
 }
 

@@ -1,7 +1,7 @@
 export interface CurriculumResponse {
   pageNo: number;
   pageSize: number;
-  pageTotal: number;
+  totalPage: number;
   curriculumResponseDtos ?: CurriculumResponseArray[];
 }
 
@@ -12,7 +12,5 @@ export interface CurriculumResponseArray {
     description?: string;
     creatingDate?: Date;
     isAvailable?: boolean;
-    image?: string;
-    linkClip?: string;
     learningOutcome?: string;
 }

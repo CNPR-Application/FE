@@ -67,7 +67,7 @@ export class GuestBranchComponent implements OnInit {
       this.api.getBranchByName(this.name, this.currentPage, 10, true).subscribe(
         (response: BranchArray) => {
           this.branchArray = response.branchResponseDtos;
-          this.pageArray = Array(response.pageTotal)
+          this.pageArray = Array(response.totalPage)
             .fill(1)
             .map((x, i) => i + 1)
             .reverse();

@@ -1,7 +1,7 @@
 export interface SessionList {
   pageNo: number;
   pageSize: number;
-  pageTotal: number;
+  totalPage: number;
   sessionList?: SessionResponse[];
 }
 

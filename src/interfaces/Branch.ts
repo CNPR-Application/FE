@@ -1,7 +1,7 @@
 export interface BranchArray {
   pageNo?: number;
   pageSize?: number;
-  pageTotal?: number;
+  totalPage?: number;
   branchResponseDtos?: Branch[];
 }
 

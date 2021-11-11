@@ -152,7 +152,6 @@ export class SubjectDetailComponent implements OnInit {
       creatingDate: this.form.controls.creatingDate.value,
       curriculumId: this.form.controls.curriculumId.value,
       rating: this.form.controls.rating.value,
-      image: 'image',
       isAvailable: this.subject?.isAvailable,
     };
     this.isLoading = true;
@@ -191,7 +190,6 @@ export class SubjectDetailComponent implements OnInit {
       rating: this.form.controls.rating.value,
       slotPerWeek: this.form.controls.slotPerWeek.value,
       creatingDate: this.form.controls.creatingDate.value,
-      image: 'image',
       isAvailable: this.subject?.isAvailable,
     };
     this.isLoading = true;
@@ -232,7 +230,7 @@ export class SubjectDetailComponent implements OnInit {
         (response: SubjectDetailArray) => {
           this.subjectDetail = response;
           this.subjectDetailArray = response.subjectDetailDtoList;
-          this.totalPage = this.subjectDetail.pageTotal;
+          this.totalPage = response.totalPage;
           this.currentPage = this.subjectDetail.pageNo;
           this.pageArray = Array(this.totalPage)
             .fill(1)

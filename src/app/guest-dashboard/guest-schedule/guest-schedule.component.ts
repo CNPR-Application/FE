@@ -62,7 +62,7 @@ export class GuestScheduleComponent implements OnInit {
       .subscribe(
         (response: ClassArray) => {
           this.classArray = response.classList;
-          this.totalPage = response.pageTotal;
+          this.totalPage = response.totalPage;
           this.pageArray = Array(this.totalPage)
             .fill(1)
             .map((x, i) => i + 1);
@@ -95,7 +95,7 @@ export class GuestScheduleComponent implements OnInit {
             this.selectedBranch = this.branchArray[0];
             this.getClassAll(this.branchId);
           }
-          this.pageArrayBranch = Array(response.pageTotal)
+          this.pageArrayBranch = Array(response.totalPage)
             .fill(1)
             .map((x, i) => i + 1);
           if (response.pageNo) this.currentPageBranch = response.pageNo;

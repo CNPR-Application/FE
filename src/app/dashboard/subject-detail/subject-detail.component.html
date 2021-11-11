@@ -39,7 +39,7 @@
       <div class="flex">
         <div class="input-div" style="padding-right: 10%; margin: 0">
           <p class="label">Học phí</p>
-          <input class="input" type="number" formControlName="price" min="0"/>
+          <input class="input" type="number" formControlName="price" min="0" />
           <p class="invalid">Vui lòng điền học phí</p>
         </div>
         <div class="input-div flex">
@@ -89,26 +89,14 @@
           <p class="invalid">Vui lòng điền tên môn học</p>
         </div>
       </div>
-
-      <div class="flex">
-        <div class="input-div" style="padding-right: 10%">
-          <p class="label">Miêu tả môn học</p>
-          <textarea
-            class="input textarea-deco"
-            type="text"
-            formControlName="description"
-          ></textarea>
-          <p class="invalid">Vui lòng điền miêu tả môn học</p>
-        </div>
-        <div class="input-div">
-          <p class="label">Hình ảnh</p>
-          <img
-            class="img-insert"
-            src="/assets/image/image-insert.png"
-            alt="Logo image"
-          />
-          <p class="invalid">Vui lòng thêm hình ảnh</p>
-        </div>
+      <div class="input-div">
+        <p class="label">Miêu tả môn học</p>
+        <textarea
+          class="input textarea-deco"
+          type="text"
+          formControlName="description"
+        ></textarea>
+        <p class="invalid">Vui lòng điền miêu tả môn học</p>
       </div>
       <div class="input-div" *ngIf="isEdit || isUndo">
         <div class="title">

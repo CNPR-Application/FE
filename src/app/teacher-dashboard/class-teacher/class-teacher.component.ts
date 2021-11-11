@@ -92,7 +92,7 @@ export class ClassTeacherComponent implements OnInit {
       .subscribe(
         (response: ClassArray) => {
           this.classArray = response.classList;
-          this.totalPage = response.pageTotal;
+          this.totalPage = response.totalPage;
           this.pageArray = Array(this.totalPage)
             .fill(1)
             .map((x, i) => i + 1)

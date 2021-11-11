@@ -80,7 +80,7 @@ export class ManagerAttendanceComponent implements OnInit {
         .subscribe(
           (response: ClassArray) => {
             this.classArray = response.classList;
-            this.pageArray = Array(response.pageTotal)
+            this.pageArray = Array(response.totalPage)
               .fill(1)
               .map((x, i) => i + 1);
             this.currentPage = response.pageNo;

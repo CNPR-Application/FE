@@ -61,7 +61,7 @@ export interface Guest {
 export interface GuestArray {
   pageNo?: number;
   pageSize?: number;
-  pageTotal?: number;
+  totalPage?: number;
   registeringGuestSearchResponseDtos?: Guest[];
 }
 

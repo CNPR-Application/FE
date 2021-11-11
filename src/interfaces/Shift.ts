@@ -1,7 +1,7 @@
 export interface ShiftArray {
   pageNo: number;
   pageSize: number;
-  pageTotal: number;
+  totalPage: number;
   shiftDtos?: Shift[];
 }
 

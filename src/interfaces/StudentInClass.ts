@@ -1,7 +1,7 @@
 export interface StudentInClassListResponse {
   pageNo: number;
   pageSize: number;
-  pageTotal: number;
+  totalPage: number;
   studentInClassSearchResponseDtos?: StudentInClassResponse[];
 }
 
