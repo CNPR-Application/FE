@@ -68,3 +68,12 @@ export interface GuestArray {
 export interface CreateInFoResponse {
   username: string;
 }
+
+export interface GetByRoleResponseArray {
+  accountList: GetByRoleResponse[];
+}
+
+export interface GetByRoleResponse {
+  username: string;
+  name: string;
+}

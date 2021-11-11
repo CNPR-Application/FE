@@ -147,7 +147,7 @@
           </td>
         </tr>
       </table>
-      <div class="paging" *ngIf="totalPage">
+      <div class="paging">
         <div class="item" *ngFor="let i of pageArray" (click)="changePage(i)">
           <a>{{ i }}</a>
         </div>
@@ -175,17 +175,10 @@
         <input class="input" type="text" formControlName="teacherName" />
         <p class="invalid">Vui lòng điền tên lớp</p>
       </div>
-      <div class="flex">
-        <div class="input-div" style="padding-right: 5%">
-          <p class="label">Tổng buổi học</p>
-          <input class="input" type="text" formControlName="slot" />
-          <p class="invalid">Vui lòng điền ca học</p>
-        </div>
-        <div class="input-div">
-          <p class="label">Phòng</p>
-          <input class="input" type="text" formControlName="roomNo" />
-          <p class="invalid">Vui lòng điền</p>
-        </div>
+      <div class="input-div" *ngIf="status != 'waiting'">
+        <p class="label">Phòng</p>
+        <input class="input" type="text" formControlName="roomNo" />
+        <p class="invalid">Vui lòng điền</p>
       </div>
       <div class="input-div">
         <p class="label">Môn học</p>
@@ -205,6 +198,20 @@
         <p class="invalid">Vui lòng điền tên môn học</p>
       </div>
       <div class="input-div">
+        <p class="label">Ca học</p>
+        <select
+          id="shiftId"
+          name="shiftId"
+          class="input"
+          formControlName="shiftId"
+        >
+          <option *ngFor="let shift of shiftList" [value]="shift.shiftId">
+            {{ shift.dayOfWeek }} ({{ shift.timeStart }} - {{ shift.timeEnd }})
+          </option>
+        </select>
+        <p class="invalid">Vui lòng điền ca học</p>
+      </div>
+      <div class="input-div">
         <p class="label">Quản lý tạo lớp</p>
         <input
           class="input"
@@ -216,18 +223,8 @@
       </div>
       <div class="flex">
         <div class="input-div" style="padding-right: 5%">
-          <p class="label">Ca học</p>
-          <select
-            id="shiftId"
-            name="shiftId"
-            class="input"
-            formControlName="shiftId"
-          >
-            <option *ngFor="let shift of shiftList" [value]="shift.shiftId">
-              {{ shift.dayOfWeek }} ({{ shift.timeStart }} -
-              {{ shift.timeEnd }})
-            </option>
-          </select>
+          <p class="label">Tổng buổi học</p>
+          <input class="input" type="text" formControlName="slot" />
           <p class="invalid">Vui lòng điền ca học</p>
         </div>
         <div class="input-div">
@@ -256,13 +253,13 @@
   <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
 </div>
 <div class="alert-div" *ngIf="haveAlertOk">
-  <div class="alert">
+  <div class="alert" style="padding-bottom: 0">
     <p>{{ alertMessage }}</p>
     <button (click)="haveAlertOk = !haveAlertOk">OK</button>
   </div>
 </div>
 <div class="alert-div" *ngIf="haveAlertYN">
-  <div class="alert" *ngIf="haveAlertYN">
+  <div class="alert" *ngIf="haveAlertYN" style="padding-bottom: 0">
     <p>{{ alertMessage }}</p>
     <button (click)="doYes()">Có</button>
     <button (click)="doNo()">Không</button>

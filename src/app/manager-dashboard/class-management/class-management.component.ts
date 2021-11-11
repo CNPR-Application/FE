@@ -172,6 +172,17 @@ export class ClassManagementComponent implements OnInit {
     });
   }
 
+  openEditDialog(selectedClass: ClassResponse): void {
+    let dialogRef = this.dialog.open(ClassCreateComponent, {
+      data: { type: 'edit', class: selectedClass },
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data) {
+        this.getClassAll(this.branchId, this.status, 1);
+      }
+    });
+  }
+
   searchClass(
     subjectId: number,
     branchId: number,

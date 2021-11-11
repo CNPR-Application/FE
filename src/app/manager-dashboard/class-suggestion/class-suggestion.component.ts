@@ -1,7 +1,7 @@
 import {
   CdkDragDrop,
   moveItemInArray,
-  transferArrayItem,
+  transferArrayItem
 } from '@angular/cdk/drag-drop';
 import { DatePipe, formatDate } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -9,7 +9,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginResponse } from 'src/interfaces/Account';
 import { Booking, BookingArray } from 'src/interfaces/Booking';
-import { ClassActivationRequest, ClassResponse } from 'src/interfaces/Class';
+import {
+  ClassActivationRequest, ClassResponse
+} from 'src/interfaces/Class';
+import { NotiClassRequest } from 'src/interfaces/Notification';
 import { RoomResponse } from 'src/interfaces/Room';
 import { TeacherInfo, TeacherSearchArray } from 'src/interfaces/Teacher';
 import { Single_Chart } from 'src/interfaces/Utils';
@@ -177,6 +180,10 @@ export class ClassSuggestionComponent implements OnInit {
         .subscribe(
           (data: TeacherSearchArray) => {
             this.teacherArray = data.teacherList;
+            if (this.teacherArray)
+              this.form.controls.teacherName.setValue(
+                this.teacherArray[0].teacherId
+              );
           },
           (error) => {
             this.callAlert(
@@ -209,6 +216,8 @@ export class ClassSuggestionComponent implements OnInit {
         )
         .subscribe((response) => {
           this.roomArray = response.roomList;
+          if (this.roomArray)
+            this.form.controls.roomNo.setValue(this.roomArray[0].roomId);
         });
     }
   }
@@ -242,7 +251,7 @@ export class ClassSuggestionComponent implements OnInit {
     var chartArrayAfter: Array<Single_Chart> = [];
     if (this.classModel?.numberOfStudent) {
       var numOfStudent: number = this.classModel?.numberOfStudent;
-      if (numOfStudent >= this.MAX_CLASS_NUM) {
+      if (numOfStudent > this.MAX_CLASS_NUM) {
         var minclass = Math.floor(numOfStudent / this.MAX_CLASS_NUM);
         var remainder = numOfStudent % this.MAX_CLASS_NUM;
         var optionalStudents = 4 * minclass;
@@ -293,8 +302,9 @@ export class ClassSuggestionComponent implements OnInit {
           }
         }
       } else if (
-        numOfStudent > this.MIN_CLASS_NUM &&
-        numOfStudent < this.MAX_CLASS_NUM
+        (numOfStudent >= this.MIN_CLASS_NUM &&
+          numOfStudent <= this.MAX_CLASS_NUM) ||
+        numOfStudent < this.MIN_CLASS_NUM
       ) {
         let item: Single_Chart = {
           name: 'Lớp 1',
@@ -341,17 +351,8 @@ export class ClassSuggestionComponent implements OnInit {
     this.initForm();
     this.isDisplayStudent = true;
     this.activateClassArray?.forEach((x) => {
-      if (x.label == this.clickedItemChart?.name && x.isActivated != 2) {
+      if (x.label == this.clickedItemChart?.name && x.isActivated == 1) {
         this.isDisplayActivateButton = false;
-        this.initForm(
-          x.classId,
-          x.classCreateRequest?.className,
-          x.classActivateRequest?.teacherId,
-          x.classActivateRequest?.roomId,
-          x.classCreateRequest?.openingDate
-        );
-      } else if (x.label == this.clickedItemChart?.name && x.isActivated == 2) {
-        this.studentPerClassObject?.setIsActivated(0);
         this.initForm(
           x.classId,
           x.classCreateRequest?.className,
@@ -444,21 +445,36 @@ export class ClassSuggestionComponent implements OnInit {
     studentPerClassObject?.setClassActivateRequest(request);
     // thêm lớp hiện tại vào mảng activate
     if (studentPerClassObject) {
-      this.activateClassArray.forEach((x) => {
-        if (x == studentPerClassObject) {
-          this.activateClassArray.filter((y) => y !== x);
+      this.activateClassArray.forEach((x, i) => {
+        if (x.label == studentPerClassObject?.label) {
+          this.activateClassArray.splice(i, 1);
         }
       });
       this.activateClassArray.push(studentPerClassObject);
       index = this.activateClassArray.length - 1;
     }
+    this.activateClassArray[index].setIsActivated(0);
     this.api.activateClass(request).subscribe(
-      (response: boolean) => {
-        if (response) {
-          if (this.activateClassArray[index]) {
-            this.activateClassArray[index].setIsActivated(1);
-          }
+      (response: number) => {
+        if (this.activateClassArray[index]) {
+          this.activateClassArray[index].setIsActivated(1);
         }
+        let request: NotiClassRequest = {
+          classId: response,
+          senderUsername: 'system',
+          title:
+            'Thông báo khai giảng lớp học ' +
+            studentPerClassObject?.classActivateRequest?.className,
+          body:
+            'Trung tâm CNPR thông báo lớp học ' +
+            studentPerClassObject?.classActivateRequest?.className +
+            ' bạn đăng ký sẽ khai giảng vào ngày ' +
+            form1.controls.openingDate.value +
+            '.Để biết thêm thông tin chi tiết, vui lòng truy cập mục Lớp Học/Lịch Học.Chân Thành Cám Ơn !',
+        };
+        this.api.createNotiForClass(request).subscribe((response) => {
+          console.log('Kết quả gửi thông báo session: ' + response);
+        });
       },
       (error: HttpErrorResponse) => {
         console.log(error);
@@ -467,6 +483,8 @@ export class ClassSuggestionComponent implements OnInit {
             'Ok',
             'Ngày khai giảng bạn chọn không khớp với ca học'
           );
+        } else if (error.error == 'Null or invalid opening day!') {
+          this.callAlert('Ok', 'Ngày khai giảng không hợp lệ');
         } else {
           this.callAlert(
             'Ok',
@@ -476,6 +494,41 @@ export class ClassSuggestionComponent implements OnInit {
         this.activateClassArray[index].setIsActivated(2);
       }
     );
+  }
+
+  //ask when number of student invalid
+  preActivateClass() {
+    if (
+      this.studentPerClassArray &&
+      this.studentPerClassArray.length < this.MIN_CLASS_NUM
+    ) {
+      this.callAlert(
+        'YN',
+        'Số lượng học sinh tối thiểu một lớp quy định của trung tâm là ' +
+          this.MIN_CLASS_NUM +
+          ' .Bạn đang mở lớp chỉ với ' +
+          this.studentPerClassArray.length +
+          ' học viên.Bạn có chắc chắn muốn tiếp tục ?'
+      );
+    } else if (
+      this.studentPerClassArray &&
+      this.studentPerClassArray.length > this.MAX_CLASS_NUM
+    ) {
+      this.callAlert(
+        'YN',
+        'Số lượng học sinh tối đa một lớp quy định của trung tâm là ' +
+          this.MAX_CLASS_NUM +
+          ' .Bạn đang mở lớp lên tới ' +
+          this.studentPerClassArray.length +
+          ' học viên.Bạn có chắc chắn muốn tiếp tục ?'
+      );
+    } else if (
+      this.studentPerClassArray &&
+      this.studentPerClassArray.length >= this.MIN_CLASS_NUM &&
+      this.studentPerClassArray.length <= this.MAX_CLASS_NUM
+    ) {
+      this.activateClass();
+    }
   }
 
   // change student list per class
@@ -497,7 +550,10 @@ export class ClassSuggestionComponent implements OnInit {
     this.allIsChosenObjectArray = [];
     this.isChosenObject = undefined;
     this.changeClickedObject = undefined;
-    if (this.studentPerClassObject && !this.studentPerClassObject.isActivated) {
+    if (
+      this.studentPerClassObject &&
+      this.studentPerClassObject.isActivated != 1
+    ) {
       this.changeClickedObject = this.studentPerClassObject;
     }
     if (this.allStudentPerClassObjectArray) {
@@ -505,7 +561,7 @@ export class ClassSuggestionComponent implements OnInit {
         if (
           this.allStudentPerClassObjectArray[i].label !=
             this.studentPerClassObject?.label &&
-          !this.allStudentPerClassObjectArray[i].isActivated
+          this.allStudentPerClassObjectArray[i].isActivated != 1
         ) {
           this.allIsChosenObjectArray.push(
             this.allStudentPerClassObjectArray[i]
@@ -537,6 +593,19 @@ export class ClassSuggestionComponent implements OnInit {
       };
       this.chartArray.push(item);
     });
+    if (this.studentPerClassArray) {
+      if (
+        this.studentPerClassArray?.length <= 4 ||
+        this.studentPerClassArray.length >= 16
+      ) {
+        this.isDisplayActivateButton = false;
+      } else if (
+        this.studentPerClassArray?.length >= 5 ||
+        this.studentPerClassArray.length <= 15
+      ) {
+        this.isDisplayActivateButton = true;
+      }
+    }
   }
 
   getBackgroundColor(): string | undefined {
@@ -567,6 +636,7 @@ export class ClassSuggestionComponent implements OnInit {
 
   doYes(): void {
     this.haveAlertYN = false;
+    this.activateClass();
   }
 
   doNo(): void {

@@ -117,7 +117,7 @@ export class SessionManagementComponent implements OnInit {
           body:
             'Lịch học của lớp ' +
             this.classModel?.className +
-            ' vừa thay đổi. Vui lòng xem lịch chi tiết !',
+            ' vừa thay đổi. Vui lòng xem lịch chi tiết để biết thêm thông tin, trung tâm CNPR chân thành cám ơn !',
         };
         this.api.createNotiForClass(request).subscribe((response) => {
           console.log('Kết quả gửi thông báo session: ' + response);

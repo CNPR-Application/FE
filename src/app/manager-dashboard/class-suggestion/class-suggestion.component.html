@@ -167,7 +167,7 @@
         <button
           class="suggest-btn"
           *ngIf="isDisplayActivateButton && !isOpeningChangeStudentFrame"
-          (click)="activateClass()"
+          (click)="preActivateClass()"
         >
           Khai giảng
         </button>
@@ -176,6 +176,18 @@
         <p class="label">Tên lớp học</p>
         <input class="input" type="text" formControlName="name" />
         <p class="invalid">Vui lòng điền tên lớp</p>
+      </div>
+      <div class="input-div">
+        <p class="label">Ngày khai giảng</p>
+        <input
+          class="input"
+          type="date"
+          formControlName="openingDate"
+          [min]="today"
+          [ngModel]="openingDate | date: 'yyyy-MM-dd'"
+          (change)="getRoomListChange()"
+        />
+        <p class="invalid">Vui lòng điền ngày khai giảng</p>
       </div>
       <div class="input-div">
         <p class="label">Giáo viên</p>
@@ -194,7 +206,6 @@
         </select>
         <p class="invalid">Vui lòng điền tên giáo viên</p>
       </div>
-
       <div class="input-div">
         <p class="label">Phòng</p>
         <select
@@ -208,18 +219,6 @@
           </option>
         </select>
         <p class="invalid">Vui lòng điền phòng</p>
-      </div>
-      <div class="input-div">
-        <p class="label">Ngày khai giảng</p>
-        <input
-          class="input"
-          type="date"
-          formControlName="openingDate"
-          [min]="today"
-          [ngModel]="openingDate | date: 'yyyy-MM-dd'"
-          (change)="getRoomListChange()"
-        />
-        <p class="invalid">Vui lòng điền ngày khai giảng</p>
       </div>
       <div class="input-div">
         <p class="label">Môn học</p>
@@ -251,24 +250,26 @@
     </div>
     <div style="width: 75%" *ngIf="!isOpeningChangeStudentFrame">
       <div class="booking-list-header" *ngIf="studentPerClassObject">
-        <p class="title-small" style="width: 99%; font-size: 12px">
+        <p class="title-small" style="width: 70%; font-size: 12px">
           Danh sách {{ studentPerClassObject.numberOfStudent }} học sinh của lớp
         </p>
-        <mat-icon
-          class="icon-change-student"
-          title="Khôi phục danh sách cũ"
-          style="margin-right: 1em"
-          *ngIf="activateClassArray.length == 0"
-          (click)="undoOptimize()"
-          >autorenew</mat-icon
-        >
-        <mat-icon
-          class="icon-change-student"
-          title="Chỉnh sửa danh sách học sinh"
-          *ngIf="!studentPerClassObject.isActivated"
-          (click)="openChangeStudentFrame()"
-          >view_list</mat-icon
-        >
+        <div style="width: 30%; justify-content: flex-end" class="flex">
+          <mat-icon
+            class="icon-change-student"
+            title="Khôi phục danh sách cũ"
+            style="margin-right: 1em"
+            *ngIf="activateClassArray.length == 0"
+            (click)="undoOptimize()"
+            >autorenew</mat-icon
+          >
+          <mat-icon
+            class="icon-change-student"
+            title="Chỉnh sửa danh sách học sinh"
+            *ngIf="studentPerClassObject.isActivated != 1"
+            (click)="openChangeStudentFrame()"
+            >view_list</mat-icon
+          >
+        </div>
       </div>
       <div class="booking-grid" *ngIf="!isLoadingInner">
         <div
@@ -509,13 +510,13 @@
   </div>
 </div>
 <div class="alert-div" *ngIf="haveAlertOk">
-  <div class="alert">
+  <div class="alert" style="padding-bottom: 0">
     <p>{{ alertMessage }}</p>
     <button (click)="haveAlertOk = !haveAlertOk">OK</button>
   </div>
 </div>
 <div class="alert-div" *ngIf="haveAlertYN">
-  <div class="alert" *ngIf="haveAlertYN">
+  <div class="alert" *ngIf="haveAlertYN" style="padding-bottom: 2em">
     <p>{{ alertMessage }}</p>
     <button (click)="doYes()">Có</button>
     <button (click)="doNo()">Không</button>

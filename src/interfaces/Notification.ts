@@ -35,6 +35,16 @@ export interface NotiPersonRequest {
   body: string;
 }
 
-export interface NotiPutRequest{
-  isRead : boolean;
+export interface NotiPutRequest {
+  isRead: boolean;
+}
+
+export interface NotiGroupRequest {
+  username: Array<string>;
+  senderUsername: string;
+  title: string;
+  body: string;
+  className: string;
+  oldOpeningDate: string;
+  newOpeningDate: string;
 }

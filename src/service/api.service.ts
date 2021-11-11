@@ -14,6 +14,7 @@ import {
 } from 'src/interfaces/Student';
 import {
   CreateInFoResponse,
+  GetByRoleResponseArray,
   Guest,
   GuestArray,
   ImageRequest,
@@ -45,6 +46,7 @@ import {
   NotiBranchRequest,
   NotiClassRequest,
   NotificationListResponse,
+  NotiGroupRequest,
   NotiPersonRequest,
   NotiPutRequest,
 } from '../interfaces/Notification';
@@ -367,6 +369,17 @@ export class ApiService {
       .pipe(retry(1));
   }
 
+  searchInfoByRoleBranchIsAvail(
+    role: string,
+    branchId: number,
+    isAvailable: boolean
+  ): Observable<GetByRoleResponseArray> {
+    const url = `${this.rootUrl}accounts-by-role?branchId=${branchId}&role=${role}&isAvailable=${isAvailable}`;
+    return this.http
+      .get<GetByRoleResponseArray>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
   //image
   uploadImage(request: ImageRequest, id: string): Observable<ImageResponse> {
     const url = `${this.rootUrl}image?id=${id}`;
@@ -399,6 +412,13 @@ export class ApiService {
     const url = `${this.rootUrl}classes?branchId=${branchId}&status=${status}&pageNo=${pageNo}&pageSize=${pageSize}`;
     return this.http
       .get<ClassArray>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  getClassDetail(classId: number): Observable<ClassResponse> {
+    const url = `${this.rootUrl}classes/${classId}`;
+    return this.http
+      .get<ClassResponse>(url, { headers: this.headers })
       .pipe(retry(1));
   }
 
@@ -440,9 +460,9 @@ export class ApiService {
       .pipe(retry(1));
   }
 
-  activateClass(request: ClassActivationRequest): Observable<boolean> {
+  activateClass(request: ClassActivationRequest): Observable<number> {
     const url = `${this.rootUrl}activate-class`;
-    return this.http.post<boolean>(url, request, { headers: this.headers });
+    return this.http.post<number>(url, request, { headers: this.headers });
   }
 
   getClassStatistic(branchId: number): Observable<ClassStatus> {
@@ -450,6 +470,11 @@ export class ApiService {
     return this.http
       .get<ClassStatus>(url, { headers: this.headers })
       .pipe(retry(1));
+  }
+
+  editClass(classId: number, request: ClassRequest): Observable<boolean> {
+    const url = `${this.rootUrl}classes/${classId}`;
+    return this.http.put<boolean>(url, request, { headers: this.headers });
   }
 
   //student in class
@@ -724,6 +749,13 @@ export class ApiService {
 
   createNotiForPerson(request: NotiPersonRequest): Observable<boolean> {
     const url = `${this.rootUrl}notification-to-person`;
+    return this.http
+      .post<boolean>(url, request, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  createNotiForGroup(request: NotiGroupRequest): Observable<boolean> {
+    const url = `${this.rootUrl}notification-to-group`;
     return this.http
       .post<boolean>(url, request, { headers: this.headers })
       .pipe(retry(1));
