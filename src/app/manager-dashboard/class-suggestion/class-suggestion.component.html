@@ -51,33 +51,6 @@
         (select)="onSelect($event)"
       >
       </ngx-charts-pie-grid>
-      <button
-        *ngIf="!isOptimize"
-        class="optimize-button"
-        (click)="optimizeClass()"
-      >
-        Tối Ưu Hóa Số Lượng Lớp
-      </button>
-      <div class="menu-div" *ngIf="isOptimize">
-        <div class="icon-div" title="Điền thông tin lớp">
-          <mat-icon style="height: auto; font-size: 21px">vpn_key</mat-icon>
-        </div>
-        <p>------------</p>
-        <div class="icon-div" title="Thêm học sinh">
-          <mat-icon style="height: auto; font-size: 21px">how_to_reg</mat-icon>
-        </div>
-        <p>------------</p>
-        <div class="icon-div" title="Hoàn tất">
-          <mat-icon style="height: auto; font-size: 21px">touch_app</mat-icon>
-        </div>
-        <mat-icon
-          class="icon-change-student"
-          title="Quay lại trước khi tối ưu"
-          (click)="undoOptimize()"
-          style="font-size: 24px; color: #1761fd; padding-left: 1em"
-          >autorenew</mat-icon
-        >
-      </div>
     </div>
     <div class="result-div" *ngIf="activateClassArray.length != 0">
       <div
@@ -277,13 +250,22 @@
       </div>
     </div>
     <div style="width: 75%" *ngIf="!isOpeningChangeStudentFrame">
-      <div class="booking-list-header" *ngIf="numberOfStudentPerClass >= 3">
+      <div class="booking-list-header" *ngIf="studentPerClassObject">
         <p class="title-small" style="width: 99%; font-size: 12px">
-          Danh sách {{ numberOfStudentPerClass }} học sinh của lớp
+          Danh sách {{ studentPerClassObject.numberOfStudent }} học sinh của lớp
         </p>
         <mat-icon
           class="icon-change-student"
+          title="Khôi phục danh sách cũ"
+          style="margin-right: 1em"
+          *ngIf="activateClassArray.length == 0"
+          (click)="undoOptimize()"
+          >autorenew</mat-icon
+        >
+        <mat-icon
+          class="icon-change-student"
           title="Chỉnh sửa danh sách học sinh"
+          *ngIf="!studentPerClassObject.isActivated"
           (click)="openChangeStudentFrame()"
           >view_list</mat-icon
         >
@@ -318,55 +300,92 @@
         class="booking-list-header"
         style="padding: 15px; padding-right: 25px; justify-content: flex-end"
       >
-        <mat-icon
-          class="icon-change-student"
-          title="Khôi phục danh sách cũ"
-          style="margin-right: 1em"
-          (click)="openChangeStudentFrame()"
-          >autorenew</mat-icon
-        >
-        <button
-          class="suggest-btn"
-          style="margin-right: 1.5em"
-          (click)="closeChangeStudentFrame()"
-        >
-          Quay lại
+        <button class="suggest-btn" (click)="closeChangeStudentFrame()">
+          Chỉnh sửa
         </button>
-        <button class="suggest-btn">Chỉnh sửa</button>
       </div>
-      <div
-        style="border: 1px solid #1d39c81a; border-top: none; display: flex"
-        *ngIf="changeClickedArray"
-      >
+      <div style="border: 1px solid #1d39c81a; border-top: none; display: flex">
+        <!-- menu -->
         <div style="width: 14%; text-align: center; padding-top: 4.4em">
           <div
+            *ngIf="changeClickedObject"
             class="menu-class"
-            *ngFor="let classObject of allChangeObjectArray"
+            [style.background-color]="changeClickedObject.color"
+            style="border: 1.5px solid #00bcf7"
+          >
+            {{ changeClickedObject.label }}
+          </div>
+          <div
+            class="menu-class"
+            (click)="changeMenuIsOpenClass(classObject)"
+            *ngFor="let classObject of allIsChosenObjectArray"
             [style.background-color]="classObject.color"
+            [ngStyle]="{
+              border:
+                isChosenObject && classObject.label == isChosenObject.label
+                  ? '1.5px solid #00bcf7'
+                  : 'none'
+            }"
           >
             {{ classObject.label }}
           </div>
         </div>
+        <!-- click class -->
         <div
           style="width: 32%; height: 42.5em; overflow-y: auto"
           cdkDropList
           id="listOne"
-          [cdkDropListData]="changeClickedArray"
+          [cdkDropListData]="changeClickedObject.studentPerClassArray"
           [cdkDropListConnectedTo]="['listTwo']"
           (cdkDropListDropped)="drop($event)"
+          *ngIf="changeClickedObject"
         >
           <div class="title-change-student-div">
-            <div class="title-class" *ngIf="changeClickedObject">
+            <div class="title-class">
               {{ changeClickedObject.label }} :
-              {{ changeClickedObject.numberOfStudent }}
+              {{ changeClickedObject.studentPerClassArray.length }}
               học viên
             </div>
-            <div class="num-div">+1</div>
+            <div
+              class="num-div"
+              *ngIf="
+                changeClickedObject.studentPerClassArray.length >
+                changeClickedObject.numberOfStudent
+              "
+            >
+              +
+              {{
+                changeClickedObject.studentPerClassArray.length -
+                  changeClickedObject.numberOfStudent
+              }}
+            </div>
+            <div
+              class="num-div"
+              *ngIf="
+                changeClickedObject.numberOfStudent >
+                changeClickedObject.studentPerClassArray.length
+              "
+            >
+              —
+              {{
+                changeClickedObject.numberOfStudent -
+                  changeClickedObject.studentPerClassArray.length
+              }}
+            </div>
+            <div
+              class="num-div"
+              *ngIf="
+                changeClickedObject.numberOfStudent ==
+                changeClickedObject.studentPerClassArray.length
+              "
+            >
+              __
+            </div>
           </div>
           <div
             cdkDrag
             class="student-div-activate-class"
-            *ngFor="let student of changeClickedArray"
+            *ngFor="let student of changeClickedObject.studentPerClassArray"
           >
             <div
               class="color-div-activate-class"
@@ -389,14 +408,57 @@
             </div>
           </div>
         </div>
+        <!-- other class -->
         <div class="all-student-grid">
-          <div *ngFor="let classObject of isChosenObjectArray">
+          <div *ngIf="isChosenObject">
             <div class="title-change-student-div" style="width: 30em">
-              <div class="title-class" *ngIf="classObject" style="width: 93%">
-                {{ classObject.label }} : {{ classObject.numberOfStudent }}
+              <div
+                class="title-class"
+                *ngIf="isChosenObject"
+                style="width: 93%"
+              >
+                {{ isChosenObject.label }} :
+                {{ isChosenObject.studentPerClassArray.length }}
                 học viên
               </div>
-              <div class="num-div" style="width: 7%">+1</div>
+              <div
+                class="num-div"
+                style="width: 7%"
+                *ngIf="
+                  isChosenObject.studentPerClassArray.length >
+                  isChosenObject.numberOfStudent
+                "
+              >
+                +
+                {{
+                  isChosenObject.studentPerClassArray.length -
+                    isChosenObject.numberOfStudent
+                }}
+              </div>
+              <div
+                class="num-div"
+                style="width: 7%"
+                *ngIf="
+                  isChosenObject.numberOfStudent >
+                  isChosenObject.studentPerClassArray.length
+                "
+              >
+                　—
+                {{
+                  isChosenObject.numberOfStudent -
+                    isChosenObject.studentPerClassArray.length
+                }}
+              </div>
+              <div
+                class="num-div"
+                style="width: 7%"
+                *ngIf="
+                  isChosenObject.numberOfStudent ==
+                  isChosenObject.studentPerClassArray.length
+                "
+              >
+                __
+              </div>
             </div>
             <div
               style="
@@ -404,21 +466,21 @@
                 grid-template-columns: 15em 15em;
                 grid-row-gap: 17px;
               "
-              [style.grid-template-rows]="classObject.gridRow"
+              [style.grid-template-rows]="isChosenObject.gridRow"
               cdkDropList
               id="listTwo"
-              [cdkDropListData]="classObject.studentPerClassArray"
+              [cdkDropListData]="isChosenObject.studentPerClassArray"
               [cdkDropListConnectedTo]="['listOne']"
               (cdkDropListDropped)="drop($event)"
             >
               <div
                 class="student-div-activate-class"
                 cdkDrag
-                *ngFor="let student of classObject.studentPerClassArray"
+                *ngFor="let student of isChosenObject.studentPerClassArray"
               >
                 <div
                   class="color-div-activate-class"
-                  [style.background-color]="classObject.color"
+                  [style.background-color]="isChosenObject.color"
                 ></div>
                 <div class="img-div-activate-class">
                   <img

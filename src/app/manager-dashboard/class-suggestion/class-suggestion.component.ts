@@ -1,9 +1,10 @@
 import {
   CdkDragDrop,
   moveItemInArray,
-  transferArrayItem
+  transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { DatePipe, formatDate } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginResponse } from 'src/interfaces/Account';
@@ -82,7 +83,7 @@ export class ClassSuggestionComponent implements OnInit {
     this.branchId = this.classModel?.branchId;
     this.getBookingList();
     this.getTeacherList();
-    this.getStartChart();
+    this.optimizeClass();
     this.getRoomList();
     this.initForm();
   }
@@ -237,41 +238,6 @@ export class ClassSuggestionComponent implements OnInit {
     domain: ['#aaece5', '#ffe6b1', '#b3d7f3', '#e3c5d5', '#c3cdd7'],
   };
 
-  getStartChart(): void {
-    // start chart
-    if (this.classModel?.numberOfStudent) {
-      var numOfStudent: number = this.classModel?.numberOfStudent;
-      var i = 1;
-      this.chartArray = [];
-      if (numOfStudent >= this.MIN_CLASS_NUM) {
-        var numClass = Math.floor(numOfStudent / this.MIN_CLASS_NUM);
-        while (numClass > 0) {
-          let item: Single_Chart = {
-            name: 'Lớp ' + i,
-            value: this.MIN_CLASS_NUM,
-          };
-          i++;
-          numClass--;
-          this.chartArray.push(item);
-        }
-      }
-      var remainder = numOfStudent % this.MIN_CLASS_NUM;
-      if (remainder > 0) {
-        let item: Single_Chart = {
-          name: 'Lớp ' + i,
-          value: remainder,
-        };
-        this.chartArray.push(item);
-      }
-      this.xAxisLabel =
-        'Tổng chưa tối ưu : ' +
-        numOfStudent +
-        ' học sinh & ' +
-        this.chartArray.length +
-        ' lớp';
-    }
-  }
-
   optimizeClass() {
     var chartArrayAfter: Array<Single_Chart> = [];
     if (this.classModel?.numberOfStudent) {
@@ -353,7 +319,7 @@ export class ClassSuggestionComponent implements OnInit {
 
   undoOptimize() {
     this.allStudentPerClassObjectArray = undefined;
-    this.getStartChart();
+    this.optimizeClass();
     this.isOptimize = false;
     this.isDisplayStudent = false;
   }
@@ -450,68 +416,6 @@ export class ClassSuggestionComponent implements OnInit {
     }
   }
 
-  // change student list per class
-  changeClickedObject?: BookingPerClass; //object of current click in change frame
-  changeClickedArray?: Array<Booking>; //object of current click in change frame
-  allChangeObjectArray?: Array<BookingPerClass>; // array of all array of booking ( after process ) in change frame
-  isChosenObjectArray?: Array<BookingPerClass>;
-
-  isOpeningChangeStudentFrame = false;
-  colorIndex: number = 5;
-  colorArray: Array<string> = [
-    'rgb(170, 236, 229,0.7)',
-    'rgb(255,230,177,0.7)',
-    'rgb(179, 215, 243,0.7)',
-    'rgb(227,197,213,0.7)',
-    'rgb(195,205,215,0.7)',
-  ];
-
-  openChangeStudentFrame(): void {
-    this.isChosenObjectArray = [];
-    this.allChangeObjectArray = [];
-    this.changeClickedArray = [];
-    if (this.studentPerClassObject) {
-      this.changeClickedObject = this.studentPerClassObject;
-      this.changeClickedArray =
-        this.changeClickedObject.getStudentPerClassArray();
-    }
-    if (this.allStudentPerClassObjectArray) {
-      this.allChangeObjectArray = this.allStudentPerClassObjectArray;
-      this.allStudentPerClassObjectArray.forEach((x) => {
-        if (x.label != this.studentPerClassObject?.label) {
-          this.isChosenObjectArray?.push(x);
-        }
-      });
-    }
-    this.isOpeningChangeStudentFrame = true;
-  }
-
-  closeChangeStudentFrame(): void {
-    this.isOpeningChangeStudentFrame = false;
-  }
-
-  getBackgroundColor(): string | undefined {
-    return this.studentPerClassObject?.color;
-  }
-
-  drop(event: CdkDragDrop<Booking[]>) {
-    if (event.previousContainer !== event.container) {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-    } else {
-      if (this.changeClickedArray)
-        moveItemInArray(
-          this.changeClickedArray,
-          event.previousIndex,
-          event.currentIndex
-        );
-    }
-  }
-
   //activate class
   activateClass() {
     let form1: FormGroup = this.form;
@@ -540,6 +444,11 @@ export class ClassSuggestionComponent implements OnInit {
     studentPerClassObject?.setClassActivateRequest(request);
     // thêm lớp hiện tại vào mảng activate
     if (studentPerClassObject) {
+      this.activateClassArray.forEach((x) => {
+        if (x == studentPerClassObject) {
+          this.activateClassArray.filter((y) => y !== x);
+        }
+      });
       this.activateClassArray.push(studentPerClassObject);
       index = this.activateClassArray.length - 1;
     }
@@ -551,15 +460,105 @@ export class ClassSuggestionComponent implements OnInit {
           }
         }
       },
-      (error) => {
+      (error: HttpErrorResponse) => {
         console.log(error);
+        if (error.error == 'Opening Day must be a day in Shift!') {
+          this.callAlert(
+            'Ok',
+            'Ngày khai giảng bạn chọn không khớp với ca học'
+          );
+        } else {
+          this.callAlert(
+            'Ok',
+            'Có lỗi xảy ra khi khai giảng lớp vui lòng thử lại'
+          );
+        }
         this.activateClassArray[index].setIsActivated(2);
-        this.callAlert(
-          'Ok',
-          'Có lỗi xảy ra khi khai giảng lớp vui lòng thử lại'
-        );
       }
     );
+  }
+
+  // change student list per class
+  changeClickedObject?: BookingPerClass; //object of current click in change frame
+  allIsChosenObjectArray?: Array<BookingPerClass>; // array of all array of booking ( after process ) in change frame
+  isChosenObject?: BookingPerClass; //object chosen to change with current click object
+
+  isOpeningChangeStudentFrame = false;
+  colorIndex: number = 5;
+  colorArray: Array<string> = [
+    'rgb(170, 236, 229,0.7)',
+    'rgb(255,230,177,0.7)',
+    'rgb(179, 215, 243,0.7)',
+    'rgb(227,197,213,0.7)',
+    'rgb(195,205,215,0.7)',
+  ];
+
+  openChangeStudentFrame(): void {
+    this.allIsChosenObjectArray = [];
+    this.isChosenObject = undefined;
+    this.changeClickedObject = undefined;
+    if (this.studentPerClassObject && !this.studentPerClassObject.isActivated) {
+      this.changeClickedObject = this.studentPerClassObject;
+    }
+    if (this.allStudentPerClassObjectArray) {
+      for (let i = 0; i < this.allStudentPerClassObjectArray.length; i++) {
+        if (
+          this.allStudentPerClassObjectArray[i].label !=
+            this.studentPerClassObject?.label &&
+          !this.allStudentPerClassObjectArray[i].isActivated
+        ) {
+          this.allIsChosenObjectArray.push(
+            this.allStudentPerClassObjectArray[i]
+          );
+        }
+      }
+    }
+    this.isChosenObject = this.allIsChosenObjectArray[0];
+    this.isOpeningChangeStudentFrame = true;
+  }
+
+  changeMenuIsOpenClass(newIsOpenClass: BookingPerClass) {
+    this.isChosenObject = newIsOpenClass;
+  }
+
+  closeChangeStudentFrame(): void {
+    this.changeClickedObject?.setNumberOfStudent(
+      this.changeClickedObject.studentPerClassArray.length
+    );
+    this.allIsChosenObjectArray?.forEach((x) =>
+      x.setNumberOfStudent(x.studentPerClassArray.length)
+    );
+    this.isOpeningChangeStudentFrame = false;
+    this.chartArray = [];
+    this.allStudentPerClassObjectArray?.forEach((x) => {
+      let item: Single_Chart = {
+        name: x.label,
+        value: x.numberOfStudent,
+      };
+      this.chartArray.push(item);
+    });
+  }
+
+  getBackgroundColor(): string | undefined {
+    return this.studentPerClassObject?.color;
+  }
+
+  drop(event: CdkDragDrop<Booking[]>) {
+    if (event.previousContainer !== event.container) {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    } else {
+      if (this.changeClickedObject?.studentPerClassArray)
+        moveItemInArray(
+          this.changeClickedObject.studentPerClassArray,
+          event.previousIndex,
+          event.currentIndex
+        );
+    }
   }
 
   haveAlertOk: boolean = false;
