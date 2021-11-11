@@ -73,7 +73,7 @@ export class StudentManagementComponent implements OnInit {
           (response) => {
             this.studentArray = response.studentResponseDtos;
             this.currentPage = response.pageNo;
-            this.pageArray = Array(response.pageTotal)
+            this.pageArray = Array(response.totalPage)
               .fill(1)
               .map((x, i) => i + 1)
               .reverse();
@@ -107,7 +107,7 @@ export class StudentManagementComponent implements OnInit {
             (response) => {
               this.studentArray = response.studentList;
               this.currentPage = response.pageNo;
-              this.pageArray = Array(response.pageTotal)
+              this.pageArray = Array(response.totalPage)
                 .fill(1)
                 .map((x, i) => i + 1)
                 .reverse();
