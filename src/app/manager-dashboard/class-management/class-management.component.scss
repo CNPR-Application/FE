@@ -320,4 +320,13 @@
     margin-top: 15px;
     display: block;
   }
+  .link {
+    text-decoration: underline;
+    text-align: center;
+    margin: auto;
+    color: blue;
+    font-size: 12px;
+    cursor: pointer;
+    padding-top: 0.5em;
+  }
 }

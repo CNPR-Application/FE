@@ -4,13 +4,21 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LoginResponse } from 'src/interfaces/Account';
-import { ClassArray, ClassResponse, ClassStatus } from 'src/interfaces/Class';
+import {
+  ClassArray,
+  ClassEditRequest,
+  ClassResponse,
+  ClassStatus,
+} from 'src/interfaces/Class';
 import { NotiPersonRequest } from 'src/interfaces/Notification';
 import { Shift, ShiftArray } from 'src/interfaces/Shift';
 import { Subject, SubjectArray } from 'src/interfaces/Subject';
 import { ApiService } from 'src/service/api.service';
 import { LocalStorageService } from 'src/service/local-storage.service';
+import { StudentInClassComponent } from '../schedule/student-in-class/student-in-class.component';
+import { ClassBookingComponent } from './class-booking/class-booking.component';
 import { ClassCreateComponent } from './class-create/class-create.component';
+import { ClassEditComponent } from './class-edit/class-edit.component';
 
 @Component({
   selector: 'app-class-management',
@@ -38,6 +46,7 @@ export class ClassManagementComponent implements OnInit {
   pageArray?: Array<number>;
   //clickId
   clickedId: number = 0;
+  selectedClass?: ClassResponse;
   //for search
   status: string = 'waiting';
   subjectId: number = 0;
@@ -135,6 +144,8 @@ export class ClassManagementComponent implements OnInit {
       this.form.disable();
     }
     this.form.reset();
+    this.clickedId = 0;
+    this.selectedClass = undefined;
     this.getClassAll(this.branchId, this.status, 1);
   }
 
@@ -172,15 +183,38 @@ export class ClassManagementComponent implements OnInit {
     });
   }
 
-  openEditDialog(selectedClass: ClassResponse): void {
-    let dialogRef = this.dialog.open(ClassCreateComponent, {
-      data: { type: 'edit', class: selectedClass },
+  openEditDialog(): void {
+    let dialogRef = this.dialog.open(ClassEditComponent, {
+      data: { class: this.selectedClass },
     });
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
         this.getClassAll(this.branchId, this.status, 1);
       }
     });
+  }
+
+  isOverdue(openingDate?: string): boolean {
+    if (openingDate) {
+      let newDate = new Date(openingDate);
+      let now = new Date();
+      if (newDate.getTime() < now.getTime()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  viewStudent() {
+    if (this.status != 'waiting') {
+      let dialogRef = this.dialog.open(StudentInClassComponent, {
+        data: { classId: this.clickedId },
+      });
+    } else {
+      let dialogRef = this.dialog.open(ClassBookingComponent, {
+        data: { classId: this.clickedId },
+      });
+    }
   }
 
   searchClass(
@@ -250,8 +284,36 @@ export class ClassManagementComponent implements OnInit {
     );
   }
 
+  deleteClass() {
+    if (this.selectedClass && this.selectedClass.classId) {
+      this.isLoading = true;
+      let request: ClassEditRequest = {
+        className: this.selectedClass.className,
+        roomId: 0,
+        status: 'canceled',
+      };
+      this.api.editClass(this.selectedClass?.classId, request).subscribe(
+        (response) => {
+          this.isLoading = false;
+          if (response) {
+            this.callAlert('Ok', 'Xóa thành công');
+            this.getClassAll(this.branchId, this.status, 1);
+          } else {
+            this.callAlert('Ok', 'Có lỗi xảy ra khi xóa, vui lòng thử lại');
+          }
+        },
+        (error) => {
+          console.log(error);
+          this.callAlert('Ok', 'Có lỗi xảy ra khi xóa, vui lòng thử lại');
+          this.isLoading = false;
+        }
+      );
+    }
+  }
+
   setFormDetail(c: ClassResponse) {
     if (c.classId) this.clickedId = c.classId;
+    this.selectedClass = c;
     this.form.controls.id.setValue(c.classId);
     this.form.controls.name.setValue(c.className);
     this.openingDate = c.openingDate;
@@ -271,6 +333,7 @@ export class ClassManagementComponent implements OnInit {
 
   doYes(): void {
     this.haveAlertYN = false;
+    this.deleteClass();
   }
 
   doNo(): void {

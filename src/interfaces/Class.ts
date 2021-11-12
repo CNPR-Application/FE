@@ -39,6 +39,13 @@ export interface ClassRequest {
   roomName?: string;
 }
 
+export interface ClassEditRequest {
+  className?: string;
+  openingDate?: string;
+  roomId?: number;
+  status?: string;
+}
+
 export interface ClassStatus {
   waitingClass: number;
   studyingClass: number;

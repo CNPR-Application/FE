@@ -1,7 +1,7 @@
 import {
   CdkDragDrop,
   moveItemInArray,
-  transferArrayItem
+  transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { DatePipe, formatDate } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -10,7 +10,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginResponse } from 'src/interfaces/Account';
 import { Booking, BookingArray } from 'src/interfaces/Booking';
 import {
-  ClassActivationRequest, ClassResponse
+  ClassActivationRequest,
+  ClassEditRequest,
+  ClassResponse,
 } from 'src/interfaces/Class';
 import { NotiClassRequest } from 'src/interfaces/Notification';
 import { RoomResponse } from 'src/interfaces/Room';
@@ -145,6 +147,7 @@ export class ClassSuggestionComponent implements OnInit {
             }
           },
           (error) => {
+            this.isLoadingInner = false;
             this.callAlert(
               'Ok',
               'Có lỗi xảy ra khi tải học sinh đăng ký, vui lòng thử lại'
@@ -459,6 +462,11 @@ export class ClassSuggestionComponent implements OnInit {
         if (this.activateClassArray[index]) {
           this.activateClassArray[index].setIsActivated(1);
         }
+        let date = formatDate(
+          form1.controls.openingDate.value,
+          'dd-MM-yyyy',
+          'en-US'
+        );
         let request: NotiClassRequest = {
           classId: response,
           senderUsername: 'system',
@@ -469,12 +477,19 @@ export class ClassSuggestionComponent implements OnInit {
             'Trung tâm CNPR thông báo lớp học ' +
             studentPerClassObject?.classActivateRequest?.className +
             ' bạn đăng ký sẽ khai giảng vào ngày ' +
-            form1.controls.openingDate.value +
-            '.Để biết thêm thông tin chi tiết, vui lòng truy cập mục Lớp Học/Lịch Học.Chân Thành Cám Ơn !',
+            date +
+            '.Để biết thêm thông tin chi tiết, vui lòng truy cập mục Lớp Học/Lịch Học.Chân thành cám ơn !',
         };
         this.api.createNotiForClass(request).subscribe((response) => {
           console.log('Kết quả gửi thông báo session: ' + response);
+          if (response) {
+            this.callAlert(
+              'Ok',
+              'Gửi thông báo về khai giảng cho giáo viên và học sinh của lớp thành công !'
+            );
+          }
         });
+        this.cancelClass();
       },
       (error: HttpErrorResponse) => {
         console.log(error);
@@ -494,6 +509,27 @@ export class ClassSuggestionComponent implements OnInit {
         this.activateClassArray[index].setIsActivated(2);
       }
     );
+  }
+
+  //if all class is activated, change class status to cancel
+  cancelClass() {
+    if (this.allStudentPerClassObjectArray?.every((x) => x.isActivated == 1)) {
+      if (this.classModel?.classId) {
+        let request: ClassEditRequest = {
+          className: this.classModel.className,
+          roomId: 0,
+          status: 'canceled',
+        };
+        this.api
+          .editClass(this.classModel?.classId, request)
+          .subscribe((response) => {
+            console.log(
+              'Change status to cancel when all classes are activated: ' +
+                response
+            );
+          });
+      }
+    }
   }
 
   //ask when number of student invalid

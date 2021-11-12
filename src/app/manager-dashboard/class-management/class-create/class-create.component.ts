@@ -42,7 +42,7 @@ export class ClassCreateComponent implements OnInit {
     openingDate: ['', Validators.required],
     subjectId: ['', Validators.required],
     shiftId: ['', Validators.required],
-    status: ['Chờ mở lớp', Validators.required]
+    status: ['Chờ mở lớp', Validators.required],
   });
 
   //for logic
@@ -88,7 +88,7 @@ export class ClassCreateComponent implements OnInit {
       subjectId: +this.form.controls.subjectId.value,
       branchId: this.data.branchId,
       openingDate: this.form.controls.openingDate.value,
-      creator: user.username
+      creator: user.username,
     };
     this.isLoading = true;
     this.api.createClass(request).subscribe(
@@ -108,7 +108,12 @@ export class ClassCreateComponent implements OnInit {
         } else if (
           error.error === 'Class Opening Date is null or in the past!'
         ) {
-          this.callAlert('Ok', 'Ngày khai trương không hợp lệ');
+          this.callAlert('Ok', 'Ngày khai giảng không hợp lệ');
+        } else if (error.error == 'Opening Day must be a day in Shift!') {
+          this.callAlert(
+            'Ok',
+            'Ngày khai giảng bạn chọn không khớp với ca học'
+          );
         } else {
           this.callAlert('Ok', 'Có lỗi xảy ra vui lòng thử lại');
         }

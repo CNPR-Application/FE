@@ -1,0 +1,70 @@
+<div
+  *ngIf="isLoading"
+  class="loading-page loading-page-popup"
+  style="margin-left: -16.5em"
+>
+  <img
+    class="loading-popup"
+    style="top: 47%"
+    src="/assets/image/loading.gif"
+    alt="Logo image"
+  />
+</div>
+<div
+  style="display: flex; overflow: auto; height: 29em"
+  *ngIf="!isLoading && isDisplayHalf"
+>
+  <div style="width: 50%">
+    <div
+      class="high-light-class-div"
+      style="margin-top: 1em"
+      *ngFor="let item of half1List"
+    >
+      <img [src]="item.image" class="img-teacher" />
+      <div class="inner-div">
+        <p class="class-name">{{ item.studentName }}</p>
+        <p class="class-time">
+          {{ item.studentUsername }}
+        </p>
+      </div>
+    </div>
+  </div>
+  <div style="width: 50%">
+    <div
+      class="high-light-class-div"
+      style="margin-top: 1em; margin-left: 1em"
+      *ngFor="let item of half2List"
+    >
+      <img [src]="item.image" class="img-teacher" />
+      <div class="inner-div">
+        <p class="class-name">{{ item.studentName }}</p>
+        <p class="class-time">
+          {{ item.studentUsername }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div style="display: flex" *ngIf="!isLoading && !isDisplayHalf">
+  <div style="width: 100%">
+    <div
+      class="high-light-class-div"
+      style="margin-top: 1em"
+      *ngFor="let item of studentList"
+    >
+      <img [src]="item.image" class="img-teacher" />
+      <div class="inner-div">
+        <p class="class-name">{{ item.studentName }}</p>
+        <p class="class-time">
+          {{ item.studentUsername }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="alert-div alert-div-popup" *ngIf="haveAlertOk">
+  <div class="alert alert-popup">
+    <p>{{ alertMessage }}</p>
+    <button (click)="close()">OK</button>
+  </div>
+</div>

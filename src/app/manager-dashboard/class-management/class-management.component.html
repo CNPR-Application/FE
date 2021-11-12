@@ -99,6 +99,7 @@
     <div class="right-table">
       <table class="table">
         <tr class="header">
+          <th style="width: 4%" *ngIf="status == 'waiting'"></th>
           <th class="th1">Lớp học</th>
           <th class="th2">Môn học</th>
           <th class="th3">Ca học</th>
@@ -114,6 +115,18 @@
               class.classId === clickedId ? 'rgba(236, 237, 241, 0.2)' : 'white'
           }"
         >
+          <td style="text-align: right" *ngIf="status == 'waiting'">
+            <mat-icon
+              *ngIf="isOverdue(class.openingDate)"
+              style="
+                color: #f5325c;
+                font-size: 16px;
+                padding-top: 5px;
+                height: auto;
+              "
+              >alarm</mat-icon
+            >
+          </td>
           <td class="color-blue" (click)="setFormDetail(class)">
             {{ class.className }}
           </td>
@@ -158,11 +171,26 @@
         <p class="label" style="font-size: 11px; width: 77%; text-align: left">
           ID: {{ clickedId }}
         </p>
-        <button class="suggest-btn" *ngIf="status == 'waiting'">
+        <button
+          class="suggest-btn"
+          *ngIf="status == 'waiting' && selectedClass"
+          (click)="openEditDialog()"
+        >
           Chỉnh sửa
         </button>
-        <button class="suggest-btn" *ngIf="status != 'waiting'">
-          Xem thêm
+        <button
+          class="suggest-btn"
+          *ngIf="status == 'studying'"
+          routerLink="/manager-dashboard/attendance"
+        >
+          Điểm danh
+        </button>
+        <button
+          class="suggest-btn"
+          *ngIf="status == 'finished'"
+          routerLink="/manager-dashboard/feedback"
+        >
+          Feedbacks
         </button>
       </div>
       <div class="input-div">
@@ -237,11 +265,34 @@
         <p class="label">Ngày khai giảng</p>
         <input
           class="input"
-          type="date"
+          type="text"
           formControlName="openingDate"
-          [ngModel]="openingDate | date: 'yyyy-MM-dd'"
+          [ngModel]="openingDate | date: 'dd-MM-yyyy'"
+          readonly
         />
         <p class="invalid">Vui lòng điền ngày khai giảng</p>
+      </div>
+      <div
+        class="flex center-justify"
+        *ngIf="
+          selectedClass &&
+          selectedClass.numberOfStudent &&
+          selectedClass.numberOfStudent > 0
+        "
+      >
+        <a (click)="viewStudent()" class="link">Xem danh sách học viên</a>
+      </div>
+      <div
+        class="flex center-justify"
+        *ngIf="selectedClass && !selectedClass.numberOfStudent"
+      >
+        <a
+          (click)="
+            callAlert('YN', 'Bạn chắc chắn muốn xóa lớp học này không ?')
+          "
+          class="link"
+          >Xóa lớp học</a
+        >
       </div>
     </div>
   </div>

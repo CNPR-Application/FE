@@ -33,6 +33,7 @@ import { Branch, BranchArray } from '../interfaces/Branch';
 import {
   ClassActivationRequest,
   ClassArray,
+  ClassEditRequest,
   ClassRequest,
   ClassResponse,
   ClassStatus,
@@ -472,7 +473,7 @@ export class ApiService {
       .pipe(retry(1));
   }
 
-  editClass(classId: number, request: ClassRequest): Observable<boolean> {
+  editClass(classId: number, request: ClassEditRequest): Observable<boolean> {
     const url = `${this.rootUrl}classes/${classId}`;
     return this.http.put<boolean>(url, request, { headers: this.headers });
   }

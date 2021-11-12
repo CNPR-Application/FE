@@ -80,6 +80,8 @@ import { GuestBranchComponent } from './guest-dashboard/guest-branch/guest-branc
 import { GuestScheduleComponent } from './guest-dashboard/guest-schedule/guest-schedule.component';
 import { GuestNewComponent } from './guest-dashboard/guest-new/guest-new.component';
 import { GuestContactComponent } from './guest-dashboard/guest-contact/guest-contact.component';
+import { ClassBookingComponent } from './manager-dashboard/class-management/class-booking/class-booking.component';
+import { ClassEditComponent } from './manager-dashboard/class-management/class-edit/class-edit.component';
 
 @NgModule({
   declarations: [
@@ -145,6 +147,8 @@ import { GuestContactComponent } from './guest-dashboard/guest-contact/guest-con
     GuestScheduleComponent,
     GuestNewComponent,
     GuestContactComponent,
+    ClassBookingComponent,
+    ClassEditComponent,
   ],
   entryComponents: [
     SubjectDialogComponent,
@@ -166,6 +170,8 @@ import { GuestContactComponent } from './guest-dashboard/guest-contact/guest-con
     RoomDialogComponent,
     SessionDialogComponent,
     ReopenDialogComponent,
+    ClassBookingComponent,
+    ClassEditComponent,
   ],
   imports: [
     BrowserModule,

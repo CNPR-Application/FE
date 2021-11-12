@@ -1,0 +1,39 @@
+<div
+  *ngIf="isLoading"
+  class="loading-page loading-page-popup"
+  style="padding-left: 11.5em"
+>
+  <img class="loading-popup" src="/assets/image/loading.gif" alt="Logo image" />
+</div>
+<form class="form" [formGroup]="form">
+  <div class="input-div">
+    <p class="label">Tên lớp học</p>
+    <input class="input" type="text" formControlName="name" />
+    <p class="invalid">Vui lòng điền tên lớp</p>
+  </div>
+  <div class="input-div">
+    <p class="label">Ngày khai giảng</p>
+    <input
+      class="input"
+      type="date"
+      formControlName="openingDate"
+      [ngModel]="openingDate | date: 'yyyy-MM-dd'"
+      (change)="changeTitle()"
+    />
+    <p class="invalid">Vui lòng điền ngày khai giảng</p>
+  </div>
+  <div class="input-div">
+    <p class="label">Ca học</p>
+    <input class="input" type="text" formControlName="shift" readonly />
+    <p class="invalid">Vui lòng điền</p>
+  </div>
+  <div mat-dialog-actions class="button-div">
+    <button class="btn-edit" (click)="edit()">{{ title }}</button>
+  </div>
+</form>
+<div class="alert-div alert-div-popup" *ngIf="haveAlertOk">
+  <div class="alert alert-popup">
+    <p>{{ alertMessage }}</p>
+    <button (click)="close()">OK</button>
+  </div>
+</div>
