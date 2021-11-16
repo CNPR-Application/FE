@@ -2,6 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Branch, BranchArray } from 'src/interfaces/Branch';
 import { ClassArray, ClassResponse } from 'src/interfaces/Class';
+import { Shift, ShiftArray } from 'src/interfaces/Shift';
+import { Subject, SubjectArray } from 'src/interfaces/Subject';
 import { ApiService } from 'src/service/api.service';
 
 @Component({
@@ -49,10 +51,35 @@ export class GuestScheduleComponent implements OnInit {
     'assets/image/studying_class_student.png',
     'assets/image/waiting_class_teacher.png',
     'assets/image/studying_class_teacher.png',
-  ]
+  ];
+
+  //search
+  shiftId: number = 0;
+  subjectId: number = 0;
+  subjectList?: Array<Subject>;
+  shiftList?: Array<Shift>;
 
   ngOnInit(): void {
     this.getBranchByName();
+    this.api.getSubjectByName('', true, 1, 1000).subscribe(
+      (response: SubjectArray) => {
+        this.subjectList = response.subjectsResponseDto;
+        this.api.getAllShift(1, 100, true).subscribe(
+          (response: ShiftArray) => {
+            this.shiftList = response.shiftDtos;
+          },
+          (error) => {
+            this.callAlert(
+              'Ok',
+              'Có lỗi xảy ra khi tải ca học, vui lòng thử lại'
+            );
+          }
+        );
+      },
+      (error) => {
+        this.callAlert('Ok', 'Có lỗi xảy ra khi tải môn học, vui lòng thử lại');
+      }
+    );
   }
 
   getClassAll(branchId: number): void {
@@ -81,7 +108,7 @@ export class GuestScheduleComponent implements OnInit {
 
   changePage(page: number) {
     this.currentPage = page;
-    this.getClassAll(this.branchId);
+    this.searchClass(this.subjectId, this.branchId, this.shiftId);
   }
 
   getBranchByName() {
@@ -118,6 +145,47 @@ export class GuestScheduleComponent implements OnInit {
     this.selectedBranch = branch;
     if (branch?.branchId) this.branchId = branch?.branchId;
     this.getClassAll(this.branchId);
+  }
+
+  onChangeSubject(subjectId: string) {
+    this.subjectId = +subjectId;
+    this.searchClass(this.subjectId, this.branchId, this.shiftId);
+  }
+
+  onChangeShift(shiftId: string) {
+    this.shiftId = +shiftId;
+    this.searchClass(this.subjectId, this.branchId, this.shiftId);
+  }
+
+  searchClass(subjectId: number, branchId: number, shiftId: number): void {
+    this.isLoading = true;
+    this.api
+      .searchClassBySubjectAndShift(
+        branchId,
+        subjectId,
+        shiftId,
+        'waiting',
+        this.currentPage,
+        13
+      )
+      .subscribe(
+        (response: ClassArray) => {
+          this.classArray = response.classList;
+          this.totalPage = response.totalPage;
+          this.pageArray = Array(this.totalPage)
+            .fill(1)
+            .map((x, i) => i + 1);
+          this.currentPage = response.pageNo;
+          this.isLoading = false;
+          this.subjectId = subjectId;
+          this.subjectId = shiftId;
+        },
+        (error: HttpErrorResponse) => {
+          console.error(error);
+          this.isLoading = false;
+          this.callAlert('Ok', 'Có lỗi xảy ra khi tải, vui lòng thử lại');
+        }
+      );
   }
 
   haveAlertOk: boolean = false;

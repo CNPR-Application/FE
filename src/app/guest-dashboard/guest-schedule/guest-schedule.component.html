@@ -7,9 +7,9 @@
   </div>
   <div class="flex border-yellow-div">
     <div class="div-branch" *ngIf="!isLoadingBranch">
-      <div>
+      <!-- <div>
         <p class="title">Chọn chi nhánh</p>
-      </div>
+      </div> -->
       <div class="branch-list">
         <div
           class="item"
@@ -25,7 +25,6 @@
             "
             matTooltipPosition="after"
             style="cursor: pointer"
-            title="Xem địa chỉ trên bản đồ"
           />
           <p class="p-big" style="cursor: pointer">
             Chi Nhánh {{ branch.branchName }}
@@ -54,13 +53,62 @@
         alt="Logo image"
       />
     </div>
-    <div class="div-class" *ngIf="!isLoading">
-      <div>
+    <div class="div-class">
+      <!-- <div>
         <p class="title" *ngIf="selectedBranch">
           Lớp sắp mở chi nhánh {{ selectedBranch.branchName }}
         </p>
+      </div> -->
+      <div
+        style="
+          display: flex;
+          justify-content: flex-end;
+          align-items: baseline;
+          margin-bottom: 1px;
+          padding-top: 2.7%;
+        "
+      >
+        <select
+          id="subjectId"
+          name="subjectId"
+          class="suggest-btn"
+          style="margin-right: 0.5em; border-color: rgba(24, 42, 136, 0.1)"
+          #subjectDropdown
+          (change)="onChangeSubject(subjectDropdown.value)"
+        >
+          <option value="0">Tất cả môn học</option>
+          <option
+            *ngFor="let subject of subjectList"
+            [value]="subject.subjectId"
+          >
+            {{ subject.subjectCode }} - {{ subject.subjectName }}
+          </option>
+        </select>
+        <select
+          id="shiftId"
+          name="shiftId"
+          #shiftDropdown
+          style="border-color: rgba(24, 42, 136, 0.1)"
+          (change)="onChangeShift(shiftDropdown.value)"
+          class="suggest-btn top-margin"
+        >
+          <option value="0">Tất cả ca học</option>
+          <option *ngFor="let shift of shiftList" [value]="shift.shiftId">
+            {{ shift.dayOfWeek }} ({{ shift.timeStart }} - {{ shift.timeEnd }})
+          </option>
+        </select>
       </div>
-      <div class="div-card" *ngIf="classArray && classArray.length != 0">
+      <div class="body-loading" *ngIf="isLoading">
+        <img
+          class="img-loading"
+          src="/assets/image/loading.gif"
+          alt="Logo image"
+        />
+      </div>
+      <div
+        class="div-card"
+        *ngIf="classArray && classArray.length != 0 && !isLoading"
+      >
         <div class="card" *ngFor="let class of classArray; let i = index">
           <div class="img-card-div">
             <img
@@ -115,10 +163,13 @@
           </div>
         </div>
       </div>
-      <div class="body-loading" *ngIf="classArray && classArray.length == 0">
+      <div
+        class="body-loading"
+        *ngIf="classArray && classArray.length == 0 && !isLoading"
+      >
         <img src="../../../assets/image/no-data.jpg" style="width: 100%" />
       </div>
-      <div class="paging" *ngIf="totalPage">
+      <div class="paging" *ngIf="totalPage && !isLoading">
         <div
           class="item"
           *ngFor="let i of pageArray"
@@ -129,13 +180,6 @@
           <a>{{ i }}</a>
         </div>
       </div>
-    </div>
-    <div class="div-class body-loading" *ngIf="isLoading">
-      <img
-        class="img-loading"
-        src="/assets/image/loading.gif"
-        alt="Logo image"
-      />
     </div>
   </div>
 </div>

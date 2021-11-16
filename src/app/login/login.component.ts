@@ -38,14 +38,14 @@ export class LoginComponent implements OnInit {
         this.isLoading = false;
         this.localStorageService.set('user', response);
         if (this.loginResponse?.role === 'admin') {
-          this.route.navigate(['/dashboard']);
+          this.route.navigate(['/dashboard/main']);
         } else if (
           this.loginResponse?.role === 'manager' ||
           this.loginResponse?.role === 'staff'
         ) {
-          this.route.navigate(['/manager-dashboard']);
+          this.route.navigate(['/manager-dashboard/main']);
         } else if (this.loginResponse.role === 'teacher') {
-          this.route.navigate(['/teacher-dashboard']);
+          this.route.navigate(['/teacher-dashboard/main']);
         }
       },
       (error) => {

@@ -136,6 +136,17 @@
     font-family: "Open Sans", sans-serif;
     margin-bottom: 2em;
   }
+  .suggest-btn {
+    background: rgba(255, 255, 255, 0.19);
+    border: 1px solid #00bcf7;
+    box-sizing: border-box;
+    font-size: 9px;
+    height: 20px;
+    color: #182a88;
+  }
+  .suggest-btn:hover {
+    border: 1px solid #303e67;
+  }
   .div-class {
     width: 60%;
     padding: 3%;

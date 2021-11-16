@@ -5,6 +5,7 @@ import { CurriculumComponent } from './dashboard/curriculum/curriculum.component
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DetailCurriculumComponent } from './dashboard/detail-curriculum/detail-curriculum.component';
 import { InfoComponent } from './dashboard/info/info.component';
+import { MainAdminComponent } from './dashboard/main-admin/main-admin.component';
 import { ManagerComponent } from './dashboard/manager/manager.component';
 import { ShiftComponent } from './dashboard/shift/shift.component';
 import { StaffComponent } from './dashboard/staff/staff.component';
@@ -21,6 +22,7 @@ import { ClassManagementComponent } from './manager-dashboard/class-management/c
 import { ClassSuggestionComponent } from './manager-dashboard/class-suggestion/class-suggestion.component';
 import { FeedbackComponent } from './manager-dashboard/feedback/feedback.component';
 import { GuestBookingComponent } from './manager-dashboard/guest-booking/guest-booking.component';
+import { MainManagerComponent } from './manager-dashboard/main-manager/main-manager.component';
 import { ManagerAttendanceComponent } from './manager-dashboard/manager-attendance/manager-attendance.component';
 import { ManagerDashboardComponent } from './manager-dashboard/manager-dashboard.component';
 import { ManagerInfoComponent } from './manager-dashboard/manager-info/manager-info.component';
@@ -34,6 +36,7 @@ import { TeacherClassComponent } from './manager-dashboard/teacher-class/teacher
 import { TeacherManagementComponent } from './manager-dashboard/teacher-management/teacher-management.component';
 import { AttendanceComponent } from './teacher-dashboard/attendance/attendance.component';
 import { ClassTeacherComponent } from './teacher-dashboard/class-teacher/class-teacher.component';
+import { MainTeacherComponent } from './teacher-dashboard/main-teacher/main-teacher.component';
 import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard.component';
 import { TeacherInfoComponent } from './teacher-dashboard/teacher-info/teacher-info.component';
 import { TeacherScheduleComponent } from './teacher-dashboard/teacher-schedule/teacher-schedule.component';
@@ -66,6 +69,7 @@ const routes: Routes = [
       { path: 'shift', component: ShiftComponent },
       { path: 'staff', component: StaffComponent },
       { path: 'manager', component: ManagerComponent },
+      { path: 'main', component: MainAdminComponent },
     ],
   },
   {
@@ -86,6 +90,7 @@ const routes: Routes = [
       { path: 'student-bookings', component: StudentBookingsComponent },
       { path: 'teacher', component: TeacherManagementComponent },
       { path: 'teacher-class', component: TeacherClassComponent },
+      { path: 'main', component: MainManagerComponent },
     ],
   },
   {
@@ -97,6 +102,7 @@ const routes: Routes = [
       { path: 'class', component: ClassTeacherComponent },
       { path: 'schedule', component: TeacherScheduleComponent },
       { path: 'subject', component: TeacherSubjectComponent },
+      { path: 'main', component: MainTeacherComponent },
     ],
   },
 ];

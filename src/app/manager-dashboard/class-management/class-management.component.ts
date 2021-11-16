@@ -6,11 +6,11 @@ import { Router } from '@angular/router';
 import { LoginResponse } from 'src/interfaces/Account';
 import {
   ClassArray,
+  ClassDeleteRequest,
   ClassEditRequest,
   ClassResponse,
   ClassStatus,
 } from 'src/interfaces/Class';
-import { NotiPersonRequest } from 'src/interfaces/Notification';
 import { Shift, ShiftArray } from 'src/interfaces/Shift';
 import { Subject, SubjectArray } from 'src/interfaces/Subject';
 import { ApiService } from 'src/service/api.service';
@@ -18,6 +18,7 @@ import { LocalStorageService } from 'src/service/local-storage.service';
 import { StudentInClassComponent } from '../schedule/student-in-class/student-in-class.component';
 import { ClassBookingComponent } from './class-booking/class-booking.component';
 import { ClassCreateComponent } from './class-create/class-create.component';
+import { ClassDeleteComponent } from './class-delete/class-delete.component';
 import { ClassEditComponent } from './class-edit/class-edit.component';
 
 @Component({
@@ -287,12 +288,19 @@ export class ClassManagementComponent implements OnInit {
   deleteClass() {
     if (this.selectedClass && this.selectedClass.classId) {
       this.isLoading = true;
-      let request: ClassEditRequest = {
-        className: this.selectedClass.className,
-        roomId: 0,
-        status: 'canceled',
-      };
-      this.api.editClass(this.selectedClass?.classId, request).subscribe(
+    }
+  }
+
+  openDeleteDialog() {
+    let dialogRef = this.dialog.open(ClassDeleteComponent, {
+      data: {
+        classId: this.selectedClass?.classId,
+      },
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      let request: ClassDeleteRequest = data;
+      this.isLoading = true;
+      this.api.deleteClass(request).subscribe(
         (response) => {
           this.isLoading = false;
           if (response) {
@@ -302,13 +310,24 @@ export class ClassManagementComponent implements OnInit {
             this.callAlert('Ok', 'Có lỗi xảy ra khi xóa, vui lòng thử lại');
           }
         },
-        (error) => {
+        (error: HttpErrorResponse) => {
           console.log(error);
-          this.callAlert('Ok', 'Có lỗi xảy ra khi xóa, vui lòng thử lại');
           this.isLoading = false;
+          if (error.error == 'Unable to delete this class!') {
+            this.callAlert(
+              'Ok',
+              'Lớp tồn tại học sinh đăng ký, vui lòng thử lại'
+            );
+          } else if (
+            error.error == 'Delete Class Reason must not be empty or null!'
+          ) {
+            this.callAlert('Ok', 'Lý do xóa không hợp lệ!');
+          } else {
+            this.callAlert('Ok', 'Có lỗi xảy ra khi xóa, vui lòng thử lại');
+          }
         }
       );
-    }
+    });
   }
 
   setFormDetail(c: ClassResponse) {
@@ -333,7 +352,7 @@ export class ClassManagementComponent implements OnInit {
 
   doYes(): void {
     this.haveAlertYN = false;
-    this.deleteClass();
+    this.openDeleteDialog();
   }
 
   doNo(): void {

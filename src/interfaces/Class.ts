@@ -1,5 +1,5 @@
 export interface ClassArray {
-  pageNo?: number;
+  pageNo: number;
   pageSize?: number;
   totalPage?: number;
   classList?: ClassResponse[];
@@ -63,4 +63,9 @@ export interface ClassActivationRequest {
   teacherId?: number;
   creator?: string;
   bookingIdList?: number[];
+}
+
+export interface ClassDeleteRequest {
+  classId: number;
+  reason: string;
 }

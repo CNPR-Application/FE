@@ -33,6 +33,7 @@ import { Branch, BranchArray } from '../interfaces/Branch';
 import {
   ClassActivationRequest,
   ClassArray,
+  ClassDeleteRequest,
   ClassEditRequest,
   ClassRequest,
   ClassResponse,
@@ -476,6 +477,13 @@ export class ApiService {
   editClass(classId: number, request: ClassEditRequest): Observable<boolean> {
     const url = `${this.rootUrl}classes/${classId}`;
     return this.http.put<boolean>(url, request, { headers: this.headers });
+  }
+
+  deleteClass(
+    request: ClassDeleteRequest
+  ): Observable<boolean> {
+    const url = `${this.rootUrl}classes/${request.classId}`;
+    return this.http.patch<boolean>(url, request, { headers: this.headers });
   }
 
   //student in class

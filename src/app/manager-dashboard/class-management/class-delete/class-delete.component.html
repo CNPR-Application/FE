@@ -1,0 +1,10 @@
+<form class="form" [formGroup]="form">
+  <div class="input-div">
+    <p class="label">Lý do</p>
+    <input class="input" type="text" formControlName="reason" />
+    <p class="invalid">Vui lòng điền lý do</p>
+  </div>
+  <div class="button-div">
+    <button class="btn-edit" (click)="delete()">Xóa</button>
+  </div>
+</form>

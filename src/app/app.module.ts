@@ -82,6 +82,10 @@ import { GuestNewComponent } from './guest-dashboard/guest-new/guest-new.compone
 import { GuestContactComponent } from './guest-dashboard/guest-contact/guest-contact.component';
 import { ClassBookingComponent } from './manager-dashboard/class-management/class-booking/class-booking.component';
 import { ClassEditComponent } from './manager-dashboard/class-management/class-edit/class-edit.component';
+import { ClassDeleteComponent } from './manager-dashboard/class-management/class-delete/class-delete.component';
+import { MainAdminComponent } from './dashboard/main-admin/main-admin.component';
+import { MainTeacherComponent } from './teacher-dashboard/main-teacher/main-teacher.component';
+import { MainManagerComponent } from './manager-dashboard/main-manager/main-manager.component';
 
 @NgModule({
   declarations: [
@@ -149,6 +153,10 @@ import { ClassEditComponent } from './manager-dashboard/class-management/class-e
     GuestContactComponent,
     ClassBookingComponent,
     ClassEditComponent,
+    ClassDeleteComponent,
+    MainAdminComponent,
+    MainTeacherComponent,
+    MainManagerComponent,
   ],
   entryComponents: [
     SubjectDialogComponent,
@@ -172,6 +180,7 @@ import { ClassEditComponent } from './manager-dashboard/class-management/class-e
     ReopenDialogComponent,
     ClassBookingComponent,
     ClassEditComponent,
+    ClassDeleteComponent,
   ],
   imports: [
     BrowserModule,
