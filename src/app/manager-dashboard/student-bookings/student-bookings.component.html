@@ -62,6 +62,7 @@
       {{ listTitle }}
       <span
         ><mat-icon
+          *ngIf="listTitle == 'Danh sách đơn đăng ký mới'"
           class="icon-add"
           title="Tạo đơn đăng ký mới"
           (click)="openCreateDialog()"
