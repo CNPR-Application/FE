@@ -1,0 +1,104 @@
+.main-teacher {
+  padding: 6vh;
+  padding-bottom: 1vh;
+  .subject {
+    width: 35%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .logo-div {
+      display: block;
+      text-align: center;
+      margin-bottom: 1em;
+      .img {
+        width: 70px;
+        height: 70px;
+        filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.5));
+        border-radius: 50%;
+      }
+      .name {
+        font-size: 20px;
+        font-weight: 500;
+        color: black;
+      }
+    }
+    .subject-div {
+      border-radius: 200px;
+      padding-left: 10%;
+      padding-right: 6%;
+      color: #0c213a;
+      background-color: #fff;
+      font-size: 15px;
+      font-weight: 500;
+      height: 3.5em;
+      margin-bottom: 1em;
+      border: 1px solid #1d39c81a;
+      p {
+        margin: 0;
+      }
+    }
+    .subject-div:hover {
+      transform: scale(1.1);
+      filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.1));
+    }
+  }
+  .class {
+    width: 55%;
+    margin-right: 2.5%;
+    margin-left: 5%;
+    position: relative;
+    height: 32em;
+    min-height: 32em;
+    max-height: 32em;
+    .class-item {
+      width: 35%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid #fff;
+      background-color: #0006;
+    }
+    .class-background {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      overflow: hidden;
+      background-size: cover;
+      background-attachment: scroll;
+      transition: all 0.5s ease-in-out 0s;
+      background-origin: content-box;
+      background-image: url(../../../assets/image/foreign_teacher1.jpg);
+      background-repeat: repeat;
+    }
+    .absolute {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+    .class-num {
+      color: #fff;
+      font-size: 35px;
+      text-align: center;
+      font-weight: 500;
+      margin: auto;
+      margin-bottom: 20px;
+      border: 1px solid white;
+      border-radius: 50%;
+      width: 2.3em;
+      height: 2.3em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .class-description {
+      color: #fff;
+      font-size: 15px;
+      text-align: center;
+    }
+  }
+}

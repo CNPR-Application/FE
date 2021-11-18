@@ -1,1 +1,75 @@
-<p>main-teacher works!</p>
+<div class="main-teacher">
+  <div class="flex center-justify" style="padding-top: 2em">
+    <div class="subject">
+      <div class="flex center-justify" style="width: 100%">
+        <div style="width: 100%">
+          <div class="logo-div" style="margin-bottom: 1em">
+            <img class="img" src="{{ url }}" alt="avatar image" />
+          </div>
+          <div class="logo-div" *ngIf="info" style="margin-bottom: 0em">
+            <p class="name">{{ info.name }}</p>
+          </div>
+          <div class="logo-div" style="margin-bottom: 3em">
+            <mat-icon
+              [style.color]="showIcon(i)"
+              style="font-size: 30px"
+              *ngFor="let ratingId of ratingArr; index as i"
+            >
+              grade
+            </mat-icon>
+          </div>
+          <div
+            *ngFor="let subject of subjectList; let i = index"
+            class="flex center-justify center-align-item subject-div"
+          >
+            <div style="width: 80%; display: flex; justify-content: flex-start">
+              <p>{{ subject.subjectName }}</p>
+            </div>
+            <div style="width: 20%; display: flex; justify-content: flex-end">
+              <mat-icon>keyboard_arrow_down</mat-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="class">
+      <div class="class-background"></div>
+      <div class="flex center-justify absolute">
+        <div class="class-item">
+          <div>
+            <p class="class-num">0</p>
+            <p class="class-description">Lớp chờ khai giảng</p>
+          </div>
+        </div>
+        <div class="class-item">
+          <div>
+            <p class="class-num">{{ teachingClass }}</p>
+            <p class="class-description">Lớp đang dạy</p>
+          </div>
+        </div>
+        <div class="class-item">
+          <div>
+            <p class="class-num">{{ finishedClass }}</p>
+            <p class="class-description">Lớp đã kết thúc</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="haveAlertOk = !haveAlertOk">OK</button>
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertYN">
+  <div class="alert" *ngIf="haveAlertYN">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doYes()">Có</button>
+    <button (click)="doNo()">Không</button>
+  </div>
+</div>
+<div *ngIf="isLoading" class="loading-page" style="padding-left: 39.5%">
+  <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
+</div>

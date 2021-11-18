@@ -10,6 +10,7 @@ export interface SessionResponse {
   teacherId?: number;
   teacherName?: string;
   teacherImage?: string;
+  teacherUsername?: string;
   roomId?: number;
   roomName?: string;
   startTime: string;

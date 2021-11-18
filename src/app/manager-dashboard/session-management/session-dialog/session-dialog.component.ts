@@ -6,10 +6,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ClassResponse } from 'src/interfaces/Class';
 import { RoomResponse } from 'src/interfaces/Room';
 import { SessionRequest, SessionResponse } from 'src/interfaces/Session';
-import {
-  TeacherInfo,
-  TeacherSearchArray
-} from 'src/interfaces/Teacher';
+import { TeacherInfo, TeacherSearchArray } from 'src/interfaces/Teacher';
 import { ApiService } from 'src/service/api.service';
 import { TimeService } from 'src/service/time.service';
 
@@ -37,11 +34,11 @@ export class SessionDialogComponent implements OnInit {
   //form
   form = this.formBuilder.group({
     newTeacherId: [null, Validators.required],
-    changeAllTeacher: [null, Validators.required],
+    changeAllTeacher: [false, Validators.required],
     newRoomId: [null, Validators.required],
-    changeAllRoom: [null, Validators.required],
+    changeAllRoom: [false, Validators.required],
     newStartTime: [null, Validators.required],
-    changeAllTime: [null, Validators.required],
+    changeAllTime: [false, Validators.required],
   });
 
   //array

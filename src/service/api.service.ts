@@ -474,14 +474,19 @@ export class ApiService {
       .pipe(retry(1));
   }
 
+  getTeacherClassStatistic(teacherUsername: string): Observable<ClassStatus> {
+    const url = `${this.rootUrl}classes-status?teacherUsername=${teacherUsername}`;
+    return this.http
+      .get<ClassStatus>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
   editClass(classId: number, request: ClassEditRequest): Observable<boolean> {
     const url = `${this.rootUrl}classes/${classId}`;
     return this.http.put<boolean>(url, request, { headers: this.headers });
   }
 
-  deleteClass(
-    request: ClassDeleteRequest
-  ): Observable<boolean> {
+  deleteClass(request: ClassDeleteRequest): Observable<boolean> {
     const url = `${this.rootUrl}classes/${request.classId}`;
     return this.http.patch<boolean>(url, request, { headers: this.headers });
   }

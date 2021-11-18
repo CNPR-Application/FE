@@ -79,11 +79,14 @@
         <div class="title-header-list">
           <p>Chọn Buổi Học</p>
         </div>
-        <div class="small-icon-div" style="cursor: auto;">...</div>
+        <div class="small-icon-div" style="cursor: auto">...</div>
       </div>
       <div class="body-list" *ngIf="!isLoadingSession">
         <div class="session-item" *ngFor="let session of statusSession">
-          <div class="session-item-image-div">
+          <div
+            class="session-item-image-div"
+            *ngIf="session.sessionResponse.teacherUsername == teacherUsername"
+          >
             <mat-icon
               class="session-item-image"
               (click)="changeSessionId(session.sessionResponse.sessionId)"
@@ -95,7 +98,10 @@
               >restore</mat-icon
             >
           </div>
-          <div class="session-info-div">
+          <div
+            class="session-info-div"
+            *ngIf="session.sessionResponse.teacherUsername == teacherUsername"
+          >
             <p
               class="big-session-name"
               (click)="changeSessionId(session.sessionResponse.sessionId)"
@@ -109,7 +115,10 @@
             </p>
             <p class="small-session-name">{{ session.status }}</p>
           </div>
-          <div class="session-item-image-div">
+          <div
+            class="session-item-image-div"
+            *ngIf="session.sessionResponse.teacherUsername == teacherUsername"
+          >
             <mat-icon
               class="session-item-image"
               *ngIf="session.status == 'Đang mở'"
