@@ -1,6 +1,6 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DatePipe } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
@@ -63,7 +63,7 @@ import { StudentManagementComponent } from './manager-dashboard/student-manageme
 import { TeacherClassComponent } from './manager-dashboard/teacher-class/teacher-class.component';
 import { TeacherManagementComponent } from './manager-dashboard/teacher-management/teacher-management.component';
 import { TeachingSubjectComponent } from './manager-dashboard/teacher-management/teaching-subject/teaching-subject.component';
-import { MaterialModule } from './material/material.module';
+import { MaterialModule } from './helper/material.module';
 import { AttendanceComponent } from './teacher-dashboard/attendance/attendance.component';
 import { ClassTeacherComponent } from './teacher-dashboard/class-teacher/class-teacher.component';
 import { NotificationTeacherDialogComponent } from './teacher-dashboard/notification-teacher-dialog/notification-teacher-dialog.component';
@@ -86,6 +86,10 @@ import { ClassDeleteComponent } from './manager-dashboard/class-management/class
 import { MainAdminComponent } from './dashboard/main-admin/main-admin.component';
 import { MainTeacherComponent } from './teacher-dashboard/main-teacher/main-teacher.component';
 import { MainManagerComponent } from './manager-dashboard/main-manager/main-manager.component';
+import { ErrorInterceptor } from './helper/error.interceptor.';
+import { JwtInterceptor } from './helper/jwt.interceptor';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ChangePasswordComponent } from './manager-dashboard/manager-info/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -157,6 +161,8 @@ import { MainManagerComponent } from './manager-dashboard/main-manager/main-mana
     MainAdminComponent,
     MainTeacherComponent,
     MainManagerComponent,
+    ForgotPasswordComponent,
+    ChangePasswordComponent,
   ],
   entryComponents: [
     SubjectDialogComponent,
@@ -181,6 +187,7 @@ import { MainManagerComponent } from './manager-dashboard/main-manager/main-mana
     ClassBookingComponent,
     ClassEditComponent,
     ClassDeleteComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -209,7 +216,12 @@ import { MainManagerComponent } from './manager-dashboard/main-manager/main-mana
     }),
     DragDropModule,
   ],
-  providers: [DatePipe, MessagingService],
+  providers: [
+    DatePipe,
+    MessagingService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

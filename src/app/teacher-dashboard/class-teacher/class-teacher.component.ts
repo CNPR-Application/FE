@@ -121,7 +121,7 @@ export class ClassTeacherComponent implements OnInit {
         (response: SessionList) => {
           this.sessionArray = response.sessionList;
           if (this.sessionArray) {
-            this.midpoint1 = Math.floor(this.sessionArray?.length / 3);
+            this.midpoint1 = Math.ceil(this.sessionArray?.length / 3);
             this.midpoint2 = this.midpoint1 * 2;
             this.midpoint3 = this.sessionArray.length;
           }

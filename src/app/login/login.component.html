@@ -1,10 +1,9 @@
 <div class="nav-wrapper">
-  
   <div class="left">
     <img class="image" src="/assets/image/login_kid.png" alt="Login image" />
   </div>
   <div class="right">
-    <div *ngIf="isLoading" class="loading-page" style="padding-left: 20%;">
+    <div *ngIf="isLoading" class="loading-page" style="padding-left: 20%">
       <img class="loading" src="/assets/image/loading.gif" alt="Logo image" />
     </div>
     <img class="logo" src="/assets/image/logo.png" alt="Logo image" /><br />
@@ -25,7 +24,7 @@
       /><br />
       <button type="submit" class="button">Đăng Nhập</button><br />
     </form>
-    <a class="link" href="">Quên Mật Khẩu</a><br />
+    <a class="link" routerLink="/forgot-password">Quên Mật Khẩu</a><br />
   </div>
 </div>
 <div class="alert-div" *ngIf="haveAlertOk">

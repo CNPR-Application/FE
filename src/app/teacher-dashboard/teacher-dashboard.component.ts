@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireMessaging } from '@angular/fire/messaging';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { NotificationResponse } from 'src/interfaces/Notification';
 import { ApiService } from 'src/service/api.service';
+import { AuthenticationService } from 'src/service/authentication.service';
 import { MessagingService } from 'src/service/messaging.service';
 import { LoginResponse } from '../../interfaces/Account';
 import { LocalStorageService } from '../../service/local-storage.service';
@@ -19,8 +21,14 @@ export class TeacherDashboardComponent implements OnInit {
     private api: ApiService,
     private dialog: MatDialog,
     private messagingService: MessagingService,
-    private notiFirebase: AngularFireMessaging
-  ) {}
+    private notiFirebase: AngularFireMessaging,
+    private router: Router,
+    private authenticationService: AuthenticationService
+  ) {
+    this.authenticationService.currentUser.subscribe((x) => {
+      if (x != null) this.currentUser = x;
+    });
+  }
 
   url?: string;
   name?: string;
@@ -31,6 +39,8 @@ export class TeacherDashboardComponent implements OnInit {
   notiArray?: Array<NotificationResponse>;
   unreadNoti: number = 0;
   message: any;
+
+  currentUser?: LoginResponse;
 
   ngOnInit(): void {
     let user: LoginResponse = this.localStorage.get('user');
@@ -81,5 +91,10 @@ export class TeacherDashboardComponent implements OnInit {
         }
       );
     }
+  }
+
+  logout() {
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
   }
 }

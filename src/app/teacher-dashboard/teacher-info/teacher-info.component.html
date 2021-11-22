@@ -126,8 +126,8 @@
             <p class="invalid">Vui lòng điền kinh nghiệm</p>
           </div>
           <div class="button-div">
-            <button class="btn-edit">Đổi Mật Khẩu</button>
-            <button class="btn-edit">Quên Mật Khẩu</button>
+            <button class="btn-edit" (click)="openChangePass()">Đổi Mật Khẩu</button>
+            <button class="btn-edit" routerLink="/forgot-password">Quên Mật Khẩu</button>
             <button class="btn-edit" (click)="editInfo()">
               Chỉnh Sửa Thông Tin
             </button>

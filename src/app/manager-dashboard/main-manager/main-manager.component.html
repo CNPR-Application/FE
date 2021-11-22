@@ -1,1 +1,87 @@
-<p>main-manager works!</p>
+<div class="main-manager">
+  <div class="first-line">
+    <div class="div-title">
+      <p class="title">Trang chủ</p>
+      <p class="line-title">
+        <a class="back-title" title="Quay về trang chủ">Xem thống kê</a>
+      </p>
+    </div>
+    <div class="div-today" style="width: 13%">
+      <p class="today">{{ today | date: "dd/MM/yyyy" }}</p>
+      <mat-icon class="icon-today">date_range</mat-icon>
+    </div>
+  </div>
+
+  <div class="flex end-justify">
+    <div class="left">
+      <div class="flex">
+        <ngx-charts-number-card
+          [view]="[750, 200]"
+          [scheme]="colorScheme"
+          [results]="single"
+          [cardColor]="'#ecedf133'"
+        >
+        </ngx-charts-number-card>
+      </div>
+      <div class="flex" style="justify-content: flex-end; padding-left: 3%">
+        <select
+          id="subjectId"
+          name="subjectId"
+          class="suggest-btn"
+          style="
+            margin-right: 0.5em;
+            border-color: rgba(24, 42, 136, 0.1);
+            width: 60%;
+          "
+          #subjectDropdown
+          (change)="onChangeSubject(subjectDropdown.value)"
+        >
+          <option value="0">Tất cả môn học</option>
+          <option
+            *ngFor="let subject of subjectList"
+            [value]="subject.subjectId"
+          >
+            {{ subject.subjectCode }} - {{ subject.subjectName }}
+          </option>
+        </select>
+        <select
+          id="shiftId"
+          name="shiftId"
+          #shiftDropdown
+          style="
+            border-color: rgba(24, 42, 136, 0.1);
+            width: 40%;
+            margin-top: 0;
+          "
+          (change)="onChangeShift(shiftDropdown.value)"
+          class="suggest-btn top-margin"
+        >
+          <option value="0">Tất cả ca học</option>
+          <option *ngFor="let shift of shiftList" [value]="shift.shiftId">
+            {{ shift.dayOfWeek }} ({{ shift.timeStart }} - {{ shift.timeEnd }})
+          </option>
+        </select>
+      </div>
+      <div style="margin-top: 1em" class="flex end-justify">
+        <div>
+          <ngx-charts-bar-vertical
+            [view]="[750, 350]"
+            [results]="chartArray"
+            [scheme]="colorScheme"
+            [showXAxisLabel]="false"
+            [showYAxisLabel]="true"
+            [xAxis]="false"
+            [yAxis]="true"
+            [animations]="true"
+            [showDataLabel]="true"
+            [legend]="false"
+            [gradient]="false"
+          >
+          </ngx-charts-bar-vertical>
+          <p class="chart-title">Sơ đồ học sinh đăng ký của các lớp đang mở</p>
+        </div>
+      </div>
+    </div>
+    <div class="right"></div>
+  </div>
+</div>

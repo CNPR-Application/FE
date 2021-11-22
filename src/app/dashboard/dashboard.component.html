@@ -63,7 +63,15 @@
           </div>
         </div>
         <p class="name">{{ name }}</p>
-        <img [src]="url" alt="avatar" class="image" />
+        <img
+          [src]="url"
+          alt="avatar"
+          class="image"
+          [matMenuTriggerFor]="appMenu"
+        />
+        <mat-menu #appMenu="matMenu">
+          <button mat-menu-item (click)="logout()">Đăng xuất</button>
+        </mat-menu>
       </div>
     </div>
     <div class="body">

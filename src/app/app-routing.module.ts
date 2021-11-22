@@ -10,6 +10,7 @@ import { ManagerComponent } from './dashboard/manager/manager.component';
 import { ShiftComponent } from './dashboard/shift/shift.component';
 import { StaffComponent } from './dashboard/staff/staff.component';
 import { SubjectDetailComponent } from './dashboard/subject-detail/subject-detail.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { GuestBranchComponent } from './guest-dashboard/guest-branch/guest-branch.component';
 import { GuestContactComponent } from './guest-dashboard/guest-contact/guest-contact.component';
 import { GuestCourseComponent } from './guest-dashboard/guest-course/guest-course.component';
@@ -45,6 +46,7 @@ import { TeacherSubjectComponent } from './teacher-dashboard/teacher-subject/tea
 const routes: Routes = [
   { path: '', redirectTo: '/main/intro', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
   {
     path: 'main',
     component: GuestDashboardComponent,

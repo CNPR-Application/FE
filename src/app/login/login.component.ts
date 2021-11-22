@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { first } from 'rxjs/operators';
+import { AuthenticationService } from 'src/service/authentication.service';
 import { LoginRequest, LoginResponse } from '../../interfaces/Account';
 import { ApiService } from '../../service/api.service';
 import { LocalStorageService } from '../../service/local-storage.service';
@@ -19,8 +21,11 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private service: ApiService,
     private route: Router,
-    private localStorageService: LocalStorageService
-  ) {}
+    private localStorageService: LocalStorageService,
+    private authenticationService: AuthenticationService
+  ) {
+    authenticationService.logout();
+  }
 
   private loginResponse?: LoginResponse;
   isLoading: boolean = false;
@@ -37,6 +42,7 @@ export class LoginComponent implements OnInit {
         response.username = this.loginForm.controls.username.value;
         this.isLoading = false;
         this.localStorageService.set('user', response);
+        this.authenticationService.login(response);
         if (this.loginResponse?.role === 'admin') {
           this.route.navigate(['/dashboard/main']);
         } else if (

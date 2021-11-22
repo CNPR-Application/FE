@@ -6,6 +6,8 @@ import { LocalStorageService } from '../../service/local-storage.service';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationDialogComponent } from './notification-dialog/notification-dialog.component';
 import { MessagingService } from 'src/service/messaging.service';
+import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/service/authentication.service';
 
 @Component({
   selector: 'app-manager-dashboard',
@@ -18,7 +20,13 @@ export class ManagerDashboardComponent implements OnInit {
     private api: ApiService,
     private dialog: MatDialog,
     private messagingService: MessagingService,
-  ) {}
+    private router: Router,
+    private authenticationService: AuthenticationService
+  ) {
+    this.authenticationService.currentUser.subscribe((x) => {
+      if (x != null) this.currentUser = x;
+    });
+  }
 
   url?: string;
   name?: string;
@@ -29,6 +37,8 @@ export class ManagerDashboardComponent implements OnInit {
   notiArray?: Array<NotificationResponse>;
   unreadNoti: number = 0;
   message: any;
+
+  currentUser?: LoginResponse;
 
   ngOnInit(): void {
     let user: LoginResponse = this.localStorage.get('user');
@@ -79,5 +89,10 @@ export class ManagerDashboardComponent implements OnInit {
         }
       );
     }
+  }
+
+  logout() {
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
   }
 }

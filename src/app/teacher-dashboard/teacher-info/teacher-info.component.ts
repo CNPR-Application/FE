@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { ChangePasswordComponent } from 'src/app/manager-dashboard/manager-info/change-password/change-password.component';
 import { LoginResponse } from 'src/interfaces/Account';
 import { ApiService } from 'src/service/api.service';
 import { LocalStorageService } from 'src/service/local-storage.service';
@@ -152,6 +153,11 @@ export class TeacherInfoComponent implements OnInit {
         this.callAlert('Ok', 'Có lỗi xảy ra khi chỉnh sửa, vui lòng thử lại');
       }
     );
+  }
+
+  openChangePass(){
+    let dialogRef = this.dialog.open(ChangePasswordComponent);
+    dialogRef.afterClosed().subscribe();
   }
 
   callAlert(type: string, message: string) {

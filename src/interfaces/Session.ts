@@ -26,4 +26,5 @@ export interface SessionRequest {
   changeAllTeacher?: boolean;
   newStartTime: string | null;
   changeAllTime?: boolean;
+  newShiftId?: number;
 }

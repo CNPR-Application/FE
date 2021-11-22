@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { LoginResponse } from 'src/interfaces/Account';
 import { ApiService } from 'src/service/api.service';
 import { LocalStorageService } from 'src/service/local-storage.service';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ManagerAvatarComponent } from './manager-avatar/manager-avatar.component';
 
 @Component({
@@ -123,6 +124,11 @@ export class ManagerInfoComponent implements OnInit {
         this.callAlert('Ok', 'Có lỗi xảy ra khi chỉnh sửa, vui lòng thử lại');
       }
     );
+  }
+
+  openChangePass(){
+    let dialogRef = this.dialog.open(ChangePasswordComponent);
+    dialogRef.afterClosed().subscribe();
   }
 
   callAlert(type: string, message: string) {

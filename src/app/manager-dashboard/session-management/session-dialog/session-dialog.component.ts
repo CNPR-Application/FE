@@ -145,7 +145,7 @@ export class SessionDialogComponent implements OnInit {
         'yyyy-MM-dd HH:mm:ss'
       );
     } else {
-      changeDate = null;
+      changeDate = '0';
     }
     let request: SessionRequest = {
       sessionId: this.sessionModel?.sessionId,
@@ -156,6 +156,7 @@ export class SessionDialogComponent implements OnInit {
       changeAllTeacher: this.form.controls.changeAllTeacher.value,
       newStartTime: changeDate,
       changeAllTime: this.form.controls.changeAllTime.value,
+      newShiftId : 0
     };
     this.isLoading = true;
     this.api.updateSession(request).subscribe(

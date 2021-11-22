@@ -99,7 +99,7 @@ export class GuestBookingComponent implements OnInit {
           (error) => {
             this.callAlert(
               'Ok',
-              'Có lỗi xảy ra khi tải môn học, vui lòng thử lại',
+              'Có lỗi xảy ra khi tải ca học, vui lòng thử lại',
               'close'
             );
           }

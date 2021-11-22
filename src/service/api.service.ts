@@ -13,6 +13,7 @@ import {
   StudentArraySearchResponse,
 } from 'src/interfaces/Student';
 import {
+  ChangePasswordRequest,
   CreateInFoResponse,
   GetByRoleResponseArray,
   Guest,
@@ -885,6 +886,24 @@ export class ApiService {
     const url = `${this.rootUrl}teaching-subjects`;
     return this.http
       .post<boolean>(url, request, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  //password
+  forgotPassword(username: string): Observable<boolean> {
+    const url = `${this.rootUrl}forgot-password?username=${username}`;
+    return this.http
+      .put<boolean>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  changePassword(
+    request: ChangePasswordRequest,
+    username: string
+  ): Observable<boolean> {
+    const url = `${this.rootUrl}accounts-change-password?username=${username}`;
+    return this.http
+      .put<boolean>(url, request, { headers: this.headers })
       .pipe(retry(1));
   }
 }

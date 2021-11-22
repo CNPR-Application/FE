@@ -27,6 +27,7 @@ export interface LoginResponse {
   experience?: string;
   rating?: string;
   isAvailable?: boolean;
+  jwt?: string;
   branchResponseDtoList?: Branch[];
 }
 
@@ -76,4 +77,10 @@ export interface GetByRoleResponseArray {
 export interface GetByRoleResponse {
   username: string;
   name: string;
+}
+
+export interface ChangePasswordRequest {
+  oldPassword: string;
+  newPassword: string;
+  reNewPassword: string;
 }
