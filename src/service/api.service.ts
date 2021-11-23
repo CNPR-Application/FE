@@ -9,6 +9,10 @@ import {
   RoomResponse,
 } from 'src/interfaces/Room';
 import {
+  AdminStatisticArray,
+  ManagerStatistic,
+} from 'src/interfaces/Statistic';
+import {
   StudentArrayResponse,
   StudentArraySearchResponse,
 } from 'src/interfaces/Student';
@@ -76,6 +80,8 @@ import {
   TeacherSearchArray,
   TeachingSubjectRequest,
 } from '../interfaces/Teacher';
+import { AuthenticationService } from './authentication.service';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -92,7 +98,7 @@ export class ApiService {
     .set('Access-Control-Allow-Credentials', 'true')
     .set(
       'Access-Control-Allow-Headers',
-      'Origin, Content-Type, X-Auth-Token, content-type'
+      'Origin, Content-Type, X-Auth-Token, Authorization'
     );
 
   //login
@@ -904,6 +910,24 @@ export class ApiService {
     const url = `${this.rootUrl}accounts-change-password?username=${username}`;
     return this.http
       .put<boolean>(url, request, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  //statistic
+  getManagerStatistic(
+    date: string,
+    branchId: number
+  ): Observable<ManagerStatistic> {
+    const url = `${this.rootUrl}manager-statistic?date=${date}&branchId=${branchId}`;
+    return this.http
+      .get<ManagerStatistic>(url, { headers: this.headers })
+      .pipe(retry(1));
+  }
+
+  getAdminStatistic(date: string): Observable<AdminStatisticArray> {
+    const url = `${this.rootUrl}admin-statistic?date=${date}`;
+    return this.http
+      .get<AdminStatisticArray>(url, { headers: this.headers })
       .pipe(retry(1));
   }
 }

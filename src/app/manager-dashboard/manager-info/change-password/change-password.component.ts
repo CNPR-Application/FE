@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ChangePasswordRequest, LoginResponse } from 'src/interfaces/Account';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ChangePasswordRequest } from 'src/interfaces/Account';
 import { ApiService } from 'src/service/api.service';
 import { AuthenticationService } from 'src/service/authentication.service';
 
@@ -62,10 +62,10 @@ export class ChangePasswordComponent implements OnInit {
         },
         (error: HttpErrorResponse) => {
           this.isLoading = false;
-          if (error.error == 'Password not match!') {
+          if (error.error === 'Password not match!') {
             this.callAlert('Ok', 'Mật khẩu cũ không chính xác!');
           } else if (
-            error.error ==
+            error.error ===
             'Password must has minimum six characters, at least one letter and one number!'
           ) {
             this.callAlert(
@@ -73,12 +73,12 @@ export class ChangePasswordComponent implements OnInit {
               'Mật khẩu phải có ít nhất 6 ký tự gồm cả chữ và số !'
             );
           } else if (
-            error.error ==
+            error.error ===
             'New password matched Old password! Please try new password'
           ) {
             this.callAlert('Ok', 'Mật khẩu mới trùng với mật khẩu cũ !');
           } else if (
-            error.error ==
+            error.error ===
             'Re new password did not match new password! Please try again'
           ) {
             this.callAlert('Ok', 'Xác nhận mật khẩu mới không chính xác');

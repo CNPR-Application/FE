@@ -113,7 +113,7 @@ export class FeedbackComponent implements OnInit {
         (error) => {
           console.error(error);
           this.isLoadingClass = false;
-          this.callAlert('Ok', 'Có lỗi xảy ra khi lớp học, vui lòng thử lại');
+          this.callAlert('Ok', 'Có lỗi xảy ra khi tải lớp học, vui lòng thử lại');
         }
       );
   }
@@ -174,7 +174,7 @@ export class FeedbackComponent implements OnInit {
       (error) => {
         console.error(error);
         this.isLoadingSubject = false;
-        this.callAlert('Ok', 'Có lỗi xảy ra khi môn học, vui lòng thử lại');
+        this.callAlert('Ok', 'Có lỗi xảy ra khi tải môn học, vui lòng thử lại');
       }
     );
   }
@@ -232,7 +232,7 @@ export class FeedbackComponent implements OnInit {
             this.isLoadingTeacher = false;
             this.callAlert(
               'Ok',
-              'Có lỗi xảy ra khi giáo viên, vui lòng thử lại'
+              'Có lỗi xảy ra khi tải giáo viên, vui lòng thử lại'
             );
           }
         );
@@ -249,7 +249,7 @@ export class FeedbackComponent implements OnInit {
         (error) => {
           console.error(error);
           this.isLoadingFeedback = false;
-          this.callAlert('Ok', 'Có lỗi xảy ra khi feedbacks, vui lòng thử lại');
+          this.callAlert('Ok', 'Có lỗi xảy ra khi tải feedbacks, vui lòng thử lại');
         }
       );
   }

@@ -3,7 +3,9 @@
     <div class="div-title">
       <p class="title">Trang chủ</p>
       <p class="line-title">
-        <a class="back-title" title="Quay về trang chủ">Xem thống kê</a>
+        <a class="back-title" style="cursor: auto;"
+          >Xem thống kê tháng {{ today | date: "MM/yyyy" }}</a
+        >
       </p>
     </div>
     <div class="div-today" style="width: 13%">
@@ -11,17 +13,24 @@
       <mat-icon class="icon-today">date_range</mat-icon>
     </div>
   </div>
-
+  <!-- card with class  and subject trending -->
   <div class="flex end-justify">
     <div class="left">
-      <div class="flex">
+      <div class="flex" *ngIf="!isLoadingStatic">
         <ngx-charts-number-card
           [view]="[750, 200]"
-          [scheme]="colorScheme"
+          [scheme]="blueScheme"
           [results]="single"
           [cardColor]="'#ecedf133'"
         >
         </ngx-charts-number-card>
+      </div>
+      <div class="body-loading" *ngIf="isLoadingStatic" style="height: 200px">
+        <img
+          class="img-loading"
+          src="/assets/image/loading.gif"
+          alt="Logo image"
+        />
       </div>
       <div class="flex" style="justify-content: flex-end; padding-left: 3%">
         <select
@@ -62,12 +71,16 @@
           </option>
         </select>
       </div>
-      <div style="margin-top: 1em" class="flex end-justify">
+      <div
+        style="margin-top: 1em"
+        class="flex end-justify"
+        *ngIf="!isLoadingClass"
+      >
         <div>
           <ngx-charts-bar-vertical
             [view]="[750, 350]"
             [results]="chartArray"
-            [scheme]="colorScheme"
+            [scheme]="blueScheme"
             [showXAxisLabel]="false"
             [showYAxisLabel]="true"
             [xAxis]="false"
@@ -81,7 +94,172 @@
           <p class="chart-title">Sơ đồ học sinh đăng ký của các lớp đang mở</p>
         </div>
       </div>
+      <div
+        class="flex center-justify center-align-item"
+        style="min-height: 300px"
+        *ngIf="isLoadingClass"
+      >
+        <img
+          style="width: 45px; margin: auto"
+          src="/assets/image/loading.gif"
+          alt="Logo image"
+        />
+      </div>
     </div>
-    <div class="right"></div>
+    <div class="right flex center-justify">
+      <div>
+        <ngx-charts-pie-chart
+          [view]="[300, 270]"
+          [scheme]="colorScheme"
+          [results]="subjectArray"
+          [gradient]="false"
+          [legend]="false"
+          [labels]="false"
+          [doughnut]="true"
+        >
+        </ngx-charts-pie-chart>
+        <p class="chart-title">Xu hướng môn học đăng ký nhiều nhất</p>
+        <div class="flex center-justify">
+          <div>
+            <div
+              class="flex sub-item"
+              *ngFor="let sub of subjectArray; let i = index"
+            >
+              <div
+                class="color"
+                [style.background-color]="colorArray[i % 5]"
+              ></div>
+              <div class="sub-name-div">
+                <p class="sub-name">
+                  {{ sub.name }} ({{ sub.value }} học viên )
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- shift trending -->
+  <p class="title-small">Xu hướng ca học đăng ký nhiều nhất</p>
+  <div class="flex center-justify" style="background-color: #f8fafe">
+    <div class="left flex center-justify">
+      <div>
+        <ngx-charts-advanced-pie-chart
+          [view]="[1000, 300]"
+          [scheme]="blueScheme"
+          [results]="shiftArray"
+          [gradient]="true"
+        >
+        </ngx-charts-advanced-pie-chart>
+      </div>
+    </div>
+  </div>
+  <p class="title-small">Top 10 môn học có rating cao nhất</p>
+  <div class="flex" style="margin-top: 0.5em" *ngIf="!isLoadingSubject">
+    <div style="width: 70%">
+      <div>
+        <div>
+          <ngx-charts-bar-horizontal
+            [view]="[720, 280]"
+            [results]="chartArraySubject"
+            [scheme]="blueScheme"
+            [gradient]="true"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            [xAxis]="true"
+            [yAxis]="true"
+            [animations]="true"
+            [showDataLabel]="true"
+          >
+          </ngx-charts-bar-horizontal>
+        </div>
+      </div>
+    </div>
+    <div class="right-table">
+      <table class="table" style="height: 280px; overflow: auto">
+        <tr
+          class="header"
+          style="font-size: 13px; color: rgba(24, 42, 136, 0.95)"
+        >
+          <th class="th1">Môn học</th>
+          <th class="th2">Đánh giá</th>
+        </tr>
+        <tr
+          class="data"
+          *ngFor="let subject of subjectRatingArray; let i = index"
+        >
+          <td class="color-blue">{{ subject.subjectName }}</td>
+          <td class="color-grey">
+            <mat-icon
+              [style.color]="showIcon(i, subject.rating)"
+              style="font-size: 21px"
+              *ngFor="let ratingId of ratingArr; index as i"
+            >
+              grade
+            </mat-icon>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="body-loading" *ngIf="isLoadingSubject">
+    <img class="img-loading" src="/assets/image/loading.gif" alt="Logo image" />
+  </div>
+  <p class="title-small" style="margin-top: 1em">
+    Top 10 giáo viên có rating cao nhất
+  </p>
+  <div class="flex" style="margin-top: 0.5em" *ngIf="!isLoadingTeacher">
+    <div style="width: 70%">
+      <div>
+        <div>
+          <ngx-charts-bar-horizontal
+            [view]="[720, 280]"
+            [results]="chartArrayTeacher"
+            [scheme]="blueScheme"
+            [gradient]="true"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            [xAxis]="true"
+            [yAxis]="true"
+            [animations]="true"
+            [showDataLabel]="true"
+          >
+          </ngx-charts-bar-horizontal>
+        </div>
+      </div>
+    </div>
+    <div class="right-table">
+      <table class="table" style="height: 280px; overflow: auto">
+        <tr
+          class="header"
+          style="font-size: 13px; color: rgba(24, 42, 136, 0.95)"
+        >
+          <th class="th1">Giáo viên</th>
+          <th class="th2">Đánh giá</th>
+        </tr>
+        <tr class="data" *ngFor="let teacher of teacherArray; let i = index">
+          <td class="color-blue">{{ teacher.teacherName }}</td>
+          <td class="color-grey">
+            <mat-icon
+              [style.color]="showIcon(i, teacher.teacherRating)"
+              style="font-size: 21px"
+              *ngFor="let ratingId of ratingArr; index as i"
+            >
+              grade
+            </mat-icon>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="body-loading" *ngIf="isLoadingTeacher">
+    <img class="img-loading" src="/assets/image/loading.gif" alt="Logo image" />
+  </div>
+</div>
+<div class="alert-div" *ngIf="haveAlertOk">
+  <div class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="haveAlertOk = !haveAlertOk">OK</button>
   </div>
 </div>
