@@ -44,13 +44,16 @@
     width: 30%;
     border: 1px solid #1761fd14;
     padding-top: 1em;
+    max-height: 55em;
+    overflow: auto;
+    overflow-x: hidden;
     .sub-item {
       margin: auto;
       margin-top: 1.5em;
-      width: 100%;
+      width: 130%;
       justify-content: flex-start;
       .color {
-        width: 7%;
+        width: 8%;
       }
       .sub-name-div {
         padding-left: 5%;

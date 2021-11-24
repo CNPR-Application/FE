@@ -6,15 +6,15 @@ import {
   RoomArrayResponse,
   RoomCreateRequest,
   RoomList,
-  RoomResponse,
+  RoomResponse
 } from 'src/interfaces/Room';
 import {
   AdminStatisticArray,
-  ManagerStatistic,
+  ManagerStatistic
 } from 'src/interfaces/Statistic';
 import {
   StudentArrayResponse,
-  StudentArraySearchResponse,
+  StudentArraySearchResponse
 } from 'src/interfaces/Student';
 import {
   ChangePasswordRequest,
@@ -26,12 +26,12 @@ import {
   ImageResponse,
   InfoArray,
   LoginRequest,
-  LoginResponse,
+  LoginResponse
 } from '../interfaces/Account';
 import {
   AttendanceEditRequest,
   AttendanceList,
-  AttendanceReopenRequest,
+  AttendanceReopenRequest
 } from '../interfaces/Attendance';
 import { Booking, BookingArray } from '../interfaces/Booking';
 import { Branch, BranchArray } from '../interfaces/Branch';
@@ -42,11 +42,11 @@ import {
   ClassEditRequest,
   ClassRequest,
   ClassResponse,
-  ClassStatus,
+  ClassStatus
 } from '../interfaces/Class';
 import {
   CurriculumResponse,
-  CurriculumResponseArray,
+  CurriculumResponseArray
 } from '../interfaces/Curriculum';
 import { FeedbackListResponse } from '../interfaces/Feedback';
 import {
@@ -55,33 +55,31 @@ import {
   NotificationListResponse,
   NotiGroupRequest,
   NotiPersonRequest,
-  NotiPutRequest,
+  NotiPutRequest
 } from '../interfaces/Notification';
 import {
   ScheduleListResponse,
-  ScheduleTeacherListResponse,
+  ScheduleTeacherListResponse
 } from '../interfaces/Schedule';
 import { SessionList, SessionRequest } from '../interfaces/Session';
 import { Shift, ShiftArray } from '../interfaces/Shift';
 import {
   StudentInClassArray,
-  StudentInClassListResponse,
+  StudentInClassListResponse
 } from '../interfaces/StudentInClass';
 import {
   Subject,
   SubjectArray,
   SubjectDetail,
   SubjectDetailArray,
-  SubjectTeacherArray,
+  SubjectTeacherArray
 } from '../interfaces/Subject';
 import {
   SubjectInTeacher,
   TeacherArray,
   TeacherSearchArray,
-  TeachingSubjectRequest,
+  TeachingSubjectRequest
 } from '../interfaces/Teacher';
-import { AuthenticationService } from './authentication.service';
-import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -358,7 +356,7 @@ export class ApiService {
     pageNo: number,
     pageSize: number
   ): Observable<InfoArray> {
-    const url = `${this.rootUrl}accounts?role=${role}&name=${name}&isAvailable=${isAvailable}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    const url = `${this.rootUrl}account?role=${role}&name=${name}&isAvailable=${isAvailable}&pageNo=${pageNo}&pageSize=${pageSize}`;
     return this.http
       .get<InfoArray>(url, { headers: this.headers })
       .pipe(retry(1));
