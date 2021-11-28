@@ -63,8 +63,6 @@
               {{ class.className }}
             </p>
             <p class="small-class-name">{{ class.shiftDescription }}</p>
-            <p class="small-class-name">GV: {{ class.teacherName }}</p>
-            <p class="small-class-name">Phòng: {{ class.roomName }}</p>
           </div>
         </div>
       </div>
@@ -110,6 +108,8 @@
               {{ session.sessionResponse.startTime | date: "dd/MM/yyyy" }}
             </p>
             <p class="small-session-name">{{ session.status }}</p>
+            <p class="small-session-name">GV: {{ session.sessionResponse.teacherName }}</p>
+            <p class="small-session-name">Phòng: {{ session.sessionResponse.roomName }}</p>
           </div>
           <div class="session-item-image-div">
             <mat-icon

@@ -233,7 +233,7 @@ export class CurriculumComponent implements OnInit {
             this.getSubjectByName('', true, 1, 10);
           }, 1000);
         } else {
-          this.callAlert('Ok', 'Mã môn học không tồn tại. Vui lòng thử lại');
+          this.callAlert('Ok', 'Mã môn học không tồn tại, vui lòng thử lại');
         }
       },
       (error) => {

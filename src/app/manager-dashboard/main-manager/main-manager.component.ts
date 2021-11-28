@@ -345,9 +345,6 @@ export class MainManagerComponent implements OnInit {
       }
     });
     this.chartArraySubject = this.chartArraySubject.slice(0, 10);
-    console.log('arr: ' + arr);
-    console.log('subjectRatingArray: ' + this.subjectRatingArray);
-    console.log('chartArraySubject: ' + this.chartArraySubject);
   }
 
   toFloat(x: number): number {

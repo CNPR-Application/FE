@@ -81,7 +81,7 @@ export class ManagerComponent implements OnInit {
             this.callAlert('Ok', 'Xóa thành công');
             this.ngOnInit();
           } else {
-            this.callAlert('Ok', 'Không thể xóa người này. Vui lòng thử lại');
+            this.callAlert('Ok', 'Không thể xóa người này, vui lòng thử lại');
           }
         },
         (error) => {

@@ -252,7 +252,7 @@ export class ManagerAttendanceComponent implements OnInit {
           } else {
             this.callAlert(
               'Ok',
-              'Có lỗi xảy ra khi mở lại điểm danh, vui lòng thử lại !'
+              'Có lỗi xảy ra khi mở lại điểm danh, vui lòng thử lại'
             );
           }
         },
@@ -260,7 +260,7 @@ export class ManagerAttendanceComponent implements OnInit {
           console.log(error);
           this.callAlert(
             'Ok',
-            'Có lỗi xảy ra khi mở lại điểm danh, vui lòng thử lại !'
+            'Có lỗi xảy ra khi mở lại điểm danh, vui lòng thử lại'
           );
         }
       );

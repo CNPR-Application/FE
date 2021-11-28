@@ -195,17 +195,22 @@
       </div>
       <div class="input-div">
         <p class="label">Tên lớp học</p>
-        <input class="input" type="text" formControlName="name" />
+        <input class="input" type="text" formControlName="name" readonly />
         <p class="invalid">Vui lòng điền tên lớp</p>
       </div>
       <div class="input-div" *ngIf="status != 'waiting'">
         <p class="label">Giáo viên</p>
-        <input class="input" type="text" formControlName="teacherName" />
+        <input
+          class="input"
+          type="text"
+          formControlName="teacherName"
+          readonly
+        />
         <p class="invalid">Vui lòng điền tên lớp</p>
       </div>
       <div class="input-div" *ngIf="status != 'waiting'">
         <p class="label">Phòng</p>
-        <input class="input" type="text" formControlName="roomNo" />
+        <input class="input" type="text" formControlName="roomNo" readonly />
         <p class="invalid">Vui lòng điền</p>
       </div>
       <div class="input-div">
@@ -219,6 +224,7 @@
           <option
             *ngFor="let subject of subjectList"
             [value]="subject.subjectId"
+            disabled="true"
           >
             {{ subject.subjectCode }} - {{ subject.subjectName }}
           </option>
@@ -233,7 +239,11 @@
           class="input"
           formControlName="shiftId"
         >
-          <option *ngFor="let shift of shiftList" [value]="shift.shiftId">
+          <option
+            *ngFor="let shift of shiftList"
+            [value]="shift.shiftId"
+            disabled="true"
+          >
             {{ shift.dayOfWeek }} ({{ shift.timeStart }} - {{ shift.timeEnd }})
           </option>
         </select>
@@ -252,7 +262,7 @@
       <div class="flex">
         <div class="input-div" style="padding-right: 5%">
           <p class="label">Tổng buổi học</p>
-          <input class="input" type="text" formControlName="slot" />
+          <input class="input" type="text" formControlName="slot" readonly />
           <p class="invalid">Vui lòng điền ca học</p>
         </div>
         <div class="input-div">

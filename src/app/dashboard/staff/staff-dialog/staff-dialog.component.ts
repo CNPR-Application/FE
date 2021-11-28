@@ -145,7 +145,7 @@ export class StaffDialogComponent implements OnInit {
             this.changeRole(request.username, this.role);
           }
         } else {
-          this.callAlert('Ok', 'Tên chương trình đã tồn tại. Vui lòng thử lại');
+          this.callAlert('Ok', 'Tên chương trình đã tồn tại, vui lòng thử lại');
           this.isSuccess = false;
           this.isLoading = false;
         }
@@ -202,7 +202,7 @@ export class StaffDialogComponent implements OnInit {
           this.isSuccess = true;
         } else {
           this.isLoading = false;
-          this.callAlert('Ok', 'Không thể thay đổi chức vụ. Vui lòng thử lại');
+          this.callAlert('Ok', 'Có lỗi xảy ra khi chỉnh sửa, vui lòng thử lại');
           this.isSuccess = false;
         }
       },
@@ -216,7 +216,7 @@ export class StaffDialogComponent implements OnInit {
   }
 
   undoInfo(): void {
-    this.callAlert('YN', 'Bạn có muốn khôi phục lại tài khoản này không ?');
+    this.callAlert('YN', 'Bạn có muốn khôi phục tài khoản này không ?');
   }
 
   close(): void {

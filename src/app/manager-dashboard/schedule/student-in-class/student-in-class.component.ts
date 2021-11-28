@@ -43,7 +43,7 @@ export class StudentInClassComponent implements OnInit {
       },
       (error) => {
         this.isLoading = false;
-        this.callAlert('Có lỗi xảy ra khi tải');
+        this.callAlert('Có lỗi xảy ra khi tải, vui lòng thử lại');
       }
     );
   }

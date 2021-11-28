@@ -118,7 +118,7 @@ export class InfoComponent implements OnInit {
           this.localStorageService.set('user', request);
           this.ngOnInit();
         } else {
-          this.callAlert('Ok', 'Tên chương trình đã tồn tại. Vui lòng thử lại');
+          this.callAlert('Ok', 'Tên chương trình đã tồn tại, vui lòng thử lại');
         }
       },
       (error) => {

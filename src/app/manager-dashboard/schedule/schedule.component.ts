@@ -1,11 +1,13 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { LoginResponse } from 'src/interfaces/Account';
 import {
   ScheduleListResponse,
-  ScheduleResponse
+  ScheduleResponse,
 } from 'src/interfaces/Schedule';
 import { ApiService } from 'src/service/api.service';
+import { LocalStorageService } from 'src/service/local-storage.service';
 import { TimeService } from 'src/service/time.service';
 import { ScheduleClass } from './session';
 import { StudentInClassComponent } from './student-in-class/student-in-class.component';
@@ -36,14 +38,20 @@ export class ScheduleComponent implements OnInit {
   //for upcoming session
   upcomingSession?: Array<ScheduleResponse>;
 
+  //branch
+  branchId?: number;
+
   constructor(
     private dialog: MatDialog,
     private api: ApiService,
-    private timeService: TimeService
+    private timeService: TimeService,
+    private localStorage: LocalStorageService
   ) {}
 
   ngOnInit(): void {
     this.today = new Date();
+    let user: LoginResponse = this.localStorage.get('user');
+    this.branchId = user.branchId;
     this.onSelect(this.today);
   }
 
@@ -54,10 +62,10 @@ export class ScheduleComponent implements OnInit {
   }
 
   getSchedule(): void {
-    this.isLoading = true;
     this.moreRows = 0;
-    if (this.dayAndDate) {
-      this.api.getSchedule(this.dayAndDate).subscribe(
+    if (this.dayAndDate && this.branchId) {
+      this.isLoading = true;
+      this.api.getSchedule(this.branchId, this.dayAndDate).subscribe(
         (response: ScheduleListResponse) => {
           this.scheduleArray = response.sessionList;
           this.classSameShiftArray = [];

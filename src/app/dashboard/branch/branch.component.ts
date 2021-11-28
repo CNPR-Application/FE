@@ -41,7 +41,7 @@ export class BranchComponent implements OnInit {
     this.api.deleteBranch(this.clickedId).subscribe(
       (response: boolean) => {
         if (response) {
-          this.callAlert('Ok', 'Xóa chi nhánh thành công');
+          this.callAlert('Ok', 'Xóa thành công');
         } else {
           this.callAlert('Ok', 'Không thể xóa vì đang được sử dụng');
         }
@@ -50,7 +50,7 @@ export class BranchComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this.callAlert('Ok', 'Có lỗi xảy ra, vui lòng thử lại');
+        this.callAlert('Ok', 'Có lỗi xảy ra khi xóa, vui lòng thử lại');
         this.isLoading = false;
       }
     );

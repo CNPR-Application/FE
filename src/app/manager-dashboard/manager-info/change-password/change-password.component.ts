@@ -63,7 +63,7 @@ export class ChangePasswordComponent implements OnInit {
         (error: HttpErrorResponse) => {
           this.isLoading = false;
           if (error.error === 'Password not match!') {
-            this.callAlert('Ok', 'Mật khẩu cũ không chính xác!');
+            this.callAlert('Ok', 'Mật khẩu cũ không hợp lệ!');
           } else if (
             error.error ===
             'Password must has minimum six characters, at least one letter and one number!'
@@ -81,7 +81,7 @@ export class ChangePasswordComponent implements OnInit {
             error.error ===
             'Re new password did not match new password! Please try again'
           ) {
-            this.callAlert('Ok', 'Xác nhận mật khẩu mới không chính xác');
+            this.callAlert('Ok', 'Xác nhận mật khẩu mới không hợp lệ');
           } else {
             this.callAlert(
               'Ok',

@@ -41,7 +41,7 @@
           <div class="class-item-image-div">
             <mat-icon
               class="class-item-image"
-              (click)="getSession(class.classId)"
+              (click)="getSession(class.classId, class.branchId)"
               [ngClass]="
                 class.classId == classId
                   ? 'class-item-image-focus'
@@ -53,7 +53,7 @@
           <div class="class-info-div">
             <p
               class="big-class-name"
-              (click)="getSession(class.classId)"
+              (click)="getSession(class.classId, class.branchId)"
               [ngClass]="
                 class.classId == classId
                   ? 'big-class-name-focus'

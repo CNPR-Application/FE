@@ -167,7 +167,7 @@ export class SubjectDetailComponent implements OnInit {
             this.goBack();
           }, 1000);
         } else {
-          this.callAlert('Ok', 'Tên môn học đã tồn tại. Vui lòng thử lại');
+          this.callAlert('Ok', 'Tên môn học đã tồn tại, vui lòng thử lại');
         }
       },
       (error) => {

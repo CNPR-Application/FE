@@ -1,15 +1,16 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { LoginResponse } from 'src/interfaces/Account';
+import { GetByRoleResponse, LoginResponse } from 'src/interfaces/Account';
 import { AttendanceList } from 'src/interfaces/Attendance';
 import { ClassArray, ClassResponse } from 'src/interfaces/Class';
+import { NotiPersonRequest } from 'src/interfaces/Notification';
 import { SessionList, SessionResponse } from 'src/interfaces/Session';
 import { ApiService } from 'src/service/api.service';
 import { LocalStorageService } from 'src/service/local-storage.service';
 import {
   AttendanceChecking,
   AttendanceEditClass,
-  SessionStatus
+  SessionStatus,
 } from './attendance';
 
 @Component({
@@ -25,6 +26,7 @@ export class AttendanceComponent implements OnInit {
 
   today: Date = new Date();
   teacherUsername?: string;
+  name?: string;
   status: string = 'studying';
   classId?: number;
   sessionId?: number;
@@ -56,10 +58,13 @@ export class AttendanceComponent implements OnInit {
   //reopen
   isReopen: boolean = false;
   closingDate?: string;
+  managerUsername?: string;
+  branchId?: number;
 
   ngOnInit(): void {
     let user: LoginResponse = this.localStorage.get('user');
     this.teacherUsername = user.username;
+    this.name = user.name;
     this.getClass();
   }
 
@@ -83,7 +88,8 @@ export class AttendanceComponent implements OnInit {
             this.isLoadingClass = false;
             if (this.classArray) {
               this.classId = this.classArray[0].classId;
-              this.getSession(this.classId);
+              this.branchId = this.classArray[0].branchId;
+              this.getSession(this.classId, this.branchId);
             }
           },
           (error) => {
@@ -111,12 +117,12 @@ export class AttendanceComponent implements OnInit {
     this.getClass();
   }
 
-  getSession(classId?: number): void {
+  getSession(classId?: number, branchId?: number): void {
     this.isLoadingSession = true;
     this.classId = classId;
     this.attendanceArray = undefined;
     this.statusAttendanceArray = undefined;
-    if (classId) {
+    if (classId && branchId) {
       this.api.getSessionInClass(classId, 1, 1000).subscribe(
         (response: SessionList) => {
           this.sessionArray = response.sessionList;
@@ -144,6 +150,7 @@ export class AttendanceComponent implements OnInit {
           );
         }
       );
+      this.getManager(branchId);
     }
     if (this.classArray) {
       for (let i = 0; i < this.classArray.length; i++) {
@@ -208,42 +215,40 @@ export class AttendanceComponent implements OnInit {
     if (this.selectedSession?.startTime) {
       date = formatDate(this.selectedSession?.startTime, 'dd-MM-yyyy', 'en-US');
     }
-    // if (this.selectedClass?.teacherUsername) {
-    //   let request: NotiPersonRequest = {
-    //     receiverUsername: 'lanql000008',
-    //     senderUsername: this.selectedClass?.teacherUsername,
-    //     title:
-    //       'Yêu cầu mở lại điểm danh từ giáo viên ' +
-    //       this.selectedClass?.teacherName,
-    //     body:
-    //       'Yêu cầu mở lại điểm danh từ giáo viên ' +
-    //       this.selectedClass?.teacherName +
-    //       ' đối với lớp ' +
-    //       this.selectedClass?.className +
-    //       ' vào ngày học ' +
-    //       date,
-    //   };
-    //   this.api.createNotiForPerson(request).subscribe(
-    //     (response) => {
-    //       if (response) {
-    //         this.callAlert('Ok', 'Yêu cầu mở lại điểm danh thành công!');
-    //         this.isLoadingAttendance = false;
-    //       } else {
-    //         this.callAlert(
-    //           'Ok',
-    //           'Có lỗi xảy ra khi yêu cầu mở lại điểm danh, vui lòng thử lại !'
-    //         );
-    //       }
-    //     },
-    //     (error) => {
-    //       console.log(error);
-    //       this.callAlert(
-    //         'Ok',
-    //         'Có lỗi xảy ra khi yêu cầu mở lại điểm danh, vui lòng thử lại !'
-    //       );
-    //     }
-    //   );
-    // }
+    if (this.name && this.teacherUsername && this.managerUsername) {
+      let request: NotiPersonRequest = {
+        receiverUsername: this.managerUsername,
+        senderUsername: this.teacherUsername,
+        title: 'Yêu cầu mở lại điểm danh từ giáo viên ' + this.name,
+        body:
+          'Yêu cầu mở lại điểm danh từ giáo viên ' +
+          this.name +
+          ' đối với lớp ' +
+          this.selectedClass?.className +
+          ' vào ngày học ' +
+          date,
+      };
+      this.api.createNotiForPerson(request).subscribe(
+        (response) => {
+          if (response) {
+            this.callAlert('Ok', 'Yêu cầu mở lại điểm danh thành công!');
+            this.isLoadingAttendance = false;
+          } else {
+            this.callAlert(
+              'Ok',
+              'Có lỗi xảy ra khi yêu cầu mở lại điểm danh, vui lòng thử lại !'
+            );
+          }
+        },
+        (error) => {
+          console.log(error);
+          this.callAlert(
+            'Ok',
+            'Có lỗi xảy ra khi yêu cầu mở lại điểm danh, vui lòng thử lại !'
+          );
+        }
+      );
+    }
   }
 
   changeSessionId(newSessionId: number) {
@@ -303,6 +308,15 @@ export class AttendanceComponent implements OnInit {
           break;
         }
       }
+  }
+
+  getManager(branchId: number) {
+    this.api
+      .searchInfoByRoleBranchIsAvail('manager', branchId, true)
+      .subscribe((response) => {
+        let temp = response.accountList;
+        this.managerUsername = temp[0].username;
+      });
   }
 
   // alert

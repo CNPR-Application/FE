@@ -76,16 +76,16 @@ export class BranchDialogComponent implements OnInit {
       (response: boolean) => {
         this.isLoading = false;
         if (response) {
-          this.callAlert('Ok', 'Chỉnh sửa chi nhánh thành công');
+          this.callAlert('Ok', 'Chỉnh sửa thành công');
           this.isSuccess = true;
         } else {
-          this.callAlert('Ok', 'Tên chi nhánh đã tồn tại. Vui lòng thử lại');
+          this.callAlert('Ok', 'Tên chi nhánh đã tồn tại, vui lòng thử lại');
           this.isSuccess = false;
         }
       },
       (error) => {
         console.log(error);
-        this.callAlert('Ok', 'Có lỗi xảy ra, vui lòng thử lại');
+        this.callAlert('Ok', 'Có lỗi xảy ra khi chỉnh sửa, vui lòng thử lại');
         this.isLoading = false;
         this.isSuccess = false;
       }
@@ -105,17 +105,17 @@ export class BranchDialogComponent implements OnInit {
     this.api.createBranch(request).subscribe(
       (response: boolean) => {
         if (response) {
-          this.callAlert('Ok', 'Tạo chi nhánh thành công');
+          this.callAlert('Ok', 'Tạo mới thành công');
           this.isSuccess = true;
         } else {
-          this.callAlert('Ok', 'Tên này đã tồn tại, vui lòng tạo tên mới');
+          this.callAlert('Ok', 'Tên này đã tồn tại, vui lòng thử lại');
           this.isSuccess = false;
         }
         this.isLoading = false;
       },
       (error) => {
         console.log(error);
-        this.callAlert('Ok', 'Có lỗi xảy ra, vui lòng thử lại');
+        this.callAlert('Ok', 'Có lỗi xảy ra khi tạo mới, vui lòng thử lại');
         this.isLoading = false;
         this.isSuccess = false;
       }

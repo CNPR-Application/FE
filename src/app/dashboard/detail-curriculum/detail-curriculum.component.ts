@@ -124,7 +124,7 @@ export class DetailCurriculumComponent implements OnInit {
             this.goBack();
           }, 1000);
         } else {
-          this.callAlert('Ok', 'Tên chương trình đã tồn tại. Vui lòng thử lại');
+          this.callAlert('Ok', 'Tên chương trình đã tồn tại, vui lòng thử lại');
         }
       },
       (error) => {
@@ -216,7 +216,7 @@ export class DetailCurriculumComponent implements OnInit {
             }
           }, 1000);
         } else {
-          this.callAlert('Ok', 'Mã môn học không tồn tại. Vui lòng thử lại');
+          this.callAlert('Ok', 'Mã môn học không tồn tại, vui lòng thử lại');
         }
       },
       (error) => {
