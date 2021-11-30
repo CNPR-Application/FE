@@ -96,17 +96,17 @@ export class BookingCreateComponent implements OnInit {
       branchId: this.branchId,
       classId: this.classId,
     };
-    this.isLoading = true;
+    this.isLoadingSubject = true;
     this.api.createBooking(request).subscribe(
       (response: boolean) => {
         if (response) {
           this.isSuccess = true;
-          this.isLoading = false;
+          this.isLoadingSubject = false;
           this.callAlert('Ok', 'Tạo mới thành công');
         }
       },
       (error: HttpErrorResponse) => {
-        this.isLoading = false;
+        this.isLoadingSubject = false;
         this.isSuccess = false;
         console.log(error);
         if (error.error === 'Class ID not exist!') {
