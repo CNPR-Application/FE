@@ -8,6 +8,7 @@ export class ValidationService {
   constructor(private toast: ToastrService) {}
 
   inputNum: number = 100;
+  textAreaNum: number = 500;
 
   isNull(value: any, name: string): boolean {
     if (!value || value == '') {
@@ -18,9 +19,7 @@ export class ValidationService {
   }
 
   isInvalidEmail(value: any): boolean {
-    let emailRegex = new RegExp(
-      '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
-    );
+    let emailRegex = new RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$');
     if (!emailRegex.test(value)) {
       this.toast.error('Email không hợp lệ');
       return true;
@@ -29,13 +28,30 @@ export class ValidationService {
   }
 
   isInvalidPhone(value: any): boolean {
-    let phoneRegex = new RegExp('^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$');
+    let phoneRegex = new RegExp(
+      '^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$'
+    );
     if (!phoneRegex.test(value)) {
       this.toast.error('Số điện thoại không hợp lệ');
       return true;
     }
     return false;
   }
+
+  // 1/12/2021 QuangHN Add validate Function START
+  isInvalidParentPhone(value: any): boolean {
+    if (!(!value || value == '')) {
+      let phoneRegex = new RegExp(
+        '^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$'
+      );
+      if (!phoneRegex.test(value)) {
+        this.toast.error('Số điện thoại phụ huynh không hợp lệ');
+        return true;
+      }
+    }
+    return false;
+  }
+  // 1/12/2021 QuangHN Add validate Function END
 
   isInvalidInput(
     value: string,
@@ -47,7 +63,23 @@ export class ValidationService {
       num = numberOfCharacter;
     }
     if (value.length > num) {
-      this.toast.error(name + ' không hợp lệ');
+      this.toast.error(name + ' không được quá ' + num + ' ký tự!');
+      return true;
+    }
+    return false;
+  }
+
+  isInvalidTextArea(
+    value: string,
+    name: string,
+    numberOfCharacter?: number
+  ): boolean {
+    let num = this.textAreaNum;
+    if (numberOfCharacter) {
+      num = numberOfCharacter;
+    }
+    if (value.length > num) {
+      this.toast.error(name + ' không được quá ' + num + ' ký tự!');
       return true;
     }
     return false;

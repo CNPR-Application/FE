@@ -1,22 +1,21 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { forkJoin } from 'rxjs';
 import {
   CreateInFoResponse,
   Guest,
   GuestArray,
   LoginResponse,
 } from 'src/interfaces/Account';
-import { ClassResponse, ClassArray } from 'src/interfaces/Class';
+import { ClassArray, ClassResponse } from 'src/interfaces/Class';
 import {
   CurriculumResponse,
   CurriculumResponseArray,
 } from 'src/interfaces/Curriculum';
-import { ShiftArray, Shift } from 'src/interfaces/Shift';
-import { SubjectArray, Subject } from 'src/interfaces/Subject';
+import { Shift, ShiftArray } from 'src/interfaces/Shift';
+import { Subject, SubjectArray } from 'src/interfaces/Subject';
 import { Single_Chart } from 'src/interfaces/Utils';
 import { ApiService } from 'src/service/api.service';
 import { LocalStorageService } from 'src/service/local-storage.service';
@@ -252,6 +251,8 @@ export class GuestBookingComponent implements OnInit {
     let phone = this.form.controls.phone.value;
     let address = this.form.controls.address.value;
     let birthday = this.form.controls.birthday.value;
+    let parentName = this.form.controls.parentName.value;
+    let parentPhone = this.form.controls.parentPhone.value;
 
     // check null
     if (this.validationService.isNull(name, 'Họ và tên')) {
@@ -278,6 +279,28 @@ export class GuestBookingComponent implements OnInit {
     if (this.validationService.isInvalidPhone(phone)) {
       return;
     }
+
+    // 1/12/2021 QuangHN Add Validate START
+    if (this.validationService.isInvalidParentPhone(parentPhone)) {
+      return;
+    }
+
+    if (this.validationService.isInvalidInput(name, 'Họ và tên')) {
+      return;
+    }
+
+    if (this.validationService.isInvalidTextArea(address, 'Địa chỉ')) {
+      return;
+    }
+
+    if (this.validationService.isInvalidInput(email, 'Email')) {
+      return;
+    }
+
+    if (this.validationService.isInvalidInput(parentName, 'Tên phụ huynh')) {
+      return;
+    }
+    // 1/12/2021 QuangHN Add Validate END
 
     // call api
     this.isLoading = true;
