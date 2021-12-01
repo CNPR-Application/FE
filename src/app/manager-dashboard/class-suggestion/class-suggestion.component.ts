@@ -20,6 +20,7 @@ import { TeacherInfo, TeacherSearchArray } from 'src/interfaces/Teacher';
 import { Single_Chart } from 'src/interfaces/Utils';
 import { ApiService } from 'src/service/api.service';
 import { LocalStorageService } from 'src/service/local-storage.service';
+import { ValidationService } from 'src/service/validation.service';
 import { BookingPerClass } from './class-suggestion';
 
 @Component({
@@ -32,7 +33,8 @@ export class ClassSuggestionComponent implements OnInit {
     private api: ApiService,
     private localStorage: LocalStorageService,
     private formBuilder: FormBuilder,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private validationService: ValidationService
   ) {}
 
   classModel?: ClassResponse;
@@ -534,6 +536,32 @@ export class ClassSuggestionComponent implements OnInit {
 
   //ask when number of student invalid
   preActivateClass() {
+    // 1/12/2021 QuangHN Add Validate START
+    let name = this.form.controls.name.value;
+    let openingDate = this.form.controls.openingDate.value;
+    let teacherName = this.form.controls.teacherName.value;
+    let roomNo = this.form.controls.roomNo.value;
+
+    // check null
+    if (this.validationService.isNull(name, 'Tên lớp học')) {
+      return;
+    }
+    if (this.validationService.isNull(openingDate, 'Ngày khai giảng')) {
+      return;
+    }
+    if (this.validationService.isNull(teacherName, 'Giáo viên')) {
+      return;
+    }
+    if (this.validationService.isNull(roomNo, 'Phòng')) {
+      return;
+    }
+
+    // check invalid
+    if (this.validationService.isInvalidInput(name, 'Tên lớp học')) {
+      return;
+    }
+    // 1/12/2021 QuangHN Add Validate END
+
     if (
       this.studentPerClassArray &&
       this.studentPerClassArray.length < this.MIN_CLASS_NUM
