@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 import { forkJoin } from 'rxjs';
 import {
   CreateInFoResponse,
@@ -19,6 +20,7 @@ import { SubjectArray, Subject } from 'src/interfaces/Subject';
 import { Single_Chart } from 'src/interfaces/Utils';
 import { ApiService } from 'src/service/api.service';
 import { LocalStorageService } from 'src/service/local-storage.service';
+import { ValidationService } from 'src/service/validation.service';
 import { BookingCreateComponent } from './booking-create/booking-create.component';
 import { StatusDialogComponent } from './status-dialog/status-dialog.component';
 
@@ -32,7 +34,9 @@ export class GuestBookingComponent implements OnInit {
     private localStorage: LocalStorageService,
     private dialog: MatDialog,
     private api: ApiService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toast: ToastrService,
+    private validationService: ValidationService
   ) {}
 
   today?: Date;
@@ -242,12 +246,46 @@ export class GuestBookingComponent implements OnInit {
 
   //create acc for guest
   createInfo(): void {
+    //validate
+    let name = this.form.controls.name.value;
+    let email = this.form.controls.email.value;
+    let phone = this.form.controls.phone.value;
+    let address = this.form.controls.address.value;
+    let birthday = this.form.controls.birthday.value;
+
+    // check null
+    if (this.validationService.isNull(name, 'Họ và tên')) {
+      return;
+    }
+    if (this.validationService.isNull(phone, 'Số điện thoại')) {
+      return;
+    }
+    if (this.validationService.isNull(email, 'Email')) {
+      return;
+    }
+    if (this.validationService.isNull(birthday, 'Ngày sinh')) {
+      return;
+    }
+    if (this.validationService.isNull(address, 'Địa chỉ')) {
+      return;
+    }
+
+    //check invalid
+    if (this.validationService.isInvalidEmail(email)) {
+      return;
+    }
+
+    if (this.validationService.isInvalidPhone(phone)) {
+      return;
+    }
+
+    // call api
     this.isLoading = true;
     const request: LoginResponse = {
       name: this.form.controls.name.value,
-      email: this.form.controls.email.value,
-      phone: this.form.controls.phone.value,
-      address: this.form.controls.address.value,
+      email: this.form.controls.email.value.trim(),
+      phone: this.form.controls.phone.value.trim(),
+      address: this.form.controls.address.value.trim(),
       birthday: this.form.controls.birthday.value,
       image:
         'https://firebasestorage.googleapis.com/v0/b/app-test-c1bfb.appspot.com/o/ea35e7fa-19ab-4ea0-9890-5a310173d4a6.jpg?alt=media',
@@ -266,9 +304,13 @@ export class GuestBookingComponent implements OnInit {
         this.openBookingDialog();
       },
       (error: HttpErrorResponse) => {
-        console.error(error);
+        console.error(error.error);
         this.isLoading = false;
-        this.callAlert('Ok', 'Có lỗi xảy ra khi tạo mới, vui lòng thử lại');
+        if (error.error == 'Student must OLDER or EQUAL to 3!') {
+          this.callAlert('Ok', 'Học sinh phải từ 3 tuổi trở lên');
+        } else {
+          this.callAlert('Ok', 'Có lỗi xảy ra khi tạo mới, vui lòng thử lại');
+        }
       }
     );
   }

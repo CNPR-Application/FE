@@ -86,10 +86,11 @@ import { ClassDeleteComponent } from './manager-dashboard/class-management/class
 import { MainAdminComponent } from './dashboard/main-admin/main-admin.component';
 import { MainTeacherComponent } from './teacher-dashboard/main-teacher/main-teacher.component';
 import { MainManagerComponent } from './manager-dashboard/main-manager/main-manager.component';
-import { ErrorInterceptor } from './helper/error.interceptor.';
+import { ErrorInterceptor } from './helper/error.interceptor';
 import { JwtInterceptor } from './helper/jwt.interceptor';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ChangePasswordComponent } from './manager-dashboard/manager-info/change-password/change-password.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -187,7 +188,7 @@ import { ChangePasswordComponent } from './manager-dashboard/manager-info/change
     ClassBookingComponent,
     ClassEditComponent,
     ClassDeleteComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,
@@ -197,6 +198,7 @@ import { ChangePasswordComponent } from './manager-dashboard/manager-info/change
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    ToastrModule.forRoot(),
     HttpClientModule,
     BrowserAnimationsModule,
     MaterialModule,

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { first } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from 'src/service/authentication.service';
 import { LoginRequest, LoginResponse } from '../../interfaces/Account';
 import { ApiService } from '../../service/api.service';
@@ -22,7 +22,8 @@ export class LoginComponent implements OnInit {
     private service: ApiService,
     private route: Router,
     private localStorageService: LocalStorageService,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private toast: ToastrService
   ) {
     authenticationService.logout();
   }
@@ -32,8 +33,8 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
   onSubmit(): void {
     const loginRequest: LoginRequest = {
-      username: this.loginForm.controls.username.value,
-      password: this.loginForm.controls.password.value,
+      username: this.loginForm.controls.username.value.trim(),
+      password: this.loginForm.controls.password.value.trim(),
     };
     this.isLoading = true;
     this.service.checkLogin(loginRequest).subscribe(
@@ -60,6 +61,20 @@ export class LoginComponent implements OnInit {
         this.callAlert('Ok', 'Có lỗi xảy ra khi đăng nhập, vui lòng thử lại');
       }
     );
+  }
+
+  validate(){
+    let username = this.loginForm.controls.username.value;
+    let password = this.loginForm.controls.password.value;
+    if(!username || username == ''){
+      this.toast.error('Tên đăng nhập không được để trống');
+      return;
+    }
+    if(!password || password == ''){
+      this.toast.error('Mật khẩu không được để trống');
+      return;
+    }
+    this.onSubmit();
   }
 
   haveAlertOk: boolean = false;

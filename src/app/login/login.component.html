@@ -8,7 +8,7 @@
     </div>
     <img class="logo" src="/assets/image/logo.png" alt="Logo image" /><br />
     <h2 class="slogan">Brighten your future</h2>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="loginForm" (ngSubmit)="validate()">
       <input
         class="input"
         id="username"
