@@ -2,11 +2,12 @@ import { formatDate } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BookingArray } from 'src/interfaces/Booking';
 import { ClassEditRequest, ClassResponse } from 'src/interfaces/Class';
 import { NotiGroupRequest } from 'src/interfaces/Notification';
 import { ApiService } from 'src/service/api.service';
+import { ValidationService } from 'src/service/validation.service';
 import { ClassCreateComponent } from '../class-create/class-create.component';
 
 @Component({
@@ -19,7 +20,8 @@ export class ClassEditComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<ClassCreateComponent>,
     private api: ApiService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private validationService: ValidationService
   ) {}
 
   // for alert, loading
@@ -92,6 +94,24 @@ export class ClassEditComponent implements OnInit {
   }
 
   edit() {
+    // 1/12/2021 QuangHN Add Validate START
+    let name = this.form.controls.name.value;
+    let openingDate = this.form.controls.openingDate.value;
+
+    //check null
+    if (this.validationService.isNull(name, 'Tên lớp học')) {
+      return;
+    }
+    if (this.validationService.isNull(openingDate, 'Ngày khai giảng')) {
+      return;
+    }
+
+    //check invalid
+    if (this.validationService.isInvalidInput(name, 'Tên lớp học')) {
+      return;
+    }
+    // 1/12/2021 QuangHN Add Validate END
+
     if (this.classModel && this.classModel.classId) {
       this.isLoading = true;
       let request: ClassEditRequest = {
