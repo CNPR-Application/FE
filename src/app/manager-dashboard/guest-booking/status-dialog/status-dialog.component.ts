@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Guest } from 'src/interfaces/Account';
+import { ValidationService } from 'src/service/validation.service';
 
 @Component({
   selector: 'app-status-dialog',
@@ -12,7 +13,8 @@ export class StatusDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<StatusDialogComponent>,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private validationService: ValidationService
   ) {}
 
   guest?: Guest;
@@ -32,6 +34,15 @@ export class StatusDialogComponent implements OnInit {
   }
 
   close(): void {
+    // 02/12/2021 QuangHN Add validate for status dialog START
+    let description = this.form.controls.description.value;
+
+    // check invalid
+    if (this.validationService.isInvalidTextArea(description, 'Ghi chú')) {
+      return;
+    }
+    // 02/12/2021 QuangHN Add validate for status dialog END
+
     let guestChanged: Guest = {
       id: this.guest?.id,
       status: this.form.controls.status.value,
