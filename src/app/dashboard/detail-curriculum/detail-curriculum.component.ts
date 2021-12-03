@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CurriculumResponseArray } from 'src/interfaces/Curriculum';
-import { Sharing } from 'src/interfaces/Sharing';
 import { Subject, SubjectArray } from 'src/interfaces/Subject';
 import { ApiService } from 'src/service/api.service';
 import { LocalStorageService } from 'src/service/local-storage.service';
+import { ValidationService } from 'src/service/validation.service';
 
 @Component({
   selector: 'app-detail-curriculum',
@@ -17,8 +17,11 @@ export class DetailCurriculumComponent implements OnInit {
     private service: LocalStorageService,
     private api: ApiService,
     private router: Router,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+    // 03/12/2021 QuangHN Add Validation Service START
+    private validationService: ValidationService
+  ) // 03/12/2021 QuangHN Add Validation Service END
+  {}
   // id from service
   curriculumId?: number;
   // curriculum detail model
@@ -103,6 +106,55 @@ export class DetailCurriculumComponent implements OnInit {
   }
 
   editCurriculum(): void {
+    // 03/12/2021 QuangHN Add Validation for edit curriculum START
+    let curriculumCode = this.form.controls.code.value;
+    let curriculumName = this.form.controls.name.value;
+    let description = this.form.controls.description.value;
+    let learningOutcome = this.form.controls.learningOutcome.value;
+
+    // check null
+    if (this.validationService.isNull(curriculumCode, 'Mã chương trình')) {
+      return;
+    }
+    if (this.validationService.isNull(curriculumName, 'Tên chương trình')) {
+      return;
+    }
+    if (this.validationService.isNull(description, 'Miêu tả chương trình')) {
+      return;
+    }
+    if (this.validationService.isNull(learningOutcome, 'Kết quả đạt được')) {
+      return;
+    }
+
+    // check invalid
+    if (
+      this.validationService.isInvalidInput(curriculumCode, 'Mã chương trình')
+    ) {
+      return;
+    }
+    if (
+      this.validationService.isInvalidInput(curriculumName, 'Tên chương trình')
+    ) {
+      return;
+    }
+    if (
+      this.validationService.isInvalidTextArea(
+        description,
+        'Miêu tả chương trình'
+      )
+    ) {
+      return;
+    }
+    if (
+      this.validationService.isInvalidTextArea(
+        learningOutcome,
+        'Kết quả đạt được'
+      )
+    ) {
+      return;
+    }
+    // 03/12/2021 QuangHN Add Validation for edit curriculum END
+
     const request: CurriculumResponseArray = {
       curriculumId: this.curriculumId,
       curriculumCode: this.form.controls.code.value,
@@ -136,6 +188,55 @@ export class DetailCurriculumComponent implements OnInit {
   }
 
   createCurriculum(): void {
+    // 03/12/2021 QuangHN Add Validation for create curriculum START
+    let curriculumCode = this.form.controls.code.value;
+    let curriculumName = this.form.controls.name.value;
+    let description = this.form.controls.description.value;
+    let learningOutcome = this.form.controls.learningOutcome.value;
+
+    // check null
+    if (this.validationService.isNull(curriculumCode, 'Mã chương trình')) {
+      return;
+    }
+    if (this.validationService.isNull(curriculumName, 'Tên chương trình')) {
+      return;
+    }
+    if (this.validationService.isNull(description, 'Miêu tả chương trình')) {
+      return;
+    }
+    if (this.validationService.isNull(learningOutcome, 'Kết quả đạt được')) {
+      return;
+    }
+
+    // check invalid
+    if (
+      this.validationService.isInvalidInput(curriculumCode, 'Mã chương trình')
+    ) {
+      return;
+    }
+    if (
+      this.validationService.isInvalidInput(curriculumName, 'Tên chương trình')
+    ) {
+      return;
+    }
+    if (
+      this.validationService.isInvalidTextArea(
+        description,
+        'Miêu tả chương trình'
+      )
+    ) {
+      return;
+    }
+    if (
+      this.validationService.isInvalidTextArea(
+        learningOutcome,
+        'Kết quả đạt được'
+      )
+    ) {
+      return;
+    }
+    // 03/12/2021 QuangHN Add Validation for create curriculum END
+
     const request: CurriculumResponseArray = {
       curriculumId: 1,
       curriculumCode: this.form.controls.code.value,
