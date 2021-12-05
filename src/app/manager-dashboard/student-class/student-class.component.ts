@@ -1,9 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ClassArray, ClassResponse } from 'src/interfaces/Class';
 import { StudentResponse } from 'src/interfaces/Student';
 import { ApiService } from 'src/service/api.service';
 import { LocalStorageService } from 'src/service/local-storage.service';
+import { SuspendDialogComponent } from './suspend-dialog/suspend-dialog.component';
 
 @Component({
   selector: 'app-student-class',
@@ -13,7 +15,8 @@ import { LocalStorageService } from 'src/service/local-storage.service';
 export class StudentClassComponent implements OnInit {
   constructor(
     private localStorage: LocalStorageService,
-    private api: ApiService
+    private api: ApiService,
+    private dialog: MatDialog
   ) {}
 
   today?: Date;
@@ -33,6 +36,10 @@ export class StudentClassComponent implements OnInit {
   url?: string;
   username?: string;
   openingDate?: string;
+  // clicked class
+  clickedClass?: ClassResponse;
+  //suspend
+  suspendSubject?: number[];
 
   ngOnInit(): void {
     this.today = new Date();
@@ -41,8 +48,16 @@ export class StudentClassComponent implements OnInit {
       this.student = this.localStorage.get('data');
       this.url = this.student?.image;
       this.username = this.student?.username;
+      this.getSuspendClass();
       if (this.username) this.getClassAll(this.username, this.status, 1);
     }
+  }
+
+  isSubjectSuspended(id?: number) {
+    if (id) {
+      return this.suspendSubject?.includes(id);
+    }
+    return true;
   }
 
   changeTitle(name: string): void {
@@ -82,6 +97,28 @@ export class StudentClassComponent implements OnInit {
       );
   }
 
+  getSuspendClass() {
+    if (this.username)
+      this.api.searchSuspendedClassOfStudent(this.username).subscribe(
+        (response: ClassResponse[]) => {
+          this.suspendSubject = [];
+          response.forEach((x) => {
+            if (
+              x.subjectId &&
+              !this.suspendSubject?.includes(x.subjectId) &&
+              x.suspend
+            ) {
+              this.suspendSubject?.push(x.subjectId);
+            }
+          });
+        },
+        (error: HttpErrorResponse) => {
+          console.error(error);
+          this.callAlert('Ok', 'Có lỗi xảy ra khi tải, vui lòng thử lại');
+        }
+      );
+  }
+
   changePage(pageNo: number) {
     if (this.username) this.getClassAll(this.username, this.status, pageNo);
   }
@@ -90,8 +127,24 @@ export class StudentClassComponent implements OnInit {
   haveAlertYN: boolean = false;
   alertMessage: string = '';
 
-  doYes(): void {
+  doYes(type: string): void {
     this.haveAlertYN = false;
+    let dialogRef = this.dialog.open(SuspendDialogComponent, {
+      data: {
+        type: type,
+        studentUsername: this.username,
+        price: this.clickedClass?.subjectPrice,
+        branchId: this.clickedClass?.branchId,
+        openingDate: this.clickedClass?.openingDate,
+        studentInClassId: this.clickedClass?.studentInClassId,
+        classId: this.clickedClass?.classId,
+      },
+    });
+    dialogRef.afterClosed().subscribe((data: string) => {
+      if (data) {
+        this.changeTitle('studying');
+      }
+    });
   }
 
   doNo(): void {
@@ -105,6 +158,6 @@ export class StudentClassComponent implements OnInit {
     } else {
       this.haveAlertYN = true;
     }
-    this.clickedId = param;
+    this.clickedClass = param;
   }
 }

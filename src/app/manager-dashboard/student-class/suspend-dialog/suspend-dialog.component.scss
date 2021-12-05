@@ -1,0 +1,76 @@
+.suspend-class {
+  .div-card {
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 30em;
+  }
+  .card {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1em;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+    .info-card-div {
+      width: 100%;
+      padding: 2em 1em 2em 1em;
+    }
+  }
+  .p-big {
+    cursor: pointer;
+    margin: 0;
+    font-weight: 500;
+    color: #303e67;
+    font-family: "Roboto";
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+  .p-small {
+    cursor: pointer;
+    //color: #a4abc5;
+    color: black;
+    font-size: 13px;
+    font-family: "Roboto";
+    margin: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .icon {
+    font-size: 20px;
+    color: #303e67;
+  }
+  .suggest-btn {
+    background: rgba(255, 255, 255, 0.19);
+    border: 1px solid #00bcf7;
+    box-sizing: border-box;
+    font-size: 9px;
+    height: 20px;
+    color: #182a88;
+  }
+  .suggest-btn:hover {
+    background-color: #00bcf7;
+    color: white;
+  }
+  //scroll bar
+  /* width */
+  ::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 0 white;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #c4c4c4;
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #7081b9;
+  }
+}

@@ -101,6 +101,8 @@
             Phòng học
           </th>
           <th class="th4">Tổng buổi học</th>
+          <th class="th4">Học phí</th>
+          <th *ngIf="status === 'studying' || status === 'finished'"></th>
         </tr>
         <tr
           class="data"
@@ -134,6 +136,29 @@
           <td>
             {{ class.slot }}
           </td>
+          <td>
+            {{ class.subjectPrice | currency: "VND" }}
+          </td>
+          <td *ngIf="status === 'studying' || status === 'finished'">
+            <button
+              *ngIf="
+                !isSubjectSuspended(class.subjectId) && status === 'studying'
+              "
+              class="suggest-btn"
+              (click)="
+                callAlert(
+                  'YN',
+                  'Vui lòng chọn phương án bạn muốn chuyển lớp',
+                  class
+                )
+              "
+            >
+              Chuyển lớp
+            </button>
+            <p *ngIf="class.suspend" style="color: red; margin: 0">
+              Đã chuyển lớp
+            </p>
+          </td>
         </tr>
       </table>
       <div class="paging" *ngIf="totalPage">
@@ -153,10 +178,11 @@
     <button (click)="haveAlertOk = !haveAlertOk">OK</button>
   </div>
 </div>
-<div class="alert-div" *ngIf="haveAlertYN">
+<div class="suspend-alert-div" *ngIf="haveAlertYN">
   <div class="alert" *ngIf="haveAlertYN">
     <p>{{ alertMessage }}</p>
-    <button (click)="doYes()">Có</button>
-    <button (click)="doNo()">Không</button>
+    <button (click)="doYes('studying')">Chuyển Vào Lớp Đang Học</button>
+    <button (click)="doYes('waiting')">Đăng Ký Lớp Mới</button>
+    <button (click)="doNo()">Quay lại</button>
   </div>
 </div>

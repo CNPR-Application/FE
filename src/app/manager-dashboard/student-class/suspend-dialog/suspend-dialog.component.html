@@ -1,0 +1,107 @@
+<div class="suspend-class">
+  <div class="div-card" *ngIf="classArray && classArray.length != 0">
+    <div class="card" *ngFor="let class of classArray; let i = index">
+      <div class="info-card-div">
+        <div class="flex center-align-item">
+          <div style="width: 80%">
+            <p class="p-big">{{ class.className }}</p>
+            <p class="p-big">
+              {{ price | currency: "VND" }}
+            </p>
+          </div>
+          <div style="width: 20%; justify-content: flex-end">
+            <button
+              class="suggest-btn"
+              *ngIf="type == 'waiting'"
+              (click)="
+                callAlert(
+                  'YN',
+                  'Bạn chỉ có thể chuyển lớp 1 lần. Bạn đã kiểm tra thông tin kĩ rồi chứ ?',
+                  class
+                )
+              "
+            >
+              Đăng ký ngay
+            </button>
+            <button
+              class="suggest-btn"
+              *ngIf="type == 'studying'"
+              (click)="
+                callAlert(
+                  'YN',
+                  'Bạn chỉ có thể chuyển lớp 1 lần. Bạn đã kiểm tra thông tin kĩ rồi chứ ?',
+                  class
+                )
+              "
+            >
+              Chuyển lớp
+            </button>
+          </div>
+        </div>
+        <div
+          class="flex center-align-item"
+          style="width: 100%; margin-top: 1em"
+        >
+          <div style="width: 50%">
+            <div
+              class="flex center-align-item"
+              style="margin-bottom: 3px"
+              title="{{ class.subjectName }}"
+            >
+              <mat-icon class="icon">ballot</mat-icon>
+              <p class="p-small">Môn học: {{ class.subjectName }}</p>
+            </div>
+            <div class="flex center-align-item">
+              <mat-icon class="icon">access_time</mat-icon>
+              <p class="p-small">
+                Ngày khai giảng:
+                {{ class.openingDate | date: "dd/MM/yyyy" }}
+              </p>
+            </div>
+          </div>
+          <div style="width: 50%; padding-left: 3%">
+            <div
+              class="flex center-align-item"
+              title="{{ class.shiftDescription }}"
+              style="margin-bottom: 3px"
+            >
+              <mat-icon class="icon">calendar_today</mat-icon>
+              <p class="p-small">Ca học: {{ class.shiftDescription }}</p>
+            </div>
+            <div class="flex center-align-item">
+              <mat-icon class="icon">group</mat-icon>
+              <p class="p-small">
+                Số lượng: {{ class.numberOfStudent }} học viên
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="alert-div alert-div-popup" *ngIf="haveAlertOk">
+  <div class="alert alert-popup">
+    <p>{{ alertMessage }}</p>
+    <button (click)="close()">OK</button>
+  </div>
+</div>
+<div class="alert-div alert-div-popup" *ngIf="haveAlertYN">
+  <div class="alert alert-popup">
+    <p>{{ alertMessage }}</p>
+    <button (click)="doYes()">Có</button>
+    <button (click)="doNo()">Không</button>
+  </div>
+</div>
+<div
+  *ngIf="isLoading"
+  class="loading-page loading-page-popup"
+  style="padding-left: 0"
+>
+  <img
+    class="loading-popup"
+    style="top: 47%; margin-left: -1.5em"
+    src="/assets/image/loading.gif"
+    alt="Logo image"
+  />
+</div>
