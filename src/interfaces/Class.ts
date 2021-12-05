@@ -26,6 +26,8 @@ export interface ClassResponse {
   numberOfStudent?: number;
   managerId?: number;
   managerUsername?: string;
+  suspend?: boolean;
+  studentInClassId?: number;
 }
 
 export interface ClassRequest {
@@ -68,4 +70,14 @@ export interface ClassActivationRequest {
 export interface ClassDeleteRequest {
   classId: number;
   reason: string;
+}
+
+export interface ClassSuspendRequest {
+  openingDate: string;
+  type: string;
+  newClassId: number;
+  studentUsername: string;
+  branchId?: number;
+  description?: string;
+  subjectId?: number;
 }

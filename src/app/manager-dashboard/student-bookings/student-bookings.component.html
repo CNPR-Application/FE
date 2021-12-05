@@ -107,7 +107,13 @@
           <td (click)="openStatusDialog(booking)">
             {{ booking.branchName }}
           </td>
-          <td (click)="openStatusDialog(booking)" *ngIf="booking.description">
+          <td
+            (click)="openStatusDialog(booking)"
+            *ngIf="booking.description"
+            title="{{ booking.description }}"
+            style="width: 10em"
+            class="wrap-text"
+          >
             {{ booking.description }}
           </td>
           <td (click)="openStatusDialog(booking)" *ngIf="!booking.description">
