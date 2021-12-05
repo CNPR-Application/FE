@@ -43,6 +43,7 @@ import {
   ClassRequest,
   ClassResponse,
   ClassStatus,
+  ClassSuspendRequest,
 } from '../interfaces/Class';
 import {
   CurriculumResponse,
@@ -401,6 +402,15 @@ export class ApiService {
     return this.http.get<ClassArray>(url, { headers: this.headers });
   }
 
+  searchClassToSuspend(
+    status: string,
+    price: number,
+    branchId: number
+  ): Observable<ClassResponse[]> {
+    const url = `${this.rootUrl}class-suspend?status=${status}&price=${price}&branchId=${branchId}`;
+    return this.http.get<ClassResponse[]>(url, { headers: this.headers });
+  }
+
   activateClass(request: ClassActivationRequest): Observable<number> {
     const url = `${this.rootUrl}activate-class`;
     return this.http.post<number>(url, request, { headers: this.headers });
@@ -424,6 +434,19 @@ export class ApiService {
   deleteClass(request: ClassDeleteRequest): Observable<boolean> {
     const url = `${this.rootUrl}classes/${request.classId}`;
     return this.http.patch<boolean>(url, request, { headers: this.headers });
+  }
+
+  suspendClass(
+    studentInClassId: number,
+    request: ClassSuspendRequest
+  ): Observable<boolean> {
+    const url = `${this.rootUrl}class-suspend?studentInClassId=${studentInClassId}`;
+    return this.http.put<boolean>(url, request, { headers: this.headers });
+  }
+
+  searchSuspendedClassOfStudent(studentUsername: string):Observable<ClassResponse[]> {
+    const url = `${this.rootUrl}class-suspend?studentUsername=${studentUsername}`;
+    return this.http.get<ClassResponse[]>(url, { headers: this.headers });
   }
 
   //student in class
