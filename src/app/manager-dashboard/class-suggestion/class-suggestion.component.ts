@@ -430,6 +430,33 @@ export class ClassSuggestionComponent implements OnInit {
     let studentPerClassObject: BookingPerClass | undefined =
       this.studentPerClassObject;
     let index: number = 0;
+
+    // 1/12/2021 QuangHN Add Validate START
+    let name = form1.controls.name.value;
+    let openingDate = form1.controls.openingDate.value;
+    let teacherName = form1.controls.teacherName.value;
+    let roomNo = form1.controls.roomNo.value;
+
+    // check null
+    if (this.validationService.isNull(name, 'Tên lớp học')) {
+      return;
+    }
+    if (this.validationService.isNull(openingDate, 'Ngày khai giảng')) {
+      return;
+    }
+    if (this.validationService.isNull(teacherName, 'Giáo viên')) {
+      return;
+    }
+    if (this.validationService.isNull(roomNo, 'Phòng')) {
+      return;
+    }
+
+    // check invalid
+    if (this.validationService.isInvalidInput(name, 'Tên lớp học')) {
+      return;
+    }
+    // 1/12/2021 QuangHN Add Validate END
+
     // add classActivatedRequest for studentPerClassObject
     let bookingNumberArray: Array<number> = [];
     studentPerClassArray?.forEach((x) => {
@@ -536,32 +563,6 @@ export class ClassSuggestionComponent implements OnInit {
 
   //ask when number of student invalid
   preActivateClass() {
-    // 1/12/2021 QuangHN Add Validate START
-    let name = this.form.controls.name.value;
-    let openingDate = this.form.controls.openingDate.value;
-    let teacherName = this.form.controls.teacherName.value;
-    let roomNo = this.form.controls.roomNo.value;
-
-    // check null
-    if (this.validationService.isNull(name, 'Tên lớp học')) {
-      return;
-    }
-    if (this.validationService.isNull(openingDate, 'Ngày khai giảng')) {
-      return;
-    }
-    if (this.validationService.isNull(teacherName, 'Giáo viên')) {
-      return;
-    }
-    if (this.validationService.isNull(roomNo, 'Phòng')) {
-      return;
-    }
-
-    // check invalid
-    if (this.validationService.isInvalidInput(name, 'Tên lớp học')) {
-      return;
-    }
-    // 1/12/2021 QuangHN Add Validate END
-
     if (
       this.studentPerClassArray &&
       this.studentPerClassArray.length < this.MIN_CLASS_NUM
