@@ -1,11 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Booking } from 'src/interfaces/Booking';
 import { ClassArray, ClassResponse } from 'src/interfaces/Class';
 import { Subject, SubjectArray } from 'src/interfaces/Subject';
 import { ApiService } from 'src/service/api.service';
+import { ValidationService } from 'src/service/validation.service';
 
 @Component({
   selector: 'app-booking-create',
@@ -17,8 +18,11 @@ export class BookingCreateComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<BookingCreateComponent>,
     private api: ApiService,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+    // 03/12/2021 Add validation service START
+    private validationService: ValidationService
+  ) // 03/12/2021 Add validation service END
+  {}
 
   name?: string;
   username?: string;
@@ -88,6 +92,22 @@ export class BookingCreateComponent implements OnInit {
   }
 
   bookClass(): void {
+    // 03/12/2021 QuangHN Add Validate for create booking form START
+    let classId = this.classId;
+    let description = this.form.controls.description.value;
+
+    // check null
+    if (this.validationService.isNull(classId, 'Lớp')) {
+      return;
+    }
+
+    // check invalid
+    if (this.validationService.isInvalidTextArea(description, 'Ghi chú')) {
+      return;
+    }
+
+    // 03/12/2021 QuangHN Add Validate for create booking form END
+
     const request: Booking = {
       payingPrice: this.price,
       description: this.form.controls.description.value,

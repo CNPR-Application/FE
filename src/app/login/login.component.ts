@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from 'src/service/authentication.service';
+import { ValidationService } from 'src/service/validation.service';
 import { LoginRequest, LoginResponse } from '../../interfaces/Account';
 import { ApiService } from '../../service/api.service';
 import { LocalStorageService } from '../../service/local-storage.service';
@@ -23,7 +24,8 @@ export class LoginComponent implements OnInit {
     private route: Router,
     private localStorageService: LocalStorageService,
     private authenticationService: AuthenticationService,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private validationService: ValidationService
   ) {
     authenticationService.logout();
   }
@@ -63,17 +65,27 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  validate(){
+  validate() {
     let username = this.loginForm.controls.username.value;
     let password = this.loginForm.controls.password.value;
-    if(!username || username == ''){
+    if (!username || username == '') {
       this.toast.error('Tên đăng nhập không được để trống');
       return;
     }
-    if(!password || password == ''){
+    if (!password || password == '') {
       this.toast.error('Mật khẩu không được để trống');
       return;
     }
+
+    // 02/12/2021 QuangHN Add validation invalid for login START
+    if (this.validationService.isInvalidInput(username, 'Tên đăng nhập')) {
+      return;
+    }
+    if (this.validationService.isInvalidInput(password, 'Mật khẩu')) {
+      return;
+    }
+    // 02/12/2021 QuangHN Add validation invalid for login END
+
     this.onSubmit();
   }
 
