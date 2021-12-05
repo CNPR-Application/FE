@@ -4,14 +4,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LoginResponse } from 'src/interfaces/Account';
 import { ClassRequest, ClassResponse } from 'src/interfaces/Class';
-import {
-  NotiBranchRequest,
-  NotiPersonRequest,
-} from 'src/interfaces/Notification';
 import { Shift, ShiftArray } from 'src/interfaces/Shift';
 import { Subject, SubjectArray } from 'src/interfaces/Subject';
 import { ApiService } from 'src/service/api.service';
 import { LocalStorageService } from 'src/service/local-storage.service';
+import { ValidationService } from 'src/service/validation.service';
 
 @Component({
   selector: 'app-class-create',
@@ -24,7 +21,8 @@ export class ClassCreateComponent implements OnInit {
     private dialogRef: MatDialogRef<ClassCreateComponent>,
     private api: ApiService,
     private formBuilder: FormBuilder,
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    private validationService: ValidationService
   ) {}
 
   // for alert, loading
@@ -81,6 +79,32 @@ export class ClassCreateComponent implements OnInit {
   }
 
   create(): void {
+    // 02/12/2021 QuangHN Add validate START
+    let className = this.form.controls.name.value;
+    let shiftId = this.form.controls.shiftId.value;
+    let subjectId = this.form.controls.subjectId.value;
+    let openingDate = this.form.controls.openingDate.value;
+
+    // check null
+    if (this.validationService.isNull(className, 'Tên lớp học')) {
+      return;
+    }
+    if (this.validationService.isNull(shiftId, 'Ca học')) {
+      return;
+    }
+    if (this.validationService.isNull(subjectId, 'Môn học')) {
+      return;
+    }
+    if (this.validationService.isNull(openingDate, 'Ngày khai giảng')) {
+      return;
+    }
+
+    // check invalid
+    if (this.validationService.isInvalidInput(className, 'Tên lớp học')) {
+      return;
+    }
+    // 02/12/2021 QuangHN Add validate END
+
     let user: LoginResponse = this.localStorage.get('user');
     const request: ClassRequest = {
       className: this.form.controls.name.value,
