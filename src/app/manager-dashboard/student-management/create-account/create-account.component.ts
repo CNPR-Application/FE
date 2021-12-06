@@ -1,11 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CreateInFoResponse, LoginResponse } from 'src/interfaces/Account';
 import { StudentResponse } from 'src/interfaces/Student';
 import { TeacherInfo } from 'src/interfaces/Teacher';
 import { ApiService } from 'src/service/api.service';
 import { LocalStorageService } from 'src/service/local-storage.service';
+import { ValidationService } from 'src/service/validation.service';
 
 @Component({
   selector: 'app-create-account',
@@ -18,7 +19,8 @@ export class CreateAccountComponent implements OnInit {
     private dialogRef: MatDialogRef<CreateAccountComponent>,
     private api: ApiService,
     private formBuilder: FormBuilder,
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    private validationService: ValidationService
   ) {}
 
   // for alert, loading
@@ -116,6 +118,68 @@ export class CreateAccountComponent implements OnInit {
   }
 
   editInfo(): void {
+    // 06/12/2021 QuangHN Add validate for edit account student form START
+    let name = this.form.controls.name.value;
+    let birthday = this.form.controls.birthday.value;
+    let address = this.form.controls.address.value;
+    let phone = this.form.controls.phone.value;
+    let email = this.form.controls.email.value;
+    let experience = this.form.controls.experience.value;
+    let parentName = this.form.controls.parentName.value;
+    let parentPhone = this.form.controls.parentPhone.value;
+    let role = this.role;
+
+    // check null
+    if (this.validationService.isNull(name, 'Họ và tên')) {
+      return;
+    }
+    if (this.validationService.isNull(birthday, 'Ngày sinh')) {
+      return;
+    }
+    if (this.validationService.isNull(address, 'Địa chỉ')) {
+      return;
+    }
+    if (this.validationService.isNull(phone, 'Số điện thoại')) {
+      return;
+    }
+    if (this.validationService.isNull(email, 'Email')) {
+      return;
+    }
+
+    // check invalid
+    if (this.validationService.isInvalidInput(name, 'Họ và tên')) {
+      return;
+    }
+    if (this.validationService.isInvalidTextArea(address, 'Địa chỉ')) {
+      return;
+    }
+    if (this.validationService.isInvalidPhone(phone)) {
+      return;
+    }
+    if (this.validationService.isInvalidEmail(email)) {
+      return;
+    }
+    if (this.role == 'teacher') {
+      if (
+        this.validationService.isInvalidTextArea(
+          experience,
+          'Kinh nghiệm giảng dạy'
+        )
+      ) {
+        return;
+      }
+    }
+    if (this.role == 'student') {
+      if (this.validationService.isInvalidInput(parentName, 'Tên phụ huynh')) {
+        return;
+      }
+      if (this.validationService.isInvalidParentPhone(parentPhone)) {
+        return;
+      }
+    }
+
+    // 06/12/2021 QuangHN Add validate for edit account student form END
+
     this.isLoading = true;
     this.birthday = this.form.controls.birthday.value;
     const request: LoginResponse = {
@@ -154,6 +218,65 @@ export class CreateAccountComponent implements OnInit {
   }
 
   createInfo(): void {
+    // 06/12/2021 QuangHN Add validate for create account student form START
+    let name = this.form.controls.name.value;
+    let birthday = this.form.controls.birthday.value;
+    let address = this.form.controls.address.value;
+    let phone = this.form.controls.phone.value;
+    let email = this.form.controls.email.value;
+    let experience = this.form.controls.experience.value;
+    let parentName = this.form.controls.parentName.value;
+    let parentPhone = this.form.controls.parentPhone.value;
+
+    // check null
+    if (this.validationService.isNull(name, 'Họ và tên')) {
+      return;
+    }
+    if (this.validationService.isNull(birthday, 'Ngày sinh')) {
+      return;
+    }
+    if (this.validationService.isNull(address, 'Địa chỉ')) {
+      return;
+    }
+    if (this.validationService.isNull(phone, 'Số điện thoại')) {
+      return;
+    }
+    if (this.validationService.isNull(email, 'Email')) {
+      return;
+    }
+
+    // check invalid
+    if (this.validationService.isInvalidInput(name, 'Họ và tên')) {
+      return;
+    }
+    if (this.validationService.isInvalidTextArea(address, 'Địa chỉ')) {
+      return;
+    }
+    if (this.validationService.isInvalidPhone(phone)) {
+      return;
+    }
+    if (this.validationService.isInvalidEmail(email)) {
+      return;
+    }
+    if (this.role == 'teacher') {
+      if (
+        this.validationService.isInvalidTextArea(
+          experience,
+          'Kinh nghiệm giảng dạy'
+        )
+      ) {
+        return;
+      }
+    }
+    if (this.role == 'student') {
+      if (this.validationService.isInvalidInput(parentName, 'Tên phụ huynh')) {
+        return;
+      }
+      if (this.validationService.isInvalidParentPhone(parentPhone)) {
+        return;
+      }
+    }
+    // 06/12/2021 QuangHN Add validate for create account student form END
     this.isLoading = true;
     this.birthday = this.form.controls.birthday.value;
     const request: LoginResponse = {
