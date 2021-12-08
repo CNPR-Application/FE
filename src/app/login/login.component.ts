@@ -47,14 +47,13 @@ export class LoginComponent implements OnInit {
         this.localStorageService.set('user', response);
         this.authenticationService.login(response);
         if (this.loginResponse?.role === 'admin') {
-          this.route.navigate(['/dashboard/main']);
-        } else if (
-          this.loginResponse?.role === 'manager' ||
-          this.loginResponse?.role === 'staff'
-        ) {
-          this.route.navigate(['/manager-dashboard/main']);
+          this.route.navigate(['/dashboard/curriculum']);
+        } else if (this.loginResponse?.role === 'manager') {
+          this.route.navigate(['/manager-dashboard/class-management']);
         } else if (this.loginResponse.role === 'teacher') {
           this.route.navigate(['/teacher-dashboard/main']);
+        } else if (this.loginResponse.role === 'staff') {
+          this.route.navigate(['/manager-dashboard/guest-booking']);
         }
       },
       (error) => {

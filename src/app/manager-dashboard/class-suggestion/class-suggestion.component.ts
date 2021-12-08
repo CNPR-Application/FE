@@ -112,9 +112,11 @@ export class ClassSuggestionComponent implements OnInit {
       this.form.controls.id.setValue(this.classModel?.classId);
     }
     if (className) {
-      this.form.controls.name.setValue(className);
+      this.form.controls.name.setValue(className + ' ' + this.clickedId);
     } else {
-      this.form.controls.name.setValue(this.classModel?.className);
+      this.form.controls.name.setValue(
+        this.classModel?.className + ' ' + this.clickedId
+      );
     }
     this.form.controls.slot.setValue(this.classModel?.slot);
     this.form.controls.managerUsername.setValue(user.username);
@@ -130,6 +132,7 @@ export class ClassSuggestionComponent implements OnInit {
     } else {
       this.openingDate = this.classModel?.openingDate;
     }
+    this.getRoomListChange();
     if (teacherId) {
       this.form.controls.teacherId.setValue(teacherId);
     }

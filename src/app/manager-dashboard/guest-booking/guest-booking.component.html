@@ -38,7 +38,7 @@
           <td class="color-grey">
             {{ class.openingDate | date: "dd-MM-yyyy" }}
           </td>
-          <td>{{ class.subjectPrice | currency: "VND"}}</td>
+          <td>{{ class.subjectPrice | currency: "VND" }}</td>
         </tr>
       </table>
       <div class="paging" *ngIf="totalPage">
@@ -163,42 +163,45 @@
           </option>
         </select>
       </div>
-      <div
-        class="head-body"
-        *ngFor="let guest of guestArray"
-        [ngStyle]="{
-          'background-color':
-            guest.id === clickedIdGuest ? 'rgba(236, 237, 241, 0.5)' : 'white'
-        }"
-        (click)="setForm(guest)"
-      >
-        <div class="num">
-          <mat-icon class="star">perm_phone_msg</mat-icon>
-          <button class="suggest-btn" (click)="openStatusDialog(guest)">
-            Đổi trạng thái
-          </button>
-        </div>
-        <div class="card">
-          <div class="flex">
-            <mat-icon class="icon">perm_identity</mat-icon>
-            <p class="name">{{ guest.customerName }}</p>
-            <div class="flex" style="width: 30%; justify-content: flex-end">
-              <mat-icon class="icon">access_time</mat-icon>
-              <p>{{ guest.bookingDate | date: "dd-MM-yyyy" }}</p>
+      <div style="max-height: 55em; overflow-y: auto; overflow-x: hidden">
+        <div
+          class="head-body"
+          *ngFor="let guest of guestArray"
+          [ngStyle]="{
+            'background-color':
+              guest.id === clickedIdGuest ? 'rgba(236, 237, 241, 0.5)' : 'white'
+          }"
+          (click)="setForm(guest)"
+        >
+          <div class="num">
+            <mat-icon class="star">perm_phone_msg</mat-icon>
+            <button class="suggest-btn" (click)="openStatusDialog(guest)">
+              Đổi trạng thái
+            </button>
+          </div>
+          <div class="card">
+            <div class="flex">
+              <mat-icon class="icon">perm_identity</mat-icon>
+              <p class="name">{{ guest.customerName }}</p>
+              <div class="flex" style="width: 30%; justify-content: flex-end">
+                <mat-icon class="icon">access_time</mat-icon>
+                <p>{{ guest.bookingDate | date: "dd-MM-yyyy" }}</p>
+              </div>
             </div>
-          </div>
-          <div class="flex" style="margin-top: 1.25em">
-            <p style="width: 45%">Chương trình: {{ guest.curriculumName }}</p>
-            <p style="width: 30%">Số điện thoại: {{ guest.phone }}</p>
-            <p style="width: 25%; float: right; text-align: end">
-              Nơi ở: {{ guest.city }}
-            </p>
-          </div>
-          <div class="flex" style="margin-top: 0.7em; margin-bottom: 0.25em">
-            <p>Ghi chú: {{ guest.description }}</p>
+            <div class="flex" style="margin-top: 1.25em">
+              <p style="width: 45%">Chương trình: {{ guest.curriculumName }}</p>
+              <p style="width: 30%">Số điện thoại: {{ guest.phone }}</p>
+              <p style="width: 25%; float: right; text-align: end">
+                Nơi ở: {{ guest.city }}
+              </p>
+            </div>
+            <div class="flex" style="margin-top: 0.7em; margin-bottom: 0.25em">
+              <p>Ghi chú: {{ guest.description }}</p>
+            </div>
           </div>
         </div>
       </div>
+
       <div class="paging" *ngIf="totalPageGuest">
         <div
           class="item"
