@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { SubjectDialogComponent } from 'src/app/dashboard/subject-detail/subject-dialog/subject-dialog.component';
 import {
   CurriculumResponse,
   CurriculumResponseArray,
@@ -12,8 +14,7 @@ import {
 } from 'src/interfaces/Subject';
 import { ApiService } from 'src/service/api.service';
 import { LocalStorageService } from 'src/service/local-storage.service';
-import { MatDialog } from '@angular/material/dialog';
-import { SubjectDialogComponent } from 'src/app/dashboard/subject-detail/subject-dialog/subject-dialog.component';
+import { ValidationService } from 'src/service/validation.service';
 
 @Component({
   selector: 'app-subject-detail',
@@ -26,8 +27,11 @@ export class SubjectDetailComponent implements OnInit {
     private api: ApiService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private dialog: MatDialog
-  ) {}
+    private dialog: MatDialog,
+    // 08/12/2021 QuangHN Add Validation Service START
+    private validationService: ValidationService
+  ) // 08/12/2021 QuangHN Add Validation Service END
+  {}
   // id from service
   subjectId?: number;
   // curriculum detail model
@@ -141,6 +145,63 @@ export class SubjectDetailComponent implements OnInit {
   }
 
   editSubject(): void {
+    // 08/12/2021 QuangHN Add validate for editSubject form START
+    let subjectCode = this.form.controls.code.value;
+    let subjectName = this.form.controls.name.value;
+    let price = this.form.controls.price.value;
+    let slot = this.form.controls.slot.value;
+    let slotPerWeek = this.form.controls.slotPerWeek.value;
+    let curriculumId = this.form.controls.curriculumId.value;
+    let description = this.form.controls.description.value;
+
+    // check null
+    if (this.validationService.isNull(subjectCode, 'Mã môn học')) {
+      return;
+    }
+    if (this.validationService.isNull(subjectName, 'Tên môn học')) {
+      return;
+    }
+    if (this.validationService.isNull(price, 'Học phí')) {
+      return;
+    }
+    if (this.validationService.isNull(slot, 'Tổng buổi học')) {
+      return;
+    }
+    if (this.validationService.isNull(slotPerWeek, 'Số buổi/ tuần')) {
+      return;
+    }
+    if (this.validationService.isNull(curriculumId, 'Chương trình')) {
+      return;
+    }
+    if (this.validationService.isNull(description, 'Miêu tả môn học')) {
+      return;
+    }
+
+    // check invalid
+    if (this.validationService.isInvalidInput(subjectCode, 'Mã môn học')) {
+      return;
+    }
+    if (this.validationService.isInvalidInput(subjectName, 'Tên môn học')) {
+      return;
+    }
+    if (
+      this.validationService.isInvalidTextArea(description, 'Miêu tả môn học')
+    ) {
+      return;
+    }
+
+    // check zero or lower
+    if (this.validationService.isZeroOrLower(price, 'Học phí')) {
+      return;
+    }
+    if (this.validationService.isZeroOrLower(slot, 'Tổng buổi học')) {
+      return;
+    }
+    if (this.validationService.isZeroOrLower(slotPerWeek, 'Số buổi/ tuần')) {
+      return;
+    }
+    // 08/12/2021 QuangHN Add validate for editSubject form END
+
     const request: Subject = {
       subjectId: this.subjectId,
       subjectCode: this.form.controls.code.value,
@@ -179,6 +240,63 @@ export class SubjectDetailComponent implements OnInit {
   }
 
   createSubject(): void {
+    // 08/12/2021 QuangHN Add validate for createSubject form START
+    let subjectCode = this.form.controls.code.value;
+    let subjectName = this.form.controls.name.value;
+    let price = this.form.controls.price.value;
+    let slot = this.form.controls.slot.value;
+    let slotPerWeek = this.form.controls.slotPerWeek.value;
+    let curriculumId = this.form.controls.curriculumId.value;
+    let description = this.form.controls.description.value;
+
+    // check null
+    if (this.validationService.isNull(subjectCode, 'Mã môn học')) {
+      return;
+    }
+    if (this.validationService.isNull(subjectName, 'Tên môn học')) {
+      return;
+    }
+    if (this.validationService.isNull(price, 'Học phí')) {
+      return;
+    }
+    if (this.validationService.isNull(slot, 'Tổng buổi học')) {
+      return;
+    }
+    if (this.validationService.isNull(slotPerWeek, 'Số buổi/ tuần')) {
+      return;
+    }
+    if (this.validationService.isNull(curriculumId, 'Chương trình')) {
+      return;
+    }
+    if (this.validationService.isNull(description, 'Miêu tả môn học')) {
+      return;
+    }
+
+    // check invalid
+    if (this.validationService.isInvalidInput(subjectCode, 'Mã môn học')) {
+      return;
+    }
+    if (this.validationService.isInvalidInput(subjectName, 'Tên môn học')) {
+      return;
+    }
+    if (
+      this.validationService.isInvalidTextArea(description, 'Miêu tả môn học')
+    ) {
+      return;
+    }
+
+    // check zero or lower
+    if (this.validationService.isZeroOrLower(price, 'Học phí')) {
+      return;
+    }
+    if (this.validationService.isZeroOrLower(slot, 'Tổng buổi học')) {
+      return;
+    }
+    if (this.validationService.isZeroOrLower(slotPerWeek, 'Số buổi/ tuần')) {
+      return;
+    }
+    // 08/12/2021 QuangHN Add validate for createSubject form END
+
     const request: Subject = {
       subjectId: 1,
       subjectCode: this.form.controls.code.value,

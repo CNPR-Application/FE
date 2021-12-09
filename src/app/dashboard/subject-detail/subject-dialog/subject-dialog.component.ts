@@ -1,9 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Subject, SubjectArray, SubjectDetail } from 'src/interfaces/Subject';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Subject, SubjectDetail } from 'src/interfaces/Subject';
 import { ApiService } from 'src/service/api.service';
+import { ValidationService } from 'src/service/validation.service';
 
 @Component({
   selector: 'app-subject-dialog',
@@ -15,8 +16,11 @@ export class SubjectDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private service: ApiService,
     private formBuilder: FormBuilder,
-    private dialogRef: MatDialogRef<SubjectDialogComponent>
-  ) {}
+    private dialogRef: MatDialogRef<SubjectDialogComponent>,
+    // 08/12/2021 QuangHN Add Validation Service START
+    private validationService: ValidationService
+  ) // 08/12/2021 QuangHN Add Validation Service END
+  {}
 
   // subject detail model
   subjectDetail?: SubjectDetail;
@@ -63,6 +67,43 @@ export class SubjectDialogComponent implements OnInit {
   }
 
   editSubjectDetail(): void {
+    // 08/12/2021 QuangHN Add validate for editSubjectDetail form START
+    let weekNum = this.form.controls.weekNum.value;
+    let weekDescription = this.form.controls.description.value;
+    let learningOutcome = this.form.controls.learningOutcome.value;
+
+    // check null
+    if (this.validationService.isNull(weekNum, 'Tuần số')) {
+      return;
+    }
+    if (this.validationService.isNull(weekDescription, 'Nội dung học')) {
+      return;
+    }
+    if (this.validationService.isNull(learningOutcome, 'Kết quả đạt được')) {
+      return;
+    }
+
+    // check invalid
+    if (
+      this.validationService.isInvalidTextArea(weekDescription, 'Nội dung học')
+    ) {
+      return;
+    }
+    if (
+      this.validationService.isInvalidTextArea(
+        learningOutcome,
+        'Kết quả đạt được'
+      )
+    ) {
+      return;
+    }
+
+    // check zero equal
+    if (this.validationService.isZeroOrLower(weekNum, 'Tuần số')) {
+      return;
+    }
+    // 08/12/2021 QuangHN Add validate for editSubjectDetail form END
+
     this.isLoading = true;
     const request: SubjectDetail = {
       subjectDetailId: this.subjectDetail?.subjectDetailId,
@@ -92,6 +133,43 @@ export class SubjectDialogComponent implements OnInit {
     );
   }
   createSubjectDetail(): void {
+    // 08/12/2021 QuangHN Add validate for createSubjectDetail form START
+    let weekNum = this.form.controls.weekNum.value;
+    let weekDescription = this.form.controls.description.value;
+    let learningOutcome = this.form.controls.learningOutcome.value;
+
+    // check null
+    if (this.validationService.isNull(weekNum, 'Tuần số')) {
+      return;
+    }
+    if (this.validationService.isNull(weekDescription, 'Nội dung học')) {
+      return;
+    }
+    if (this.validationService.isNull(learningOutcome, 'Kết quả đạt được')) {
+      return;
+    }
+
+    // check invalid
+    if (
+      this.validationService.isInvalidTextArea(weekDescription, 'Nội dung học')
+    ) {
+      return;
+    }
+    if (
+      this.validationService.isInvalidTextArea(
+        learningOutcome,
+        'Kết quả đạt được'
+      )
+    ) {
+      return;
+    }
+
+    // check zero equal
+    if (this.validationService.isZeroOrLower(weekNum, 'Tuần số')) {
+      return;
+    }
+    // 08/12/2021 QuangHN Add validate for createSubjectDetail form END
+
     this.isLoading = true;
     const request: SubjectDetail = {
       subjectDetailId: 0,
