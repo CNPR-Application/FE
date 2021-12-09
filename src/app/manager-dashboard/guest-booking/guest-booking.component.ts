@@ -200,7 +200,7 @@ export class GuestBookingComponent implements OnInit {
       this.isLoading = true;
       this.form.reset();
       this.api
-        .searchGuestByStatus(this.branchId, this.statusGuest, pageNo, 6)
+        .searchGuestByStatus(this.branchId, this.statusGuest, pageNo, 20)
         .subscribe(
           (response: GuestArray) => {
             this.guestArray = response.registeringGuestSearchResponseDtos;
@@ -281,7 +281,7 @@ export class GuestBookingComponent implements OnInit {
     }
 
     // 1/12/2021 QuangHN Add Validate START
-    if (this.validationService.isInvalidParentPhone(parentPhone)) {
+    if (this.validationService.isInvalidPhone(parentPhone)) {
       return;
     }
 

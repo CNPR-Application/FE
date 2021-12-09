@@ -298,4 +298,25 @@
     margin-top: 0.5em;
     text-align: center;
   }
+  //scroll bar
+  /* width */
+  ::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 1px 1px 1px rgba(24, 42, 136, 0.14);
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #c4c4c4;
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #7081b9;
+  }
 }
