@@ -84,4 +84,22 @@ export class ValidationService {
     }
     return false;
   }
+
+  // 08/12/2021 QuangHN Add Validate Function START
+  isZeroOrLower(
+    value: number,
+    name: string,
+    limit?: number
+  ) : boolean {
+    let num = 0;
+    if (limit) {
+      num = limit;
+    }
+    if (value <= num) {
+      this.toast.error(name + ' không được bé hơn hoặc bằng ' + num  + '!');
+      return true;
+    }
+    return false;
+  }
+  // 08/12/2021 QuangHN Add Validate Function END
 }
