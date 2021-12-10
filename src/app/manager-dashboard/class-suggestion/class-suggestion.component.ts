@@ -208,7 +208,8 @@ export class ClassSuggestionComponent implements OnInit {
       this.classModel &&
       this.classModel.openingDate &&
       this.branchId &&
-      this.classModel.shiftId
+      this.classModel.shiftId &&
+      this.classModel.classId
     ) {
       let date;
       if (openingDate) {
@@ -220,7 +221,8 @@ export class ClassSuggestionComponent implements OnInit {
         .getRoomByBranchShiftOpeningDate(
           this.branchId,
           this.classModel?.shiftId,
-          date
+          date,
+          this.classModel.classId
         )
         .subscribe((response) => {
           this.roomArray = response.roomList;
