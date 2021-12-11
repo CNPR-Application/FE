@@ -272,7 +272,7 @@ export class CreateAccountComponent implements OnInit {
       if (this.validationService.isInvalidInput(parentName, 'Tên phụ huynh')) {
         return;
       }
-      if (this.validationService.isInvalidParentPhone(parentPhone)) {
+      if (this.validationService.isInvalidPhone(parentPhone)) {
         return;
       }
     }
