@@ -8,6 +8,7 @@ import { NotificationDialogComponent } from './notification-dialog/notification-
 import { MessagingService } from 'src/service/messaging.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/service/authentication.service';
+import { NotificationModel } from 'src/interfaces/Utils';
 
 @Component({
   selector: 'app-manager-dashboard',
@@ -48,6 +49,13 @@ export class ManagerDashboardComponent implements OnInit {
     this.messagingService.requestPermission();
     this.messagingService.receiveMessage();
     this.messagingService.notiUpdated.subscribe((data) => {
+      this.message = this.messagingService.currentMessage.getValue();
+      if (this.message && user.role == 'staff') {
+        let obj: NotificationModel = JSON.parse(JSON.stringify(this.message));
+        if (obj.notification.title == '[guest/booking]') {
+          window.location.reload();
+        }
+      }
       this.getNotification();
     });
     this.getNotification();

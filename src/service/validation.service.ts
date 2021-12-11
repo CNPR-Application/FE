@@ -20,9 +20,12 @@ export class ValidationService {
 
   isInvalidEmail(value: any): boolean {
     let emailRegex = new RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$');
-    if (!emailRegex.test(value)) {
-      this.toast.error('Email không hợp lệ');
-      return true;
+    if (value) {
+      if (!emailRegex.test(value)) {
+        this.toast.error('Email không hợp lệ');
+        return true;
+      }
+      return false;
     }
     return false;
   }
@@ -31,27 +34,15 @@ export class ValidationService {
     let phoneRegex = new RegExp(
       '^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$'
     );
-    if (!phoneRegex.test(value)) {
-      this.toast.error('Số điện thoại không hợp lệ');
-      return true;
-    }
-    return false;
-  }
-
-  // 1/12/2021 QuangHN Add validate Function START
-  isInvalidParentPhone(value: any): boolean {
-    if (!(!value || value == '')) {
-      let phoneRegex = new RegExp(
-        '^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$'
-      );
+    if (value) {
       if (!phoneRegex.test(value)) {
-        this.toast.error('Số điện thoại phụ huynh không hợp lệ');
+        this.toast.error('Số điện thoại không hợp lệ');
         return true;
       }
+      return false;
     }
     return false;
   }
-  // 1/12/2021 QuangHN Add validate Function END
 
   isInvalidInput(
     value: string,
@@ -59,12 +50,15 @@ export class ValidationService {
     numberOfCharacter?: number
   ): boolean {
     let num = this.inputNum;
-    if (numberOfCharacter) {
-      num = numberOfCharacter;
-    }
-    if (value.length > num) {
-      this.toast.error(name + ' không được quá ' + num + ' ký tự!');
-      return true;
+    if (value) {
+      if (numberOfCharacter) {
+        num = numberOfCharacter;
+      }
+      if (value.length > num) {
+        this.toast.error(name + ' không được quá ' + num + ' ký tự!');
+        return true;
+      }
+      return false;
     }
     return false;
   }
@@ -74,13 +68,16 @@ export class ValidationService {
     name: string,
     numberOfCharacter?: number
   ): boolean {
-    let num = this.textAreaNum;
-    if (numberOfCharacter) {
-      num = numberOfCharacter;
-    }
-    if (value.length > num) {
-      this.toast.error(name + ' không được quá ' + num + ' ký tự!');
-      return true;
+    if (value) {
+      let num = this.textAreaNum;
+      if (numberOfCharacter) {
+        num = numberOfCharacter;
+      }
+      if (value.length > num) {
+        this.toast.error(name + ' không được quá ' + num + ' ký tự!');
+        return true;
+      }
+      return false;
     }
     return false;
   }

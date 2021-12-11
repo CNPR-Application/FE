@@ -11,7 +11,7 @@
     <button class="suggest-btn" (click)="editSession()">Chỉnh sửa</button>
   </div>
   <p class="label" *ngIf="sessionModel">
-    Ca học: {{ startTime | date: "HH:mm":"+000" }} -
+    Ca học: {{ sessionModel.startTime | date: "HH:mm":"+000" }} -
     {{ sessionModel.endTime | date: "HH:mm":"+000" }}, ngày
     {{ startTime | date: "dd-MM-yyyy" }}
   </p>
@@ -23,6 +23,9 @@
       class="input"
       formControlName="newTeacherId"
     >
+      <option *ngIf="sessionModel" [value]="sessionModel.teacherId">
+        Giáo viên cũ : {{ sessionModel.teacherName }}
+      </option>
       <option *ngFor="let teacher of teacherArray" [value]="teacher.teacherId">
         {{ teacher.teacherName }} - {{ teacher.teacherUsername }}
       </option>
@@ -46,8 +49,11 @@
       class="input"
       formControlName="newRoomId"
     >
+      <option *ngIf="sessionModel" [value]="sessionModel.roomId">
+        Phòng cũ : {{ sessionModel.roomName }}
+      </option>
       <option *ngFor="let room of roomArray" [value]="room.roomId">
-        ID: {{ room.roomId }} - {{ room.roomName }}
+        {{ room.roomName }}
       </option>
     </select>
   </div>
@@ -66,8 +72,9 @@
     <input
       class="input"
       type="datetime-local"
+      (change)="getRoomListChange()"
       formControlName="newStartTime"
-      [min]="startTime"
+      [min]="todayDate"
     />
   </div>
   <div class="input-div">

@@ -702,9 +702,10 @@ export class ApiService {
   getRoomByBranchShiftOpeningDate(
     branchId: number,
     shiftId: number,
-    openingDate: string
+    openingDate: string,
+    classId: number
   ): Observable<RoomList> {
-    const url = `${this.rootUrl}rooms/${branchId}/search?shiftId=${shiftId}&openingDate=${openingDate}`;
+    const url = `${this.rootUrl}rooms/${branchId}/search?shiftId=${shiftId}&openingDate=${openingDate}&classId=${classId}`;
     return this.http.get<RoomList>(url, { headers: this.headers });
   }
 
