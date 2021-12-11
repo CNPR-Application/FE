@@ -1,10 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CreateInFoResponse, LoginResponse } from 'src/interfaces/Account';
 import { Branch, BranchArray } from 'src/interfaces/Branch';
 import { shiftModel } from 'src/interfaces/Shift';
 import { ApiService } from 'src/service/api.service';
+import { ValidationService } from 'src/service/validation.service';
 
 @Component({
   selector: 'app-staff-dialog',
@@ -16,7 +17,8 @@ export class StaffDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<StaffDialogComponent>,
     private api: ApiService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private validationService: ValidationService
   ) {}
   // for alert, loading
   isLoading: boolean = false;
@@ -119,6 +121,53 @@ export class StaffDialogComponent implements OnInit {
   }
 
   editInfo(): void {
+    // 06/12/2021 QuangHN Add Validate for edit staff form START
+    let name = this.form.controls.name.value;
+    let birthday = this.form.controls.birthday.value;
+    let address = this.form.controls.address.value;
+    let phone = this.form.controls.phone.value;
+    let email = this.form.controls.email.value;
+    let branchId = this.form.controls.branchId.value;
+    let role = this.form.controls.role.value;
+
+    // check null
+    if (this.validationService.isNull(name, 'Họ và tên')) {
+      return;
+    }
+    if (this.validationService.isNull(birthday, 'Ngày sinh')) {
+      return;
+    }
+    if (this.validationService.isNull(address, 'Địa chỉ')) {
+      return;
+    }
+    if (this.validationService.isNull(phone, 'Số điện thoại')) {
+      return;
+    }
+    if (this.validationService.isNull(email, 'Email')) {
+      return;
+    }
+    if (this.validationService.isNull(branchId, 'Tên chi nhánh')) {
+      return;
+    }
+    if (this.validationService.isNull(role, 'Chức vụ')) {
+      return;
+    }
+
+    // check invalid
+    if (this.validationService.isInvalidInput(name, 'Họ và tên')) {
+      return;
+    }
+    if (this.validationService.isInvalidTextArea(address, 'Địa chỉ')) {
+      return;
+    }
+    if (this.validationService.isInvalidPhone(phone)) {
+      return;
+    }
+    if (this.validationService.isInvalidEmail(email)) {
+      return;
+    }
+    // 06/12/2021 QuangHN Add Validate for edit staff form END
+
     this.isLoading = true;
     this.birthday = this.form.controls.birthday.value;
     const request: LoginResponse = {
@@ -160,6 +209,53 @@ export class StaffDialogComponent implements OnInit {
   }
 
   createInfo(): void {
+    // 06/12/2021 QuangHN Add Validate for create staff form START
+    let name = this.form.controls.name.value;
+    let birthday = this.form.controls.birthday.value;
+    let address = this.form.controls.address.value;
+    let phone = this.form.controls.phone.value;
+    let email = this.form.controls.email.value;
+    let branchId = this.form.controls.branchId.value;
+    let role = this.form.controls.role.value;
+
+    // check null
+    if (this.validationService.isNull(name, 'Họ và tên')) {
+      return;
+    }
+    if (this.validationService.isNull(birthday, 'Ngày sinh')) {
+      return;
+    }
+    if (this.validationService.isNull(address, 'Địa chỉ')) {
+      return;
+    }
+    if (this.validationService.isNull(phone, 'Số điện thoại')) {
+      return;
+    }
+    if (this.validationService.isNull(email, 'Email')) {
+      return;
+    }
+    if (this.validationService.isNull(branchId, 'Tên chi nhánh')) {
+      return;
+    }
+    if (this.validationService.isNull(role, 'Chức vụ')) {
+      return;
+    }
+
+    // check invalid
+    if (this.validationService.isInvalidEmail(email)) {
+      return;
+    }
+    if (this.validationService.isInvalidPhone(phone)) {
+      return;
+    }
+    if (this.validationService.isInvalidInput(name, 'Họ và tên')) {
+      return;
+    }
+    if (this.validationService.isInvalidTextArea(address, 'Địa chỉ')) {
+      return;
+    }
+    // 06/12/2021 QuangHN Add Validate for create staff form END
+
     this.isLoading = true;
     this.birthday = this.form.controls.birthday.value;
     const request: LoginResponse = {

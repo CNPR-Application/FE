@@ -282,9 +282,7 @@
           <div style="width: 72%">
             <h5>{{ student.studentName }}</h5>
             <p>Tài khoản: {{ student.studentUsername }}</p>
-            <p>
-              Ngày đăng ký: {{ student.payingDate | date: "HH:mm dd-MM-yyyy" }}
-            </p>
+            <p>Ngày đăng ký: {{ student.payingDate | date: "dd-MM-yyyy" }}</p>
           </div>
         </div>
       </div>

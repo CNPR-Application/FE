@@ -27,6 +27,7 @@ export class SuspendDialogComponent implements OnInit {
   // classArray
   classArray?: Array<ClassResponse>;
   clickedClass?: ClassResponse;
+  suspendSubject?: number[];
 
   // for alert, loading
   isLoading: boolean = false;
@@ -39,6 +40,7 @@ export class SuspendDialogComponent implements OnInit {
     this.type = this.data.type;
     this.branchId = this.data.branchId;
     this.price = this.data.price;
+    this.suspendSubject = this.data.suspendSubject;
     this.studentInClassId = this.data.studentInClassId;
     this.studentUsername = this.data.studentUsername;
     this.openingDate = formatDate(this.data.openingDate, 'yyyy-MM-dd', 'en-US');
@@ -58,13 +60,23 @@ export class SuspendDialogComponent implements OnInit {
               if (
                 x.numberOfStudent &&
                 x.numberOfStudent <= 11 &&
-                x.classId != this.data.classId
+                x.classId != this.data.classId &&
+                x.subjectId &&
+                !this.suspendSubject?.includes(x.subjectId)
               ) {
                 this.classArray?.push(x);
               }
             });
           } else {
-            this.classArray = response;
+            response.forEach((x) => {
+              if (
+                x.classId != this.data.classId &&
+                x.subjectId &&
+                !this.suspendSubject?.includes(x.subjectId)
+              ) {
+                this.classArray?.push(x);
+              }
+            });
           }
           if (this.classArray.length == 0) {
             this.isSuccess = true;
@@ -87,7 +99,6 @@ export class SuspendDialogComponent implements OnInit {
       this.studentUsername &&
       this.studentInClassId
     ) {
-      this.isLoading = true;
       let status = 'class';
       if (this.type == 'waiting') {
         status = 'booking';
@@ -105,10 +116,8 @@ export class SuspendDialogComponent implements OnInit {
         branchId: this.branchId,
         subjectId: clickedClass.subjectId,
       };
-      console.log(request);
       this.api.suspendClass(this.studentInClassId, request).subscribe(
         (response) => {
-          this.isLoading = false;
           if (response) {
             this.isSuccess = true;
             this.callAlert('Ok', 'Chuyển lớp thành công');
@@ -120,7 +129,6 @@ export class SuspendDialogComponent implements OnInit {
           }
         },
         (error: HttpErrorResponse) => {
-          this.isLoading = false;
           console.log(error);
           if (error.error == 'Class suspension request denied!') {
             this.callAlert(
