@@ -138,11 +138,13 @@ export class StudentClassComponent implements OnInit {
         openingDate: this.clickedClass?.openingDate,
         studentInClassId: this.clickedClass?.studentInClassId,
         classId: this.clickedClass?.classId,
+        suspendSubject: this.suspendSubject
       },
     });
     dialogRef.afterClosed().subscribe((data: string) => {
       if (data) {
         this.changeTitle('studying');
+        this.getSuspendClass();
       }
     });
   }
