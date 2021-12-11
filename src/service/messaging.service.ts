@@ -6,9 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 export class MessagingService {
   currentMessage = new BehaviorSubject(null);
   notiUpdated = this.currentMessage.asObservable();
-  constructor(
-    private angularFireMessaging: AngularFireMessaging,
-  ) {
+  constructor(private angularFireMessaging: AngularFireMessaging) {
     this.angularFireMessaging.messages.subscribe(
       (m: AngularFireMessaging | any) => {
         m.onMessage = m.onMessage.bind(m);

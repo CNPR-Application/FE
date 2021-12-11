@@ -4,9 +4,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { StudentInClassComponent } from 'src/app/manager-dashboard/schedule/student-in-class/student-in-class.component';
 import { LoginResponse } from 'src/interfaces/Account';
 import {
-    ScheduleResponse,
-    ScheduleTeacherListResponse,
-    ScheduleTeacherMiddle
+  ScheduleResponse,
+  ScheduleTeacherListResponse,
+  ScheduleTeacherMiddle,
 } from 'src/interfaces/Schedule';
 import { ApiService } from 'src/service/api.service';
 import { LocalStorageService } from 'src/service/local-storage.service';
@@ -127,6 +127,11 @@ export class TeacherScheduleComponent implements OnInit {
       this.classSameShiftArray.length == 1
     ) {
       this.moreRows = 1;
+    } else if (
+      this.classSameShiftArray &&
+      this.classSameShiftArray.length >= 2
+    ) {
+      this.moreRows = 0;
     }
   }
 

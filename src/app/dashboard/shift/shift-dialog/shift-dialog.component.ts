@@ -1,14 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ApiService } from 'src/service/api.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
-  TIME_END,
-  TIME_START,
   DAY_OF_WEEKS,
   Shift,
   shiftModel,
+  TIME_START,
 } from 'src/interfaces/Shift';
+import { ApiService } from 'src/service/api.service';
+import { ValidationService } from 'src/service/validation.service';
 
 @Component({
   selector: 'app-shift-dialog',
@@ -20,7 +20,8 @@ export class ShiftDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private api: ApiService,
     private formBuilder: FormBuilder,
-    private dialogRef: MatDialogRef<ShiftDialogComponent>
+    private dialogRef: MatDialogRef<ShiftDialogComponent>,
+    private validationService: ValidationService
   ) {}
 
   timeStartArray = TIME_START;
@@ -47,6 +48,14 @@ export class ShiftDialogComponent implements OnInit {
   ngOnInit(): void {}
 
   createShift(): void {
+    // 06/12/2021 QuangHN Add Validate for create shift form START
+    let timeStart = this.form.controls.timeStart.value;
+
+    // check null
+    if (this.validationService.isNull(timeStart, 'Thời gian bắt đầu')) {
+      return;
+    }
+    // 06/12/2021 QuangHN Add Validate for create shift form END
     this.isLoading = true;
     this.chosenDays.sort();
     let value = '';

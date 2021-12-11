@@ -157,6 +157,22 @@ export class MainManagerComponent implements OnInit {
               name: 'Lớp Học Mới',
               value: response.newClass,
             },
+            {
+              name: 'Tổng Đơn Tư Vấn',
+              value: response.totalRegisteredInfo,
+            },
+            {
+              name: 'Tổng Bookings',
+              value: response.totalBooking,
+            },
+            {
+              name: 'Tổng Học Sinh',
+              value: response.totalStudent,
+            },
+            {
+              name: 'Tổng Lớp Học',
+              value: response.totalClass,
+            },
           ];
           this.isLoadingStatic = false;
         },
@@ -345,6 +361,7 @@ export class MainManagerComponent implements OnInit {
       }
     });
     this.chartArraySubject = this.chartArraySubject.slice(0, 10);
+    this.subjectRatingArray = this.subjectRatingArray.slice(0, 10);
   }
 
   toFloat(x: number): number {
@@ -377,6 +394,9 @@ export class MainManagerComponent implements OnInit {
               }
             });
             this.chartArrayTeacher = this.chartArrayTeacher.slice(0, 10);
+            if (this.teacherArray) {
+              this.teacherArray = this.teacherArray.slice(0, 10);
+            }
             this.isLoadingTeacher = false;
           },
           (error) => {

@@ -168,56 +168,6 @@
   <div class="body-loading" *ngIf="isLoadingSubject">
     <img class="img-loading" src="/assets/image/loading.gif" alt="Logo image" />
   </div>
-  <p class="title-small" style="margin-top: 1em">
-    Top 10 giáo viên có rating cao nhất
-  </p>
-  <div class="flex" style="margin-top: 0.5em" *ngIf="!isLoadingTeacher">
-    <div style="width: 70%">
-      <div>
-        <div>
-          <ngx-charts-bar-horizontal
-            [view]="[720, 280]"
-            [results]="chartArrayTeacher"
-            [scheme]="blueScheme"
-            [gradient]="true"
-            [showXAxisLabel]="true"
-            [showYAxisLabel]="true"
-            [xAxis]="true"
-            [yAxis]="true"
-            [animations]="true"
-            [showDataLabel]="true"
-          >
-          </ngx-charts-bar-horizontal>
-        </div>
-      </div>
-    </div>
-    <div class="right-table">
-      <table class="table" style="height: 280px; overflow: auto">
-        <tr
-          class="header"
-          style="font-size: 13px; color: rgba(24, 42, 136, 0.95)"
-        >
-          <th class="th1">Giáo viên</th>
-          <th class="th2">Đánh giá</th>
-        </tr>
-        <tr class="data" *ngFor="let teacher of teacherArray; let i = index">
-          <td class="color-blue">{{ teacher.name }}</td>
-          <td class="color-grey">
-            <mat-icon
-              [style.color]="showIconString(i, teacher.rating)"
-              style="font-size: 21px"
-              *ngFor="let ratingId of ratingArr; index as i"
-            >
-              grade
-            </mat-icon>
-          </td>
-        </tr>
-      </table>
-    </div>
-  </div>
-  <div class="body-loading" *ngIf="isLoadingTeacher">
-    <img class="img-loading" src="/assets/image/loading.gif" alt="Logo image" />
-  </div>
 </div>
 <div class="alert-div" *ngIf="haveAlertOk">
   <div class="alert">
