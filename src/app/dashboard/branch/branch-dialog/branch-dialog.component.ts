@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Branch } from 'src/interfaces/Branch';
 import { ApiService } from 'src/service/api.service';
+import { ValidationService } from 'src/service/validation.service';
 
 @Component({
   selector: 'app-branch-dialog',
@@ -14,7 +15,8 @@ export class BranchDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private api: ApiService,
     private formBuilder: FormBuilder,
-    private dialogRef: MatDialogRef<BranchDialogComponent>
+    private dialogRef: MatDialogRef<BranchDialogComponent>,
+    private validationService: ValidationService
   ) {}
 
   branch?: Branch;
@@ -62,6 +64,38 @@ export class BranchDialogComponent implements OnInit {
   }
 
   editBranch() {
+    // 06/12/2021 QuangHN Add Validate for edit branch form START
+    let branchName = this.form.controls.name.value;
+    let phone = this.form.controls.phone.value;
+    let openingDate = this.form.controls.openingDate.value;
+    let address = this.form.controls.address.value;
+
+    // check null
+    if (this.validationService.isNull(branchName, 'Tên chi nhánh')) {
+      return;
+    }
+    if (this.validationService.isNull(phone, 'Số điện thoại')) {
+      return;
+    }
+    if (this.validationService.isNull(openingDate, 'Ngày khai trương')) {
+      return;
+    }
+    if (this.validationService.isNull(address, 'Địa chỉ')) {
+      return;
+    }
+
+    // check invalid
+    if (this.validationService.isInvalidInput(branchName, 'Tên chi nhánh')) {
+      return;
+    }
+    if (this.validationService.isInvalidPhone(phone)) {
+      return;
+    }
+    if (this.validationService.isInvalidTextArea(address, 'Địa chỉ')) {
+      return;
+    }
+    // 06/12/2021 QuangHN Add Validate for edit branch form END
+
     this.isLoading = true;
     this.openingDate = this.form.controls.openingDate.value;
     const request: Branch = {
@@ -93,6 +127,37 @@ export class BranchDialogComponent implements OnInit {
   }
 
   createBranch() {
+    // 06/12/2021 QuangHN Add Validate for create branch form START
+    let branchName = this.form.controls.name.value;
+    let phone = this.form.controls.phone.value;
+    let openingDate = this.form.controls.openingDate.value;
+    let address = this.form.controls.address.value;
+
+    // check null
+    if (this.validationService.isNull(branchName, 'Tên chi nhánh')) {
+      return;
+    }
+    if (this.validationService.isNull(phone, 'Số điện thoại')) {
+      return;
+    }
+    if (this.validationService.isNull(openingDate, 'Ngày khai trương')) {
+      return;
+    }
+    if (this.validationService.isNull(address, 'Địa chỉ')) {
+      return;
+    }
+
+    // check invalid
+    if (this.validationService.isInvalidInput(branchName, 'Tên chi nhánh')) {
+      return;
+    }
+    if (this.validationService.isInvalidPhone(phone)) {
+      return;
+    }
+    if (this.validationService.isInvalidTextArea(address, 'Địa chỉ')) {
+      return;
+    }
+    // 06/12/2021 QuangHN Add Validate for create branch form END
     this.isLoading = true;
     this.openingDate = this.form.controls.openingDate.value;
     const request: Branch = {

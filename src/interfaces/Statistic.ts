@@ -3,7 +3,10 @@ export interface ManagerStatistic {
   newBooking?: number;
   newRegisteredInfo?: number;
   newStudent?: number;
-  newTeacher?: number;
+  totalClass?: number;
+  totalBooking?: number;
+  totalRegisteredInfo?: number;
+  totalStudent?: number;
 }
 
 export interface AdminStatisticArray {

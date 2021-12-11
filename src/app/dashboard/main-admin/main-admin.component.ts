@@ -39,7 +39,6 @@ export class MainAdminComponent implements OnInit {
         );
       }
     );
-    this.getTeacher(1);
     for (let i = 0; i < 5; i++) {
       this.ratingArr.push(i);
     }
@@ -78,20 +77,14 @@ export class MainAdminComponent implements OnInit {
 
   //array
   subjectRatingArray?: Array<Subject>;
-  teacherArray?: Array<LoginResponse>;
 
   //loading
   isLoadingSubject: boolean = true;
   isLoadingTeacher: boolean = true;
   isLoadingStatic: boolean = false;
 
-  totalPageTeacher?: number;
-  currentPageTeacher?: number;
-  pageArrayTeacher?: Array<number>;
-
   //chart
   chartArraySubject?: Array<Single_Chart>;
-  chartArrayTeacher?: Array<Single_Chart>;
 
   getAdminStatistic() {
     let date = formatDate(this.today, 'yyyy-MM-dd', 'en-US');
@@ -236,6 +229,7 @@ export class MainAdminComponent implements OnInit {
       }
     });
     this.chartArraySubject = this.chartArraySubject.slice(0, 10);
+    this.subjectRatingArray = this.subjectRatingArray.slice(0, 10);
   }
 
   toFloat(x: string | undefined): number {
@@ -253,40 +247,6 @@ export class MainAdminComponent implements OnInit {
       return Math.floor(parseFloat(y));
     }
     return 0;
-  }
-
-  getTeacher(pageNo: number): void {
-    this.isLoadingTeacher = true;
-    if (this.branchId)
-      this.api.searchInfoByName('teacher', '', true, 1, 10000).subscribe(
-        (response) => {
-          this.teacherArray = response.accountResponseDtoList;
-          this.teacherArray = this.teacherArray?.sort(
-            (a, b) => this.toFloat(b.rating) - this.toFloat(a.rating)
-          );
-          this.chartArrayTeacher = [];
-          this.teacherArray?.forEach((y) => {
-            if (y && y.rating) {
-              let num = this.toFloat(y.rating);
-              let item: Single_Chart = {
-                name: y.name,
-                value: num,
-              };
-              this.chartArrayTeacher?.push(item);
-            }
-          });
-          this.chartArrayTeacher = this.chartArrayTeacher.slice(0, 10);
-          this.isLoadingTeacher = false;
-        },
-        (error) => {
-          console.error(error);
-          this.isLoadingTeacher = false;
-          this.callAlert(
-            'Ok',
-            'Có lỗi xảy ra khi tải giáo viên, vui lòng thử lại'
-          );
-        }
-      );
   }
 
   showIcon(index: number, rating: number | undefined) {

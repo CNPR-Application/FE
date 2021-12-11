@@ -52,14 +52,23 @@ export class SessionDialogComponent implements OnInit {
   today = new Date();
   startTime?: string;
   isSuccess: boolean = false;
+  todayDate?: string;
 
   ngOnInit(): void {
     this.classModel = this.data.class;
     this.sessionModel = this.data.session;
     this.branchId = this.classModel?.branchId;
-    this.startTime = this.sessionModel?.startTime;
+    if (this.sessionModel?.startTime) {
+      this.startTime = formatDate(
+        this.timeService.convertTimeFromApi(this.sessionModel?.startTime),
+        'yyyy-MM-dd HH:mm',
+        'en-US'
+      );
+    }
     this.form.controls.newRoomId.setValue(this.sessionModel?.roomId);
     this.form.controls.newTeacherId.setValue(this.sessionModel?.teacherId);
+    this.form.controls.newStartTime.setValue(this.startTime);
+    this.todayDate = formatDate(this.today, 'yyyy-MM-dd', 'en-US') + 'T00:00';
     this.getRoom();
     this.getTeacher();
   }
@@ -70,7 +79,8 @@ export class SessionDialogComponent implements OnInit {
       this.classModel &&
       this.classModel.openingDate &&
       this.branchId &&
-      this.classModel.shiftId
+      this.classModel.shiftId &&
+      this.classModel.classId
     ) {
       let date;
       if (this.startTime) {
@@ -82,12 +92,16 @@ export class SessionDialogComponent implements OnInit {
         .getRoomByBranchShiftOpeningDate(
           this.branchId,
           this.classModel?.shiftId,
-          date
+          date,
+          this.classModel.classId
         )
         .subscribe(
           (response) => {
             this.isLoading = false;
             this.roomArray = response.roomList;
+            this.roomArray = this.roomArray.filter(
+              (x) => x.roomId != this.form.controls.newRoomId.value
+            );
           },
           (error) => {
             this.isLoading = false;
@@ -125,6 +139,9 @@ export class SessionDialogComponent implements OnInit {
           (data: TeacherSearchArray) => {
             this.isLoading = false;
             this.teacherArray = data.teacherList;
+            this.teacherArray = this.teacherArray?.filter(
+              (x) => x.teacherId != this.form.controls.newTeacherId.value
+            );
           },
           (error) => {
             this.isLoading = false;
@@ -135,6 +152,12 @@ export class SessionDialogComponent implements OnInit {
           }
         );
     }
+  }
+
+  getRoomListChange() {
+    this.startTime = this.form.controls.newStartTime.value;
+    this.getRoom();
+    this.getTeacher();
   }
 
   editSession(): void {
@@ -156,7 +179,7 @@ export class SessionDialogComponent implements OnInit {
       changeAllTeacher: this.form.controls.changeAllTeacher.value,
       newStartTime: changeDate,
       changeAllTime: this.form.controls.changeAllTime.value,
-      newShiftId : 0
+      newShiftId: 0,
     };
     this.isLoading = true;
     this.api.updateSession(request).subscribe(
@@ -182,7 +205,23 @@ export class SessionDialogComponent implements OnInit {
               this.classModel?.shiftDescription
           );
         } else {
-          this.callAlert('Ok', 'Có lỗi xảy ra khi chỉnh sửa, vui lòng thử lại');
+          let err: string = error.error;
+          if (err.includes('New start time not available!')) {
+            err = err.replace(
+              'New start time not available!',
+              'Trùng thông tin với'
+            );
+            err = err.replace('Class', 'Lớp');
+            err = err.replace('of Teacher', 'của GV');
+            err = err.replace('and Room', 'ở phòng');
+            err = err.replace('took this place!', '');
+            this.callAlert('Ok', err);
+          } else {
+            this.callAlert(
+              'Ok',
+              'Có lỗi xảy ra khi chỉnh sửa, vui lòng thử lại'
+            );
+          }
         }
       }
     );
