@@ -18,15 +18,19 @@
               grade
             </mat-icon>
           </div>
-          <div
-            *ngFor="let subject of subjectList; let i = index"
-            class="flex center-justify center-align-item subject-div"
-          >
-            <div style="width: 80%; display: flex; justify-content: flex-start">
-              <p>{{ subject.subjectName }}</p>
-            </div>
-            <div style="width: 20%; display: flex; justify-content: flex-end">
-              <mat-icon>keyboard_arrow_down</mat-icon>
+          <div style="max-height: 19em; overflow-x: hidden; overflow-y: auto">
+            <div
+              *ngFor="let subject of subjectList; let i = index"
+              class="flex center-justify center-align-item subject-div"
+            >
+              <div
+                style="width: 80%; display: flex; justify-content: flex-start"
+              >
+                <p>{{ subject.subjectName }}</p>
+              </div>
+              <div style="width: 20%; display: flex; justify-content: flex-end">
+                <mat-icon>keyboard_arrow_down</mat-icon>
+              </div>
             </div>
           </div>
         </div>
