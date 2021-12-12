@@ -18,7 +18,7 @@
     <div class="left">
       <div class="flex" *ngIf="!isLoadingStatic">
         <ngx-charts-number-card
-          [view]="[750, 350]"
+          [view]="[750, 300]"
           [scheme]="blueScheme"
           [results]="single"
           [cardColor]="'#ecedf133'"
@@ -46,6 +46,7 @@
           <option value="bookings">Bookings mới</option>
           <option value="student">Học sinh mới</option>
           <option value="teacher">Giáo viên mới</option>
+          <option value="revenue">Học phí thu mới</option>
         </select>
       </div>
       <div

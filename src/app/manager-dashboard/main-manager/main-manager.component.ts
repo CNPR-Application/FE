@@ -135,7 +135,7 @@ export class MainManagerComponent implements OnInit {
   chartArrayTeacher?: Array<Single_Chart>;
 
   getManagerStatistic() {
-    let date = formatDate(this.today, 'yyyy-MM-dd', 'en-US');
+    let date = formatDate(this.today, 'yyyy-MM', 'en-US') + '-01';
     if (this.branchId) {
       this.isLoadingStatic = true;
       this.api.getManagerStatistic(date, this.branchId).subscribe(
@@ -158,8 +158,8 @@ export class MainManagerComponent implements OnInit {
               value: response.newClass,
             },
             {
-              name: 'Tổng Đơn Tư Vấn',
-              value: response.totalRegisteredInfo,
+              name: 'Học Phí Thu Mới',
+              value: response.monthRevenue,
             },
             {
               name: 'Tổng Bookings',

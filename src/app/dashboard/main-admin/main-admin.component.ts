@@ -87,7 +87,7 @@ export class MainAdminComponent implements OnInit {
   chartArraySubject?: Array<Single_Chart>;
 
   getAdminStatistic() {
-    let date = formatDate(this.today, 'yyyy-MM-dd', 'en-US');
+    let date = formatDate(this.today, 'yyyy-MM', 'en-US') + '-01';
     this.isLoadingStatic = true;
     this.api.getAdminStatistic(date).subscribe(
       (response: AdminStatisticArray) => {
@@ -101,6 +101,10 @@ export class MainAdminComponent implements OnInit {
           {
             name: 'Bookings Mới',
             value: response.totalNewBooking,
+          },
+          {
+            name: 'Học Phí Thu Mới',
+            value: response.totalMonthRevenue,
           },
           {
             name: 'Học Sinh Mới',
@@ -173,6 +177,15 @@ export class MainAdminComponent implements OnInit {
           let item: Single_Chart = {
             name: x.branchName,
             value: x.newTeacher,
+          };
+          this.chartArray?.push(item);
+        });
+      } else if (value == 'revenue') {
+        this.titleChartArray = 'Biểu đồ học phí thu mới của các chi nhánh';
+        this.statisticArray.forEach((x) => {
+          let item: Single_Chart = {
+            name: x.branchName,
+            value: x.monthRevenue,
           };
           this.chartArray?.push(item);
         });

@@ -201,7 +201,7 @@ export class SessionDialogComponent implements OnInit {
         ) {
           this.callAlert(
             'Ok',
-            'Vui lòng chọn ngày dời thuộc các ngày ' +
+            'Bạn thay đổi toàn bộ các tiết hoc. Vui lòng chọn ngày dời thuộc các ngày ' +
               this.classModel?.shiftDescription
           );
         } else {

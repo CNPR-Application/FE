@@ -3,6 +3,7 @@ export interface ManagerStatistic {
   newBooking?: number;
   newRegisteredInfo?: number;
   newStudent?: number;
+  monthRevenue: number;
   totalClass?: number;
   totalBooking?: number;
   totalRegisteredInfo?: number;
@@ -16,6 +17,7 @@ export interface AdminStatisticArray {
   totalNewRegisteredInfo?: number;
   totalNewStudent?: number;
   totalNewTeacher?: number;
+  totalMonthRevenue: number;
 }
 
 export interface AdminStatistic {
@@ -26,4 +28,5 @@ export interface AdminStatistic {
   newRegisteredInfo?: number;
   newStudent?: number;
   newTeacher?: number;
+  monthRevenue: number;
 }
