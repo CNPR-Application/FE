@@ -4,13 +4,20 @@
       <p class="title">Trang chủ</p>
       <p class="line-title">
         <a class="back-title" style="cursor: auto"
-          >Xem thống kê tháng {{ today | date: "MM/yyyy" }}</a
+          >Xem thống kê tháng {{ todayMonth | date: "MM/yyyy" }}</a
         >
       </p>
     </div>
-    <div class="div-today" style="width: 13%">
-      <p class="today">{{ today | date: "dd/MM/yyyy" }}</p>
-      <mat-icon class="icon-today">date_range</mat-icon>
+    <div>
+      <input
+        class="today-btn"
+        type="month"
+        id="date"
+        name="date"
+        value="{{ todayMonth }}"
+        #date
+        (change)="onChangeDate(date.value)"
+      />
     </div>
   </div>
   <!-- card with class  and subject trending -->

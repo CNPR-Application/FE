@@ -1,6 +1,21 @@
 .main-manager {
   padding: 6vh;
   padding-bottom: 1vh;
+  .today-btn {
+    color: #182a88;
+    border: 1px solid #00bcf7;
+    background: rgba(255, 255, 255, 0.19);
+    font-family: "Roboto";
+    padding-left: 7px;
+  }
+  .today-btn:hover {
+    color: white;
+    background-color: #00bcf7;
+  }
+  .today-btn:focus{
+    border: 1px solid #00bcf7;
+    outline: none;
+  }
   .chart-title {
     font-size: 14px;
     color: rgba(24, 42, 136, 0.95);

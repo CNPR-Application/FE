@@ -1,6 +1,7 @@
 import { formatDate } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { LoginResponse } from 'src/interfaces/Account';
 import { ClassResponse, ClassArray } from 'src/interfaces/Class';
 import { ShiftArray, Shift } from 'src/interfaces/Shift';
@@ -19,13 +20,16 @@ import { LocalStorageService } from 'src/service/local-storage.service';
 export class MainManagerComponent implements OnInit {
   constructor(
     private localStorage: LocalStorageService,
-    private api: ApiService
-  ) {}
+    private api: ApiService,
+    private formBuilder: FormBuilder
+  ) {
+  }
 
   ngOnInit(): void {
     let user: LoginResponse = this.localStorage.get('user');
     this.branchId = user.branchId;
     this.isLoadingSubject = true;
+    this.todayMonth = formatDate(this.today, 'yyyy-MM', 'en-US');
     this.getManagerStatistic();
     this.api.getSubjectByName('', true, 1, 1000).subscribe(
       (response: SubjectArray) => {
@@ -105,6 +109,7 @@ export class MainManagerComponent implements OnInit {
   branchId?: number;
   isLoadingClass: boolean = false;
   today = new Date();
+  todayMonth: string = '2021-12';
   //subject array
   subjectArray?: Single_Chart[];
   preSubjectArray?: SingleChartClass[];
@@ -135,7 +140,7 @@ export class MainManagerComponent implements OnInit {
   chartArrayTeacher?: Array<Single_Chart>;
 
   getManagerStatistic() {
-    let date = formatDate(this.today, 'yyyy-MM', 'en-US') + '-01';
+    let date = this.todayMonth + '-01';
     if (this.branchId) {
       this.isLoadingStatic = true;
       this.api.getManagerStatistic(date, this.branchId).subscribe(
@@ -186,6 +191,11 @@ export class MainManagerComponent implements OnInit {
         }
       );
     }
+  }
+
+  onChangeDate(value: string){
+    this.todayMonth = value;
+    this.getManagerStatistic();
   }
 
   onChangeSubject(subjectId: string) {
